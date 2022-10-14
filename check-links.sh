@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# contents of this script should match the one at https://github.com/UniVE-SSV/lisa/blob/master/.github/workflows/docs-links-checker.yml
+# contents of this script should match the one at https://github.com/lisa-analyzer/lisa/blob/master/.github/workflows/docs-links-checker.yml
 
 function check_link () {
   # we remove any in-page anchor

@@ -51,7 +51,7 @@ drwxr-xr-x 1 NegriniL 1049089    0 Oct 15 17:01 gradle/
 
 ### Adding the LiSA dependency
 
-The next step is to add a dependency from your project to LiSA. To to this, navigate to SSV's [Maven page](https://search.maven.org/search?q=g:com.github.unive-ssv) and pick the version of `lisa-sdk` and `lisa-core` that you want to use. Opening the page of that release (i.e. clicking on the version number) opens a page with snippets that can be directly copied into the configuration file of the build system to add the dependency. While `lisa-sdk` is always needed (as it contains all the components definitions), `lisa-core` is required only if you want to execute an analysis or if you want to reference one of the components already implemented. However, since `lisa-core` directly depends on `lisa-sdk`, you can just depend on the latter to get both of them. 
+The next step is to add a dependency from your project to LiSA. To to this, navigate to LiSA's [Maven page](https://search.maven.org/search?q=g:io.github.lisa-analyzer) and pick the version of `lisa-sdk` and `lisa-core` that you want to use. Opening the page of that release (i.e. clicking on the version number) opens a page with snippets that can be directly copied into the configuration file of the build system to add the dependency. While `lisa-sdk` is always needed (as it contains all the components definitions), `lisa-core` is required only if you want to execute an analysis or if you want to reference one of the components already implemented. However, since `lisa-core` directly depends on `lisa-sdk`, you can just depend on the latter to get both of them. 
 
 Proceed by copying the snippet you need (`lisa-core` is the safest one as it gets you everything) and add it to your `build.gradle` inside the `dependencies` section, filling also the rest of the build file:
 
@@ -70,7 +70,7 @@ repositories {
 
 dependencies {
     // add a depenency to LiSA
-    implementation 'com.github.unive-ssv:lisa-core:0.1b2'
+    implementation 'io.github.lisa-analyzer:lisa-core:0.1b2'
 }
 
 application {

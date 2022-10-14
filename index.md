@@ -14,7 +14,7 @@ semantic information into warnings that can be of value for the final user.
 
 ## How to contrubute
 
-LiSA is developed and maintained by the [Software and System Verification (SSV)](https://ssv.dais.unive.it/) group @ Università Ca' Foscari in Venice, Italy. External contributions are always welcome! Check out our [contributing guidelines](https://github.com/UniVE-SSV/lisa/blob/master/CONTRIBUTING.md) for information on how to contribute to LiSA.
+LiSA is developed and maintained by the [Software and System Verification (SSV)](https://ssv.dais.unive.it/) group @ Università Ca' Foscari in Venice, Italy. External contributions are always welcome! Check out our [contributing guidelines](https://github.com/lisa-analyzer/lisa/blob/master/CONTRIBUTING.md) for information on how to contribute to LiSA.
 
 ## Contents
 

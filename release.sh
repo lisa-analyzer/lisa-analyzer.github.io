@@ -11,9 +11,9 @@ cat > $tempfile <<- EOM
 
 ### $tag
 
-Key changes: $changes. More information in the GitHub [release](https://github.com/UniVE-SSV/lisa/releases/tag/v$tag).
+Key changes: $changes. More information in the GitHub [release](https://github.com/lisa-analyzer/lisa/releases/tag/v$tag).
 
-Javadoc: [sdk](https://www.javadoc.io/doc/com.github.unive-ssv/lisa-sdk/$tag/index.html) - [core](https://www.javadoc.io/doc/com.github.unive-ssv/lisa-core/$tag/index.html) - [imp](https://www.javadoc.io/doc/com.github.unive-ssv/lisa-imp/$tag/index.html)
+Javadoc: [sdk](https://www.javadoc.io/doc/io.github.lisa-analyzer/lisa-sdk/$tag/index.html) - [core](https://www.javadoc.io/doc/io.github.lisa-analyzer/lisa-core/$tag/index.html) - [imp](https://www.javadoc.io/doc/io.github.lisa-analyzer/lisa-imp/$tag/index.html)
 EOM
 
 sed -i "/## Beta releases/ r $tempfile" $releases

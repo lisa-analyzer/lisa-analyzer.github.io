@@ -11,7 +11,7 @@
 
 LiSA comes as a [Gradle](https://gradle.org/) 7.2 project. Gradle can be executed through a local wrapper without downloading and installing a centralized version of it, and LiSA comes with a wrapper! You'll always be able to build LiSA with the version of Gradle it is meant to be compiled with, without spending time managing your own Gradle installation.
 
-After cloning the repository with `git clone https://github.com/UniVE-SSV/lisa.git` or with any other Git wrapper (GitHub Desktop or GitHub Cli for example) of your choice, follow one of the tutorials below to get started. 
+After cloning the repository with `git clone https://github.com/lisa-analyzer/lisa.git` or with any other Git wrapper (GitHub Desktop or GitHub Cli for example) of your choice, follow one of the tutorials below to get started. 
 
 Jump to instructions for [Eclipse](#eclipse), [IntelliJ IDEA](#intellij-idea), [Windows command line](#windows-command-line), or [Mac/Linux command line](#maclinux-command-line).
 
@@ -41,7 +41,7 @@ The Gradle build can be executed from the Gradle Tasks view (`Window -> Show Vie
 ### IntelliJ IDEA
 
 There are two ways to import the project:
-* `File -> New Project from Version Control...` and then fill the URL with LiSA's Github repository (that is, `https://github.com/UniVE-SSV/lisa`)
+* `File -> New Project from Version Control...` and then fill the URL with LiSA's Github repository (that is, `https://github.com/lisa-analyzer/lisa`)
 * Clone the repository in a local directory, and then select this directory from `File -> Open...`
 When opening the project for the first time, in the bottom righ part of the window a pop up `Gradle build script found` will appear. Select `Import` and the build process will start. This start might take several minutes since it might need to download some plugins and libraries. At the end, the project will compile correctly and all the Gradle tasks can be run.
 
