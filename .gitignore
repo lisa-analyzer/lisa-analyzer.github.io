@@ -1,0 +1,10 @@
+_site
+.sass-cache
+.jekyll-metadata
+_site
+.sass-cache
+.jekyll-metadata
+/Gemfile
+/Gemfile.lock
+/_posts/*
+/about.md
