@@ -11,5 +11,6 @@ jobs:
     steps:
       - name: Check links with linkcheck
         uses: filiph/linkcheck@v2.0.15+1
-        arguments: https://lisa-analyzer.github.io/ -e
+        with:
+          arguments: https://lisa-analyzer.github.io/ -e
       
