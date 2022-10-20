@@ -9,8 +9,9 @@ jobs:
   check:
     runs-on: ubuntu-latest
     steps:
+      # linkcheck v2.0.19
       - name: Check links with linkcheck
-        uses: filiph/linkcheck@v2.0.15+1
+        uses: filiph/linkcheck@361180ff3ed7feb076d8094fb345238ef035a0c3
         with:
-          arguments: https://lisa-analyzer.github.io --show-redirects --external
+          arguments: https://lisa-analyzer.github.io -e
       
