@@ -2,7 +2,6 @@
 
 ## Publications
 
-
 ### 2023
 
 **LiSA: A Generic Framework for Multilanguage Static Analysis**<br/>
@@ -31,6 +30,11 @@ L. Olivieri, T. Jensen, L. Negrini, F. Spoto<br/>
 L. Olivieri, F. Tagliaferro, V. Arceri, M. Ruaro, L. Negrini, A. Cortesi, P. Ferrara, F. Spoto, E. Tallin<br/>
 *Proceedings of the 11th ACM SIGPLAN International Workshop on the State Of the Art in Program Analysis (SOAP 2022)*<br/>
 [Conference](https://pldi22.sigplan.org/details/SOAP-2022-papers/4/Ensuring-Determinism-in-Blockchain-Software-with-GoLiSA-An-Industrial-Experience-Rep) - [DOI](https://doi.org/10.1145/3520313.3534658)
+
+**Relational String Abstract Domains**<br/>
+V. Arceri, M. Olliaro, A. Cortesi, P. Ferrara<br/>
+*Proceedings of the 23rd International Conference on Verification, Model Checking, and Abstract Interpretation (VMCAI 2022)*<br/>
+[Conference](https://popl22.sigplan.org/details/VMCAI-2022-papers/14/Relational-String-Abstract-Domains) - [DOI](https://doi.org/10.1007/978-3-030-94583-1_2)
 
 ### 2021
 
