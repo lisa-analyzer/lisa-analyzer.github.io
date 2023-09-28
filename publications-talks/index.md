@@ -13,7 +13,12 @@ L. Negrini, P. Ferrara, V. Arceri, A. Cortesi <br/>
 **Information Flow Analysis for Detecting Non-Determinism in Blockchain**<br/>
 L. Olivieri, L. Negrini, V. Arceri, F. Tagliaferro, P. Ferrara, A. Cortesi, Agostino, F. Spoto<br/>
 *Proceedings of the 37th European Conference on Object-Oriented Programming (ECOOP 2023)*<br/>
-[Conference](https://2023.ecoop.org/program/program-ecoop-2023/) - [DOI](https://doi.org/10.4230/LIPIcs.ECOOP.2023.23)
+[Conference](https://2023.ecoop.org/details/ecoop-2023-papers/9/Information-Flow-Analysis-for-Detecting-Non-Determinism-in-Blockchain) - [DOI](https://doi.org/10.4230/LIPIcs.ECOOP.2023.23)
+
+**Static Analysis of Data Transformations in Jupyter Notebooks**<br/>
+L. Negrini, G. Shabadi, C. Urban<br/>
+*Proceedings of the 12th ACM SIGPLAN International Workshop on the State Of the Art in Program Analysis (SOAP 2023)*<br/>
+[Conference](https://pldi23.sigplan.org/details/SOAP-2023-papers/1/Static-Analysis-of-Data-Transformations-in-Jupyter-Notebooks-Virtual-) - [DOI](https://doi.org/10.1145/3589250.3596145)
 
 **MichelsonLiSA: A Static Analyzer for Tezos**<br/>
 L. Olivieri, T. Jensen, L. Negrini, F. Spoto<br/>
