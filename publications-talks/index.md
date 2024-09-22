@@ -2,6 +2,11 @@
 
 ## Publications
 
+### 2024
+**Towards a Sound Construction of EVM Bytecode Control-Flow Graphs**<br/>
+V. Arceri, S.M.Merenda, G. Dolcetti, L. Negrini, L. Olivieri, E. Zaffanella <br/>
+[Conference](https://conf.researchr.org/details/issta-ecoop-2024/FTfJP-2024-papers/9/Towards-a-Sound-Construction-of-EVM-Bytecode-Control-flow-Graphs) - [DOI](https://dl.acm.org/doi/10.1145/3678721.3686227)
+
 ### 2023
 
 **LiSA: A Generic Framework for Multilanguage Static Analysis**<br/>
