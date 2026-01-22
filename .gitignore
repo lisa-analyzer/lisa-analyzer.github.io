@@ -8,3 +8,10 @@ _site
 /Gemfile.lock
 /_posts/*
 /about.md
+indent.log
+schemes.aux
+schemes.fdb_latexmk
+schemes.fls
+schemes.log
+schemes.synctex.gz
+schemes.xdv
