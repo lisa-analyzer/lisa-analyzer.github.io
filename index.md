@@ -40,7 +40,7 @@ but should be compatible with versions 0.2 and later. Signatures or packages
 might differ in older versions, but the overall architecture and design
 principles should remain the same.
 
-Head to [Tutorials]({{ site.baseurl }}/tutorials/) for a list of guides and
+Head to [Guides]({{ site.baseurl }}/tutorials/) for a list of guides and
 tutorials on how to work with LiSA. The [Structure]({{ site.baseurl
 }}/structure/) page describes LiSA's inputs, outputs and how the internal
 mechanics are structured, while [Configuration]({{ site.baseurl
