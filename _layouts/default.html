@@ -29,30 +29,32 @@
 		<meta name="theme-color" content="#157878">
 		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 		<link rel="stylesheet" href="{{ '/assets/css/style.css?v=' | append: site.github.build_revision | relative_url }}">
-		<link rel="stylesheet" href="{{ site.baseurl }}/custom-assets/style.css">
 		<script src="{{ site.baseurl }}/custom-assets/custom.js"></script>
 		<script src="https://kit.fontawesome.com/954504fcb3.js" crossorigin="anonymous"></script>
 		<link rel="icon" href="{{ site.baseurl }}/favicon.ico" type="image/x-icon">
 	</head>
 	<body>
 		<header class="page-header" role="banner">
-			<div class="title-wrapper">
-				<a class="project-name" href="{{ site.baseurl }}" id="site-title"><img src="{{ site.baseurl }}/white-title-no-bg-cropped.png" alt="{{ site.title }}" style="height: 1em"/></a> 
-				<span class="project-tagline">{{ site.description }}</span>
-			</div>
+			<a class="project-name" href="{{ site.baseurl }}" id="site-title">
+				<img src="{{ site.baseurl }}/white-title-no-bg-cropped.png" alt="{{ site.title }}"/>
+			</a> 
 			
+			{% include simple-menu.html %}
+			{% include toggle-menu.html %}
+
 			<div class="buttons-wrapper">
-				<a href="https://github.com/lisa-analyzer/lisa" class="btn"><i class="fab fa-github"></i>&nbsp;&nbsp;LiSA Repository</a>
-				<a href="https://github.com/lisa-analyzer/" class="btn"><i class="fas fa-university"></i>&nbsp;&nbsp;LiSA Analyzer GitHub</a>
+				<a href="https://github.com/lisa-analyzer/lisa" class="btn"><i class="fab fa-github"></i></a>
+				<a href="https://github.com/lisa-analyzer/" class="btn"><i class="fas fa-university"></i></a>
 			</div>
 		</header>
 			
-		{% include toggle-menu.html %}
-		{% include simple-menu.html %}
 		<main id="content" class="main-content" role="main">			
 			{% unless page.notoc %}
 			{% include breadcrumbs.html %}
-			{% include toc.html html=content id="toc" class="toc" %}
+			<div class="toc">
+				<b>On this page:</b><br/>
+				{% include toc.html html=content id="toc-list" %}
+			</div>
 			{% endunless %}
 			
 			{{ content }}

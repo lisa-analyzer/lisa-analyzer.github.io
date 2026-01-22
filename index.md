@@ -2,7 +2,7 @@
 notoc: true
 ---
 
-# LiSA
+# LiSA - A Library for Static Analysis
 
 LiSA (Library for Static Analysis) aims to ease the creation and implementation
 of sound static analyzers based on the Abstract Interpretation theory. LiSA provides
@@ -24,6 +24,13 @@ and the API might change in future releases. We will do our best to
 self-document this through semantic versioning, but things might break
 nonetheless." %}
 
+{% include note.html content="This website describes LiSA's architecture
+and provides guides on how to use and
+extend it. It is intended to be valid for the latest stable release of LiSA,
+but should be compatible with versions 0.2 and later. Signatures or packages
+might differ in older versions, but the overall architecture and design
+principles should remain the same." %}
+
 ### How to contrubute
 
 LiSA is developed and maintained by the [Software and System Verification
@@ -31,21 +38,3 @@ LiSA is developed and maintained by the [Software and System Verification
 Italy. External contributions are always welcome! Check out our [contributing
 guidelines](https://github.com/lisa-analyzer/lisa/blob/master/CONTRIBUTING.md)
 for information on how to contribute to LiSA.
-
-### Contents
-
-This website describes LiSA's architecture and provides guides on how to use and
-extend it. It is intended to be valid for the latest stable release of LiSA,
-but should be compatible with versions 0.2 and later. Signatures or packages
-might differ in older versions, but the overall architecture and design
-principles should remain the same.
-
-Head to [Guides]({{ site.baseurl }}/tutorials/) for a list of guides and
-tutorials on how to work with LiSA. The [Structure]({{ site.baseurl
-}}/structure/) page describes LiSA's inputs, outputs and how the internal
-mechanics are structured, while [Configuration]({{ site.baseurl
-}}/configuration/) describes the available options and the available component
-implementations. [IMP]({{ site.baseurl }}/imp/) is a simple documentation of the
-object-oriented IMP language used for internal testing and POCs. Visit
-[Resources]({{ site.baseurl }}/material/) for a collection of papers and
-presentations discussing LiSA.
