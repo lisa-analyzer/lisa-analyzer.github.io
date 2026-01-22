@@ -1,0 +1,10 @@
+.toc {
+  position: fixed;      /* Keeps the div in one place during scroll */
+  right: 20px;          /* Distance from the right edge */
+  top: 50px;            /* Distance from the top edge */
+  width: 250px;         /* Specific width for the column */
+  max-height: 80vh;     /* Prevents TOC from going off-screen */
+  overflow-y: auto;     /* Adds scrollbar to TOC if it's too long */
+  z-index: 1000;        /* Ensures it stays above other content */
+}
+

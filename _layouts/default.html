@@ -29,6 +29,7 @@
 		<meta name="theme-color" content="#157878">
 		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 		<link rel="stylesheet" href="{{ '/assets/css/style.css?v=' | append: site.github.build_revision | relative_url }}">
+		<link rel="stylesheet" href="{{ site.baseurl }}/custom-assets/style.css">
 		<script src="{{ site.baseurl }}/custom-assets/custom.js"></script>
 		<script src="https://kit.fontawesome.com/954504fcb3.js" crossorigin="anonymous"></script>
 		<link rel="icon" href="{{ site.baseurl }}/favicon.ico" type="image/x-icon">
@@ -51,7 +52,7 @@
 		<main id="content" class="main-content" role="main">			
 			{% unless page.notoc %}
 			{% include breadcrumbs.html %}
-			<!-- {% include toc.html html=content id=toc class=toc %} -->
+			{% include toc.html html=content id="toc" class="toc" %}
 			{% endunless %}
 			
 			{{ content }}
