@@ -16,50 +16,61 @@ documentation in this section focuses primarily on the `lisa-sdk` project, as it
 forms the foundation of LiSA's architecture. Documentation on the IMP language
 can be found in the [IMP]({{ site.baseurl }}/imp/) section, while a list of
 availble analyses is present under
-[Configuration]({{ site.baseurl }}/configuration/).
+[Configuration]({{ site.baseurl }}/configuration/). For information on how
+to build LiSA and build upon it, refer to the
+[Guides]({{ site.baseurl }}/tutorials/) section.
 
 A high-level overview of LiSA's structure is shown in the following diagram:
 
 <center> <img src="structure.png" alt="LiSA's Structure Overview"/> </center>
 
 Intuitively, the analysis starts on a program P, written in a programming
-language _i_, composed by a set of files. To keep things simple, we assume that
+language _i_, composed by a set of files. The [Frontend](#frontends) for language
+_i_ parses the source
+files of P and translates them into a LiSA's [Program](#program-structure),
+which is a mainly composed
+by a set of control flow graph ([CFG](#control-flow-graphs)s).
+To keep things simple, we assume that
 the program is written in a single language, but the process can be extended by
-combining multiple frontends. The frontend for language _i_ parses the source
-files of P and translates them into a LiSA's program, which is a mainly composed
-by a set of control flow graph (`CFG`s). The CFGs are then passed to LiSA, where
+combining multiple frontends. The CFGs are then passed to LiSA, where
 the analysis starts.
 
 The analysis begins by applying some validation checks on the program to ensure
-its correctness. Then, the syntactic `Checks` are executed, which inspect the
+its correctness. Then, the [Syntactic Checks](#syntactic-and-semantic-checks)
+provided in the configuration are executed, which inspect the
 program's structure without performing any semantic analysis. After that, the
-`Interprocedural Analysis` is carried out, which computes a whole-program
+[Interprocedural Analysis](#the-interprocedural-analysis)
+is carried out, which computes a whole-program
 fixpoint. Such a fixpoint is computed by analyzing each CFG in the program,
-delegating to each `Statement` (the nodes of the CFG) the task of defining how
+delegating to each [Statement](#statements-expressions-and-edges)
+(the nodes of the CFG) the task of defining how
 it affects the program state. Each statement can perform a combination of
 operations, since it represent high-level constructs (e.g., calls, conditionals)
 rather than low-level instructions (e.g., arithmetic operations, comparisons).
 Each operation is either:
 
 - a call to some other CFG, in which case the statement delegates back to the
-  `Interprocedural Analysis` the computation of the result;
+  Interprocedural Analysis the computation of the result;
 - an atomic operation whose effect depends on the abstract domain used for the
   analysis, in which case the statement forwards the operation (in the form of a
-  `Symbolic Expression`) to the abstract domain currently in use.
+  [Symbolic Expression](#symbolic-expressions)) to the abstract domain currently in use.
 
-Upon delegation to the `Interprocedural Analysis`, the latter computes the
+Upon delegation to the Interprocedural Analysis, the latter computes the
 result of the call by analyzing each possible target. Target resolution is
-performed by the `Call Graph`, which computes of all possible call targets by
+performed by the [Call Graph](#the-call-graph), which computes of all possible call targets by
 relying on both the program structure and the language-specific algorithms for
-call resolution (part of the `Language Features`). This process enables the
+call resolution (part of the [Language Features](#language-features-and-type-system)).
+This process enables the
 simplification of abstract domains, as they do not need to handle call
 resolution on their own.
 
 When a global fixpoint is reached, the analysis ends. The results of the
-analysis are then passed to the `Semantic Checks`, which inspect the analysis
-results to detect potential issues in the program. Finally, the outputs of the
+analysis are then passed to the [Semantic Checks](#syntactic-and-semantic-checks),
+which inspect the analysis
+results to detect potential issues in the program. Finally, the
+[Outputs](#outputs) of the
 analysis are generated, which include warnings, graphs, and reports. During the
-whole analysis, each component can emit `Events` to an event queue, where
+whole analysis, each component can emit [Events](#analysis-events) to an event queue, where
 registered listeners can process them, either synchronously or asynchronously,
 to produce messages, logs, output files, or implement any custom behavior.
 
@@ -100,7 +111,9 @@ about lattices in the [Lattices]({{ site.baseurl }}/structure/lattices.md) page.
 The `SemanticDomain` interface defines the operations that an abstract domain
 must implement to be used in LiSA's analyses. It is also implemented by the
 non-extensible `Analysis` class, that is the outer-most domain that
-`Statement`s, `Interprocedural Analysis`, and `Fixpoint`s interact with during
+[Statements](#statements-expressions-and-edges),
+[Interprocedural Analysis](#the-interprocedural-analysis),
+and the fixpoints interact with during
 the analysis. Abstract domains are responsible for defining how the program
 state is manipulated during the analysis. They provide operations for handling
 assignments, expressions, and conditionals. Read more about semantic domains in
@@ -130,14 +143,15 @@ page.
 ### The Interprocedural Analysis
 
 The `InterproceduralAnalysis` interface defines how the whole-program analysis
-is performed. It is responsible for orchestrating the analysis of each `CFG` in
+is performed. It is responsible for orchestrating the analysis of each
+[CFG](#control-flow-graphs) in
 the program, and for computing the results of calls. These two tasks are tightly
 coupled: if the analysis has to proceed top-down starting from a main function,
-then calls are resolved by analyzing the target `CFG`s on-the-fly; if the
+then calls are resolved by analyzing the target CFGs on-the-fly; if the
 analysis proceeds bottom-up, then calls are resolved by retrieving pre-computed
-summaries of the target `CFG`s. For this reason, a single entity is responsible
-for both tasks. Individual `CFG`s are analyzed by delegating to a `Fixpoint`
-instance, which computes the fixpoint for that specific `CFG`. Read more about
+summaries of the target CFGs. For this reason, a single entity is responsible
+for both tasks. Individual CFGs are analyzed by delegating to a `Fixpoint`
+instance, which computes the fixpoint for that specific CFG. Read more about
 the interprocedural analysis in the
 [Interprocedural Analysis]({{ site.baseurl }}/structure/interprocedural-analysis.md)
 page.
@@ -183,23 +197,27 @@ custom behaviors. Read more about events in the
 ## Program Structure
 
 LiSA's `Program` is a data structure that contains all of the code that has been
-parsed from the input files, together with the `Type System` and `Language Features`
+parsed from the input files, together with the
+[Type System and Language Features](#language-features-and-type-system)
 specific to the programming language of the input code.
 
 ### Units
 
 A `Unit` represents a logical grouping of code, such as a source file, a class,
 or a module. The `Program` itself is a `Unit`. A `Unit` contains a set of
-`Code Member`s (`CFG`s with a descriptor) and a set of `Global`s (global
+code members ([CFG](#control-flow-graphs)s with a descriptor)
+and a set of `Global`s (global
 variables or constants). Read more about units in the
 [Units]({{ site.baseurl }}/structure/units.md) page.
 
 ### Control Flow Graphs
 
-A `Control Flow Graph` (`CFG`) represents the control flow of a single
-function, method, or procedure. It is composed of `Statement`s (the nodes of the
-graph) and `Edge`s (the directed connections between statements). Each `CFG` has a
-`CodeMemberDescriptor`, which provides metadata about the `CFG`, such as its name,
+A Control Flow Graph (`CFG`) represents the control flow of a single
+function, method, or procedure. It is composed of
+[Statement](#statements-expressions-and-edges)s (the nodes of the
+graph) and [Edge](#statements-expressions-and-edges)s
+(the directed connections between statements). Each `CFG`
+has a `CodeMemberDescriptor`, which provides metadata about the `CFG`, such as its name,
 its parameters, and its return type. A special kind of CFGs, called
 `NativeCFG`s, can be used to compactly represent the behavior of library or
 runtime functions. Read more about control flow graphs in the
@@ -242,7 +260,7 @@ the analysis. Read more about statements, expressions, and edges in the
 
 ### Symbolic Expressions
 
-Since `Statement`s and `Expression`s do not have a predefined semantics, there
+Since Statements and Expressions do not have a predefined semantics, there
 must be a way to tell each abstract domain what operation they are trying to
 perform. This is achieved through `SymbolicExpression`s, which represent
 atomic operations that have a well-defined meaning for abstract domains.
@@ -267,7 +285,8 @@ creating and managing output files. Read more about outputs in the
 
 Frontends are responsible for translating source code or compiled code into
 LiSA's program representation. They parse the input files, build the
-corresponding `CFG`s, and assemble them into a `Program` instance that can be
+corresponding [CFG](#control-flow-graphs)s, and assemble them into a
+[Program](#program-structure) instance that can be
 analyzed by LiSA. They also provide language-specific algorithms for, e.g.,
 matching a call to its target or traverse a type hierarchy (see the
 [Language Features and Type System](#language-features-and-type-system) section).
