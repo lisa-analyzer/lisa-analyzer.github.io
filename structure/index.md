@@ -57,7 +57,7 @@ Each operation is either:
 
 Upon delegation to the Interprocedural Analysis, the latter computes the
 result of the call by analyzing each possible target. Target resolution is
-performed by the [Call Graph](#the-call-graph), which computes of all possible call targets by
+performed by the [Call Graph](#the-call-graph), which computes all possible call targets by
 relying on both the program structure and the language-specific algorithms for
 call resolution (part of the [Language Features](#language-features-and-type-system)).
 This process enables the
