@@ -733,6 +733,10 @@ time {
 		z-index: 1000;
 		font-size: 0.9rem;
 
+		#toc-list {
+			padding-left: 0;
+		}
+
 		ul {
 			list-style: none;
 			padding-left: 15px;
