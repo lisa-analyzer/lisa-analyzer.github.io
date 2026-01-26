@@ -166,7 +166,7 @@ An expression can be:
 4. a logical operation: binary _and_ (`&&`), binary _or_ (`||`), or unary _not_
    (`!`);
 5. an arithmetic operation: binary _addition_ (`+`), binary _subtraction_ (`-`),
-   binary _multiplication_ (`*`), binary _division_ (`/`), or unary _modulus_ (`%`);
+   binary _multiplication_ (`*`), binary _division_ (`/`), or binary _modulus_ (`%`);
 6. a comparison: binary _equal to_ (`==`), binary _not equal_ (`!=`), binary
    _greater than_ (`>`), binary _less than_ (`<`), binary _greater than or equal
    to_ (`>=`), or binary _less than or equal to_ (`<=`) (note that `==` and `!=`
@@ -224,8 +224,7 @@ def x;
 ```
 
 The scope of variables in IMP is similar to the one in Java. Local
-variables declared inside a method and can not be accessed outside the
-method, and they are
+variables are declared inside a method and can not be accessed outside of it, and they are
 only visible inside the inner-most block of code, delimited by curly brackets,
 that contains their definition, and inside all blocks of code that are nested
 inside it.
@@ -315,7 +314,7 @@ In case a method does not return any value, the return statement can be omitted
 at the end of the method body.
 
 ```java
-return countKm();
+return foo();
 return;
 ```
 
@@ -323,9 +322,9 @@ It is possible to throw any object to raise errors using the `throw`
 keyword.
 
 ```java
-throw countKm();
-def cKm = counKm();
-throw cKm;
+throw foo();
+def r = foo();
+throw r;
 ```
 
 ## Assertions
@@ -337,3 +336,9 @@ with an error if the expression evaluates to `false`.
 ```java
 assert x == 10;
 ```
+
+## Example Programs
+
+Several IMP programs that can be used as examples can be found in the
+[testcases folder](https://github.com/lisa-analyzer/lisa/tree/master/lisa/lisa-analyses/imp-testcases)
+inside the LiSA repository.
