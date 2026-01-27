@@ -130,4 +130,253 @@ NoContextual}}
 	{\cblue{$\Box$ language dependent}\\\cgreen{$\Box$ configurable}};
 \end{tikzpicture}
 
+\newpage
+
+\section*{Structured Objects}
+
+\begin{tikzpicture}[nodes={font={\small}, minimum width=5cm},%
+		classnode/.style={%
+				fill=cgreenlight,%
+				rectangle,%
+				draw,%
+				inner xsep=0},%
+		interfacenode/.style={%
+				fill=corangelight,%
+				rectangle,%
+				draw,%
+				inner xsep=0},%
+		abstractclassnode/.style={%
+				fill=cbluelight,%
+				rectangle,%
+				draw,%
+				inner xsep=0},%
+		inlinenode/.style={inner xsep=.5cm}]%
+	\node[abstractclassnode, inlinenode] (repr) {\underline{\textbf{\textit{StructuredRepresentation}}}};
+	\node[classnode, inlinenode] (strrepr) [below=of repr] {\textbf{StringRepresentation}};
+	\node[classnode, inlinenode] (setrepr) [left=of strrepr] {\textbf{SetRepresentation}};
+	\node[classnode, inlinenode] (listrepr) [below=of $(strrepr.south)!0.5!(setrepr.south)$] {\textbf{ListRepresentation}};
+	\node[classnode, inlinenode] (maprepr) [right=of strrepr] {\textbf{MapRepresentation}};
+	\node[classnode, inlinenode] (objrepr) [below=of $(strrepr.south)!0.5!(maprepr.south)$] {\textbf{ObjectRepresentation}};
+
+	\draw[->, thick] (strrepr) to (repr);
+	\draw[->, thick] (setrepr) |- ($(strrepr.north)+(0,.5)$) to (repr);
+	\draw[->, thick] (listrepr) |- ($(strrepr.north)+(0,.5)$) to (repr);
+	\draw[->, thick] (maprepr) |- ($(strrepr.north)+(0,.5)$) to (repr);
+	\draw[->, thick] (objrepr) |- ($(strrepr.north)+(0,.5)$) to (repr);
+
+	\node[interfacenode] (struct) [below=of $(listrepr.south)!0.5!(objrepr.south)$] {\begin{tabular}{l}
+			\multicolumn{1}{c}{\underline{\textbf{\textit{StructuredObject}}}} \\
+			\hline
+			+ representation(): StructuredRepresentation                       \\
+		\end{tabular}};
+\end{tikzpicture}
+
+\newpage
+\section*{Lattices}
+
+\begin{tikzpicture}[nodes={font={\small}, minimum width=4.6cm},%
+		classnode/.style={%
+				fill=cgreenlight,%
+				rectangle,%
+				draw,%
+				inner xsep=0},%
+		interfacenode/.style={%
+				fill=corangelight,%
+				rectangle,%
+				draw,%
+				inner xsep=0},%
+		abstractclassnode/.style={%
+				fill=cbluelight,%
+				rectangle,%
+				draw,%
+				inner xsep=0},%
+		inlinenode/.style={inner xsep=.5cm}]%
+	\node[interfacenode, inlinenode] (struct) {\underline{\textbf{\textit{StructuredObject}}}};
+
+	\node[interfacenode] (lattice) [below=of struct] {\begin{tabular}{l}
+			\multicolumn{1}{c}{\underline{\textbf{\textit{Lattice}}} : L} \\
+			\hline
+			+ BOTTOM\_STRING: String                                      \\
+			+ TOP\_STRING: String                                         \\
+			\hline
+			* bottomRepresentation(): StructuredRepresentation            \\
+			* topRepresentation(): StructuredRepresentation               \\
+			+ lessOrEqual(other: L): boolean                              \\
+			+ lub(other: L): L                                            \\
+			+ !upchain(other: L): L                                       \\
+			+ !widening(other: L): L                                      \\
+			+ !glb(other: L): L                                           \\
+			+ !downchain(other: L): L                                     \\
+			+ !narrowing(other: L): L                                     \\
+			+ top(): L                                                    \\
+			+ !isTop(): boolean                                           \\
+			+ bottom(): L                                                 \\
+			+ !isBottom(): boolean                                        \\
+			+ <D> !getLatticeInstance(Class<D> domain): D                 \\
+			+ <D> !getAllLatticeInstances(Class<D> domain): Collection<D> \\
+		\end{tabular}};
+
+
+	\draw[->, thick] (lattice) to (struct);
+\end{tikzpicture}
+
+\vskip2cm
+\begin{tikzpicture}[nodes={font={\small}, minimum width=5cm},%
+		classnode/.style={%
+				fill=cgreenlight,%
+				rectangle,%
+				draw,%
+				inner xsep=0},%
+		interfacenode/.style={%
+				fill=corangelight,%
+				rectangle,%
+				draw,%
+				inner xsep=0},%
+		abstractclassnode/.style={%
+				fill=cbluelight,%
+				rectangle,%
+				draw,%
+				inner xsep=0},%
+		inlinenode/.style={inner xsep=.5cm}]%
+	\node[interfacenode, inlinenode] (lattice) {\underline{\textbf{\textit{Lattice}}} : L};
+
+	\node[interfacenode] (blattice) [below=of lattice] {\begin{tabular}{l}
+			\multicolumn{1}{c}{\underline{\textbf{\textit{BaseLattice}}} : L} \\
+			\hline
+			+ lessOrEqualAux(other: L): boolean                               \\
+			+ lubAux(other: L): L                                             \\
+			+ !upchainAux(other: L): L                                        \\
+			+ !wideningAux(other: L): L                                       \\
+			+ !glbAux(other: L): L                                            \\
+			+ !downchainAux(other: L): L                                      \\
+			+ !narrowingAux(other: L): L                                      \\
+		\end{tabular}};
+
+	\node[abstractclassnode, inlinenode] (func) [below=of blattice] {\textbf{\textit{FunctionalLattice}} : F, K, V\\
+		\color{gray}$\langle K \to V, \dot{\sqsubseteq}_V, \dot{\sqcup}_V, \dot{\sqcap}_V, \bot, \top \rangle$};
+	\node[classnode, inlinenode] (gfunc) [below=of func] {\textbf{\textit{GenericMapLattice}} : K, V};
+	\node[abstractclassnode, inlinenode] (set) [left=of func] {\textbf{\textit{SetLattice}} : S, E\\
+		\color{gray}$\langle \wp(X), \subseteq, \cup, \cap, \emptyset, X \rangle$};
+	\node[classnode, inlinenode] (gset) [left=of gfunc] {\textbf{\textit{GenericSetLattice}} : S, E};
+	\node[abstractclassnode, inlinenode] (iset) [right=of func] {\textbf{\textit{InverseSetLattice}} : E\\
+		\color{gray}$\langle \wp(X), \supseteq, \cap, \cup, X, \emptyset \rangle$};
+	\node[classnode, inlinenode] (giset) [right=of gfunc] {\textbf{\textit{GenericInverseSetLattice}} : E};
+
+	\draw[->, thick] (blattice) to (lattice);
+	\draw[->, thick, dashed] (func) to (blattice);
+	\draw[->, thick, dashed] (set) |- ($(func.north)+(0,.5)$) to (blattice);
+	\draw[->, thick, dashed] (iset) |- ($(func.north)+(0,.5)$) to (blattice);
+	\draw[->, thick] (gfunc) to (func);
+	\draw[->, thick] (gset) to (set);
+	\draw[->, thick] (giset) to (iset);
+\end{tikzpicture}
+
+\newpage
+
+\begin{tikzpicture}[nodes={font={\small}, minimum width=3cm},%
+		classnode/.style={%
+				fill=cgreenlight,%
+				rectangle,%
+				draw,%
+				inner xsep=0},%
+		interfacenode/.style={%
+				fill=corangelight,%
+				rectangle,%
+				draw,%
+				inner xsep=0,
+				outer sep=0},%
+		abstractclassnode/.style={%
+				fill=cbluelight,%
+				rectangle,%
+				draw,%
+				inner xsep=0},%
+		inlinenode/.style={inner xsep=.5cm}]%
+	\node[interfacenode, inlinenode] (lattice) {\underline{\textbf{\textit{Lattice}}} : L};
+
+	\node[interfacenode, right=of lattice.north east, anchor=north west] (scoped) {\begin{tabular}{l}
+			\multicolumn{1}{c}{\underline{\textbf{\textit{ScopedObject}}} : T} \\
+			\hline
+			+ pushScope(token: ScopeToken, pp: ProgramPoint): T                \\
+			+ popScope(token: ScopeToken, pp: ProgramPoint): T                 \\
+		\end{tabular}};
+
+	\node[interfacenode] (dl) [below=1.25cm of $(scoped.south)!0.5!(lattice.south)$] {\begin{tabular}{l}
+			\multicolumn{1}{c}{\underline{\textbf{\textit{DomainLattice}}} : L, T} \\
+			\hline
+			+ knowsIdentifier(id: Identifier): boolean                             \\
+			+ forgetIdentifier(id: Identifie, ProgramPoint ppr): T                 \\
+			+ forgetIdentifiers(ids: Iterable<Identifier, ProgramPoint pp>): T     \\
+			+ forgetIdentifiersIf(test: Predicate<Identifier>, ProgramPoint pp): T \\
+		\end{tabular}};
+
+	\node[interfacenode, inlinenode, left=of dl.north west, anchor=north east] (blattice) {\underline{\textbf{\textit{BaseLattice}}} : L};
+
+	\node[classnode] (ps) [below=of dl] {\begin{tabular}{l}
+			\multicolumn{1}{c}{\textbf{\textit{ProgramState}} : A}               \\
+			\hline
+			+ getState(): A                                                      \\
+			+ getFixpointInformation(): FixpointInfo                             \\
+			+ getComputedExpressions(): ExpressionSet                            \\
+			+ withComputedExpressions(expr: SymbolicExpression): ProgramState<A> \\
+			+ withComputedExpressions(exprs: ExpressionSet): ProgramState<A>     \\
+			+ getInfo(key: String): Lattice<?>                                   \\
+			+ <T> getInfo(key: String, type: Class<T>): T                        \\
+			+ storeInfo(key: String, info: Lattice<?>): ProgramState<A>          \\
+			+ weakStoreInfo(key: String, info: Lattice<?>): ProgramState<A>      \\
+			+ withTopMemory(): ProgramState<A>                                   \\
+			+ withTopValues(): ProgramState<A>                                   \\
+			+ withTopTypes(): ProgramState<A>                                    \\
+		\end{tabular}};
+
+	\node[interfacenode, right=of ps.north east, anchor=north west] (al) {\begin{tabular}{l}
+			\multicolumn{1}{c}{\underline{\textbf{\textit{AbstractLattice}}} : L} \\
+			\hline
+			+ withTopMemory(): L                                                  \\
+			+ withTopValues(): L                                                  \\
+			+ withTopTypes(): L                                                   \\
+		\end{tabular}};
+
+	\node[classnode, left=of ps.north west, anchor=north east] (as) {\begin{tabular}{l}
+			\multicolumn{1}{c}{\textbf{\textit{AnalysisState}} : A}                     \\
+			\hline
+			+ withExecution(state: ProgramState<A>): AnalysisState<A>                   \\
+			+ withHalt(state: ProgramState<A>): AnalysisState<A>                        \\
+			+ getExecutionState(): A                                                    \\
+			+ getExecutionExpressions(): ExpressionSet                                  \\
+			+ withExecutionExpression(expr: SymbolicExpression): AnalysisState<A>       \\
+			+ withExecutionExpressions(exprs: ExpressionSet): AnalysisState<A>          \\
+			+ getExecutionInformation(): FixpointInfo                                   \\
+			+ getExecutionInfo(key: String): Lattice<?>                                 \\
+			+ <T> getExecutionInfo(key: String, type: Class<T>): T                      \\
+			+ storeExecutionInfo(key: String, info: Lattice<?>): AnalysisState<A>       \\
+			+ weakStoreExecutionInfo(key: String, info: Lattice<?>): AnalysisState<A>   \\
+			+ getExecution(): ProgramState<A>                                           \\
+			+ getHalt(): ProgramState<A>                                                \\
+			+ getErrors(): GenericMapLattice<Error, ProgramState<A>>                    \\
+			+ getSmashedErrors(): GenericMapLattice<Type, GenericSetLattice<Statement>> \\
+			+ getSmashedErrorsState(): ProgramState<A>                                  \\
+			+ removeAllErrors(): AnalysisState<A>                                       \\
+			+ addError(): AnalysisState<A>                                              \\
+			+ addErrors(): AnalysisState<A>                                             \\
+			+ removeErrors(): AnalysisState<A>                                          \\
+			+ addSmashedError(): AnalysisState<A>                                       \\
+			+ addSmashedErrors(): AnalysisState<A>                                      \\
+			+ removeSmashedErrors(): AnalysisState<A>                                   \\
+			+ bottomExecution(): AnalysisState<A>                                       \\
+			+ topExecution(): AnalysisState<A>                                          \\
+			+ withTopMemory(): AnalysisState<A>                                         \\
+			+ withTopValues(): AnalysisState<A>                                         \\
+			+ withTopTypes(): AnalysisState<A>                                          \\
+		\end{tabular}};
+
+	\draw[->, thick] (dl) |- ($(scoped.south)+(0,-0.5)$) to (scoped);
+	\draw[->, thick] (dl) |- ($(lattice.south)+(0.2,-1.39)$) to ($(lattice.south)+(0.2,0)$);
+	\draw[->, thick] (blattice) |- ($(lattice.south)+(-0.2,-1.39)$) to ($(lattice.south)+(-0.2,0)$);
+	\draw[->, thick] (ps) to (dl);
+	\draw[->, thick] (al) |- ($(dl.south)+(0,-0.5)$) to (dl);
+	\draw[->, thick] ($(as.north)+(-0.2,0)$) |- ($(dl.south)+(0,-0.5)$) to (dl);
+	\draw[->, thick, dashed] ($(as.north)+(0.2,0)$) to ($(as.north)+(0.2,0.3)$) -| (blattice);
+	\draw[->, thick, dashed] (ps) to ($(dl.south)+(0,-0.7)$) -| (blattice);
+\end{tikzpicture}
+
 \end{document}
