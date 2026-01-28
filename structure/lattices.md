@@ -1,6 +1,6 @@
 # Lattices
 
-Following the Abstrct Interpretation theory, lattices are the central data
+Following the Abstract Interpretation theory, lattices are the central data
 structure produced by the analysis. All values returned by domains,
 fixpoints, and the
 [Interprocedural Analysis]({{ site.baseurl }}/structure/interprocedural-analysis.html)
@@ -206,7 +206,7 @@ A `DomainLattice` is a lattice that is designed to be used by a
 information about program states. The main features of such lattices are that they
 track information about program variables (called `Identifier`s in
 [Symbolic Expressions]({{ site.baseurl }}/structure/symbolic-expressions.html)
-terms) and that they can be _scoped_. Scoping is a mechanism provided bu LiSA to
+terms) and that they can be _scoped_. Scoping is a mechanism provided by LiSA to
 isolate parts of a lattice element when entering a new context (e.g., a function
 call) and to restore them when exiting the context. Scoping is essential to
 implement [Interprocedural Analyses]({{ site.baseurl }}/structure/interprocedural-analysis.html),
