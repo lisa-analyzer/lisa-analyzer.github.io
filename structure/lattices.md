@@ -245,8 +245,8 @@ and `ScopedObject<T>`. `DomainLattice` adds four methods that deal with
 
 ### The Abstract Lattice
 
-An `AbstractLattice` is a lattice that holds the information tracked by a
-[Semantic Domain]({{ site.baseurl }}/structure/semantic-domains.html) about
+An `AbstractLattice` is a lattice that holds the information tracked by an
+[Abstract Domain]({{ site.baseurl }}/structure/semantic-domains.html#the-abstractdomain-interface) about
 program variables. This is the interface that allows configuration of the
 analysis state: the concrete implementation of this interface is determined
 by the analysis configuration, and it is wrapped into the `ProgramState` and
@@ -342,7 +342,8 @@ a new `AnalysisState` instance.
 Additionally, it provides accessors for its components, accessors for the
 components of the execution state, proxies for the execution's `ProgramState`
 methods (e.g., `getExecutionInfo` and `withTopMemory`) and methods to add or
-remove new errors and smashed errors.
+remove new errors and smashed errors. `AnalysusState` is the lattice instance
+managed and produced by LiSA's [Analysis]({{ site.baseurl }}/structure/semantic-domains.html#the-analysis-class).
 
 Recall that `AnalysisState`, `ProgramState`, and `AbstractLattice` all represent
 the state of the program at a given program point, and to not contain the logic

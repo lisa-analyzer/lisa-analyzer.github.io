@@ -379,4 +379,155 @@ NoContextual}}
 	\draw[->, thick, dashed] (ps) to ($(dl.south)+(0,-0.7)$) -| (blattice);
 \end{tikzpicture}
 
+\newpage
+\section*{Semantic Domain}
+
+\begin{tikzpicture}[nodes={font={\small}, minimum width=6cm},%
+		classnode/.style={%
+				fill=cgreenlight,%
+				rectangle,%
+				draw,%
+				inner xsep=0},%
+		interfacenode/.style={%
+				fill=corangelight,%
+				rectangle,%
+				draw,%
+				inner xsep=0,
+				outer sep=0},%
+		abstractclassnode/.style={%
+				fill=cbluelight,%
+				rectangle,%
+				draw,%
+				inner xsep=0},%
+		inlinenode/.style={inner xsep=.5cm}]%
+	\node[interfacenode] (dom) {\begin{tabular}{l}
+			\multicolumn{1}{c}{\underline{\textbf{\textit{SemanticDomain}}} : L, T, E, I} \\
+			\hline
+			+ assign(state: L, id: I, expression: E, pp: ProgramPoint): T                 \\
+			+ smallStepSemantics(state: L, expression: E, pp: ProgramPoint): T            \\
+			+ assume(state: L, expression: E, src: ProgramPoint, dest: ProgramPoint): T   \\
+			+ !satisfies(state: L, expression: E, pp: ProgramPoint): Satisfiability       \\
+			+ makeLattice(): L                                                            \\
+			+ onCallReturn(entryState: L, callres: L, call: ProgramPoint): L              \\
+			+ setEventQueue(queue: EventQueue): void                                      \\
+		\end{tabular}};
+
+	\node[interfacenode, inlinenode, right=of dom.north east, anchor=north west] (lattice) {\underline{\textbf{\textit{Lattice}}} : L};
+
+	\node[interfacenode, inlinenode] (blattice) [below=of lattice] {\underline{\textbf{\textit{BaseLattice}}} : L};
+
+	\node[classnode] (sat) [below=of blattice] {\begin{tabular}{l}
+			\multicolumn{1}{c}{\textbf{\textit{Satisfiability}}} \\
+			\hline
+			+ BOTTOM: Satisfiability                             \\
+			+ SATISFIED: Satisfiability                          \\
+			+ NOT\_SATISFIED: Satisfiability                     \\
+			+ UNKNOWN: Satisfiability                            \\
+			\hline
+			* fromBoolean(bool: boolean): Satisfiability         \\
+			+ negate(): Satisfiability                           \\
+			+ and(other: Satisfiability): Satisfiability         \\
+			+ or(other: Satisfiability): Satisfiability          \\
+			+ mightBeTrue(): boolean                             \\
+			+ mightBeFalse(): boolean                            \\
+		\end{tabular}};
+
+	\draw[->, thick] (blattice) to (lattice);
+	\draw[->, thick] (sat) to (blattice);
+\end{tikzpicture}
+
+\vskip2cm
+
+\begin{tikzpicture}[nodes={font={\small}, minimum width=3cm},%
+		classnode/.style={%
+				fill=cgreenlight,%
+				rectangle,%
+				draw,%
+				inner xsep=0},%
+		interfacenode/.style={%
+				fill=corangelight,%
+				rectangle,%
+				draw,%
+				inner xsep=0,
+				outer sep=0},%
+		abstractclassnode/.style={%
+				fill=cbluelight,%
+				rectangle,%
+				draw,%
+				inner xsep=0},%
+		inlinenode/.style={inner xsep=.5cm}]%
+	\node[interfacenode, inlinenode] (dom) {\underline{\textbf{\textit{SemanticDomain}}} : L, T, E, I};
+
+	\node[interfacenode] (ad) [below=of dom] {\begin{tabular}{l}
+			\multicolumn{1}{c}{\underline{\textbf{\textit{AbstractDomain}}} : L} \\
+			\hline
+			+ makeOracle(state: L): SemanticOracle                               \\
+		\end{tabular}};
+
+	\node[interfacenode, right=of dom.north east, anchor=north west] (oracle) {\begin{tabular}{l}
+			\multicolumn{1}{c}{\underline{\textbf{\textit{SemanticOracle}}}}                                       \\
+			\hline
+			+ getEventQueue(): EventQueue                                                                          \\
+			+ getRuntimeTypesOf(e: SymbolicExpression, pp: ProgramPoint): Set<Type>                                \\
+			+ getDynamicTypeOf(e: SymbolicExpression, pp: ProgramPoint): Type                                      \\
+			+ rewrite(expression: SymbolicExpression, pp: ProgramPoint): ExpressionSet                             \\
+			+ rewrite(expressions: ExpressionSet, pp: ProgramPoint): ExpressionSet                                 \\
+			+ alias(x: SymbolicExpression, y: SymbolicExpression, pp: ProgramPoint): Satisfiability                \\
+			+ reachableFrom(e: SymbolicExpression, pp: ProgramPoint): ExpressionSet                                \\
+			+ isReachableFrom(x: SymbolicExpression, y: SymbolicExpression, pp: ProgramPoint): Satisfiability      \\
+			+ areMutuallyReachable(x: SymbolicExpression, y: SymbolicExpression, pp: ProgramPoint): Satisfiability \\
+		\end{tabular}};
+
+	\draw[->, thick] (ad) to (dom);
+\end{tikzpicture}
+
+\newpage
+
+\begin{tikzpicture}[nodes={font={\small}, minimum width=3cm},%
+		classnode/.style={%
+				fill=cgreenlight,%
+				rectangle,%
+				draw,%
+				inner xsep=0},%
+		interfacenode/.style={%
+				fill=corangelight,%
+				rectangle,%
+				draw,%
+				inner xsep=0,
+				outer sep=0},%
+		abstractclassnode/.style={%
+				fill=cbluelight,%
+				rectangle,%
+				draw,%
+				inner xsep=0},%
+		inlinenode/.style={inner xsep=.5cm}]%
+	\node[interfacenode, inlinenode] (dom) {\underline{\textbf{\textit{SemanticDomain}}} : L, T, E, I};
+
+	\node[classnode] (ad) [below=of dom] {\begin{tabular}{l}
+			\multicolumn{1}{c}{\textbf{\textit{Analysis}} : A, D}                                                                         \\
+			\hline
+			+ domain: D                                                                                                                   \\
+			+ shouldSmashErrors: Predicate<Type>                                                                                          \\
+			\hline
+			+ assign(state: AnalysisState<A>, id: SymbolicExpression, expression: SymbolicExpression, pp: ProgramPoint): AnalysisState<A> \\
+			+ getRuntimeTypesOf(e: SymbolicExpression, pp: ProgramPoint): Set<Type>                                                       \\
+			+ getDynamicTypeOf(e: SymbolicExpression, pp: ProgramPoint): Type                                                             \\
+			+ rewrite(expression: SymbolicExpression, pp: ProgramPoint): ExpressionSet                                                    \\
+			+ rewrite(expressions: ExpressionSet, pp: ProgramPoint): ExpressionSet                                                        \\
+			+ alias(x: SymbolicExpression, y: SymbolicExpression, pp: ProgramPoint): Satisfiability                                       \\
+			+ reachableFrom(e: SymbolicExpression, pp: ProgramPoint): ExpressionSet                                                       \\
+			+ isReachableFrom(x: SymbolicExpression, y: SymbolicExpression, pp: ProgramPoint): Satisfiability                             \\
+			+ areMutuallyReachable(x: SymbolicExpression, y: SymbolicExpression, pp: ProgramPoint): Satisfiability                        \\
+			+ moveExecutionToError(state: AnalysisState<A>, error: Error, pp: ProgramPoint): AnalysisState<A>                             \\
+			+ moveErrorsToExecution(state: AnalysisState<A>, pp: ProgramPoint, ProtectedBlock block, Collection<Type> targets,            \\
+			$\qquad\qquad\qquad\qquad$Collection<Type> excluded, VariableRef variable): AnalysisState<A>                                  \\
+			+ transferThrowers(state: AnalysisState<A>, Statement target, CFG origin): AnalysisState<A>                                   \\
+			+ removeCaughtErrors(state: AnalysisState<A>, Statement source): AnalysisState<A>                                             \\
+			+ moveExecutionToHalting(state: AnalysisState<A>, pp: ProgramPoint): AnalysisState<A>                                         \\
+		\end{tabular}};
+
+	\draw[->, thick] (ad) to (dom);
+\end{tikzpicture}
+
+
 \end{document}
