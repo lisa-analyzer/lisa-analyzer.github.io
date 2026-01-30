@@ -216,7 +216,7 @@ and `ScopedObject<T>`. `DomainLattice` adds four methods that deal with
 ### The Abstract Lattice
 
 An `AbstractLattice` is a lattice that holds the information tracked by an
-[Abstract Domain]({{ site.baseurl }}/structure/semantic-domains.html#the-abstractdomain-interface) about
+[Abstract Domain]({{ site.baseurl }}/structure/semantic-domains.html#the-abstract-domain-interface) about
 program variables. This is the interface that allows configuration of the
 analysis state: the concrete implementation of this interface is determined
 by the analysis configuration, and it is wrapped into the `ProgramState` and

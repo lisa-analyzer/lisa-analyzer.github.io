@@ -26,7 +26,7 @@ members, the `*` symbol marks static members, and a `!` in front of the name
 denotes a member with a default implementation. Method-specific type
 parameters are written before the method name, wrapped in `< >`." %}
 
-## The SemanticDomain Interface
+## The Semantic Domain Interface
 
 The `SemanticDomain` interface defines the available transfer functions that
 anyone interacting with a domain implementation can perform over a state (i.e.,
@@ -35,7 +35,7 @@ a [`DomainLattice`]({{ site.baseurl }}/structure/lattices.html#domain-lattices))
 
 - `L extends DomainLattice<L, T>` defines the type of abstract states the
   transformers accept as parameters (see the
-  [Lattices]({{ site.baseurl }}/structure/lattices.html#the-domainlattice-interface) page;
+  [Lattices]({{ site.baseurl }}/structure/lattices.html#domain-lattices) page;
 - `T` defines the return type of the transformers (as, in some cases, a domain
   implementation might want to return a pair of a state and some auxiliary
   information);
@@ -115,7 +115,7 @@ unchanged otherwise." %}
 analysis, the `setEventQueue` method will not be called. If your domain issues
 events, make sure to null-check the event queue before using it." %}
 
-## The AbstractDomain Interface
+## The Abstract Domain Interface
 
 The `AbstractDomain` interface is a specialization of `SemanticDomain` that
 defines what a user of LiSA has to provide to implement an analysis.
