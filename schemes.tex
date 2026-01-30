@@ -689,7 +689,7 @@ NoContextual}}
 
 \newpage
 
-\begin{tikzpicture}[nodes={font={\small}, minimum width=6cm},%
+\begin{tikzpicture}[nodes={font={\small}, minimum width=3cm},%
 		classnode/.style={%
 				fill=cgreenlight,%
 				rectangle,%
@@ -707,24 +707,100 @@ NoContextual}}
 				draw,%
 				inner xsep=0},%
 		inlinenode/.style={inner xsep=.5cm}]%
-	\node[interfacenode] (hd) {\begin{tabular}{l}
-			\multicolumn{1}{c}{\underline{\textbf{\textit{HeapDomain}}} : L}                                                               \\
+	\node[classnode] (sad) {\begin{tabular}{l}
+			\multicolumn{1}{c}{\textbf{\textit{SimpleAbstractDomain} : H, V, T}} \\
 			\hline
-			+ rewrite(expression: SymbolicExpression, pp: ProgramPoint,                                                                    \\
-			$\qquad\qquad\qquad\qquad$oracle: SemanticOracle): ExpressionSet                                                               \\
-			+ rewrite(expressions: ExpressionSet, pp: ProgramPoint, oracle: SemanticOracle): ExpressionSet                                 \\
-			+ alias(x: SymbolicExpression, y: SymbolicExpression, pp: ProgramPoint, oracle: SemanticOracle): Satisfiability                \\
-			+ reachableFrom(e: SymbolicExpression, pp: ProgramPoint, oracle: SemanticOracle): ExpressionSet                                \\
-			+ isReachableFrom(x: SymbolicExpression, y: SymbolicExpression, pp: ProgramPoint, oracle: SemanticOracle): Satisfiability      \\
-			+ areMutuallyReachable(x: SymbolicExpression, y: SymbolicExpression, pp: ProgramPoint, oracle: SemanticOracle): Satisfiability \\
+			+ heapDomain: HeapDomain<H>                                          \\
+			+ valueDomain: ValueDomain<V>                                        \\
+			+ typeDomain: TypeDomain<T>                                          \\
 		\end{tabular}};
 
-	\node[interfacenode, right=of hd.north east, anchor=north west] (dwr) {\begin{tabular}{l}
-			\multicolumn{1}{c}{\underline{\textbf{\textit{DomainWithReplacement}}} : L, E}                 \\
+	\node[interfacenode, inlinenode] (dom) [above=of sad] {\underline{\textbf{\textit{AbstractDomain}}} : L};
+
+	\node[classnode] (moracle) [right=of sad] {\begin{tabular}{l}
+			\multicolumn{1}{c}{\textbf{\textit{MutableOracle} : H, V, T}} \\
 			\hline
-			+ !applyReplacement(state: L, r: HeapReplacement, pp: ProgramPoint, oracle: SemanticOracle): L \\
+			+ heap: H                                                     \\
+			+ value: V                                                    \\
+			+ type: T                                                     \\
 		\end{tabular}};
 
+	\node[interfacenode, inlinenode] (oracle) [above=of moracle] {\underline{\textbf{\textit{SemanticOracle}}}};
+
+	\node[classnode, right=of oracle.north east, anchor=north west] (repl) {\begin{tabular}{l}
+			\multicolumn{1}{c}{\textbf{\textit{HeapReplacement}}} \\
+			\hline
+			+ sources: Set<Identifier>                            \\
+			+ targets: Set<Identifier>                            \\
+			\hline
+			+ addSource(id: Identifier): void                     \\
+			+ withSource(id: Identifier): HeapReplacement         \\
+			+ addTarget(id: Identifier): void                     \\
+			+ withTarget(id: Identifier): HeapReplacement         \\
+			+ getSources(): Set<Identifier>                       \\
+			+ getTargets(): Set<Identifier>                       \\
+			+ getIdsToForget(): Set<Identifier>                   \\
+		\end{tabular}};
+
+	\draw[->, thick, dashed] (sad) to (dom);
+	\draw[->, thick, dashed] (moracle) to (oracle);
+\end{tikzpicture}
+
+\vskip2cm
+\begin{tikzpicture}[nodes={font={\small}, minimum width=3cm},%
+		classnode/.style={%
+				fill=cgreenlight,%
+				rectangle,%
+				draw,%
+				inner xsep=0},%
+		interfacenode/.style={%
+				fill=corangelight,%
+				rectangle,%
+				draw,%
+				inner xsep=0,
+				outer sep=0},%
+		abstractclassnode/.style={%
+				fill=cbluelight,%
+				rectangle,%
+				draw,%
+				inner xsep=0},%
+		inlinenode/.style={inner xsep=.5cm}]%
+	\node[interfacenode] (td) {\begin{tabular}{l}
+			\multicolumn{1}{c}{\underline{\textbf{\textit{TypeDomain}}} : L}   \\
+			\hline
+			+ getRuntimeTypesOf(state: L, expression: SymbolicExpression,      \\
+			$\qquad\qquad$pp: ProgramPoint, oracle: SemanticOracle): Set<Type> \\
+			+ getDynamicTypeOf(state: L, expressions: ExpressionSet,           \\
+			$\qquad\qquad$pp: ProgramPoint, oracle: SemanticOracle): Type      \\
+		\end{tabular}};
+
+	\node[interfacenode, inlinenode, left=of td.north west, anchor=north east] (vd) {\begin{tabular}{l}
+			\multicolumn{1}{c}{\underline{\textbf{\textit{ValueDmain}}} : L} \\
+		\end{tabular}};
+
+	\node[interfacenode] (dwr) [above=1.5cm of $(td)!0.5!(vd)$] {\begin{tabular}{l}
+			\multicolumn{1}{c}{\underline{\textbf{\textit{DomainWithReplacement}}} : L, E} \\
+			\hline
+			+ !applyReplacement(state: L, r: HeapReplacement,                              \\
+			$\qquad\qquad$pp: ProgramPoint, oracle: SemanticOracle): L                     \\
+		\end{tabular}};
+
+	\node[interfacenode, left=2cm of dwr.north west, anchor=north east] (hd) {\begin{tabular}{l}
+			\multicolumn{1}{c}{\underline{\textbf{\textit{HeapDomain}}} : L}               \\
+			\hline
+			+ rewrite(state: L, expression: SymbolicExpression,                            \\
+			$\qquad\qquad$pp: ProgramPoint, oracle: SemanticOracle): ExpressionSet         \\
+			+ rewrite(state: L, expressions: ExpressionSet,                                \\
+			$\qquad\qquad$pp: ProgramPoint, oracle: SemanticOracle): ExpressionSet         \\
+			+ alias(state: L, x: SymbolicExpression, y: SymbolicExpression,                \\
+			$\qquad\qquad$pp: ProgramPoint, oracle: SemanticOracle): Satisfiability        \\
+			+ reachableFrom(state: L, e: SymbolicExpression,                               \\
+			$\qquad\qquad$pp: ProgramPoint, oracle: SemanticOracle): ExpressionSet         \\
+			+ isReachableFrom(state: L, x: SymbolicExpression, y: SymbolicExpression,      \\
+			$\qquad\qquad$pp: ProgramPoint, oracle: SemanticOracle): Satisfiability        \\
+			+ areMutuallyReachable(state: L, x: SymbolicExpression, y: SymbolicExpression, \\
+			$\qquad\qquad$pp: ProgramPoint, oracle: SemanticOracle): Satisfiability        \\
+		\end{tabular}};
 
 	\node[interfacenode] (comp) [above=of $(hd.north)!0.5!(dwr.north)$] {\begin{tabular}{l}
 			\multicolumn{1}{c}{\underline{\textbf{\textit{SemanticComponent}}} : L, T, E, I}                    \\
@@ -737,15 +813,127 @@ NoContextual}}
 			+ onCallReturn(entryState: L, callres: L, call: ProgramPoint): L                                    \\
 		\end{tabular}};
 
-	\node[classnode, above=of comp.north west, anchor=south west] (sad) {\textbf{\textit{SimpleAbstractDomain} : H, V, T}};
-
-	\node[interfacenode, inlinenode] (dom) [above=of sad] {\underline{\textbf{\textit{SemanticDomain}}} : L, T, E, I};
-
-	\node[classnode, above=of comp.north east, anchor=south east] (moracle) {\textbf{\textit{MutableOracle} : H, V, T}};
-
-	\node[interfacenode, inlinenode] (oracle) [above=of moracle] {\underline{\textbf{\textit{SemanticOracle}}}};
-
-	\draw[->, thick, dashed] (sad) to (dom);
-	\draw[->, thick, dashed] (moracle) to (oracle);
+	\draw[->, thick] (vd) |- ($(dwr.south)+(0,-0.5)$) to (dwr);
+	\draw[->, thick] (td) |- ($(dwr.south)+(0,-0.5)$) to (dwr);
+	\draw[->, thick] (hd) |- ($(comp.south)+(0,-0.5)$) to (comp);
+	\draw[->, thick] (dwr) |- ($(comp.south)+(0,-0.5)$) to (comp);
 \end{tikzpicture}
+
+\newpage
+\section*{Environments}
+
+\begin{tikzpicture}[nodes={font={\small}, minimum width=3cm},%
+		classnode/.style={%
+				fill=cgreenlight,%
+				rectangle,%
+				draw,%
+				inner xsep=0},%
+		interfacenode/.style={%
+				fill=corangelight,%
+				rectangle,%
+				draw,%
+				inner xsep=0,
+				outer sep=0},%
+		abstractclassnode/.style={%
+				fill=cbluelight,%
+				rectangle,%
+				draw,%
+				inner xsep=0},%
+		inlinenode/.style={inner xsep=.5cm}]%
+
+	\node[interfacenode, inlinenode] (dl) {\underline{\textbf{\textit{DomainLattice}}} : L, T};
+	\node[abstractclassnode, inlinenode] (fl) [right=of dl] {\textbf{\textit{FunctionalLattice}} : F, K, V};
+
+	\node[abstractclassnode, inlinenode] (env) [below=of $(dl.south)!0.5!(fl.south)$] {\textbf{\textit{Environment}} : L, E};
+	\node[interfacenode, inlinenode] (vl) [left=of env] {\underline{\textbf{\textit{ValueLattice}}} : L};
+
+	\node[interfacenode, inlinenode] (tl) [right=of env] {\underline{\textbf{\textit{TypeLattice}}} : L};
+	\node[interfacenode, inlinenode] (hl) [right=of tl] {\underline{\textbf{\textit{HeapLattice}}} : L};
+
+	\node[classnode, inlinenode] (venv) [below=of vl] {\textbf{\textit{ValueEnvironment}} : L};
+	\node[classnode, inlinenode] (tenv) [below=of tl] {\textbf{\textit{TypeEnvironment}} : L};
+	\node[classnode, inlinenode] (henv) [below=of hl] {\textbf{\textit{HeapEnvironment}} : L};
+
+	\node[interfacenode, inlinenode] (lattice) [below=of $(tenv.south)!0.5!(henv.south)$] {\underline{\textbf{\textit{Lattice}}} : L};
+
+	\node[interfacenode] (tv) [below right=1cm and -1cm of lattice] {\begin{tabular}{l}
+			\multicolumn{1}{c}{\underline{\textbf{\textit{TypeValue}}} : L} \\
+			\hline
+			+ getRuntimeTypes(): Set<Type>                                  \\
+		\end{tabular}};
+
+	\node[interfacenode] (hv) [below left=1cm and -1cm of lattice] {\begin{tabular}{l}
+			\multicolumn{1}{c}{\underline{\textbf{\textit{HeapValue}}} : L}                        \\
+			\hline
+			+ <F> !reachableOnlyFrom(state: F, id: Identifier): Collection<Identifier>             \\
+			+ <F> reachableOnlyFrom(state: F, ids: Collection<Identifier>): Collection<Identifier> \\
+		\end{tabular}};
+
+	\draw[->, thick] ($(env.north)+(0.2,0)$) |- ($(fl.south)+(0,-0.5)$) to (fl);
+	\draw[->, thick, dashed] ($(env.north)+(-0.2,0)$) |- ($(dl.south)+(0,-0.5)$) to (dl);
+	\draw[->, thick] ($(venv.north)+(0.2,0)$) |- ($(env.south)+(0,-0.5)$) to (env);
+	\draw[->, thick] ($(tenv.north)+(-0.2,0)$) |- ($(env.south)+(0,-0.5)$) to (env);
+	\draw[->, thick] ($(henv.north)+(-0.2,0)$) |- ($(env.south)+(0,-0.5)$) to (env);
+	\draw[->, thick, dashed] (venv) to (vl);
+	\draw[->, thick, dashed] (tenv) to (tl);
+	\draw[->, thick, dashed] (henv) to (hl);
+
+	\draw[->, thick] (tv) |- ($(lattice.south)+(0,-0.5)$) to (lattice);
+	\draw[->, thick] (hv) |- ($(lattice.south)+(0,-0.5)$) to (lattice);
+\end{tikzpicture}
+
+\section*{Non Relational}
+
+\begin{tikzpicture}[nodes={font={\small}, minimum width=5cm, minimum height=.6cm},%
+		classnode/.style={%
+				fill=cgreenlight,%
+				rectangle,%
+				draw,%
+				inner xsep=0},%
+		interfacenode/.style={%
+				fill=corangelight,%
+				rectangle,%
+				draw,%
+				inner xsep=0,
+				outer sep=0},%
+		abstractclassnode/.style={%
+				fill=cbluelight,%
+				rectangle,%
+				draw,%
+				inner xsep=0},%
+		inlinenode/.style={inner xsep=.5cm}]%
+	\node[interfacenode] (eval) {\begin{tabular}{l}
+			\multicolumn{1}{c}{\underline{\textbf{\textit{SemanticEvaluator}}}} \\
+			\hline
+			+ canProcess(expression: SymbolicExpression,                        \\
+			$\qquad\qquad$pp: ProgramPoint, oracle: SemanticOracle): boolean    \\
+		\end{tabular}};
+
+	\node[interfacenode, inlinenode, right=of eval.south east, anchor=south west] (comp) {\underline{\textbf{\textit{SemanticComponent}}} : L, T, E, I};
+
+	\node[interfacenode] (nrd) [below=of $(eval.south)!0.5!(comp.south)$] {\begin{tabular}{l}
+			\multicolumn{1}{c}{\underline{\textbf{\textit{NonRelationalDomain}}}: L, T, M, E}  \\
+			\hline
+			+ eval(environment: M, expression: E, pp: ProgramPoint, oracle: SemanticOracle): L \\
+			+ fixedVariable(id: Identifier, pp: ProgramPoint, oracle: SemanticOracle): L       \\
+			+ unknownValue(id: Identifier): L                                                  \\
+		\end{tabular}};
+
+	\node[interfacenode, inlinenode] (td) [below=of nrd] {\underline{\textbf{\textit{TypeDomain}}} : L};
+	\node[interfacenode, inlinenode] (nrtd) [below=of td] {\underline{\textbf{\textit{NonRelationalTypeDomain}}} : L};
+	\node[interfacenode, inlinenode] (vd) [right=of td] {\underline{\textbf{\textit{ValueDomain}}} : L};
+	\node[interfacenode, inlinenode] (nrvd) [right=of nrtd] {\underline{\textbf{\textit{NonRelationalValueDomain}}} : L};
+	\node[interfacenode, inlinenode] (hd) [left=of td] {\underline{\textbf{\textit{HeapDomain}}} : L};
+	\node[interfacenode, inlinenode] (nrhd) [left=of nrtd] {\underline{\textbf{\textit{NonRelationalHeapDomain}}} : L};
+
+	\draw[->, thick] (nrd) |- ($(comp.south)+(0,-0.5)$) to (comp);
+	\draw[->, thick] (nrd) |- ($(eval.south)+(0,-0.5)$) to (eval);
+	\draw[->, thick] (nrvd) to (vd);
+	\draw[->, thick] (nrtd) to (td);
+	\draw[->, thick] (nrhd) to (hd);
+	\draw[->, thick] ($(nrhd.north)+(0.2,0)$) |- ($(nrhd.north east)+(0.5,0.5)$) |- ($(nrd.south)+(0,-0.5)$) to (nrd);
+	\draw[->, thick] ($(nrtd.north)+(0.2,0)$) |- ($(nrtd.north east)+(0.5,0.5)$) |- ($(nrd.south)+(0,-0.5)$) to (nrd);
+	\draw[->, thick] ($(nrvd.north)+(-0.2,0)$) |- ($(nrvd.north west)+(-0.5,0.5)$) |- ($(nrd.south)+(0,-0.5)$) to (nrd);
+\end{tikzpicture}
+
 \end{document}
