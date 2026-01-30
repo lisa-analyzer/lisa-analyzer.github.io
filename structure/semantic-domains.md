@@ -1,5 +1,13 @@
 # Semantic Domains
 
+{% capture prereq %}
+
+1. [Program Points]({{ site.baseurl }}/structure/common-interfaces.html#minimal-program-components)<br/>
+2. [Lattices and Domain Lattices]({{ site.baseurl }}/structure/lattices.html)
+
+{% endcapture %}
+{% include prereq.html content=prereq %}
+
 Semantic domains implement transfer functions over lattice structures.
 Contrarty to [Lattices]({{ site.baseurl }}/structure/lattices.html),
 a unique instance of a semantic domain is used for the whole analysis.
@@ -9,7 +17,7 @@ user-defined.
 This page presents the `SemanticDomain`
 interface, its prerequisites, its main implementation and usages.
 
-{% include tip.html content="This page contains class diagrams. Interfaces are
+{% include note.html content="This page contains class diagrams. Interfaces are
 represented with yellow rectangles, abstract classes with blue rectangles,
 and concrete classes with green rectangles. After type names, type
 parameters are reported, but their bounds are omitted for clarity.
@@ -60,7 +68,7 @@ Instead, `assume` is mainly called when traversing conditional
 [Edges]({{ site.baseurl }}/structure/st-ex-e.html#edges) in a
 [CFG]({{ site.baseurl }}/structure/cfgs.html).
 
-{% include note.html content="`Identifier`s can be _strong_ or _weak_.
+{% include warn.html content="`Identifier`s can be _strong_ or _weak_.
 A strong identifier represent exactly one variable or memory location: when
 assigning a value to it, it is safe to forget any previous value (similarly to
 what an assignment to a variable does in any programming language). A weak

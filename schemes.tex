@@ -171,6 +171,83 @@ NoContextual}}
 		\end{tabular}};
 \end{tikzpicture}
 
+\section*{Scoped Objects}
+
+\begin{tikzpicture}[nodes={font={\small}, minimum width=3cm},%
+		classnode/.style={%
+				fill=cgreenlight,%
+				rectangle,%
+				draw,%
+				inner xsep=0},%
+		interfacenode/.style={%
+				fill=corangelight,%
+				rectangle,%
+				draw,%
+				inner xsep=0,
+				outer sep=0},%
+		abstractclassnode/.style={%
+				fill=cbluelight,%
+				rectangle,%
+				draw,%
+				inner xsep=0},%
+		inlinenode/.style={inner xsep=.5cm}]%
+	\node[interfacenode] (scoped) {\begin{tabular}{l}
+			\multicolumn{1}{c}{\underline{\textbf{\textit{ScopedObject}}} : T} \\
+			\hline
+			+ pushScope(token: ScopeToken, pp: ProgramPoint): T                \\
+			+ popScope(token: ScopeToken, pp: ProgramPoint): T                 \\
+		\end{tabular}};
+
+	\node[classnode] (st) [right=of scoped] {\begin{tabular}{l}
+			\multicolumn{1}{c}{\textbf{\textit{ScopeToken}}} \\
+			\hline
+			+ getScoper(): CodeElement                       \\
+		\end{tabular}};
+\end{tikzpicture}
+
+\section*{Minimal Program Structure}
+
+\begin{tikzpicture}[nodes={font={\small}, minimum width=3cm},%
+		classnode/.style={%
+				fill=cgreenlight,%
+				rectangle,%
+				draw,%
+				inner xsep=0},%
+		interfacenode/.style={%
+				fill=corangelight,%
+				rectangle,%
+				draw,%
+				inner xsep=0,
+				outer sep=0},%
+		abstractclassnode/.style={%
+				fill=cbluelight,%
+				rectangle,%
+				draw,%
+				inner xsep=0},%
+		inlinenode/.style={inner xsep=.5cm}]%
+	\node[interfacenode] (cl) {\begin{tabular}{l}
+			\multicolumn{1}{c}{\underline{\textbf{\textit{CodeLocation}}}} \\
+			\hline
+			+ getCodeLocation(): String                                    \\
+		\end{tabular}};
+
+	\node[interfacenode] (ce) [right=of cl] {\begin{tabular}{l}
+			\multicolumn{1}{c}{\underline{\textbf{\textit{CodeElement}}}} \\
+			\hline
+			+ getLocation(): CodeLocation                                 \\
+		\end{tabular}};
+
+	\node[interfacenode] (pp) [below=of ce] {\begin{tabular}{l}
+			\multicolumn{1}{c}{\underline{\textbf{\textit{ProgramPoint}}}} \\
+			\hline
+			+ getCFG(): CFG                                                \\
+			+ !getUnit(): Unit                                             \\
+			+ !getProgram(): Program                                       \\
+		\end{tabular}};
+
+	\draw[->, thick] (pp) to (ce);
+\end{tikzpicture}
+
 \newpage
 \section*{Lattices}
 
@@ -290,17 +367,12 @@ NoContextual}}
 				rectangle,%
 				draw,%
 				inner xsep=0},%
-		inlinenode/.style={inner xsep=.5cm}]%
+		inlinenode/.style={inner xsep=.5cm, minimum height=.6cm}]%
 	\node[interfacenode, inlinenode] (lattice) {\underline{\textbf{\textit{Lattice}}} : L};
 
-	\node[interfacenode, right=of lattice.north east, anchor=north west] (scoped) {\begin{tabular}{l}
-			\multicolumn{1}{c}{\underline{\textbf{\textit{ScopedObject}}} : T} \\
-			\hline
-			+ pushScope(token: ScopeToken, pp: ProgramPoint): T                \\
-			+ popScope(token: ScopeToken, pp: ProgramPoint): T                 \\
-		\end{tabular}};
+	\node[interfacenode, inlinenode] (scoped) [right=of lattice] {\underline{\textbf{\textit{ScopedObject}}} : T};
 
-	\node[interfacenode] (dl) [below=1.25cm of $(scoped.south)!0.5!(lattice.south)$] {\begin{tabular}{l}
+	\node[interfacenode] (dl) [below=of $(scoped.south)!0.5!(lattice.south)$] {\begin{tabular}{l}
 			\multicolumn{1}{c}{\underline{\textbf{\textit{DomainLattice}}} : L, T} \\
 			\hline
 			+ knowsIdentifier(id: Identifier): boolean                             \\
@@ -370,8 +442,8 @@ NoContextual}}
 		\end{tabular}};
 
 	\draw[->, thick] (dl) |- ($(scoped.south)+(0,-0.5)$) to (scoped);
-	\draw[->, thick] (dl) |- ($(lattice.south)+(0.2,-1.39)$) to ($(lattice.south)+(0.2,0)$);
-	\draw[->, thick] (blattice) |- ($(lattice.south)+(-0.2,-1.39)$) to ($(lattice.south)+(-0.2,0)$);
+	\draw[->, thick] (dl) |- ($(lattice.south)+(0.2,-0.5)$) to ($(lattice.south)+(0.2,0)$);
+	\draw[->, thick] (blattice) |- ($(lattice.south)+(-0.2,-0.5)$) to ($(lattice.south)+(-0.2,0)$);
 	\draw[->, thick] (ps) to (dl);
 	\draw[->, thick] (al) |- ($(dl.south)+(0,-0.5)$) to (dl);
 	\draw[->, thick] ($(as.north)+(-0.2,0)$) |- ($(dl.south)+(0,-0.5)$) to (dl);
@@ -529,5 +601,151 @@ NoContextual}}
 	\draw[->, thick] (ad) to (dom);
 \end{tikzpicture}
 
+\newpage
+\section*{Simple Abstract Domain}
 
+\begin{tikzpicture}[comp/.style={
+				draw=cgreen,
+				very thick,
+				rectangle,
+				rounded corners,
+				minimum width=3cm,
+				minimum height=1.0cm}]
+	\node[comp] (val) {Value Domain};
+	\node[comp] (type) [left=of val] {Type Domain};
+	\node[comp] (mem) [above=2cm of $(val)!0.5!(type)$] {Heap Domain};
+	\node (txt) [above=.3cm of mem] {SimpleAbstractDomain};
+	\node[comp, fit=(mem)(val)(type)(txt), inner xsep=.5cm, inner ysep=.2cm, draw=black] (abs) {};
+
+	\node [below=.3cm of abs] {\cgreen{$\Box$ configurable}};
+
+	\draw[->, thick] (mem) to (val);
+	\draw[->, thick] (mem) to (type);
+	\draw[->, thick] (abs.west) to ($(abs.west)+(0.5,0)$) |- (mem.west);
+	\draw[->, thick] ($(abs.west)+(-.5,0)$) node[above] {expr} to (abs.west);
+
+	\node[fill=white] [below=.5cm of mem] {substitution and rewriting};
+\end{tikzpicture}
+
+\vskip2cm
+
+\begin{tikzpicture}[nodes={font={\small}, minimum width=3cm},%
+		classnode/.style={%
+				fill=cgreenlight,%
+				rectangle,%
+				draw,%
+				inner xsep=0},%
+		interfacenode/.style={%
+				fill=corangelight,%
+				rectangle,%
+				draw,%
+				inner xsep=0,
+				outer sep=0},%
+		abstractclassnode/.style={%
+				fill=cbluelight,%
+				rectangle,%
+				draw,%
+				inner xsep=0},%
+		inlinenode/.style={inner xsep=.5cm, minimum height=.6cm}]%
+	\node[interfacenode, inlinenode] (dl) {\underline{\textbf{\textit{DomainLattice}}} : L, T};
+
+	\node[interfacenode, inlinenode] (blattice) [left=of dl] {\underline{\textbf{\textit{BaseLattice}}} : L};
+
+	\node[interfacenode] (lwr) [below=of dl] {\begin{tabular}{l}
+			\multicolumn{1}{c}{\underline{\textbf{\textit{LatticeWithReplacement}}} : L} \\
+			\hline
+			+ !applyReplacement(r: HeapReplacement, pp: ProgramPoint): L                 \\
+			+ store(target: Identifier, source: Identifier): L                           \\
+		\end{tabular}};
+
+	\node[interfacenode, right=of lwr.north east, anchor=north west] (hl) {\begin{tabular}{l}
+			\multicolumn{1}{c}{\textbf{\textit{HeapLattice}} : L}  \\
+			\hline
+			+ expand(base: HeapReplacement): List<HeapReplacement> \\
+		\end{tabular}};
+
+	\node[interfacenode, inlinenode, left=of lwr.north west, anchor=north east] (al) {\underline{\textbf{\textit{AbstractLattice}}} : L};
+
+	\node[classnode] (sad) [below=of al] {\begin{tabular}{l}
+			\multicolumn{1}{c}{\textbf{\textit{SimpleAbstractState}} : H, V, T} \\
+			\hline
+			+ heapState: H                                                      \\
+			+ valueState: V                                                     \\
+			+ typeState: T                                                      \\
+		\end{tabular}};
+
+	\node[interfacenode, inlinenode] (vl) [below left=1cm and 1.5cm of lwr.south] {\underline{\textbf{\textit{ValueLattice}}} : L};
+
+	\node[interfacenode, inlinenode] (tl) [below right=1cm and 1.5cm of lwr.south] {\underline{\textbf{\textit{TypeLattice}}} : L};
+
+	\draw[->, thick] (lwr) to (dl);
+	\draw[->, thick] (al) |- ($(dl.south)+(0,-0.5)$) to (dl);
+	\draw[->, thick] (hl) |- ($(dl.south)+(0,-0.5)$) to (dl);
+	\draw[->, thick, dashed] (sad) to ($(sad.north)+(0,0.5)$) -| ($(sad.north)+(2.1,1.9)$) -| (blattice);
+	\draw[->, thick, dashed] (sad) to (al);
+	\draw[->, thick] (vl) |- ($(lwr.south)+(0,-0.5)$) to (lwr);
+	\draw[->, thick] (tl) |- ($(lwr.south)+(0,-0.5)$) to (lwr);
+\end{tikzpicture}
+
+\newpage
+
+\begin{tikzpicture}[nodes={font={\small}, minimum width=6cm},%
+		classnode/.style={%
+				fill=cgreenlight,%
+				rectangle,%
+				draw,%
+				inner xsep=0},%
+		interfacenode/.style={%
+				fill=corangelight,%
+				rectangle,%
+				draw,%
+				inner xsep=0,
+				outer sep=0},%
+		abstractclassnode/.style={%
+				fill=cbluelight,%
+				rectangle,%
+				draw,%
+				inner xsep=0},%
+		inlinenode/.style={inner xsep=.5cm}]%
+	\node[interfacenode] (hd) {\begin{tabular}{l}
+			\multicolumn{1}{c}{\underline{\textbf{\textit{HeapDomain}}} : L}                                                               \\
+			\hline
+			+ rewrite(expression: SymbolicExpression, pp: ProgramPoint,                                                                    \\
+			$\qquad\qquad\qquad\qquad$oracle: SemanticOracle): ExpressionSet                                                               \\
+			+ rewrite(expressions: ExpressionSet, pp: ProgramPoint, oracle: SemanticOracle): ExpressionSet                                 \\
+			+ alias(x: SymbolicExpression, y: SymbolicExpression, pp: ProgramPoint, oracle: SemanticOracle): Satisfiability                \\
+			+ reachableFrom(e: SymbolicExpression, pp: ProgramPoint, oracle: SemanticOracle): ExpressionSet                                \\
+			+ isReachableFrom(x: SymbolicExpression, y: SymbolicExpression, pp: ProgramPoint, oracle: SemanticOracle): Satisfiability      \\
+			+ areMutuallyReachable(x: SymbolicExpression, y: SymbolicExpression, pp: ProgramPoint, oracle: SemanticOracle): Satisfiability \\
+		\end{tabular}};
+
+	\node[interfacenode, right=of hd.north east, anchor=north west] (dwr) {\begin{tabular}{l}
+			\multicolumn{1}{c}{\underline{\textbf{\textit{DomainWithReplacement}}} : L, E}                 \\
+			\hline
+			+ !applyReplacement(state: L, r: HeapReplacement, pp: ProgramPoint, oracle: SemanticOracle): L \\
+		\end{tabular}};
+
+
+	\node[interfacenode] (comp) [above=of $(hd.north)!0.5!(dwr.north)$] {\begin{tabular}{l}
+			\multicolumn{1}{c}{\underline{\textbf{\textit{SemanticComponent}}} : L, T, E, I}                    \\
+			\hline
+			+ assign(state: L, id: I, expression: E, pp: ProgramPoint, oracle: SemanticOracle): T               \\
+			+ smallStepSemantics(state: L, expression: E, pp: ProgramPoint, oracle: SemanticOracle): T          \\
+			+ assume(state: L, expression: E, src: ProgramPoint, dest: ProgramPoint, oracle: SemanticOracle): T \\
+			+ !satisfies(state: L, expression: E, pp: ProgramPoint, oracle: SemanticOracle): Satisfiability     \\
+			+ makeLattice(): L                                                                                  \\
+			+ onCallReturn(entryState: L, callres: L, call: ProgramPoint): L                                    \\
+		\end{tabular}};
+
+	\node[classnode, above=of comp.north west, anchor=south west] (sad) {\textbf{\textit{SimpleAbstractDomain} : H, V, T}};
+
+	\node[interfacenode, inlinenode] (dom) [above=of sad] {\underline{\textbf{\textit{SemanticDomain}}} : L, T, E, I};
+
+	\node[classnode, above=of comp.north east, anchor=south east] (moracle) {\textbf{\textit{MutableOracle} : H, V, T}};
+
+	\node[interfacenode, inlinenode] (oracle) [above=of moracle] {\underline{\textbf{\textit{SemanticOracle}}}};
+
+	\draw[->, thick, dashed] (sad) to (dom);
+	\draw[->, thick, dashed] (moracle) to (oracle);
+\end{tikzpicture}
 \end{document}

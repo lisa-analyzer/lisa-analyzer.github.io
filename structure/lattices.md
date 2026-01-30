@@ -1,5 +1,14 @@
 # Lattices
 
+{% capture prereq %}
+
+1. [Structured Representation and Structured Objects]({{ site.baseurl }}/structure/common-interfaces.html#the-structured-representation-interface)<br/>
+2. [Scoped Objects]({{ site.baseurl }}/structure/common-interfaces.html#the-scoped-object-interface)<br/>
+3. [Program Points]({{ site.baseurl }}/structure/common-interfaces.html#minimal-program-components)
+
+{% endcapture %}
+{% include prereq.html content=prereq %}
+
 Following the Abstract Interpretation theory, lattices are the central data
 structure produced by the analysis. All values returned by domains,
 fixpoints, and the
@@ -7,7 +16,7 @@ fixpoints, and the
 are instances of the `Lattice` interface. This page presents the `Lattice`
 interface, its prerequisites, its main implementations and usages.
 
-{% include tip.html content="This page contains class diagrams. Interfaces are
+{% include note.html content="This page contains class diagrams. Interfaces are
 represented with yellow rectangles, abstract classes with blue rectangles,
 and concrete classes with green rectangles. After type names, type
 parameters are reported, but their bounds are omitted for clarity.
@@ -16,43 +25,11 @@ members, the `*` symbol marks static members, and a `!` in front of the name
 denotes a member with a default implementation. Method-specific type
 parameters are written before the method name, wrapped in `< >`." %}
 
-## The StructuredRepresentation Interface
-
-A `StructuredRepresentation` is a way to represent the contents of a complex
-object in a structured way, such that it is (i) independent of its source,
-(ii) comparable with other representations (potentially originating from
-a different source), and (iii) serialisable. `StricturedRepresentation`s
-are mainly used to produce human-readable representations of `Lattice`
-elements, and to serialize them in ouput files into a unique format so that
-several visualization tools can be built on top of the same output.
-
-<center> <img src="structured.png" alt="The StructuredRepresentation class hierarchy" /> </center>
-
-`StructuredRepresentation` is ab abstract class, that has five concrete
-subtypes:
-
-- `StringRepresentation`: a representation of any object as a string;
-- `SetRepresentation`: a representation of any object as a sorted set of
-  `StructuredRepresentation` elements;
-- `ListRepresentation`: a representation of any object as an ordered list of
-  `StructuredRepresentation` elements;
-- `MapRepresentation`: a representation of any object as a map from
-  `StructuredRepresentation` keys to `StructuredRepresentation` elements;
-- `ObjectRepresentation`: a representation of any object as a named collection
-  of fields, each field being a `StructuredRepresentation` element.
-
-Instances of these classes just have to be created by passing the appropriate
-values, and they will automatically provide the required functionalities
-(like comparability and serializability).
-
-A `StrucutredObject` is any object that can produce a `StructuredRepresentation`
-of itself. The `Lattice` interface extends the `StructuredObject` interface,
-meaning that all lattices can produce a structured representation of
-themselves through the `representation` method.
-
 ## The Lattice Interface
 
-The `Lattice` inherits from `StructuredObject` and represents an ordered structure.
+The `Lattice` interface inherits from `StructuredObject` (see
+[the interface definition]({{ site.baseurl }}/structure/common-interfaces.html#the-structured-representation-interface))
+and represents an ordered structure.
 
 <center> <img src="lattice.png" alt="The Lattice interface" style="width: 50%"/> </center>
 
@@ -214,16 +191,9 @@ as it allows to track local variables without polluting the global state.
 
 <center> <img src="states.png" alt="Domain Lattices" /> </center>
 
-Scoping logic is provided by the `ScopedObject` interface, parametric on the
-type `T` that is returned by its methods. The interface defines two
-methods: `pushScope`, that returns a new instance of the object where
-all information related to the given scope is isolated, and `popScope`, that
-restores the information related to the given scope into the outer context.
-[Symbolic Expressions]({{ site.baseurl }}/structure/symbolic-expressions.html)
-are `ScopedObject`s as well: implementations of `pushScope` and `popScope` in
-lattice instances generally forward the calls to the corresponding methods
-of the symbolic expressions they contain, applying a sort of "renaming" that
-hides variables defined in outer scopes. For instance, a `pushScope`
+Scoping logic is provided by the `ScopedObject` interface (see
+[the interface definition]({{ site.baseurl }}/structure/common-interfaces.html#the-scoped-object-interface))
+For instance, a `pushScope`
 implementation on a `FunctionalLattice` using `Identifer`s as keys would
 produce a new `FunctionalLattice` where all `Identifier`s are renamed to
 isolate the new scope, while keeping the values unchanged.
