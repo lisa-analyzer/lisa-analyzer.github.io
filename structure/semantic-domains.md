@@ -25,7 +25,7 @@ anyone interacting with a domain implementation can perform over a state (i.e.,
 a [`DomainLattice`]({{ site.baseurl }}/structure/lattices.html#domain-lattices)).
 `SemanticDomain` has four type parameters:
 
-- `L extends DomainLattice<L, L>` defines the type of abstract states the
+- `L extends DomainLattice<L, T>` defines the type of abstract states the
   transformers accept as parameters (see the
   [Lattices]({{ site.baseurl }}/structure/lattices.html#the-domainlattice-interface) page;
 - `T` defines the return type of the transformers (as, in some cases, a domain

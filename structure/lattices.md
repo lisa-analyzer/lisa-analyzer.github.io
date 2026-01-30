@@ -16,7 +16,7 @@ members, the `*` symbol marks static members, and a `!` in front of the name
 denotes a member with a default implementation. Method-specific type
 parameters are written before the method name, wrapped in `< >`." %}
 
-## The StructuredRepresentation Class
+## The StructuredRepresentation Interface
 
 A `StructuredRepresentation` is a way to represent the contents of a complex
 object in a structured way, such that it is (i) independent of its source,
