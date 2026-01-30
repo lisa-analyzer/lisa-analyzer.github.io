@@ -1,5 +1,29 @@
 # Resources and Publications
 
+## Releases
+
+Details on the latest official release of LiSA can be found on the
+[GitHub releases page](https://github.com/lisa-analyzer/lisa/releases).
+There, you can find release notes, source code archives, and links to
+pre-built binaries that are publihed on Maven Central.
+
+<center>
+  <a href="https://central.sonatype.com/artifact/io.github.lisa-analyzer/lisa-sdk"><img alt="LiSA SDK Latest Release" src="https://img.shields.io/maven-central/v/io.github.lisa-analyzer/lisa-sdk?strategy=highestVersion&style=flat-square&logo=apachemaven&label=LiSA%20SDK&color=brightgreen"/></a>
+  &nbsp;
+  <a href="https://central.sonatype.com/artifact/io.github.lisa-analyzer/lisa-analyses"><img alt="LiSA Analyses Latest Release" src="https://img.shields.io/maven-central/v/io.github.lisa-analyzer/lisa-analyses?strategy=highestVersion&style=flat-square&logo=apachemaven&label=LiSA%20Analyses&color=brightgreen"/></a>
+  &nbsp;
+  <a href="https://central.sonatype.com/artifact/io.github.lisa-analyzer/lisa-program"><img alt="LiSA Program Latest Release" src="https://img.shields.io/maven-central/v/io.github.lisa-analyzer/lisa-program?strategy=highestVersion&style=flat-square&logo=apachemaven&label=LiSA%20Program&color=brightgreen"/></a>
+  &nbsp;
+  <a href="https://central.sonatype.com/artifact/io.github.lisa-analyzer/lisa-imp"><img alt="LiSA IMP Latest Release" src="https://img.shields.io/maven-central/v/io.github.lisa-analyzer/lisa-imp?strategy=highestVersion&style=flat-square&logo=apachemaven&label=LiSA%20IMP&color=brightgreen"/></a>
+</center>
+
+The snapshot of the last commit of the `master` branch is always available on
+[GitHub Packages](https://github.com/orgs/lisa-analyzer/packages?repo_name=lisa).
+Be aware that you will need a personal access token to use
+packages as server for resolving dependencies. You can refer to the official
+GitHub guide for [Maven](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-apache-maven-registry#authenticating-to-github-packages)
+or [Gradle](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-gradle-registry#authenticating-to-github-packages) for more information.
+
 ## Javadoc
 
 An additional source of documentation is LiSA's javadoc, that is published
