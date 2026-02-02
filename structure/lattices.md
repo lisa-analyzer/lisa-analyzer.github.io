@@ -16,16 +16,7 @@ fixpoints, and the
 are instances of the `Lattice` interface. This page presents the `Lattice`
 interface, its prerequisites, its main implementations and usages.
 
-{% include note.html content="This page contains class diagrams. Interfaces are
-represented with yellow rectangles, abstract classes with blue rectangles,
-and concrete classes with green rectangles. After type names, type
-parameters are reported, but their bounds are omitted for clarity.
-Only public members are listed in each type: the `+` symbol marks instance
-members, the `*` symbol marks static members, and a `!` in front of the name
-denotes a member with a default implementation. Method-specific type
-parameters are written before the method name, wrapped in `< >`. When a class
-or interface has already been introduced in an earlier diagram, its
-inner members are omitted." %}
+{% include diagrams.html %}
 
 ## The Lattice Interface
 
