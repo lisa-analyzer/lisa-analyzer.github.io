@@ -5,6 +5,7 @@
 1. [Program Points]({{ site.baseurl }}/structure/common-interfaces.html#minimal-program-components)<br/>
 2. [Lattices and Domain Lattices]({{ site.baseurl }}/structure/lattices.html)<br/>
 3. [Semantic Domains]({{ site.baseurl }}/structure/semantic-domains.html)<br/>
+4. [Symbolic Expressions]({{ site.baseurl }}/structure/symbolic-expressions.html)
 
 {% endcapture %}
 {% include prereq.html content=prereq %}

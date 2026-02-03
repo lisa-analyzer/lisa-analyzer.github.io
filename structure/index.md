@@ -106,6 +106,24 @@ implementations, but can be overridden to construct possibly complete lattices.
 LiSA also comes with common lattice implementations ready to use. Read more
 about lattices in the [Lattices]({{ site.baseurl }}/structure/lattices.html) page.
 
+### Symbolic Expressions
+
+`SymbolicExpression`s represent atomic semantic operations that the program
+executes. They are used to _deconstruct_ high-level syntacitc constructs
+(i.e., the [Statements](#statements-expressions-and-edges), that are
+the instructions of the program)
+that can have ambiguous meaning depending on the context into simpler operations
+that have a well-defined semantics for abstract domains.
+As an example, Java's addition operator's (`+`) semantics can be produce
+either a `NumericAddition` symbolic expression (if both operands have numeric
+type), or a `StringConcatenation` symbolic expression (if at least one of the
+operands is of a string type).
+`SymbolicExpression`s are what abstract domains analyze: this allows
+domain definitions independent from the source programming language,
+since domains can then interpret this symbolic expression according to
+their own logic. Read more about symbolic expressions in the
+[Symbolic Expressions]({{ site.baseurl }}/structure/symbolic-expressions.html) page.
+
 ### Semantic Domains
 
 The `SemanticDomain` interface defines the operations that an abstract domain
@@ -257,20 +275,6 @@ Similarly to `Statement`s, each `Edge` defines its own `traverseForward()` metho
 which specifies how the edge affects the program state when traversed during
 the analysis. Read more about statements, expressions, and edges in the
 [Statements, Expressions, and Edges]({{ site.baseurl }}/structure/st-ex-e.html) page.
-
-### Symbolic Expressions
-
-Since Statements and Expressions do not have a predefined semantics, there
-must be a way to tell each abstract domain what operation they are trying to
-perform. This is achieved through `SymbolicExpression`s, which represent
-atomic operations that have a well-defined meaning for abstract domains.
-As an example, Java's addition operator's (`+`) semantics can be produce
-either a `NumericAddition` symbolic expression (if both operands have numeric
-type), or a `StringConcatenation` symbolic expression (if at least one of the
-operands is of a string type).
-Abstract domains can then interpret this symbolic expression according to
-their own logic. Read more about symbolic expressions in the
-[Symbolic Expressions]({{ site.baseurl }}/structure/symbolic-expressions.html) page.
 
 ## Outputs
 
