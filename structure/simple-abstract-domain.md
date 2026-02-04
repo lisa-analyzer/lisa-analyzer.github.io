@@ -341,7 +341,142 @@ for each of the three components:
 
 While `Environment`s and `NonRelationalDomain`s provide the necessary infrastructure
 for avoiding reimplementation of variable mappings, the recursive expression
-evaluation (i.e., the `eval` method) must still be coded from scratch
+evaluation (i.e., the `eval` method) and the logic for assignments must still be coded from scratch
 despite being a process that does not depend on the final implementation.
+Recursive evaluation of a symbolic expression can be straightforwardly implemented
+using the expressions' visitor pattern through the `ExpressionVisitor` interface.
+Still, even after the infrastructure has been taken care of, parts of the
+implementations can be factored out. In LiSA, this is achieved with the
+`BaseNonRelationalDomain` interface and its children.
 
-## Dataflow Analyses
+<center> <img src="base-nonrel.png" alt="Base Non-Relational Domains"/> </center>
+
+`BaseNonRelationalDomain` is parametric to the type `L`, that must extend `Lattice<L>`,
+of the values to use in the mapping, and to the type `M` of the mapping itself, that must
+extend `FunctionalLattice<M, Identifier, L>` and `DomainLattice<M, M>`.
+The interface extends `NonRelationalDomain<L, M, M, ValueExpression>`,
+meaning that it can process value expressions only, and that its transformers
+accept and return instances of `M`, which in turn maps `Identifier`s to instances of `L`.
+Additionally, `BaseNonRelationalDomain` also implements `ExpressionVisitor<L>`,
+meaning that all its `visit` overloads return instances of `L`. The interface
+provides default implementations for `SemanticComponent`'s and
+`NonRelationalDomain`'s transformers:
+
+- `assign` evaluates the right-hand side expression through `eval`, which produces an
+  instance of `L`; then, the assignment is performed by both considering the
+  result of `fixedVariable` and the possible weakness of the left-hand side
+  identifier;
+- `smallStepSemantics` is a no-op, since variable mappings do not change without
+  assignments;
+- `satisfies` evaluates any sub-expression to an instance of `L` through `eval`, and
+  then invokes the corresponding `satisfiesX` method, where `X` is the class of the
+  target expression, after automatically handling logical the operators `and`, `or`, and `not`;
+- `assume` invokes the corresponding `assumeX` method, where `X` is the class of the
+  target expression, after automatically handling logical the operators `and`, `or`, and `not`;
+- `eval` calls `accept` on the target expression using the domain itself as
+  visitor, and passing the environment, the program point, and the oracle as
+  additional parameters;
+- `fixedVariable` returns the bottom element of `L`;
+- `unknownValue` returns the top element of `L`;
+- `canProcess` allows the evaluation of all expressions that can assume a
+  `ValueType` (see [the Types page for more information]({{ site.baseurl }}/structure/types.html)) at
+  runtime.
+
+All `visit` overloads are implemented by either (i) throwing an exception if the
+target of the visit is a `HeapExpression`, since such base implementations
+cannot handle them, (ii) returning the bottom element if one of the sub-expressions
+recursive evaluations returned bottom, or (iii) invoking the corresponding `evalX` method,
+where `X` is the class of the expression being visited. All `evalX` methods
+have default implementations that return the top element of `L`, symbolizing
+that those expressions are not handled and thus over-approximated, and reducing
+the number of methods one is required to implement when implementing the
+interface to only the strictly required ones.
+The same holds for all `satisfiesX` methods, that by default return `Satisfiability.UNKNOWN`,
+and for all `assumeX` methods, that by default return the input environment.
+Following the non-relational
+approach, evaluations of `Identifier`s through `evalIdentifier` simply return
+the contents of the environment for that id.
+`BaseNonRelationalDomain` adds only two new methods that must be implemented by
+concrete subclasses: `top` and `bottom`, that serve as proxies to retrieve the top
+and bottom elements of `L`, respectively.
+
+`BaseNonRelationalDomain` is specialized for value and type analyses through
+`BaseNonRelationalValueDomain` and `BaseNonRelationalTypeDomain`, both
+parametric on the type `L` that must extend `Lattice<L>` of the values to use in the
+mapping. `BaseNonRelationalValueDomain` extends `BaseNonRelationalDomain<L, ValueEnvironment<L>>`
+and `NonRelationalValueDomain<L>`, while `BaseNonRelationalTypeDomain` extends
+`BaseNonRelationalDomain<L, TypeEnvironment<L>>` and `NonRelationalTypeDomain<L>`.
+Both interfaces do not add any new method, but simply bind the type parameters
+of `BaseNonRelationalDomain` to the corresponding environment types.
+
+{% include note.html content="The `BaseNonRelationalHeapDomain` interface is
+missing from LiSA as we did not yet find a use case for it. It is however
+entirely possible to implement it following the same pattern as the other two
+base implementations." %}
+
+### Dataflow Analyses
+
+Following the same idea of non-relational analyses, dataflow analyses also
+use a shared structure that is independent from the concrete analysis being
+implemented:
+
+- the domains track sets of elements (that are analysis-specific);
+- if the analysis is _possible_, `lessOrEqual` is implemented through subset
+  inclusion, `lub` is implemented as set union, and `glb` is implemented as set
+  intersection; otherwise, if the analysis is _definite_, `lessOrEqual` is implemented
+  through superset inclusion, `lub` is implemented as set intersection, and `glb` is
+  implemented as set union;
+- the tracked sets are updated using the dataflow formula `F(I) = I \ kill(e, I) U gen(e, I)`,
+  where `I` is the input set of elements, `e` is the expression being processed,
+  and `kill` and `gen` are analysis-specific functions.
+
+This structure is captured by the Dataflow Analysis infrastructure:
+
+<center> <img src="dataflow.png" alt="Dataflow Analyses"/> </center>
+
+The `DataflowDomain` interface defines the concrete operations that a dataflow
+analysis must support to be used within LiSA. It is parametric to the type `L`
+of `DataflowDomainLattice<L, E>` to be used (either `PossibleSet` or
+`DefiniteSet`), and to the type `E` of `DataflowElement<E>` that the sets
+computed by the domain contain. `DataflowDomain` is both a `ValueDomain<L>` and
+a `SemanticEvaluator`, meaning that it can be used in the Simple Abstract Domain
+framework as value component producing instances of `L`, and that it offers a
+`canProcess` test to filter out unsupported expressions. Transformers from
+`ValueDomain` are implemented using the dataflow formula, that in turns use the
+implementation-specific `gen` and `kill` functions (each with two overloads, one
+for assignments and one for non-assigning expressions). Similarly to
+`BaseNonRelationalDomain`, `canProcess` allows all expressions that have a
+`ValueType`.
+
+A `DataflowElement` is a an object that can be tracked inside the sets produced
+by a `DataflowDomain`. It is parametric to the concrete type `E` of the element itself,
+that must extend `DataflowElement<E>`, and extends both `StructuredObject` and
+`ScopedObject<E>`, meaning that it can be converted to a
+`StructuredRepresentation` for dumping and that it supports scoping operations.
+`DataflowElement`s typically track symbolic information that refer to
+`Identifier`s: these can be retrieved using the `getInvolvedIdentifier` method.
+Instead, `replaceIdentifier` produces an element that is identical to the
+current one, but where occurrences of `source` are replaced with `target`.
+
+Finally, the sets produced by `DataflowDomain`s are modeled through the
+`DataflowDomainLattice` interface, parametric to the concrete type `L` of the
+lattice itself, that must extend `DataflowDomainLattice<L, E>`, and to the type `E` of
+`DataflowElement<E>` contained in the sets. These are `ValueLattice<L>`s where
+lattice operations are implemented through set operations (union or intersection,
+depending on whether the analysis is possible or definite). The elements
+contained in the set can be retrieved through the `getDataflowElements` method,
+and can be updated using the `update` method. Two concrete instances of this
+interface exist:
+
+- `PossibleSet`, parametric on the type `E extends DataflowElement<E>` that it
+  contains, that implements a possible dataflow analysis by extending
+  `SetLattice<PossibleSet<E>, E>`;
+- `DefiniteSet`, parametric on the type `E extends DataflowElement<E>` that it
+  contains, that implements a possible dataflow analysis by extending
+  `InverseSetLattice<DefiniteSet<E>, E>`.
+
+With this infrastructure, one has to simply create a `DataflowElement` instance
+that tracks the information of interest, and then implement a `DataflowDomain`
+that defines the `gen` and `kill` functions to specify how such information is
+updated when processing each expression. The possible or definite nature of the
+analysis follows by the type of `DataflowDomainLattice` used.

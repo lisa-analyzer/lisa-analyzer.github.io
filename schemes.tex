@@ -559,9 +559,9 @@ NoContextual}}
 	\node[classnode] (sad) {\begin{tabular}{l}
 			\multicolumn{1}{c}{\classname{SimpleAbstractDomain} : H, V, T} \\
 			\hline
-			+ heapDomain: HeapDomain<H>                                          \\
-			+ valueDomain: ValueDomain<V>                                        \\
-			+ typeDomain: TypeDomain<T>                                          \\
+			+ heapDomain: HeapDomain<H>                                    \\
+			+ valueDomain: ValueDomain<V>                                  \\
+			+ typeDomain: TypeDomain<T>                                    \\
 		\end{tabular}};
 
 	\node[interfacenode, inlinenode] (dom) [above=of sad] {\interfacename{AbstractDomain} : L};
@@ -569,9 +569,9 @@ NoContextual}}
 	\node[classnode] (moracle) [right=of sad] {\begin{tabular}{l}
 			\multicolumn{1}{c}{\classname{MutableOracle} : H, V, T} \\
 			\hline
-			+ heap: H                                                     \\
-			+ value: V                                                    \\
-			+ type: T                                                     \\
+			+ heap: H                                               \\
+			+ value: V                                              \\
+			+ type: T                                               \\
 		\end{tabular}};
 
 	\node[interfacenode, inlinenode] (oracle) [above=of moracle] {\interfacename{SemanticOracle}};
@@ -579,16 +579,16 @@ NoContextual}}
 	\node[classnode, right=of oracle.north east, anchor=north west] (repl) {\begin{tabular}{l}
 			\multicolumn{1}{c}{\classname{HeapReplacement}} \\
 			\hline
-			+ sources: Set<Identifier>                            \\
-			+ targets: Set<Identifier>                            \\
+			+ sources: Set<Identifier>                      \\
+			+ targets: Set<Identifier>                      \\
 			\hline
-			+ addSource(id: Identifier): void                     \\
-			+ withSource(id: Identifier): HeapReplacement         \\
-			+ addTarget(id: Identifier): void                     \\
-			+ withTarget(id: Identifier): HeapReplacement         \\
-			+ getSources(): Set<Identifier>                       \\
-			+ getTargets(): Set<Identifier>                       \\
-			+ getIdsToForget(): Set<Identifier>                   \\
+			+ addSource(id: Identifier): void               \\
+			+ withSource(id: Identifier): HeapReplacement   \\
+			+ addTarget(id: Identifier): void               \\
+			+ withTarget(id: Identifier): HeapReplacement   \\
+			+ getSources(): Set<Identifier>                 \\
+			+ getTargets(): Set<Identifier>                 \\
+			+ getIdsToForget(): Set<Identifier>             \\
 		\end{tabular}};
 
 	\draw[->, thick, dashed] (sad) to (dom);
@@ -734,13 +734,101 @@ NoContextual}}
 	\draw[->, thick] ($(nrvd.north)+(-0.2,0)$) |- ($(nrvd.north west)+(-0.5,0.5)$) |- ($(nrd.south)+(0,-0.5)$) to (nrd);
 \end{tikzpicture}
 
+\begin{tikzpicture}[nodes={font={\small}, minimum width=5cm, minimum height=.6cm}]%
+	\node[interfacenode, inlinenode] (nrd) {\interfacename{NonRelationalDomain}: L, T, M, E};
+	\node[interfacenode, inlinenode] (td) [left=of nrd] {\interfacename{TypeDomain} : L};
+	\node[interfacenode, inlinenode] (nrtd) [below=of td] {\interfacename{NonRelationalTypeDomain} : L};
+	\node[interfacenode, inlinenode] (vd) [right=7cm of nrd] {\interfacename{ValueDomain} : L};
+	\node[interfacenode, inlinenode] (nrvd) [below=of vd] {\interfacename{NonRelationalValueDomain} : L};
+	\node[interfacenode, inlinenode] (ev) [left=of nrvd] {\interfacename{ExpressionVisitor}: T};
+
+	\node[interfacenode] (bnrd) [below=of $(nrvd)!0.5!(nrtd)$] {\begin{tabular}{l}
+			\multicolumn{1}{c}{\interfacename{BaseNonRelationalDomain}: L, M}               \\
+			\hline
+			+ !evalUnaryExpression(expression: UnaryExpression, arg: L,                     \\
+			$\qquad\qquad$pp: ProgramPoint, oracle: SemanticOracle): L                      \\
+			+ !evalBinaryExpression(expression: BinaryExpression, left: L, right: L,        \\
+			$\qquad\qquad$pp: ProgramPoint, oracle: SemanticOracle): L                      \\
+			+ $\dots$                                                                       \\
+			+ !satisfiesUnaryExpression(expression: UnaryExpression, arg: L,                \\
+			$\qquad\qquad$pp: ProgramPoint, oracle: SemanticOracle): Satisfiability         \\
+			+ !satisfiesBinaryExpression(expression: BinaryExpression, left: L, right: L,   \\
+			$\qquad\qquad$pp: ProgramPoint, oracle: SemanticOracle): Satisfiability         \\
+			+ $\dots$                                                                       \\
+			+ !assumeUnaryExpression(environment: M, expression: UnaryExpression,           \\
+			$\qquad\qquad$src: ProgramPoint, dest: ProgramPoint, oracle: SemanticOracle): M \\
+			+ !assumeBinaryExpression(environment: M, expression: BinaryExpression,         \\
+			$\qquad\qquad$src: ProgramPoint, dest: ProgramPoint, oracle: SemanticOracle): M \\
+			+ $\dots$                                                                       \\
+		\end{tabular}};
+
+	\node[interfacenode, inlinenode] (bnrvd) [below right=1cm and -2cm of bnrd] {\interfacename{BaseNonRelationalValueDomain} : L};
+	\node[interfacenode, inlinenode] (bnrtd) [below left=1cm and -2cm of bnrd] {\interfacename{BaseNonRelationalTypeDomain} : L};
+
+	\draw[->, thick] (nrvd) to (vd);
+	\draw[->, thick] (nrtd) to (td);
+	\draw[->, thick] ($(nrtd.north)+(0.2,0)$) |- ($(nrd.south)+(0,-0.5)$) to (nrd);
+	\draw[->, thick] ($(nrvd.north)+(-0.2,0)$) |- ($(nrd.south)+(0,-0.5)$) to (nrd);
+	\draw[->, thick] ($(bnrd.north)+(-0.2,0)$) |- ($(nrd.south)+(0,-2.0)$) to (nrd);
+	\draw[->, thick] ($(bnrd.north)+(0.2,0)$) |- ($(ev.south)+(0,-0.4)$) to (ev);
+	\draw[->, thick] ($(bnrvd.north)+(-0.2,0)$) |- ($(bnrd.south)+(0,-0.5)$) to (bnrd);
+	\draw[->, thick] ($(bnrvd.north)+(0.2,0)$) to ($(bnrvd.north)+(0.2,0.5)$) -| (nrvd);
+	\draw[->, thick] ($(bnrtd.north)+(0.2,0)$) |- ($(bnrd.south)+(0,-0.5)$) to (bnrd);
+	\draw[->, thick] ($(bnrtd.north)+(-0.2,0)$) to ($(bnrtd.north)+(-0.2,0.5)$) -| (nrtd);
+\end{tikzpicture}
+
+\vskip2cm
+\begin{tikzpicture}[nodes={font={\small}, minimum width=5cm, minimum height=.6cm}]%
+	\node[interfacenode, inlinenode] (vd) {\interfacename{ValueDomain}: L};
+	\node[interfacenode, inlinenode] (se) [right=of vd] {\interfacename{SemanticEvaluator}};
+	\node[abstractclassnode] (dd) [below=of $(vd)!0.5!(se)$] {\begin{tabular}{l}
+			\multicolumn{1}{c}{\interfacename{DataflowDomain}: L, E}                                        \\
+			\hline
+			+ gen(state: L, id: Identifier, expression: ValueExpression, arg: L, pp: ProgramPoint): Set<E>  \\
+			+ gen(state: L, expression: ValueExpression, arg: L, pp: ProgramPoint): Set<E>                  \\
+			+ kill(state: L, id: Identifier, expression: ValueExpression, arg: L, pp: ProgramPoint): Set<E> \\
+			+ kill(state: L, expression: ValueExpression, arg: L, pp: ProgramPoint): Set<E>                 \\
+		\end{tabular}};
+
+	\node[interfacenode, inlinenode] (so) [right=of se] {\interfacename{StructuredObject}};
+	\node[interfacenode, inlinenode] (sO) [right=of so] {\interfacename{ScopedObject} : T};
+	\node[interfacenode] (de) [below=of $(so)!0.5!(sO)$] {\begin{tabular}{l}
+			\multicolumn{1}{c}{\interfacename{DataflowElement}: E}         \\
+			\hline
+			+ getInvolvedIdentifiers(): Collection<Identifier>             \\
+			+ replaceIdentifier(source: Identifier, target: Identifier): E \\
+		\end{tabular}};
+
+	\node[interfacenode, inlinenode] (vl) [below=of $(dd.south)!0.5!(de.south)$] {\interfacename{ValueLattice} : L};
+	\node[interfacenode] (ddl) [below=of vl] {\begin{tabular}{l}
+			\multicolumn{1}{c}{\interfacename{DataflowDomainLattice}: L, E} \\
+			\hline
+			+ getDataflowElements(): Set<E>                                 \\
+			+ update(killed: Set<E>, generated: Set<E>): L                  \\
+		\end{tabular}};
+	\node[abstractclassnode, inlinenode] (sl) [left=of ddl] {\absclassname{SetLattice} : S, E};
+	\node[abstractclassnode, inlinenode] (isl) [right=of ddl] {\absclassname{InverseSetLattice} : S, E};
+	\node[classnode, inlinenode] (ps) [below=of $(sl.south)!0.5!(ddl.south)$] {\classname{PossibleSet} : E};
+	\node[classnode, inlinenode] (ds) [below=of $(isl.south)!0.5!(ddl.south)$] {\classname{DefiniteSet} : E};
+
+	\draw[->, thick, dashed] (dd) |- ($(vd.south)+(0,-0.5)$) to (vd);
+	\draw[->, thick, dashed] (dd) |- ($(se.south)+(0,-0.5)$) to (se);
+	\draw[->, thick] (de) |- ($(so.south)+(0,-0.5)$) to (so);
+	\draw[->, thick] (de) |- ($(sO.south)+(0,-0.5)$) to (sO);
+	\draw[->, thick] (ddl) to (vl);
+	\draw[->, thick, dashed] ($(ps.north)+(0.2,0)$) to ($(ps.north)+(0.2,0.3)$) -| ($(ddl.south)+(-0.2,0)$);
+	\draw[->, thick] ($(ps.north)+(-0.2,0)$) to ($(ps.north)+(-0.2,0.3)$) -| (sl);
+	\draw[->, thick, dashed] ($(ds.north)+(-0.2,0)$) to ($(ds.north)+(-0.2,0.3)$) -| ($(ddl.south)+(0.2,0)$);
+	\draw[->, thick] ($(ds.north)+(0.2,0)$) to ($(ds.north)+(0.2,0.3)$) -| (isl);
+\end{tikzpicture}
+
 \section*{Symbolic expressions}
 
 \begin{tikzpicture}[nodes={font={\small}, minimum width=3.5cm}]%
 	\node[interfacenode, inlinenode] (so) {\interfacename{ScopedObject} : T};
 
 	\node[abstractclassnode] (se) [below=of so] {\begin{tabular}{l}
-			\multicolumn{1}{c}{\absclassname{SymbolicExpression}}                              \\
+			\multicolumn{1}{c}{\absclassname{SymbolicExpression}}                                 \\
 			\hline
 			+ !getStaticType(): Type                                                              \\
 			+ !getCodeLocation(): CodeLocation                                                    \\
@@ -773,7 +861,7 @@ NoContextual}}
 	\node[abstractclassnode] (ve) [below right=1cm and -7cm of ev] {\begin{tabular}{l}
 			\multicolumn{1}{c}{\absclassname{ValueEpression}} \\
 			\hline
-			+ !removeNegations(): ValueExpression                \\
+			+ !removeNegations(): ValueExpression             \\
 		\end{tabular}};
 	\node[classnode, inlinenode] (const) [below=of ve] {\classname{Constant}};
 	\node[classnode, inlinenode] (skip) [left=of const] {\classname{Skip}};
@@ -811,14 +899,14 @@ NoContextual}}
 	\node[abstractclassnode] (id) [below=of ve] {\begin{tabular}{l}
 			\multicolumn{1}{c}{\absclassname{Identifier}} \\
 			\hline
-			+ !getName(): String                             \\
-			+ !isWeak(): boolean                             \\
-			+ !isScopedByCall(): boolean                     \\
-			+ canBeScoped(): boolean                         \\
-			+ !getAnnotations(): Annotations                 \\
-			+ !lub(other: Identifier): Identifier            \\
-			+ !isInstrumentedReceiver(): boolean             \\
-			+ !canBeAssigned(): boolean                      \\
+			+ !getName(): String                          \\
+			+ !isWeak(): boolean                          \\
+			+ !isScopedByCall(): boolean                  \\
+			+ canBeScoped(): boolean                      \\
+			+ !getAnnotations(): Annotations              \\
+			+ !lub(other: Identifier): Identifier         \\
+			+ !isInstrumentedReceiver(): boolean          \\
+			+ !canBeAssigned(): boolean                   \\
 		\end{tabular}};
 
 	\node[classnode, inlinenode] (var) [below=of id] {\classname{Variable}};
