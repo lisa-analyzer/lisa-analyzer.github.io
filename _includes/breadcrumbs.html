@@ -1,9 +1,18 @@
-<div id="breadcrumbs">
 {% assign crumbs = page.url | remove:'/index.html' | split: '/' %}
-<a href="{{ site.baseurl }}/">Home</a>
+{% assign url_size = page.url | size %}
+{% assign start_index = url_size | minus: 1 %}
+{% assign result = page.url | slice: start_index, url_size %}
+
+<div id="breadcrumbs">
+  <a href="{{ site.baseurl }}/"><i class="fas fa-home"></i></a>
 {% for crumb in crumbs offset: 1 %}
   {% if forloop.last %}
-    / {{ page.title }}
+    {% if result == '/' %}
+      / <a href="{{ site.baseurl }}{% assign crumb_limit = forloop.index | plus: 1 %}{% for crumb in crumbs limit: crumb_limit %}{{ crumb | append: '/' }}{% endfor %}">{{ crumb | replace:'-',' ' | remove:'.html' | capitalize }}</a>
+      / {{ page.title }}
+    {% else %}
+      / {{ page.title }}
+    {% endif %}
   {% else %}
     / <a href="{{ site.baseurl }}{% assign crumb_limit = forloop.index | plus: 1 %}{% for crumb in crumbs limit: crumb_limit %}{{ crumb | append: '/' }}{% endfor %}">{{ crumb | replace:'-',' ' | remove:'.html' | capitalize }}</a>
   {% endif %}

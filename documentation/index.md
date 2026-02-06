@@ -297,3 +297,11 @@ matching a call to its target or traverse a type hierarchy (see the
 Each programming language requires its own frontend, as the translation
 process is highly language-dependent. Read more about frontends in the
 [Frontends]({{ site.baseurl }}/structure/frontends.html) page.
+
+## The IMP Language
+
+The IMP language is a high-level, imperative, and dynamically typed programming
+language insipred by Java. In LiSA, it is used internally for testing analyses
+end-to-end, to showcase what a frontend should look like, and to provide a simple
+playground for prototyping new analyses. Read more about the IMP language in the
+[IMP]({{ site.baseurl }}/imp/) page.

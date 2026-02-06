@@ -34,11 +34,11 @@
 |    +-- [ ] interproc
 |    |    [ ] var 4 ret/throw
 |    |    [ ] fixpoints
+|    |    [ ] optimizations
 |    |    [ ] scoping
-|    +-- [ ] callgraph
-|    +-- [ ] events
+|    |    +-- [ ] callgraph
 |    +-- [ ] checks
-|    +-- [ ] outputs
+|    +-- [ ] events
 |    +-- [ ] units
 |    +-- [ ] cfgs
 |    |    +-- [ ] annotations
@@ -48,6 +48,8 @@
 |    +-- [ ] validation
 |    +-- [ ] statements and edges
 |    +-- [ ] visitors
+|    +-- [ ] outputs
+|    |    +-- [ ] file manager
 |    +-- [ ] frontends
 |    |    +-- [ ] parsers
 |    |    +-- [ ] phases
