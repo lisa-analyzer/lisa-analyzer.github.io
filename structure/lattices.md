@@ -83,11 +83,11 @@ correctly identify them." %}
 When implementing lattices, some common patterns or structures occur frequently.
 LiSA tries to reduce the effort required to implement these common cases by providing
 some ready-to-use lattice implementations that can be extended or composed to
-build more complex lattices:
-
-<center> <img src="lattice_instances.png" alt="Lattice implementations" /> </center>
+build more complex lattices.
 
 ### The BaseLattice Interface
+
+<center> <img src="blattice.png" alt="The Base Lattice Interface" style="width: 30%"/> </center>
 
 The first provided implementation comes as the `BaseLattice` interface, that is
 parametric to the parameter `L` (the lattice type, that must extend
@@ -122,6 +122,8 @@ recommended to implement `BaseLattice` instead of directly implementing `Lattice
 as it reduces the amount of code to be written and the chances of errors." %}
 
 ### Powersets and Functions
+
+<center> <img src="common_lattices.png" alt="Common Lattice Instances" /> </center>
 
 The `BaseLattice` interface is implemented by three common lattice structures:
 
@@ -168,6 +170,41 @@ could lead to incorrect results of fixpoint computations." %}
 To avoid creating subclasses for cases where no additional logic is required, LiSA
 also provides two concrete implementations of the above classes, with `GenericSetLattice`,
 `GenericInverseSetLattice`, and `GenericMapLattice`.
+
+### Products
+
+<center> <img src="products.png" alt="Classes for building Products" style="width: 30%"/> </center>
+
+Products of existing lattices can be easily built by constructing new lattices that
+hold references to them in their fields and implement lattice operators by
+delegation. LiSA provides such structure for binary products through the
+`CartesianCombination` and the `LatticeProduct` classes.
+
+`CartesianCombination` is an abstract class parametric to the concrete type `C` of the
+combination, and to the two lattices `T1 extends Lattice<T1>` and `T2 extends Lattice<T2>`
+that are combined. `CartesianCombination` implements `BaseLattice<C>`, meaning that all lattice
+operations will return/accept instances of `C`. The class has two public fields,
+`first` and `second`, that hold the two components of the combination. The auxiliary
+methods are implemented by delegating the calls to the corresponding methods of
+the two components, and combining the results into a new instance of `C`.
+Instances of `C` are created through the abstract method `mk`, that allows to
+combine the components into the concrete type while possibly applying
+reductions. In fact, any reduction excluding ones in the `lessOrEqual` method
+can be applied in the `mk` method, as all lattice operations pass through it.
+If no reductions are required, the `LatticeProduct` class can be used instead. It is a concrete
+class parametric to the two lattices `T1 extends Lattice<T1>` and `T2 extends Lattice<T2>`
+that are combined, and it extends `CartesianCombination<LatticeProduct<T1, T2>, T1, T2>`.
+The class simply implements the `mk` method by returning a new instance of itself
+with the given components.
+
+Note that the reductions mentioned here are intended as ones that must be
+applied on lattice operators only. Analyses using these products can apply any
+arbitrary reduction when evaluating instructions, regardless of the class chosen
+for the lattice structure.
+
+{% include tip.html content="The same structure offered by the above classes can
+be replicated for n-ary products by either increasing the number of fields or
+storing each component in an array. LiSA does not provide such classes by default." %}
 
 ## Domain Lattices
 
@@ -227,6 +264,9 @@ state:
 
 These serve as quick ways to forget parts of the analysis state when needed,
 e.g., when analyzing function calls to external libraries.
+
+{% include tip.html content="LiSA provides subtypes of `CartesianCombination`
+to quickly implement `AbstractLattice`s as products." %}
 
 ### The Program State
 

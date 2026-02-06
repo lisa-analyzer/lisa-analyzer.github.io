@@ -144,6 +144,9 @@ and `AbstractLattice<SimpleAbstractState<H, V, T>>`, with the latter implying
 that it can be used a lattice instance in conjunction with
 [Semantic Domains]({{ site.baseurl }}/structure/semantic-domains.html).
 
+{% include tip.html content="LiSA provides subtypes of `CartesianCombination`
+to quickly implement `ValueLattice`s, `TypeLattice`s, and `HeapLattice`s as products." %}
+
 ## Domain and Components
 
 `HeapDomain`s, `TypeDomain`s, and `ValueDomain`s cannot directly implement the

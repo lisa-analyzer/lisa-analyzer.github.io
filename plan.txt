@@ -1,0 +1,65 @@
++ [x] home
+|    [ ] team
+|    [ ] mit licence
+|    [ ] other (look at mopsa)
++-- [ ] guides
+|    [ ] remove required time
+|    [ ] add links to guides in structure pages
+|    +-- [ ] building
+|    +-- [ ] creating projects
+|    +-- [ ] nrvd (sign)
+|    +-- [ ] nrtd (static types)
+|    +-- [ ] value domain (equalities)
+|    +-- [ ] heap domain (type)
+|    +-- [ ] product (pentagon)
+|    +-- [ ] abstract domain (intervals)
+|    +-- [ ] callgraph (cha)
+|    +-- [ ] interproc (modular)
+|    +-- [ ] listener (logger)
+|    +-- [ ] output (dot dumper)
+|    +-- [ ] check (div by zero)
+|    +-- [ ] sem check (div by zero with intervals)
++-- [x] structure
+|    [x] proj division
+|    [x] link to build
+|    +-- [x] lattices
+|    |    [x] products
+|    +-- [x] symbolic expressions
+|    +-- [x] domains 
+|    +-- [x] sad
+|    |    +-- [x] lattices
+|    |    +-- [x] components/oracle
+|    |    +-- [x] nonrel
+|    |    +-- [x] dataflow
+|    +-- [ ] interproc
+|    |    [ ] var 4 ret/throw
+|    |    [ ] fixpoints
+|    |    [ ] scoping
+|    +-- [ ] callgraph
+|    +-- [ ] events
+|    +-- [ ] checks
+|    +-- [ ] outputs
+|    +-- [ ] units
+|    +-- [ ] cfgs
+|    |    +-- [ ] annotations
+|    |    +-- [ ] native cfgs
+|    +-- [ ] types
+|    +-- [ ] features and type systems
+|    +-- [ ] validation
+|    +-- [ ] statements and edges
+|    +-- [ ] visitors
+|    +-- [ ] frontends
+|    |    +-- [ ] parsers
+|    |    +-- [ ] phases
+|    |    +-- [ ] libraries
+|    |    +-- [ ] overall workflow
++-- [ ] configuration
+|    +-- [ ] sketch creating and configuring lisa
+|    +-- [ ] options
+|    +-- [ ] implementations
+|    +-- [ ] frontends available
++-- [x] IMP
++-- [x] resources
+|    +-- [x] releases
+|    +-- [x] papers
+|    +-- [x] javadoc

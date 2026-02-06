@@ -280,6 +280,13 @@ NoContextual}}
 			+ !narrowingAux(other: L): L                        \\
 		\end{tabular}};
 
+	\draw[->, thick] (blattice) to (lattice);
+\end{tikzpicture}
+
+\vskip2cm
+\begin{tikzpicture}[nodes={font={\small}, minimum width=5cm}]%
+	\node[interfacenode] (blattice) {\interfacename{BaseLattice} : L};
+
 	\node[abstractclassnode, inlinenode] (func) [below=of blattice] {\absclassname{FunctionalLattice} : F, K, V\\
 		\color{gray}$\langle K \to V, \dot{\sqsubseteq}_V, \dot{\sqcup}_V, \dot{\sqcap}_V, \bot, \top \rangle$};
 	\node[classnode, inlinenode] (gfunc) [below=of func] {\classname{GenericMapLattice} : K, V};
@@ -290,13 +297,30 @@ NoContextual}}
 		\color{gray}$\langle \wp(X), \supseteq, \cap, \cup, X, \emptyset \rangle$};
 	\node[classnode, inlinenode] (giset) [right=of gfunc] {\classname{GenericInverseSetLattice} : E};
 
-	\draw[->, thick] (blattice) to (lattice);
 	\draw[->, thick, dashed] (func) to (blattice);
 	\draw[->, thick, dashed] (set) |- ($(func.north)+(0,.5)$) to (blattice);
 	\draw[->, thick, dashed] (iset) |- ($(func.north)+(0,.5)$) to (blattice);
 	\draw[->, thick] (gfunc) to (func);
 	\draw[->, thick] (gset) to (set);
 	\draw[->, thick] (giset) to (iset);
+\end{tikzpicture}
+
+\vskip2cm
+\begin{tikzpicture}[nodes={font={\small}, minimum width=4.5cm}]%
+	\node[interfacenode] (blattice) {\interfacename{BaseLattice} : L};
+
+	\node[abstractclassnode] (comb) [below=of blattice] {\begin{tabular}{l}
+			\multicolumn{1}{c}{\absclassname{CartesianCombination} : C, T1, T2} \\
+			\hline
+			+ first: T1                                                         \\
+			+ second: T2                                                        \\
+			\hline
+			+ mk(first: T1, second: T2): C                                      \\
+		\end{tabular}};
+	\node[classnode, inlinenode] (prod) [below=of comb] {\classname{LatticeProduct} : T1, T2};
+
+	\draw[->, thick, dashed] (comb) to (blattice);
+	\draw[->, thick] (prod) to (comb);
 \end{tikzpicture}
 
 \newpage
