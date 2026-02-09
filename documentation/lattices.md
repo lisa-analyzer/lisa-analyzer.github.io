@@ -2,9 +2,9 @@
 
 {% capture prereq %}
 
-1. [Structured Representation and Structured Objects]({{ site.baseurl }}/structure/common-interfaces.html#the-structured-representation-interface)<br/>
-2. [Scoped Objects]({{ site.baseurl }}/structure/common-interfaces.html#the-scoped-object-interface)<br/>
-3. [Program Points]({{ site.baseurl }}/structure/common-interfaces.html#minimal-program-components)
+1. [Structured Representation and Structured Objects]({{ site.baseurl }}/documentation/common-interfaces.html#the-structured-representation-interface)<br/>
+2. [Scoped Objects]({{ site.baseurl }}/documentation/common-interfaces.html#the-scoped-object-interface)<br/>
+3. [Program Points]({{ site.baseurl }}/documentation/common-interfaces.html#minimal-program-components)
 
 {% endcapture %}
 {% include prereq.html content=prereq %}
@@ -12,7 +12,7 @@
 Following the Abstract Interpretation theory, lattices are the central data
 structure produced by the analysis. All values returned by domains,
 fixpoints, and the
-[Interprocedural Analysis]({{ site.baseurl }}/structure/interprocedural-analysis.html)
+[Interprocedural Analysis]({{ site.baseurl }}/documentation/interprocedural-analysis.html)
 are instances of the `Lattice` interface. This page presents the `Lattice`
 interface, its prerequisites, its main implementations and usages.
 
@@ -21,7 +21,7 @@ interface, its prerequisites, its main implementations and usages.
 ## The Lattice Interface
 
 The `Lattice` interface inherits from `StructuredObject` (see
-[the interface definition]({{ site.baseurl }}/structure/common-interfaces.html#the-structured-representation-interface))
+[the interface definition]({{ site.baseurl }}/documentation/common-interfaces.html#the-structured-representation-interface))
 and represents an ordered structure.
 
 <center> <img src="lattice.png" alt="The Lattice interface" style="width: 50%"/> </center>
@@ -209,20 +209,20 @@ storing each component in an array. LiSA does not provide such classes by defaul
 ## Domain Lattices
 
 A `DomainLattice` is a lattice that is designed to be used by a
-[Semantic Domain]({{ site.baseurl }}/structure/semantic-domains.html) to track
+[Semantic Domain]({{ site.baseurl }}/documentation/semantic-domains.html) to track
 information about program states. The main features of such lattices are that they
 track information about program variables (called `Identifier`s in
-[Symbolic Expressions]({{ site.baseurl }}/structure/symbolic-expressions.html)
+[Symbolic Expressions]({{ site.baseurl }}/documentation/symbolic-expressions.html)
 terms) and that they can be _scoped_. Scoping is a mechanism provided by LiSA to
 isolate parts of a lattice element when entering a new context (e.g., a function
 call) and to restore them when exiting the context. Scoping is essential to
-implement [Interprocedural Analyses]({{ site.baseurl }}/structure/interprocedural-analysis.html),
+implement [Interprocedural Analyses]({{ site.baseurl }}/documentation/interprocedural-analysis.html),
 as it allows to track local variables without polluting the global state.
 
 <center> <img src="states.png" alt="Domain Lattices" /> </center>
 
 Scoping logic is provided by the `ScopedObject` interface (see
-[the interface definition]({{ site.baseurl }}/structure/common-interfaces.html#the-scoped-object-interface))
+[the interface definition]({{ site.baseurl }}/documentation/common-interfaces.html#the-scoped-object-interface))
 For instance, a `pushScope`
 implementation on a `FunctionalLattice` using `Identifer`s as keys would
 produce a new `FunctionalLattice` where all `Identifier`s are renamed to
@@ -246,7 +246,7 @@ and `ScopedObject<T>`. `DomainLattice` adds four methods that deal with
 ### The Abstract Lattice
 
 An `AbstractLattice` is a lattice that holds the information tracked by an
-[Abstract Domain]({{ site.baseurl }}/structure/semantic-domains.html#the-abstract-domain-interface) about
+[Abstract Domain]({{ site.baseurl }}/documentation/semantic-domains.html#the-abstract-domain-interface) about
 program variables. This is the interface that allows configuration of the
 analysis state: the concrete implementation of this interface is determined
 by the analysis configuration, and it is wrapped into the `ProgramState` and
@@ -286,7 +286,7 @@ actual information tracked by the analysis; the `info`, an instance of
 by the analysis, and the `computedExpressions`, a set of `SymbolicExpression`s
 that represent the result of the last evaluation performed by the analysis.
 The `info` field can be used to track program-specific information by
-[Frontends]({{ site.baseurl }}/structure/frontends.html), such as the set
+[Frontends]({{ site.baseurl }}/documentation/frontends.html), such as the set
 of already initialized classes in Java programs, or the set of aliases
 introduced by Python's `import ... as ...` statements. Instead,
 `computedExpressions` typically holds the last expression(s) evaluated by
@@ -321,8 +321,8 @@ are reflected in this class' fields:
   corresponnding to uncaught exceptions or runtime errors (e.g., division by zero).
 
 The latter are stored in a map (i.e., a `GenericMapLattice`) from `Error`s (a
-pair of an error [Type]({{ site.baseurl }}/structure/types.html) and a
-[Statement]({{ site.baseurl }}/structure/st-ex-e.html) that raised the error) to
+pair of an error [Type]({{ site.baseurl }}/documentation/types.html) and a
+[Statement]({{ site.baseurl }}/documentation/st-ex-e.html) that raised the error) to
 the corresponding `ProgramState`s. LiSA also offers the possibility to _smash_
 uninteresting error continuations into a single one through the
 [Configuration]({{ site.baseurl }}/configuration/). This is useful to reduce the
@@ -346,11 +346,11 @@ Additionally, it provides accessors for its components, accessors for the
 components of the execution state, proxies for the execution's `ProgramState`
 methods (e.g., `getExecutionInfo` and `withTopMemory`) and methods to add or
 remove new errors and smashed errors. `AnalysusState` is the lattice instance
-managed and produced by LiSA's [Analysis]({{ site.baseurl }}/structure/semantic-domains.html#the-analysis-class).
+managed and produced by LiSA's [Analysis]({{ site.baseurl }}/documentation/semantic-domains.html#the-analysis-class).
 
 Recall that `AnalysisState`, `ProgramState`, and `AbstractLattice` all represent
 the state of the program at a given program point, and to not contain the logic
 to update it when executing instructions. This logic is instead contained
-in [Semantic Domains]({{ site.baseurl }}/structure/semantic-domains.html),
+in [Semantic Domains]({{ site.baseurl }}/documentation/semantic-domains.html),
 that manipulate these lattices to reflect the effect of instructions on
 the program state.

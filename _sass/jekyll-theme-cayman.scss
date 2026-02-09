@@ -108,14 +108,14 @@ a {
 	color: $header-heading-color;
 	background-color: $header-bg-color;
 	background-image: linear-gradient(120deg, $header-bg-color-secondary, $header-bg-color);
-
+	border-bottom: solid 1px $border-color;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	z-index: 1000;
 
 	@include large {
-		position: fixed;
-		top: 0;
-		left: 0;
-		width: 100%;
-		z-index: 1000;
 		height: 4em;
 	}
 
@@ -162,6 +162,18 @@ a {
 	}
 }
 
+.spacing-top {
+	@include large {
+		margin-top: 3em !important;
+	}
+	@include medium {
+		margin-top: 1em !important;
+	}
+	@include small {
+		margin-top: 1em !important;
+	}
+}
+
 .main-content {
 	word-wrap: break-word;
 
@@ -170,17 +182,14 @@ a {
 	}
 
 	@include large {
-		max-width: 60%;
+		max-width: 70%;
 		padding: 2rem 6rem;
 		margin: 0 auto;
-		margin-top: 3em;
 		font-size: 1.1rem;
 	}
 
 	@include medium {
-		max-width: 60%;
-		padding: 2rem 4rem;
-		margin: 0 auto;
+		padding: 1rem 1rem;
 		font-size: 1.1rem;
 	}
 
@@ -605,7 +614,7 @@ html {
     height: inherit;
 
 	@include large {
-		max-width: 60%;
+		max-width: 70%;
 		padding: 0 6rem;
 		margin: 0 auto;
 		font-size: 1.1rem;
@@ -675,7 +684,7 @@ html {
 }
 
 .head-menu-item a:hover {
-	color: $section-headings-color;
+	color: #B2FFD9;
 }
 
 .active-menu-item a {}
@@ -744,38 +753,16 @@ time {
 }
 
 /* toc */
-.toc {
+.toc-wrapper {
 	@include large {
 		position: fixed;
-		right: 50px;
+		right: 0;
 		top: 6rem;
-		width: 300px;
+		width: 20%;
 		max-height: 80vh;
 		overflow-y: auto;
 		z-index: 1000;
-		font-size: 0.9rem;
-
-		#toc-list {
-			padding-left: 0;
-		}
-
-		ul {
-			list-style: none;
-			padding-left: 15px;
-
-			li {
-
-				a {
-					margin-bottom: 0.3rem;
-					text-decoration: none;
-					color: $body-text-color;
-				}
-
-				a:hover {
-					color: $section-headings-color;
-				}
-			}
-		}
+		padding-left: 1em;
 	}
 
 	@include medium {
@@ -785,4 +772,112 @@ time {
 	@include small {
 		display: none;
 	}
+}
+
+.toc {
+	font-size: 0.9rem;
+
+	#toc-list {
+		padding-left: 0;
+	}
+
+	ul {
+		list-style: none;
+		padding-left: 15px;
+
+		li {
+
+			a {
+				margin-bottom: 0.3rem;
+				text-decoration: none;
+				color: $body-text-color;
+			}
+
+			a:hover {
+				color: $section-headings-color;
+			}
+		}
+	}
+}
+
+.home-banner {
+	background-color: $header-bg-color;
+	background-image: linear-gradient(120deg, $header-bg-color-secondary, $header-bg-color);
+	color: $header-heading-color;
+
+	@include large {
+		padding-left: 15%;
+		padding-right: 15%;
+		padding-top: 13rem;
+		padding-bottom: 10rem;
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		gap: 5%;
+	}
+
+	@include medium {
+		padding-left: 1rem;
+		padding-right: 1rem;
+		padding-top: 5rem;
+		padding-bottom: 3rem;
+	}
+
+	@include small {
+		padding-left: 1rem;
+		padding-right: 1rem;
+		padding-top: 5rem;
+		padding-bottom: 3rem;
+	}
+
+	.home-banner-title {
+		font-size: 3rem;
+	}
+	b {
+		color: #B2FFD9;
+		font-weight: bold;
+	}
+}
+
+.div-person-table-row {
+	display: flex;
+	justify-content: space-evenly;
+}
+.div-person-table-col {
+	width: 15%;
+}
+.div-person-table-info {
+	text-align: center;
+}
+.teambox-card-container {
+	clip-path: circle(45% at 50% 50%);
+	position: relative;
+}
+.teambox-card-container-smaller {
+	clip-path: circle(40% at 50% 50%);
+	position: relative;
+}
+.teambox-card-container::after {
+	content: "";
+	display: block;
+	padding-bottom: 100%;
+}
+.teambox-card-container-smaller::after {
+	content: "";
+	display: block;
+	padding-bottom: 100%;
+}
+.teambox-img {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+.teambox-img-smaller {
+	position: absolute;
+	top: 10%;
+	left: 10%;
+	width: 80%;
+	height: 80%;
+	object-fit: cover;
 }

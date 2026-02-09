@@ -46,7 +46,7 @@ The `ScopedObject` interface defines the common operations objects can be _scope
 Scoping is a mechanism provided bu LiSA to
 isolate parts of an object when entering a new context (e.g., a function
 call) and to restore them when exiting the context. Scoping is essential to
-implement [Interprocedural Analyses]({{ site.baseurl }}/structure/interprocedural-analysis.html),
+implement [Interprocedural Analyses]({{ site.baseurl }}/documentation/interprocedural-analysis.html),
 as it allows to track caller's variables without polluting the callee state.
 
 <center> <img src="scoped.png" alt="Scoped Objects" /> </center>
@@ -59,7 +59,7 @@ and `popScope`, that restores information in the receiver by removing
 the scope specified by the `token` parameter.
 Implementations of these methods usually manipulate program variables
 (called `Identifier`s in
-[Symbolic Expressions]({{ site.baseurl }}/structure/symbolic-expressions.html)
+[Symbolic Expressions]({{ site.baseurl }}/documentation/symbolic-expressions.html)
 terms) by applying a sort of renaming: since `SymbolicExpression`s are
 instances of `ScopedObject`, `pushScope` and `popScope` implementations
 should recursively invoke these methods on all symbolic expression references
@@ -99,5 +99,5 @@ Three such interfaces are used throughout the analysis structure:
   analysis components to retrieve the `Program` where an instruction lies,
   so that it can be queried for language-specific properties.
 
-Read more about [CFGs]({{ site.baseurl }}/structure/cfgs.html),
-[Units and Programs]({{ site.baseurl }}/structure/units.html) in their dedicated pages.
+Read more about [CFGs]({{ site.baseurl }}/documentation/cfgs.html),
+[Units and Programs]({{ site.baseurl }}/documentation/units.html) in their dedicated pages.

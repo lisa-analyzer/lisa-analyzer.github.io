@@ -18,7 +18,7 @@ can be found in the [IMP]({{ site.baseurl }}/imp/) section, while a list of
 availble analyses is present under
 [Configuration]({{ site.baseurl }}/configuration/). For information on how
 to build LiSA and build upon it, refer to the
-[Guides]({{ site.baseurl }}/tutorials/) section.
+[Get Started]({{ site.baseurl }}/get-started/) section.
 
 A high-level overview of LiSA's structure is shown in the following diagram:
 
@@ -83,7 +83,7 @@ customization of LiSA's capabilities.
 A more in-depth explanation of each component can be found in the pages linked
 below, together wiht pointers to the corresponding classes. For a step-by-step
 guide on how to build each component, refer to the
-[Guides]({{ site.baseurl }}/tutorials/) section.
+[Get Started]({{ site.baseurl }}/get-started/) section.
 
 ## Analysis Components
 
@@ -104,7 +104,7 @@ retrieving abstractions of unknown values (`top` elements) and unreachable or
 erroneous values (`bottom` elements). Other operations have default
 implementations, but can be overridden to construct possibly complete lattices.
 LiSA also comes with common lattice implementations ready to use. Read more
-about lattices in the [Lattices]({{ site.baseurl }}/structure/lattices.html) page.
+about lattices in the [Lattices]({{ site.baseurl }}/documentation/lattices.html) page.
 
 ### Symbolic Expressions
 
@@ -122,7 +122,7 @@ operands is of a string type).
 domain definitions independent from the source programming language,
 since domains can then interpret this symbolic expression according to
 their own logic. Read more about symbolic expressions in the
-[Symbolic Expressions]({{ site.baseurl }}/structure/symbolic-expressions.html) page.
+[Symbolic Expressions]({{ site.baseurl }}/documentation/symbolic-expressions.html) page.
 
 ### Semantic Domains
 
@@ -135,7 +135,7 @@ and the fixpoints interact with during
 the analysis. Abstract domains are responsible for defining how the program
 state is manipulated during the analysis. They provide operations for handling
 assignments, expressions, and conditionals. Read more about semantic domains in
-the [Semantic Domains]({{ site.baseurl }}/structure/semantic-domains.html) page.
+the [Semantic Domains]({{ site.baseurl }}/documentation/semantic-domains.html) page.
 
 #### The Simple Abstract Domain
 
@@ -155,7 +155,7 @@ This separation allows domain developers to focus on specific aspects of the
 program state, without worrying about the entire state management. Each
 component can be implemented independently, and combined to form a complete
 abstract domain. Read more about the simple abstract domain in the
-[Simple Abstract Domain]({{ site.baseurl }}/structure/simple-abstract-domain.html)
+[Simple Abstract Domain]({{ site.baseurl }}/documentation/simple-abstract-domain.html)
 page.
 
 ### The Interprocedural Analysis
@@ -171,7 +171,7 @@ summaries of the target CFGs. For this reason, a single entity is responsible
 for both tasks. Individual CFGs are analyzed by delegating to a `Fixpoint`
 instance, which computes the fixpoint for that specific CFG. Read more about
 the interprocedural analysis in the
-[Interprocedural Analysis]({{ site.baseurl }}/structure/interprocedural-analysis.html)
+[Interprocedural Analysis]({{ site.baseurl }}/documentation/interprocedural-analysis.html)
 page.
 
 #### The Call Graph
@@ -186,7 +186,7 @@ the interprocedural analysis, LiSA introduces the `CallGraph` interface, which
 defines how call targets are resolved. The call graph is queried by the
 interprocedural analysis whenever a call is encountered, and it returns the set
 of possible targets for that call. Read more about the call graph in the
-[Call Graph]({{ site.baseurl }}/structure/call-graph.html) page.
+[Call Graph]({{ site.baseurl }}/documentation/call-graph.html) page.
 
 ### Syntactic and Semantic Checks
 
@@ -201,7 +201,7 @@ various components of the program structure. There are two types of checks:
 Checks are executed at specific points during the analysis: syntactic checks are
 executed right after the validation phase, while semantic checks are executed
 after the interprocedural analysis has reached a fixpoint. Read more about
-checks in the [Checks]({{ site.baseurl }}/structure/checks.html) page.
+checks in the [Checks]({{ site.baseurl }}/documentation/checks.html) page.
 
 ### Analysis Events
 
@@ -210,7 +210,7 @@ specific situations. Events can be consumed by `EventListener`s, which can
 process them either synchronously or asynchronously. This mechanism allows for
 decoupling the analysis from side-tasks, such as logging, output generation, or
 custom behaviors. Read more about events in the
-[Analysis Events]({{ site.baseurl }}/structure/events.html) page.
+[Analysis Events]({{ site.baseurl }}/documentation/events.html) page.
 
 ## Program Structure
 
@@ -226,7 +226,7 @@ or a module. The `Program` itself is a `Unit`. A `Unit` contains a set of
 code members ([CFG](#control-flow-graphs)s with a descriptor)
 and a set of `Global`s (global
 variables or constants). Read more about units in the
-[Units]({{ site.baseurl }}/structure/units.html) page.
+[Units]({{ site.baseurl }}/documentation/units.html) page.
 
 ### Control Flow Graphs
 
@@ -239,7 +239,7 @@ has a `CodeMemberDescriptor`, which provides metadata about the `CFG`, such as i
 its parameters, and its return type. A special kind of CFGs, called
 `NativeCFG`s, can be used to compactly represent the behavior of library or
 runtime functions. Read more about control flow graphs in the
-[Control Flow Graphs]({{ site.baseurl }}/structure/cfgs.html) page.
+[Control Flow Graphs]({{ site.baseurl }}/documentation/cfgs.html) page.
 
 ### Types
 
@@ -248,7 +248,7 @@ All types are represented by instances of the `Type` interface, which can be
 extended to represent the types of a specific programming language.
 Sub-interfaces are used to identity specific categories of types, such as primitive types,
 reference types, array types, and function types. Read more about types in the
-[Types]({{ site.baseurl }}/structure/types.html) page.
+[Types]({{ site.baseurl }}/documentation/types.html) page.
 
 ### Language Features and Type System
 
@@ -260,7 +260,7 @@ and manipulated during the analysis. It provides operations for type checking,
 type inference, and type compatibility. Both interfaces must be implemented for
 each programming language that LiSA is used to analyze. Read more about language
 features and type systems in the
-[Language Features and Type System]({{ site.baseurl }}/structure/language-features-and-type-system.html)
+[Language Features and Type System]({{ site.baseurl }}/documentation/language-features-and-type-system.html)
 page.
 
 ### Statements, Expressions, and Edges
@@ -274,7 +274,7 @@ such as literals, variable accesses, and binary operations.
 Similarly to `Statement`s, each `Edge` defines its own `traverseForward()` method,
 which specifies how the edge affects the program state when traversed during
 the analysis. Read more about statements, expressions, and edges in the
-[Statements, Expressions, and Edges]({{ site.baseurl }}/structure/st-ex-e.html) page.
+[Statements, Expressions, and Edges]({{ site.baseurl }}/documentation/st-ex-e.html) page.
 
 ## Outputs
 
@@ -283,7 +283,7 @@ during its execution. Outputs can include graphs, reports, and other support
 files that provide insights into the analysis results. Outputs files are
 generated using the `FileManager` class, that provides a simple interface for
 creating and managing output files. Read more about outputs in the
-[Outputs]({{ site.baseurl }}/structure/outputs.html) page.
+[Outputs]({{ site.baseurl }}/documentation/outputs.html) page.
 
 ## Frontends
 
@@ -296,7 +296,7 @@ matching a call to its target or traverse a type hierarchy (see the
 [Language Features and Type System](#language-features-and-type-system) section).
 Each programming language requires its own frontend, as the translation
 process is highly language-dependent. Read more about frontends in the
-[Frontends]({{ site.baseurl }}/structure/frontends.html) page.
+[Frontends]({{ site.baseurl }}/documentation/frontends.html) page.
 
 ## The IMP Language
 

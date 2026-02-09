@@ -47,13 +47,35 @@
 				<!-- <a href="https://github.com/lisa-analyzer/" class="btn"><i class="fas fa-university"></i></a> -->
 			</div>
 		</header>
-			
-		<main id="content" class="main-content" role="main">			
+		
+		{% if page.banner %}		
+		<div class="home-banner">
+			<div class="left-home-banner">
+				<img src="white-title-no-bg-cropped.png" alt="LiSA logo"/>
+			</div>
+			<div class="right-home-banner">
+				<span class="home-banner-title">
+					<b>LiSA</b>: a <b>Li</b>brary for <b>S</b>tatic <b>A</b>nalysis
+				</span>
+				<p>LiSA eases the creation of <b>sound static analyzers</b> based on the Abstract 
+					Interpretation theory. LiSA provides
+					an analysis engine that works on a generic and extensible control flow graph
+					representation of the program to analyze. Abstract interpreters in LiSA are
+					built for analyzing such representation, providing a <b>unique analysis
+					infrastructure</b> for all the analyzers that will rely on it.</p>
+			</div>
+		</div>
+		{% endif %}
+
+
+		<main id="content" class="{% unless page.banner %}spacing-top{% endunless %} main-content" role="main">			
 			{% unless page.notoc %}
 			{% include breadcrumbs.html %}
-			<div class="toc">
-				<b>On this page:</b><br/>
-				{% include toc.html html=content id="toc-list" %}
+			<div class="toc-wrapper">
+				<div class="toc">
+					<b>On this page:</b><br/>
+					{% include toc.html html=content id="toc-list" %}
+				</div>
 			</div>
 			{% endunless %}
 			

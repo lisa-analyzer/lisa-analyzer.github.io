@@ -2,10 +2,10 @@
 
 {% capture prereq %}
 
-1. [Program Points]({{ site.baseurl }}/structure/common-interfaces.html#minimal-program-components)<br/>
-2. [Lattices and Domain Lattices]({{ site.baseurl }}/structure/lattices.html)<br/>
-3. [Semantic Domains]({{ site.baseurl }}/structure/semantic-domains.html)<br/>
-4. [Symbolic Expressions]({{ site.baseurl }}/structure/symbolic-expressions.html)
+1. [Program Points]({{ site.baseurl }}/documentation/common-interfaces.html#minimal-program-components)<br/>
+2. [Lattices and Domain Lattices]({{ site.baseurl }}/documentation/lattices.html)<br/>
+3. [Semantic Domains]({{ site.baseurl }}/documentation/semantic-domains.html)<br/>
+4. [Symbolic Expressions]({{ site.baseurl }}/documentation/symbolic-expressions.html)
 
 {% endcapture %}
 {% include prereq.html content=prereq %}
@@ -97,7 +97,7 @@ for chaining calls).
 ## Lattice structure
 
 The lattices managed by the `SimpleAbstractDomain` and its components are all
-[Domain Lattices]({{ site.baseurl }}/structure/lattices.html#domain-lattices)
+[Domain Lattices]({{ site.baseurl }}/documentation/lattices.html#domain-lattices)
 since they must provide the basic operations over variables and the scoping
 logic other than lattice operations.
 
@@ -142,7 +142,7 @@ if one of them becomes bottom, the other two are allowed to remain non-bottom.
 `SimpleAbstractState` implements both `BaseLattice<SimpleAbstractState<H, V, T>>`
 and `AbstractLattice<SimpleAbstractState<H, V, T>>`, with the latter implying
 that it can be used a lattice instance in conjunction with
-[Semantic Domains]({{ site.baseurl }}/structure/semantic-domains.html).
+[Semantic Domains]({{ site.baseurl }}/documentation/semantic-domains.html).
 
 {% include tip.html content="LiSA provides subtypes of `CartesianCombination`
 to quickly implement `ValueLattice`s, `TypeLattice`s, and `HeapLattice`s as products." %}
@@ -150,7 +150,7 @@ to quickly implement `ValueLattice`s, `TypeLattice`s, and `HeapLattice`s as prod
 ## Domain and Components
 
 `HeapDomain`s, `TypeDomain`s, and `ValueDomain`s cannot directly implement the
-[Abstract Domain]({{ site.baseurl }}/structure/semantic-domains.html#the-abstract-domain-interface)
+[Abstract Domain]({{ site.baseurl }}/documentation/semantic-domains.html#the-abstract-domain-interface)
 interface, since (i) abstract domains must be able to handle all symbolic
 expressions, but `ValueDomain`s and `TypeDomain`s cannot, and (ii) since each
 domain runs in isolation, they need avenues to query information from each other. To
@@ -166,15 +166,15 @@ exploiting the methods it exposes to query information from other components.
 
 - `L extends DomainLattice<L, T>` defines the type of abstract states the
   transformers accept as parameters (see the
-  [Lattices]({{ site.baseurl }}/structure/lattices.html#domain-lattices) page;
+  [Lattices]({{ site.baseurl }}/documentation/lattices.html#domain-lattices) page;
 - `T` defines the return type of the transformers (as, in some cases, a domain
   implementation might want to return a pair of a state and some auxiliary
   information);
 - `E extends SymbolicExpression` defines the type of
-  [SymbolicExpressions]({{ site.baseurl }}/structure/symbolic-expressions.html)
+  [SymbolicExpressions]({{ site.baseurl }}/documentation/symbolic-expressions.html)
   the transformers can operate on;
 - `I extends Identifier` defines the type of
-  [Identifiers]({{ site.baseurl }}/structure/symbolic-expressions#identifiers)
+  [Identifiers]({{ site.baseurl }}/documentation/symbolic-expressions#identifiers)
   the transformers can assign values to.
 
 `HeapDomain`, that has a type parameter `L` that must extend `HeapLattice<L>`,
@@ -382,7 +382,7 @@ provides default implementations for `SemanticComponent`'s and
 - `fixedVariable` returns the bottom element of `L`;
 - `unknownValue` returns the top element of `L`;
 - `canProcess` allows the evaluation of all expressions that can assume a
-  `ValueType` (see [the Types page for more information]({{ site.baseurl }}/structure/types.html)) at
+  `ValueType` (see [the Types page for more information]({{ site.baseurl }}/documentation/types.html)) at
   runtime.
 
 All `visit` overloads are implemented by either (i) throwing an exception if the

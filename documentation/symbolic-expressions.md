@@ -2,8 +2,8 @@
 
 {% capture prereq %}
 
-1. [Scoped Objects]({{ site.baseurl }}/structure/common-interfaces.html#the-scoped-object-interface)<br/>
-2. [Program Points]({{ site.baseurl }}/structure/common-interfaces.html#minimal-program-components)
+1. [Scoped Objects]({{ site.baseurl }}/documentation/common-interfaces.html#the-scoped-object-interface)<br/>
+2. [Program Points]({{ site.baseurl }}/documentation/common-interfaces.html#minimal-program-components)
 
 {% endcapture %}
 {% include prereq.html content=prereq %}
@@ -18,7 +18,7 @@ attributing any specific meaning to syntactic constructs.
 For instance, an assignment in Python can automatically wrap or unwrap tuple
 values, while in Java it can perform boxing or unboxing of primitive types,
 neither of which happens in C. Thus, LiSA allows
-[Statements]({{ site.baseurl }}/structure/st-ex-e.html) (i.e., syntactic
+[Statements]({{ site.baseurl }}/documentation/st-ex-e.html) (i.e., syntactic
 constructs appearing in the source program) to implement their own semantics by
 decomposing themselves into a series of symbolic expressions that capture the
 intended operations in a language-agnostic way. This allows abstract domains
@@ -51,15 +51,15 @@ of clarity, and they will be described in the relevant sections.
 
 <center> <img src="symbexps.png" alt="The SymbolicExpression class hierarchy" /> </center>
 
-Each symbolic expression is identified by a static [Type]({{ site.baseurl }}/structure/types.html),
+Each symbolic expression is identified by a static [Type]({{ site.baseurl }}/documentation/types.html),
 that is, a supertype of all possible runtime types the expression can take, and
-a [Code Location]({{ site.baseurl }}/structure/common-interfaces.html#minimal-program-components),
+a [Code Location]({{ site.baseurl }}/documentation/common-interfaces.html#minimal-program-components),
 corresponding to the syntactic construct that generated the expression. `SymbolicExpression`
 defines three abstract methods that must be implemented by all subclasses:
 
 - `mightNeedRewriting`, that returns `true` if the expression may need to be
   rewritten by an analysis before being evaluated by `ValueDomain`s when using
-  [the Simple Abstract Domain framework]({{ site.baseurl }}/structure/simple-abstract-domain.html);
+  [the Simple Abstract Domain framework]({{ site.baseurl }}/documentation/simple-abstract-domain.html);
 - `removeTypingExpressions`, that returns a copy of the expression where all
   type conversions and casts have been removed, simplifying the expression for
   inspection by components that do not need type information;
@@ -100,7 +100,7 @@ that manipulate the dynamic memory of the program. These include:
 
 - `MemoryAllocation`, that allocates a new region of memory for a new object,
   array, or other data structure; the allocation can happen on the heap or on the stack,
-  and can be provided with a set of [Annotations]({{ site.baseurl }}/structure/annotations.html)
+  and can be provided with a set of [Annotations]({{ site.baseurl }}/documentation/annotations.html)
   that give additional information about the allocation itself;
 - `HeapReference`, that creates a reference to a memory location identified by
   an inner `SymbolicExpression`;
@@ -112,7 +112,7 @@ that manipulate the dynamic memory of the program. These include:
 - `NullConstant`, that represents the `null` (or `None`, `nil`, etc.) value in
   the program.
 
-When adopting [the Simple Abstract Domain framework]({{ site.baseurl }}/structure/simple-abstract-domain.html),
+When adopting [the Simple Abstract Domain framework]({{ site.baseurl }}/documentation/simple-abstract-domain.html),
 heap expressions are **always** rewritten by the `HeapDomain` before being
 evaluated by `ValueDomain` and `TypeDomain`.
 
@@ -142,7 +142,7 @@ Value expressions include:
 - `Identifier`, that represents a named location (either a real program variable
   or a synthetic one used by the analysis to track some special value) in the program.
 
-When adopting [the Simple Abstract Domain framework]({{ site.baseurl }}/structure/simple-abstract-domain.html),
+When adopting [the Simple Abstract Domain framework]({{ site.baseurl }}/documentation/simple-abstract-domain.html),
 value expressions **might** be rewritten by the `HeapDomain` before being
 evaluated by `ValueDomain` and `TypeDomain`. This is because sub-expressions of
 a value expression may be heap expressions that need to be rewritten first.
@@ -160,7 +160,7 @@ An identifier can be _weak_ (as returned by the `isWeak` method), meaning that i
 can represent multiple program locations at once (e.g., when modeling aliasing
 or arrays) or _strong_, meaning that it represents a single program variable.
 As discussed in
-[the Semantic Domain page]({{ site.baseurl }}/structure/semantic-domains.html#the-semantic-domain-interface),
+[the Semantic Domain page]({{ site.baseurl }}/documentation/semantic-domains.html#the-semantic-domain-interface),
 special care must be taken when updating weak identifiers to avoid unsound
 behaviors.
 `Identifier`s can also be **scoped**, meaning that they can be hidden behind some
@@ -196,7 +196,7 @@ expression.
 
 Thus, any identifier that can be scoped becomes an `OutOfScopeIdentifier` named
 `scope:name`, where `scope` is the `ScopeToken` (see the definition of the
-[Scoped Object Interface]({{ site.baseurl }}/structure/common-interfaces.html#the-scoped-object-interface))
+[Scoped Object Interface]({{ site.baseurl }}/documentation/common-interfaces.html#the-scoped-object-interface))
 used to scope it, and `name` is the original identifier's name.
 
 Finally, the `Variable` class has three subclasses representing special
