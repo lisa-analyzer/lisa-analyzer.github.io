@@ -2,15 +2,15 @@
 
 {% capture prereq %}
 
-1. [Program Points]({{ site.baseurl }}/documentation/common-interfaces.html#minimal-program-components)<br/>
-2. [Lattices and Domain Lattices]({{ site.baseurl }}/documentation/lattices.html)
-3. [Symbolic Expressions]({{ site.baseurl }}/documentation/symbolic-expressions.html)
+1. [Program Points]({{ site.baseurl }}/structure/common-interfaces.html#minimal-program-components)<br/>
+2. [Lattices and Domain Lattices]({{ site.baseurl }}/structure/lattices.html)
+3. [Symbolic Expressions]({{ site.baseurl }}/structure/symbolic-expressions.html)
 
 {% endcapture %}
 {% include prereq.html content=prereq %}
 
 Semantic domains implement transfer functions over lattice structures.
-Contrarty to [Lattices]({{ site.baseurl }}/documentation/lattices.html),
+Contrarty to [Lattices]({{ site.baseurl }}/structure/lattices.html),
 a unique instance of a semantic domain is used for the whole analysis.
 Such instance is the one passed as part of the
 [Configuration]({{ site.baseurl }}/configuration/), and is thus
@@ -24,20 +24,20 @@ interface, its prerequisites, its main implementation and usages.
 
 The `SemanticDomain` interface defines the available transfer functions that
 anyone interacting with a domain implementation can perform over a state (i.e.,
-a [`DomainLattice`]({{ site.baseurl }}/documentation/lattices.html#domain-lattices)).
+a [`DomainLattice`]({{ site.baseurl }}/structure/lattices.html#domain-lattices)).
 `SemanticDomain` has four type parameters:
 
 - `L extends DomainLattice<L, T>` defines the type of abstract states the
   transformers accept as parameters (see the
-  [Lattices]({{ site.baseurl }}/documentation/lattices.html#domain-lattices) page;
+  [Lattices]({{ site.baseurl }}/structure/lattices.html#domain-lattices) page;
 - `T` defines the return type of the transformers (as, in some cases, a domain
   implementation might want to return a pair of a state and some auxiliary
   information);
 - `E extends SymbolicExpression` defines the type of
-  [SymbolicExpressions]({{ site.baseurl }}/documentation/symbolic-expressions.html)
+  [SymbolicExpressions]({{ site.baseurl }}/structure/symbolic-expressions.html)
   the transformers can operate on;
 - `I extends Identifier` defines the type of
-  [Identifiers]({{ site.baseurl }}/documentation/symbolic-expressions#identifiers)
+  [Identifiers]({{ site.baseurl }}/structure/symbolic-expressions#identifiers)
   the transformers can assign values to.
 
 <center> <img src="sem-dom.png" alt="SemanticDomain Interface Diagram"> </center>
@@ -53,14 +53,14 @@ There are three main transformers defined in the `SemanticDomain` interface:
 
 The `assign` and `smallStepSemantics` methods are the core of any semantic domain,
 and are called several times during the analysis of a program in different
-places. For instance, [Statements]({{ site.baseurl }}/documentation/st-ex-e.html)
+places. For instance, [Statements]({{ site.baseurl }}/structure/st-ex-e.html)
 use them to evaluate expressions and assignments, the
-[Interprocedural Analysis]({{ site.baseurl }}/documentation/interprocedural-analysis.html)
+[Interprocedural Analysis]({{ site.baseurl }}/structure/interprocedural-analysis.html)
 uses `assign` to
 model parameter passing and return value assignments, and so on.
 Instead, `assume` is mainly called when traversing conditional
-[Edges]({{ site.baseurl }}/documentation/st-ex-e.html#edges) in a
-[CFG]({{ site.baseurl }}/documentation/cfgs.html).
+[Edges]({{ site.baseurl }}/structure/st-ex-e.html#edges) in a
+[CFG]({{ site.baseurl }}/structure/cfgs.html).
 
 {% include warn.html content="`Identifier`s can be _strong_ or _weak_.
 A strong identifier represent exactly one variable or memory location: when
@@ -88,11 +88,11 @@ originating in an evaluation preceeding an assignment are propagated." %}
   the domain (the returned instance will be used as singleton to retrieve top and
   bottom elements, **as well as serving as a starting state for the analysis**);
 - `onCallReturn`: invoked by the
-  [Interprocedural Analysis]({{ site.baseurl }}/documentation/interprocedural-analysis.html)
+  [Interprocedural Analysis]({{ site.baseurl }}/structure/interprocedural-analysis.html)
   when returning from a call to perform any necessary cleanup or state update;
 - `setEventQueue`: called at the start of the analysis to provide the domain
   with a reference to the analysis
-  [Event Queue]({{ site.baseurl }}/documentation/events.html) (implementations of
+  [Event Queue]({{ site.baseurl }}/structure/events.html) (implementations of
   this method should invoke it on nested domains, and optionally store the queue
   in a field for later usage).
 
@@ -114,7 +114,7 @@ events, make sure to null-check the event queue before using it." %}
 The `AbstractDomain` interface is a specialization of `SemanticDomain` that
 defines what a user of LiSA has to provide to implement an analysis.
 It is parametric on the type `L`, which extends `AbstractLattice<L>`, that is
-the concrete type of [Abstract Lattices]({{ site.baseurl }}/documentation/lattices.html#the-abstract-lattice)
+the concrete type of [Abstract Lattices]({{ site.baseurl }}/structure/lattices.html#the-abstract-lattice)
 managed by the domain. The interface extends `SemanticDomain<L, L, SymbolicExpression, Identifier>`,
 meaning that the transformers return instances of the same type as the input state, and
 that they operate on generic symbolic expressions and identifiers.
@@ -145,7 +145,7 @@ will be, but also the more expensive it will be to compute.
 ## The Analysis Class
 
 The `Analysis` class is the central component that LiSA uses to evolve
-[Analysis States]({{ site.baseurl }}/documentation/lattices.html#the-analysis-state).
+[Analysis States]({{ site.baseurl }}/structure/lattices.html#the-analysis-state).
 Since the `AbstractDomain` used for an analysis is user-provided, this allows
 analysis-independent implementations of other compoments (like statement semantics
 or interprocedural analyses): there is no compile-time binding between these entities
@@ -158,12 +158,12 @@ of external ones.
 The `Analysis` class is parametric on the type `D`, that extends
 `AbstractDomain<A>`, of the abstract domain to use during the analysis, and
 on the type `A`, that extends `AbstractLattice<A>` of the
-[Abstract Lattices]({{ site.baseurl }}/documentation/lattices.html#the-abstract-lattice)
+[Abstract Lattices]({{ site.baseurl }}/structure/lattices.html#the-abstract-lattice)
 managed by `D`.
 Similarly to `AbstractDomain`, the `Analysis` class implements
 `SemanticDomain<AnalysisState<A>, AnalysisState<A>, SymbolicExpression, Identifier>`,
 meaning that the transformers return instances of the same type as the input state
-(that is, of the [Analysis State]({{ site.baseurl }}/documentation/lattices.html#the-analysis-state)), and
+(that is, of the [Analysis State]({{ site.baseurl }}/structure/lattices.html#the-analysis-state)), and
 that they operate on generic symbolic expressions and identifiers.
 
 <center> <img src="analysis.png" alt="Analysis Class Diagram"> </center>

@@ -1,7 +1,7 @@
 + [x] home
-|    [ ] team
+|    [x] team
 |    [ ] mit licence
-|    [ ] other (look at mopsa)
+|    [ ] other (?)
 +-- [ ] guides
 |    [ ] remove required time
 |    [ ] add links to guides in structure pages
@@ -20,6 +20,7 @@
 |    +-- [ ] check (div by zero)
 |    +-- [ ] sem check (div by zero with intervals)
 +-- [x] structure
+|    [ ] analysis pipeline
 |    [x] proj division
 |    [x] link to build
 |    +-- [x] lattices
@@ -31,11 +32,11 @@
 |    |    +-- [x] components/oracle
 |    |    +-- [x] nonrel
 |    |    +-- [x] dataflow
-|    +-- [ ] interproc
-|    |    [ ] var 4 ret/throw
-|    |    [ ] fixpoints
-|    |    [ ] optimizations
-|    |    [ ] scoping
+|    +-- [x] interproc
+|    |    [x] var 4 ret/throw
+|    |    [x] fixpoints
+|    |    [x] optimizations
+|    |    [x] scoping
 |    |    +-- [ ] callgraph
 |    +-- [ ] checks
 |    +-- [ ] events
