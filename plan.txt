@@ -2,11 +2,11 @@
 |    [x] team
 |    [ ] mit licence
 |    [ ] other (?)
-+-- [ ] guides
-|    [ ] remove required time
++-- [x] guides
+|    [x] remove required time
 |    [ ] add links to guides in structure pages
-|    +-- [ ] building
-|    +-- [ ] creating projects
+|    +-- [x] building
+|    +-- [x] creating projects
 |    +-- [ ] nrvd (sign)
 |    +-- [ ] nrtd (static types)
 |    +-- [ ] value domain (equalities)
