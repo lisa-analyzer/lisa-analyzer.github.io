@@ -22,7 +22,7 @@ to build LiSA and build upon it, refer to the
 
 A high-level overview of LiSA's structure is shown in the following diagram:
 
-<center> <img src="structure.png" alt="LiSA's Structure Overview"/> </center>
+<center> <img src="{{ site.baseurl }}/documentation/structure.png" alt="LiSA's Structure Overview"/> </center>
 
 Intuitively, the analysis starts on a program P, written in a programming
 language _i_, composed by a set of files. The [Frontend](#frontends) for language

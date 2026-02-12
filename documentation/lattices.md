@@ -24,7 +24,7 @@ The `Lattice` interface inherits from `StructuredObject` (see
 [the interface definition]({{ site.baseurl }}/documentation/common-interfaces.html#the-structured-representation-interface))
 and represents an ordered structure.
 
-<center> <img src="lattice.png" alt="The Lattice interface" style="width: 50%"/> </center>
+<center> <img src="{{ site.baseurl }}/documentation/lattice.png" alt="The Lattice interface" style="width: 50%"/> </center>
 
 The `Lattice` interface is designed such that each object of a type that
 implements `Lattice` is an element of a partially ordered set that:
@@ -87,7 +87,7 @@ build more complex lattices.
 
 ### The BaseLattice Interface
 
-<center> <img src="blattice.png" alt="The Base Lattice Interface" style="width: 30%"/> </center>
+<center> <img src="{{ site.baseurl }}/documentation/blattice.png" alt="The Base Lattice Interface" style="width: 30%"/> </center>
 
 The first provided implementation comes as the `BaseLattice` interface, that is
 parametric to the parameter `L` (the lattice type, that must extend
@@ -123,7 +123,7 @@ as it reduces the amount of code to be written and the chances of errors." %}
 
 ### Powersets and Functions
 
-<center> <img src="common_lattices.png" alt="Common Lattice Instances" /> </center>
+<center> <img src="{{ site.baseurl }}/documentation/common_lattices.png" alt="Common Lattice Instances" /> </center>
 
 The `BaseLattice` interface is implemented by three common lattice structures:
 
@@ -173,7 +173,7 @@ also provides two concrete implementations of the above classes, with `GenericSe
 
 ### Products
 
-<center> <img src="products.png" alt="Classes for building Products" style="width: 30%"/> </center>
+<center> <img src="{{ site.baseurl }}/documentation/products.png" alt="Classes for building Products" style="width: 30%"/> </center>
 
 Products of existing lattices can be easily built by constructing new lattices that
 hold references to them in their fields and implement lattice operators by
@@ -219,7 +219,7 @@ call) and to restore them when exiting the context. Scoping is essential to
 implement [Interprocedural Analyses]({{ site.baseurl }}/documentation/interprocedural-analysis.html),
 as it allows to track local variables without polluting the global state.
 
-<center> <img src="states.png" alt="Domain Lattices" /> </center>
+<center> <img src="{{ site.baseurl }}/documentation/states.png" alt="Domain Lattices" /> </center>
 
 Scoping logic is provided by the `ScopedObject` interface (see
 [the interface definition]({{ site.baseurl }}/documentation/common-interfaces.html#the-scoped-object-interface))

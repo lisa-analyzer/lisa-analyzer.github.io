@@ -16,7 +16,7 @@ are mainly used to produce human-readable representations of `Lattice`
 elements, and to serialize them in ouput files into a unique format so that
 several visualization tools can be built on top of the same output.
 
-<center> <img src="structured.png" alt="The StructuredRepresentation class hierarchy" /> </center>
+<center> <img src="{{ site.baseurl }}/documentation/structured.png" alt="The StructuredRepresentation class hierarchy" /> </center>
 
 `StructuredRepresentation` is ab abstract class, that has five concrete
 subtypes:
@@ -49,7 +49,7 @@ call) and to restore them when exiting the context. Scoping is essential to
 implement [Interprocedural Analyses]({{ site.baseurl }}/documentation/interprocedural-analysis.html),
 as it allows to track caller's variables without polluting the callee state.
 
-<center> <img src="scoped.png" alt="Scoped Objects" /> </center>
+<center> <img src="{{ site.baseurl }}/documentation/scoped.png" alt="Scoped Objects" /> </center>
 
 `ScopedObject` is parametric on the
 type `T` that is returned by its methods. The interface defines two
@@ -78,7 +78,7 @@ To reduce dependencies between the analysis structure and the program structure,
 methods of analysis components that need to refer to program constructs
 use (when possible) minimal interfaces that expose only the necessary information.
 
-<center> <img src="minimal-prog.png" alt="Minimal Program Interfaces" /> </center>
+<center> <img src="{{ site.baseurl }}/documentation/minimal-prog.png" alt="Minimal Program Interfaces" /> </center>
 
 Three such interfaces are used throughout the analysis structure:
 

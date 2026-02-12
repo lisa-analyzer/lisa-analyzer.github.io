@@ -3,7 +3,7 @@
 | <name>Goal:</name> retrieve the source code of LiSA and build it locally |
 | <name>LiSA release used:</name> 0.2 |
 | <name>Requirements:</name> [JDK 11](https://www.oracle.com/it/java/technologies/javase/jdk11-archive-downloads.html), [Git](https://git-scm.com/downloads)
-| <name>Note:</name> you should build from source only if you plan to work directly on LiSA itself, or if you need to work with an unreleased version. If you want to use LiSA as-is instead, please refer to the [Creating a project using LiSA](maven-dependency.md) tutorial instead. |
+| <name>Note:</name> you should build from source only if you plan to work directly on LiSA itself, or if you need to work with an unreleased version. If you want to use LiSA as-is instead, please refer to the [Creating a project using LiSA]({{ site.baseurl}}/get-started/maven-dependency.md) tutorial instead. |
 {:.tutorialheader}
 
 ---
