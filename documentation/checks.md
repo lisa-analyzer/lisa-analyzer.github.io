@@ -1,3 +1,3 @@
-# Temporary
+# Incomplete page ahead
 
-TODO
+This page is still under construction. Check back soon!
