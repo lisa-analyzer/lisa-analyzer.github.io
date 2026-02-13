@@ -72,36 +72,36 @@ nonetheless." %}
 
   <div class="carousel-viewport" id="carousel-viewport">
     <div class="carousel-track" id="carousel">
-      <div class="frontend-card">
-	<span class="frontend-card-title">JLiSA</span>
-	<p class="frontend-card-description">A frontend for the analysis of Java programs, participating in SV-COMP since 2026.</p>
-        <a href="https://github.com/lisa-analyzer/jlisa" class="btn"><i class="fab fa-github"></i>&nbsp;&nbsp;GitHub</a>
-      </div>
-      <div class="frontend-card">
-	<span class="frontend-card-title">GoLiSA</span>
-	<p class="frontend-card-description">A frontend for the analysis of Go blockchain programs and smart contracts, focusing on Hyperledger Fabric, Cosmos SDK, Tendermint Core, and Ethereum.</p>
-	<a href="https://github.com/lisa-analyzer/go-lisa" class="btn"><i class="fab fa-github"></i>&nbsp;&nbsp;GitHub</a>
-      </div>
-      <div class="frontend-card">
-	<span class="frontend-card-title">EVMLiSA</span>
-	<p class="frontend-card-description">A frontend for the analysis of EVM bytecode for Ethereum blockchains.</p>
-	<a href="https://github.com/lisa-analyzer/evm-lisa" class="btn"><i class="fab fa-github"></i>&nbsp;&nbsp;GitHub</a>
-      </div>
-      <div class="frontend-card">
-	<span class="frontend-card-title">MichelsonLiSA</span>
-	<p class="frontend-card-description">A frontend for the analysis of Michelson bytecode for Tezos blockchains.</p>
-	<a href="https://github.com/lisa-analyzer/michelson-lisa" class="btn"><i class="fab fa-github"></i>&nbsp;&nbsp;GitHub</a>
-      </div>
-      <div class="frontend-card">
-	<span class="frontend-card-title">PyLiSA</span>
-	<p class="frontend-card-description">A frontend for the analysis of Python programs, focusing on Data Science scripts and ROS2 projects.</p>
-	<a href="https://github.com/lisa-analyzer/pylisa" class="btn"><i class="fab fa-github"></i>&nbsp;&nbsp;GitHub</a>
-      </div>
-      <div class="frontend-card">
-	<span class="frontend-card-title">LiSA4Ros2</span>
-	<p class="frontend-card-description">A tool for extracting ROS2 policies from Python software.</p>
-	<a href="https://github.com/lisa-analyzer/lisa4ros2" class="btn"><i class="fab fa-github"></i>&nbsp;&nbsp;GitHub</a>
-      </div>
+      {% include frontend_card.html 
+	title="JLiSA" 
+	content="A frontend for the analysis of Java programs, participating in SV-COMP since 2026."
+        btn_link="https://github.com/lisa-analyzer/jlisa" 
+	btn_text="<i class=\"fab fa-github\"></i>&nbsp;&nbsp;GitHub" %}
+      {% include frontend_card.html 
+	title="GoLiSA" 
+	content="A frontend for the analysis of Go blockchain programs and smart contracts, focusing on Hyperledger Fabric, Cosmos SDK, Tendermint Core, and Ethereum."
+        btn_link="https://github.com/lisa-analyzer/go-lisa" 
+	btn_text="<i class=\"fab fa-github\"></i>&nbsp;&nbsp;GitHub" %}
+      {% include frontend_card.html 
+	title="EVMLiSA" 
+	content="A frontend for the analysis of EVM bytecode for Ethereum blockchains."
+        btn_link="https://github.com/lisa-analyzer/evm-lisa" 
+	btn_text="<i class=\"fab fa-github\"></i>&nbsp;&nbsp;GitHub" %}
+      {% include frontend_card.html 
+	title="MichelsonLiSA" 
+	content="A frontend for the analysis of Michelson bytecode for Tezos blockchains."
+        btn_link="https://github.com/lisa-analyzer/michelson-lisa" 
+	btn_text="<i class=\"fab fa-github\"></i>&nbsp;&nbsp;GitHub" %}
+      {% include frontend_card.html 
+	title="PyLiSA" 
+	content="A frontend for the analysis of Python programs, focusing on Data Science scripts and ROS2 projects."
+        btn_link="https://github.com/lisa-analyzer/pylisa" 
+	btn_text="<i class=\"fab fa-github\"></i>&nbsp;&nbsp;GitHub" %}
+      {% include frontend_card.html 
+	title="LiSA4Ros2" 
+	content="A tool for extracting ROS2 policies from Python software."
+        btn_link="https://github.com/lisa-analyzer/lisa4ros2" 
+	btn_text="<i class=\"fab fa-github\"></i>&nbsp;&nbsp;GitHub" %}
     </div>
   </div>
 
