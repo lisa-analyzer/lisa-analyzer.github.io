@@ -1,5 +1,7 @@
 # LiSA's Structure
 
+{% include version_disclaimer.html %}
+
 This section describes the internal structure of LiSA, providing an overview of
 its main components and how they interact with each other.
 

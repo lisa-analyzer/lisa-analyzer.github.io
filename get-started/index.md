@@ -1,5 +1,7 @@
 # Getting Started
 
+{% include version_disclaimer.html %}
+
 This section contains a series of tutorials to quickly get started using or
 developing LiSA.
 

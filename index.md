@@ -3,26 +3,173 @@ notoc: true
 banner: true
 ---
 
+{% include card-left.html
+image="reusable.png"
+alt="Banner image for reusability"
+title="Accessible and extensible"
+content="Written entirely in Java with comprehensive and clear documentation,
+LiSA is designed around modular components that encourage <b>reuse</b>, <b>extension</b>,
+and <b>rapid adoption</b>. Its structure makes it easy for new users to get started,
+while still supporting advanced customization for researchers and developers."
+link="https://github.com/lisa-analyzer/lisa"
+link_text="Browse the code on GitHub"
+%}
+
+{% capture card_link %}
+{{ site.baseurl }}/material/
+{% endcapture %}
+{% include card-right.html
+image="material.png"
+alt="Banner image for additional material"
+title="Proven in practice"
+content="LiSA is supported by an extensive body of publications and has
+been adopted in both <b>research</b> and <b>teaching contexts</b>. Its track record
+demonstrates reliability, meaningful impact, and a strong presence in the
+academic community, making it a trusted platform for experimentation and
+education."
+link=card_link
+link_text="See all publications using LiSA"
+%}
+
+{% include card-left.html
+image="science.png"
+alt="Banner image for scientific principles"
+title="Scientifically grounded"
+content="Built on the principles of <b>Abstract Interpretation</b>, LiSA provides
+<b>sound</b>, <b>rigorous</b> analysis with <b>formal guarantees</b>. Its theoretical foundation
+ensures that results are reliable and reproducible, making it suitable for
+high-assurance applications and scientific research."
+link="https://sv-comp.sosy-lab.org/2026/results/results-verified/#java-verification"
+link_text="Check out SV-COMP 2026 results"
+%}
+
+{% include card-right.html
+image="science.png"
+alt="Banner image for applicability"
+title="Versatile by design"
+content="LiSA has been applied across a wide range of domains, including
+blockchain systems, robotics, microservices, and data science applications.
+Supporting multiple programming languages and fully integrated into Ghidra, it
+provides <b>practical</b>, <b>real-world applicability</b> alongside foundational work on
+modular and compositional analysis."
+link="https://github.com/NationalSecurityAgency/ghidra/blob/2b6a66cee0aeef3092eec9ed403516d91e3b463c/Ghidra/Extensions/Lisa/src/main/help/help/topics/LisaPlugin/LisaPlugin.html"
+link_text="Discover Ghidra's integration of LiSA"
+%}
+
+<div style="width: 60%; margin: 3rem auto">
 {% include important.html content="LiSA is a research project under active
 development. Some features might be incomplete or missing,
 and the API might change in future releases. We will do our best to
 self-document this through semantic versioning, but things might break
 nonetheless." %}
+</div>
 
-{% include note.html content="This website describes LiSA's architecture
-and provides guides on how to use and
-extend it. It is intended to be valid for the latest stable release of LiSA,
-but should be compatible with versions 0.2 and later. Signatures or packages
-might differ in older versions, but the overall architecture and design
-principles should remain the same." %}
+## Frontends and Projects
 
-## How to contrubute
+<div class="carousel-container" id="carousel-container">
+
+<button class="arrow" id="prev">‹</button>
+
+  <div class="carousel-viewport" id="carousel-viewport">
+    <div class="carousel-track" id="carousel">
+      <div class="frontend-card">
+	<span class="frontend-card-title">JLiSA</span>
+	<p class="frontend-card-description">A frontend for the analysis of Java programs, participating in SV-COMP since 2026.</p>
+        <a href="https://github.com/lisa-analyzer/jlisa" class="btn"><i class="fab fa-github"></i>&nbsp;&nbsp;GitHub</a>
+      </div>
+      <div class="frontend-card">
+	<span class="frontend-card-title">GoLiSA</span>
+	<p class="frontend-card-description">A frontend for the analysis of Go blockchain programs and smart contracts, focusing on Hyperledger Fabric, Cosmos SDK, Tendermint Core, and Ethereum.</p>
+	<a href="https://github.com/lisa-analyzer/go-lisa" class="btn"><i class="fab fa-github"></i>&nbsp;&nbsp;GitHub</a>
+      </div>
+      <div class="frontend-card">
+	<span class="frontend-card-title">EVMLiSA</span>
+	<p class="frontend-card-description">A frontend for the analysis of EVM bytecode for Ethereum blockchains.</p>
+	<a href="https://github.com/lisa-analyzer/evm-lisa" class="btn"><i class="fab fa-github"></i>&nbsp;&nbsp;GitHub</a>
+      </div>
+      <div class="frontend-card">
+	<span class="frontend-card-title">MichelsonLiSA</span>
+	<p class="frontend-card-description">A frontend for the analysis of Michelson bytecode for Tezos blockchains.</p>
+	<a href="https://github.com/lisa-analyzer/michelson-lisa" class="btn"><i class="fab fa-github"></i>&nbsp;&nbsp;GitHub</a>
+      </div>
+      <div class="frontend-card">
+	<span class="frontend-card-title">PyLiSA</span>
+	<p class="frontend-card-description">A frontend for the analysis of Python programs, focusing on Data Science scripts and ROS2 projects.</p>
+	<a href="https://github.com/lisa-analyzer/pylisa" class="btn"><i class="fab fa-github"></i>&nbsp;&nbsp;GitHub</a>
+      </div>
+      <div class="frontend-card">
+	<span class="frontend-card-title">LiSA4Ros2</span>
+	<p class="frontend-card-description">A tool for extracting ROS2 policies from Python software.</p>
+	<a href="https://github.com/lisa-analyzer/lisa4ros2" class="btn"><i class="fab fa-github"></i>&nbsp;&nbsp;GitHub</a>
+      </div>
+    </div>
+  </div>
+
+<button class="arrow" id="next">›</button>
+
+</div>
+
+<script>
+const container = document.getElementById("carousel-container");
+const track = document.getElementById("carousel");
+const viewport = document.getElementById("carousel-viewport");
+const nextBtn = document.getElementById("next");
+const prevBtn = document.getElementById("prev");
+
+// duplicate cards ONCE
+const cards = Array.from(track.children);
+cards.forEach(card => track.appendChild(card.cloneNode(true)));
+
+// compute exact scroll distance (half the track)
+const halfWidth = track.scrollWidth / 2;
+track.style.setProperty("--scroll-distance", `-${halfWidth}px`);
+
+// card width
+const cardWidth = cards[0].offsetWidth + 20;
+
+// pause/resume on hover
+viewport.addEventListener("mouseenter", () => {
+  track.style.animationPlayState = "paused";
+});
+viewport.addEventListener("mouseleave", () => {
+  track.style.animationPlayState = "running";
+});
+
+// helper: get current X even during animation
+function getCurrentTranslateX() {
+  const style = window.getComputedStyle(track);
+  const matrix = new DOMMatrixReadOnly(style.transform);
+  return matrix.m41;
+}
+
+// move by one card
+function nudge(dir) {
+  // freeze animation at current spot
+  const currentX = getCurrentTranslateX();
+  track.style.animation = "none";
+  track.style.transform = `translateX(${currentX + dir * cardWidth}px)`;
+
+  // force reflow so browser applies transform
+  track.offsetHeight;
+
+  // restore animation
+  // track.style.animation = "scroll 20s linear infinite";
+}
+
+nextBtn.onclick = () => nudge(-1);
+prevBtn.onclick = () => nudge(1);
+</script>
+
+## Get Involved
 
 LiSA is developed and maintained by the [Software and System Verification
 (SSV)](https://ssv.dais.unive.it/) group @ Università Ca' Foscari in Venice,
 Italy. External contributions are always welcome! Check out our [contributing
 guidelines](https://github.com/lisa-analyzer/lisa/blob/master/CONTRIBUTING.md)
 for information on how to contribute to LiSA.
+
+We are open for collaborations! If you want to work with LiSA or have an idea
+for a new frontend and you want to join forces, get in contact with one of the team members.
 
 ## People
 

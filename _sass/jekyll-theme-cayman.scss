@@ -166,9 +166,11 @@ a {
 	@include large {
 		margin-top: 3em !important;
 	}
+
 	@include medium {
 		margin-top: 1em !important;
 	}
+
 	@include small {
 		margin-top: 1em !important;
 	}
@@ -611,7 +613,7 @@ html {
 }
 
 .head-menu {
-    height: inherit;
+	height: inherit;
 
 	@include large {
 		max-width: 70%;
@@ -823,6 +825,7 @@ html {
 	.home-banner-title {
 		font-size: 3rem;
 	}
+
 	b {
 		color: #B2FFD9;
 		font-weight: bold;
@@ -833,36 +836,44 @@ html {
 	display: flex;
 	justify-content: space-evenly;
 }
+
 .div-person-table-col {
 	width: 15%;
 }
+
 .div-person-table-info {
 	text-align: center;
 }
+
 .teambox-card-container {
 	clip-path: circle(45% at 50% 50%);
 	position: relative;
 }
+
 .teambox-card-container-smaller {
 	clip-path: circle(40% at 50% 50%);
 	position: relative;
 }
+
 .teambox-card-container::after {
 	content: "";
 	display: block;
 	padding-bottom: 100%;
 }
+
 .teambox-card-container-smaller::after {
 	content: "";
 	display: block;
 	padding-bottom: 100%;
 }
+
 .teambox-img {
 	position: absolute;
 	width: 100%;
 	height: 100%;
 	object-fit: cover;
 }
+
 .teambox-img-smaller {
 	position: absolute;
 	top: 10%;
@@ -870,4 +881,154 @@ html {
 	width: 80%;
 	height: 80%;
 	object-fit: cover;
+}
+
+.card {
+	border-radius: 15px;
+	margin: 2rem 0;
+	box-shadow: 0 0 20px 5px lightgray;
+	overflow: hidden;
+	font-size: 1rem;
+
+	display: flex;
+	flex-direction: row;
+}
+
+.card-image {
+	margin: 0 !important;
+	padding: 0;
+	width: 40%;
+
+	img {
+		height: 100%;
+	}
+
+	@include small {
+		display: none;
+	}
+}
+
+.card-content {
+	padding: 20px;
+	width: 60%;
+
+	display: flex;
+	flex-direction: column;
+
+	span {
+		font-size: 1.5rem;
+		color: $section-headings-color;
+	}
+
+	@include small {
+		width: 100%;
+	}
+
+	.btn {
+		margin-top: auto;
+		margin-left: 0;
+		margin-right: auto;
+		margin-bottom: 0;
+		background-color: $section-headings-color;
+		border-color: $section-headings-color;
+		padding: 0.25rem 1rem;
+		font-size: 0.9rem;
+	}
+}
+
+.carousel-container {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+}
+
+.carousel-viewport {
+	overflow: hidden;
+	position: relative;
+}
+
+.carousel-track {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	will-change: transform;
+	animation: scroll linear infinite;
+	animation-duration: 50s;
+	padding: 20px;
+}
+
+.carousel-viewport:hover .carousel-track {
+	animation-play-state: paused;
+}
+
+.carousel-viewport::before,
+.carousel-viewport::after {
+	content: "";
+	position: absolute;
+	top: 0;
+	width: 80px;
+	height: 100%;
+	pointer-events: none;
+	z-index: 2;
+}
+
+.carousel-viewport::before {
+	left: 0;
+	background: linear-gradient(to right, white, transparent);
+}
+
+.carousel-viewport::after {
+	right: 0;
+	background: linear-gradient(to left, white, transparent);
+}
+
+.frontend-card {
+	min-width: 300px;
+	height: 300px;
+	margin: 0 20px;
+	padding: 20px;
+	border-radius: 10px;
+	border: 1px solid white;
+	box-shadow: 0 0 20px 5px lightgray;
+	text-align: center;
+	display: flex;
+	flex-direction: column;
+
+	.btn {
+		background-color: $section-headings-color;
+		border-color: $section-headings-color;
+		padding: 0.25rem 1rem;
+		font-size: 0.9rem;
+		margin-top: auto;
+		margin-left: auto;
+		margin-right: auto;
+		margin-bottom: 0;
+	}
+}
+
+.frontend-card-title {
+	font-size: 1.5rem;
+	color: $section-headings-color;
+}
+
+.frontend-card-description {
+	font-size: 1rem;
+	color: $body-text-color;
+}
+
+@keyframes scroll {
+	from {
+		transform: translateX(0);
+	}
+
+	to {
+		transform: translateX(var(--scroll-distance));
+	}
+}
+
+.arrow {
+	background: none;
+	border: none;
+	font-size: 2rem;
+	cursor: pointer;
 }
