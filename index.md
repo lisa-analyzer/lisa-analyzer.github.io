@@ -44,7 +44,7 @@ link_text="Check out SV-COMP 2026 results"
 %}
 
 {% include card-right.html
-image="science.png"
+image="versatile.png"
 alt="Banner image for applicability"
 title="Versatile by design"
 content="LiSA has been applied across a wide range of domains, including
