@@ -12,7 +12,7 @@ LiSA is designed around modular components that encourage <b>reuse</b>, <b>exten
 and <b>rapid adoption</b>. Its structure makes it easy for new users to get started,
 while still supporting advanced customization for researchers and developers."
 link="https://github.com/lisa-analyzer/lisa"
-link_text="Browse the code on GitHub"
+link_text="<i class=\"fab fa-github\"></i>&nbsp;&nbsp;Browse the code on GitHub"
 %}
 
 {% capture card_link %}
@@ -28,7 +28,7 @@ demonstrates reliability, meaningful impact, and a strong presence in the
 academic community, making it a trusted platform for experimentation and
 education."
 link=card_link
-link_text="See all publications using LiSA"
+link_text="<i class=\"fas fa-book-reader\"></i>&nbsp;&nbsp;Check out all publications using LiSA"
 %}
 
 {% include card-left.html
@@ -39,10 +39,13 @@ content="Built on the principles of <b>Abstract Interpretation</b>, LiSA provide
 <b>sound</b>, <b>rigorous</b> analysis with <b>formal guarantees</b>. Its theoretical foundation
 ensures that results are reliable and reproducible, making it suitable for
 high-assurance applications and scientific research."
-link="https://sv-comp.sosy-lab.org/2026/results/results-verified/#java-verification"
-link_text="Check out SV-COMP 2026 results"
+link="https://www.di.ens.fr/~cousot/AI/IntroAbsInt.html"
+link_text="<i class=\"fas fa-graduation-cap\"></i>&nbsp;&nbsp;Read more on Abstract Interpretation"
 %}
 
+{% capture card_link %}
+{{ site.baseurl }}/configuration/
+{% endcapture %}
 {% include card-right.html
 image="versatile.png"
 alt="Banner image for applicability"
@@ -52,8 +55,8 @@ blockchain systems, robotics, microservices, and data science applications.
 Supporting multiple programming languages and fully integrated into Ghidra, it
 provides <b>practical</b>, <b>real-world applicability</b> alongside foundational work on
 modular and compositional analysis."
-link="https://github.com/NationalSecurityAgency/ghidra/blob/2b6a66cee0aeef3092eec9ed403516d91e3b463c/Ghidra/Extensions/Lisa/src/main/help/help/topics/LisaPlugin/LisaPlugin.html"
-link_text="Discover Ghidra's integration of LiSA"
+link=card_link
+link_text="<i class=\"fas fa-wrench\"></i>&nbsp;&nbsp;Discover how LiSA can be configured"
 %}
 
 <div style="width: 60%; margin: 3rem auto">
