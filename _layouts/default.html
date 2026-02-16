@@ -43,6 +43,10 @@
 
 			<div class="buttons-wrapper">
 				{% include toggle-menu.html %}
+				<form action="{{ site.baseurl }}/search.html" method="get" id="search-form">
+					<input type="text" name="q" id="search-input" placeholder="Search">
+					<input type="submit" value="Search" style="display: none;">
+				</form>
 			</div>
 		</header>
 		

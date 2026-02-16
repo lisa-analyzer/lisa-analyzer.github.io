@@ -132,23 +132,11 @@ a {
 .buttons-wrapper {
 	position: fixed;
 	right: 1em;
-	top: 0.5em;
+	top: 0;
 	z-index: 1000;
-
-	.btn {
-		@include large {
-			width: 3em;
-			height: 3em;
-		}
-
-		@include medium {
-			display: none;
-		}
-
-		@include small {
-			display: none;
-		}
-	}
+	display: flex;
+	flex-direction: row-reverse;
+	gap: 20px;
 }
 
 .project-name {
@@ -177,11 +165,11 @@ a {
 	}
 
 	@include medium {
-		margin-top: 1em !important;
+		margin-top: 2em !important;
 	}
 
 	@include small {
-		margin-top: 1em !important;
+		margin-top: 2em !important;
 	}
 }
 
@@ -233,7 +221,7 @@ a {
 	h4,
 	h5,
 	h6 {
-		margin-top: 1rem;
+		margin-top: 1rem !important;
 		margin-bottom: 1rem;
 		font-weight: normal;
 		color: $section-headings-color;
@@ -535,7 +523,7 @@ a {
 	text-decoration: none;
 
 	text-align: right;
-	line-height: 3em;
+	line-height: 4em;
 
 	@include medium {
 		display: block;
@@ -560,6 +548,14 @@ a {
 
 	a {
 		color: $section-headings-color;
+	}
+
+	@include medium {
+		display: none;
+	}
+
+	@include small {
+		display: none;
 	}
 }
 
@@ -1031,4 +1027,54 @@ a {
 
 // ============================================================================
 // END: SLIDESHOW IN HOMEPAGE
+// ============================================================================
+
+// ============================================================================
+// START: SEARCH
+// ============================================================================
+
+.search-preamble-hidden {
+	display: none;
+}
+
+.search-hit-content {
+	font-size: 0.9rem;
+	margin-top: 0;
+}
+
+#search-form {
+	line-height: 4em;
+}
+
+.head-menu-visible #search-form {
+	display: none;
+}
+
+#search-input {
+	color: $body-text-color;
+	border: solid 2px transparent;
+	border-radius: 1em;
+	padding: 0.2em 1em;
+	outline: none;
+	transition: all 0.3s ease;
+	width: 100%;
+}
+
+#search-input:focus {
+	border-color: #155799;
+	border-width: 2px;
+	box-shadow: 0 0 0 4px rgba(74, 144, 226, 0.1);
+}
+
+#search-input::placeholder {
+	color: #aaa;
+	transition: opacity 0.3s;
+}
+
+#search-input:focus::placeholder {
+	opacity: 0.5;
+}
+
+// ============================================================================
+// END: SEARCH
 // ============================================================================
