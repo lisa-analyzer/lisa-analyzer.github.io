@@ -69,99 +69,55 @@ nonetheless." %}
 
 ## Frontends and Projects
 
-<div class="carousel-container" id="carousel-container">
+LiSA is a powerful engine backing several static analyzers for different
+programming languages and domains, all developed as part of the project.
 
-<button class="arrow" id="prev">‹</button>
-
-  <div class="carousel-viewport" id="carousel-viewport">
-    <div class="carousel-track" id="carousel">
-      {% include frontend_card.html 
-	title="JLiSA" 
-	content="A frontend for the analysis of Java programs, participating in SV-COMP since 2026."
-        btn_link="https://github.com/lisa-analyzer/jlisa" 
-	btn_text="<i class=\"fab fa-github\"></i>&nbsp;&nbsp;GitHub" %}
-      {% include frontend_card.html 
-	title="GoLiSA" 
-	content="A frontend for the analysis of Go blockchain programs and smart contracts, focusing on Hyperledger Fabric, Cosmos SDK, Tendermint Core, and Ethereum."
-        btn_link="https://github.com/lisa-analyzer/go-lisa" 
-	btn_text="<i class=\"fab fa-github\"></i>&nbsp;&nbsp;GitHub" %}
-      {% include frontend_card.html 
-	title="EVMLiSA" 
-	content="A frontend for the analysis of EVM bytecode for Ethereum blockchains."
-        btn_link="https://github.com/lisa-analyzer/evm-lisa" 
-	btn_text="<i class=\"fab fa-github\"></i>&nbsp;&nbsp;GitHub" %}
-      {% include frontend_card.html 
-	title="MichelsonLiSA" 
-	content="A frontend for the analysis of Michelson bytecode for Tezos blockchains."
-        btn_link="https://github.com/lisa-analyzer/michelson-lisa" 
-	btn_text="<i class=\"fab fa-github\"></i>&nbsp;&nbsp;GitHub" %}
-      {% include frontend_card.html 
-	title="PyLiSA" 
-	content="A frontend for the analysis of Python programs, focusing on Data Science scripts and ROS2 projects."
-        btn_link="https://github.com/lisa-analyzer/pylisa" 
-	btn_text="<i class=\"fab fa-github\"></i>&nbsp;&nbsp;GitHub" %}
-      {% include frontend_card.html 
-	title="LiSA4Ros2" 
-	content="A tool for extracting ROS2 policies from Python software."
-        btn_link="https://github.com/lisa-analyzer/lisa4ros2" 
-	btn_text="<i class=\"fab fa-github\"></i>&nbsp;&nbsp;GitHub" %}
+<div class="slideshow-wrapper" id="frontends-slideshow-wrapper">
+  <div class="slideshow-container" id="frontends-slideshow-container">
+    <button class="arrow" onclick="moveFrontendSlide(-1)" id="frontends-slideshow-prev">‹</button>
+    <div class="slideshow-viewport" id="frontends-slideshow-viewport">
+      <div class="slideshow-track" id="frontends-slideshow-track">
+	<div class="slide frontend-slide">
+	  {% include slide_card.html 
+	    title="JLiSA" 
+	    content="A frontend for the analysis of Java programs, participating in SV-COMP since 2026."
+	    btn_link="https://github.com/lisa-analyzer/jlisa" 
+	    btn_text="<i class=\"fab fa-github\"></i>&nbsp;&nbsp;GitHub" %}
+	  {% include slide_card.html 
+	    title="GoLiSA" 
+	    content="A frontend for the analysis of Go blockchain programs and smart contracts, focusing on Hyperledger Fabric, Cosmos SDK, Tendermint Core, and Ethereum."
+	    btn_link="https://github.com/lisa-analyzer/go-lisa" 
+	    btn_text="<i class=\"fab fa-github\"></i>&nbsp;&nbsp;GitHub" %}
+	  {% include slide_card.html 
+	    title="EVMLiSA" 
+	    content="A frontend for the analysis of EVM bytecode for Ethereum blockchains."
+	    btn_link="https://github.com/lisa-analyzer/evm-lisa" 
+	    btn_text="<i class=\"fab fa-github\"></i>&nbsp;&nbsp;GitHub" %}
+	</div>
+	<div class="slide frontend-slide">
+	  {% include slide_card.html 
+	    title="MichelsonLiSA" 
+	    content="A frontend for the analysis of Michelson bytecode for Tezos blockchains."
+	    btn_link="https://github.com/lisa-analyzer/michelson-lisa" 
+	    btn_text="<i class=\"fab fa-github\"></i>&nbsp;&nbsp;GitHub" %}
+	  {% include slide_card.html 
+	    title="PyLiSA" 
+	    content="A frontend for the analysis of Python programs, focusing on Data Science scripts and ROS2 projects."
+	    btn_link="https://github.com/lisa-analyzer/pylisa" 
+	    btn_text="<i class=\"fab fa-github\"></i>&nbsp;&nbsp;GitHub" %}
+	  {% include slide_card.html 
+	    title="LiSA4Ros2" 
+	    content="A tool for extracting ROS2 policies from Python software."
+	    btn_link="https://github.com/lisa-analyzer/lisa4ros2" 
+	    btn_text="<i class=\"fab fa-github\"></i>&nbsp;&nbsp;GitHub" %}
+	</div>
+      </div>
     </div>
+    <button class="arrow" onclick="moveFrontendSlide(1)" id="frontends-slideshow-next">›</button>
   </div>
-
-<button class="arrow" id="next">›</button>
-
+  <div class="dots-container" id="frontends-dots-container">
+  </div>
 </div>
-
-<script>
-const container = document.getElementById("carousel-container");
-const track = document.getElementById("carousel");
-const viewport = document.getElementById("carousel-viewport");
-const nextBtn = document.getElementById("next");
-const prevBtn = document.getElementById("prev");
-
-// duplicate cards ONCE
-const cards = Array.from(track.children);
-cards.forEach(card => track.appendChild(card.cloneNode(true)));
-
-// compute exact scroll distance (half the track)
-const halfWidth = track.scrollWidth / 2;
-track.style.setProperty("--scroll-distance", `-${halfWidth}px`);
-
-// card width
-const cardWidth = cards[0].offsetWidth + 20;
-
-// pause/resume on hover
-viewport.addEventListener("mouseenter", () => {
-  track.style.animationPlayState = "paused";
-});
-viewport.addEventListener("mouseleave", () => {
-  track.style.animationPlayState = "running";
-});
-
-// helper: get current X even during animation
-function getCurrentTranslateX() {
-  const style = window.getComputedStyle(track);
-  const matrix = new DOMMatrixReadOnly(style.transform);
-  return matrix.m41;
-}
-
-// move by one card
-function nudge(dir) {
-  // freeze animation at current spot
-  const currentX = getCurrentTranslateX();
-  track.style.animation = "none";
-  track.style.transform = `translateX(${currentX + dir * cardWidth}px)`;
-
-  // force reflow so browser applies transform
-  track.offsetHeight;
-
-  // restore animation
-  // track.style.animation = "scroll 20s linear infinite";
-}
-
-nextBtn.onclick = () => nudge(-1);
-prevBtn.onclick = () => nudge(1);
-</script>
 
 ## Get Involved
 
@@ -183,107 +139,161 @@ of the library or on one of the frontends developed over the years.
 ### Maintainers and Main Contributors
 
 <div class="div-person-table-row">
-  <div class="div-person-table-col">
-    <div class="teambox-card-container">
-      <img class="teambox-img" src="https://lucaneg.github.io/photo_small.jpg"/>
-    </div>
-    <div class="div-person-table-info">
-      Luca Negrini<br/>
-      <small>
-	Assistant Professor<br/>
-	Ca' Foscari University of Venice<br/>
-	<a href="mailto:luca.negrini@unive.it"><i class="fas fa-envelope"></i></a> • 
-	<a href="https://lucaneg.github.io"><i class="fas fa-globe"></i></a>
-      </small>
-    </div>
-  </div>
-  <div class="div-person-table-col">
-    <div class="teambox-card-container">
-      <img class="teambox-img" src="https://vincenzoarceri.github.io/photo_small.jpg"/>
-    </div>
-    <div class="div-person-table-info">
-      Vincenzo Arceri<br/>
-      <small>
-	Assistant Professor<br/>
-	University of Parma<br/>
-	<a href="mailto:vincenzo.arceri@unipr.it"><i class="fas fa-envelope"></i></a> • 
-	<a href="https://vincenzoarceri.github.io"><i class="fas fa-globe"></i></a>
-      </small>
-    </div>
-  </div>
-  <div class="div-person-table-col">
-    <div class="teambox-card-container">
-      <img class="teambox-img" src="https://olivieriluca.github.io/small_photo.jpg"/>
-    </div>
-    <div class="div-person-table-info">
-      Luca Olivieri<br/>
-      <small>
-	Assistant Professor<br/>
-	Ca' Foscari University of Venice<br/>
-	<a href="mailto:luca.olivieri@unive.it"><i class="fas fa-envelope"></i></a> • 
-	<a href="https://olivieriluca.github.io"><i class="fas fa-globe"></i></a>
-      </small>
-    </div>
-  </div>
+  {% include member_card.html
+    img_div_class="teambox-card-container"
+    img_class="teambox-img"
+    image="https://lucaneg.github.io/photo_small.jpg"
+    name="Luca Negrini"
+    position="Assistant Professor"
+    affiliation="Ca' Foscari University of Venice"
+    email="luca.negrini@unive.it"
+    website="https://lucaneg.github.io" %}
+  {% include member_card.html
+    img_div_class="teambox-card-container"
+    img_class="teambox-img"
+    image="https://vincenzoarceri.github.io/photo_small.jpg"
+    name="Vincenzo Arceri"
+    position="Assistant Professor"
+    affiliation="University of Parma"
+    email="vincenzo.arceri@unipr.it"
+    website="https://vincenzoarceri.github.io" %}
+  {% include member_card.html
+    img_div_class="teambox-card-container"
+    img_class="teambox-img"
+    image="https://olivieriluca.github.io/small_photo.jpg"
+    name="Luca Olivieri"
+    position="Assistant Professor"
+    affiliation="Ca' Foscari University of Venice"
+    email="luca.olivieri@unive.it"
+    website="https://olivieriluca.github.io" %}
 </div>
 
 ### Project Members
 
 <div class="div-person-table-row">
-  <div class="div-person-table-col">
-    <div class="teambox-card-container-smaller">
-      <img class="teambox-img-smaller" src="https://pietroferrara.github.io/picture.jpg"/>
+  {% include member_card.html
+    img_div_class="teambox-card-container-smaller"
+    img_class="teambox-img-smaller"
+    image="https://pietroferrara.github.io/picture.jpg"
+    name="Pietro Ferrara"
+    position="Associate Professor"
+    affiliation="Ca' Foscari University of Venice"
+    email="pietro.ferrara@unive.it"
+    website="https://pietroferrara.github.io" %}
+  {% include member_card.html
+    img_div_class="teambox-card-container-smaller"
+    img_class="teambox-img-smaller"
+    image="https://www.unive.it/pag/fileadmin/user_upload/img/persone/5591776.jpg"
+    name="Agostino Cortesi"
+    position="Full Professor"
+    affiliation="Ca' Foscari University of Venice"
+    email="cortesi@unive.it"
+    website="https://www.unive.it/data/persone/5591776" %}
+  {% include member_card.html
+    img_div_class="teambox-card-container-smaller"
+    img_class="teambox-img-smaller"
+    image="https://www.giacomozanatta.com/pic.jpg"
+    name="Giacomo Zanatta"
+    position="PhD Student"
+    affiliation="Ca' Foscari University of Venice"
+    email="giacomo.zanatta@unive.it"
+    website="https://www.giacomozanatta.com/" %}
+  {% include member_card.html
+    img_div_class="teambox-card-container-smaller"
+    img_class="teambox-img-smaller"
+    image="https://giacomoboldini.github.io/cv/profile.jpg"
+    name="Giacomo Boldini"
+    position="PhD Student"
+    affiliation="Ca' Foscari University of Venice"
+    email="giacomo.boldini@unive.it"
+    website="https://giacomoboldini.github.io/" %}
+</div>
+
+## News and Highlights
+
+<div class="slideshow-wrapper" id="stories-slideshow-wrapper">
+  <div class="slideshow-container" id="stories-slideshow-container">
+    <button class="arrow" onclick="moveStorySlide(-1)" id="stories-slideshow-prev">‹</button>
+    <div class="slideshow-viewport" id="stories-slideshow-viewport">
+      <div class="slideshow-track" id="stories-slideshow-track">
+	<div class="slide story-slide">
+	  {% include slide_card.html 
+	    title="JLiSA placed 3rd in SV-COMP 2026 in its first participation"
+	    content="JLiSA, the Java frontend of LiSA, participated for the
+	    first time in SV-COMP 2026, the leading competition for software
+	    verification tools, and placed 3rd in the Java category,
+	    demonstrating its effectiveness and competitiveness in the field.
+	    JLiSA is the only Java tool based on Abstract Interpretation, and
+	    achieved fully sound results with no false positives in the entire
+	    competition."
+	    btn_link="https://sv-comp.sosy-lab.org/2026/results/results-verified/#java-verification" 
+	    btn_text="Check out SV-COMP 2026 results for the Java category" %}
+	</div>
+	<div class="slide story-slide">
+	  {% include slide_card.html 
+	  title="LiSA integrated into Ghidra" 
+	  content="LiSA has been fully integrated into Ghidra since version
+	  12.0, providing a powerful static analysis framework for PCode
+	  (Ghidra's intermediate representation) able to perform a wide range
+	  of analyses on binary code."
+	  btn_link="https://github.com/NationalSecurityAgency/ghidra/blob/2b6a66cee0aeef3092eec9ed403516d91e3b463c/Ghidra/Extensions/Lisa/src/main/help/help/topics/LisaPlugin/LisaPlugin.html" 
+	  btn_text="See Ghidra's documentation of the integration" %}
+	</div>
+      </div>
     </div>
-    <div class="div-person-table-info">
-      Pietro Ferrara<br/>
-      <small>
-	Associate Professor<br/>
-	Ca' Foscari University of Venice<br/>
-	<a href="mailto:pietro.ferrara@unive.it"><i class="fas fa-envelope"></i></a> • 
-	<a href="https://pietroferrara.github.io/"><i class="fas fa-globe"></i></a>
-      </small>
-    </div>
+    <button class="arrow" onclick="moveStorySlide(1)" id="stories-slideshow-next">›</button>
   </div>
-  <div class="div-person-table-col">
-    <div class="teambox-card-container-smaller">
-      <img class="teambox-img-smaller" src="https://www.unive.it/pag/fileadmin/user_upload/img/persone/5591776.jpg"/>
-    </div>
-    <div class="div-person-table-info">
-      Agostino Cortesi<br/>
-      <small>
-	Full Professor<br/>
-	Ca' Foscari University of Venice<br/>
-	<a href="mailto:cortesi@unive.it"><i class="fas fa-envelope"></i></a> • 
-	<a href="https://www.unive.it/data/persone/5591776"><i class="fas fa-globe"></i></a>
-      </small>
-    </div>
-  </div>
-  <div class="div-person-table-col">
-    <div class="teambox-card-container-smaller">
-      <img class="teambox-img-smaller" src="https://www.giacomozanatta.com/pic.jpg"/>
-    </div>
-    <div class="div-person-table-info">
-      Giacomo Zanatta<br/>
-      <small>
-	PhD Student<br/>
-	Ca' Foscari University of Venice<br/>
-	<a href="mailto:giacomo.zanatta@unive.it"><i class="fas fa-envelope"></i></a> • 
-	<a href="https://www.giacomozanatta.com/"><i class="fas fa-globe"></i></a>
-      </small>
-    </div>
-  </div>
-  <div class="div-person-table-col">
-    <div class="teambox-card-container-smaller">
-      <img class="teambox-img-smaller" src="https://giacomoboldini.github.io/cv/profile.jpg"/>
-    </div>
-    <div class="div-person-table-info">
-      Giacomo Boldini<br/>
-      <small>
-	PhD Student<br/>
-	Ca' Foscari University of Venice<br/>
-	<a href="mailto:giacomo.boldini@unive.it"><i class="fas fa-envelope"></i></a> • 
-	<a href="https://giacomoboldini.github.io/"><i class="fas fa-globe"></i></a>
-      </small>
-    </div>
+  <div class="dots-container" id="stories-dots-container">
   </div>
 </div>
+
+<script>
+const frontend_slides = document.querySelectorAll('.frontend-slide');
+const story_slides = document.querySelectorAll('.story-slide');
+const frontend_dotsContainer = document.getElementById('frontends-dots-container');
+const story_dotsContainer = document.getElementById('stories-dots-container');
+let frontend_currentIndex = 0;
+let story_currentIndex = 0;
+
+function createDots(slides, dotsContainer, callback) {
+  slides.forEach((_, i) => {
+    const dot = document.createElement('span');
+    dot.classList.add('dot');
+    if (i === 0) dot.classList.add('active');
+    dot.addEventListener('click', () => callback(i));
+    dotsContainer.appendChild(dot);
+  });
+}
+
+function updateSlideshow(label, currentIndex) {
+  const container = document.getElementById(label + '-slideshow-track');
+  const dots = document.getElementById(label + '-dots-container').children;
+  container.style.transform = `translateX(-${currentIndex * 100}%)`;
+  for (let i = 0; i < dots.length; i++) {
+    dots[i].classList.toggle('active', i === currentIndex);
+  }
+}
+
+function moveFrontendSlide(step) {
+  frontend_currentIndex = (frontend_currentIndex + step + frontend_slides.length) % frontend_slides.length;
+  updateSlideshow('frontends', frontend_currentIndex);
+}
+
+function moveStorySlide(step) {
+  story_currentIndex = (story_currentIndex + step + story_slides.length) % story_slides.length;
+  updateSlideshow('stories', story_currentIndex);
+}
+
+function currentFrontendSlide(index) {
+  frontend_currentIndex = index;
+  updateSlideshow('frontends', frontend_currentIndex);
+}
+
+function currentStorySlide(index) {
+  story_currentIndex = index;
+  updateSlideshow('stories', story_currentIndex);
+}
+
+createDots(frontend_slides, frontend_dotsContainer, currentFrontendSlide); 
+createDots(story_slides, story_dotsContainer, currentStorySlide); 
+</script>

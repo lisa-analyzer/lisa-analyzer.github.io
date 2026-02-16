@@ -1,0 +1,14 @@
+<div class="div-person-table-col">
+  <div class="{{ include.img_div_class }}">
+    <img class="{{ include.img_class }}" src="{{ include.image }}" />
+  </div>
+  <div class="div-person-table-info">
+    {{ include.name }}<br />
+    <small>
+      {{ include.position }}<br />
+      {{ include.affiliation }}<br />
+      <a href="mailto:{{ include.email }}"><i class="fas fa-envelope"></i></a> •
+      <a href="{{ include.website }}"><i class="fas fa-globe"></i></a>
+    </small>
+  </div>
+</div>

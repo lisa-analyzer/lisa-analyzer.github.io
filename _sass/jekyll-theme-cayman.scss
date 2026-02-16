@@ -776,6 +776,18 @@ a {
 
 	display: flex;
 	flex-direction: row;
+
+	@include small {
+		flex-direction: column;
+	}
+}
+
+.card-right {
+	flex-direction: row-reverse !important;
+
+	@include small {
+		flex-direction: column !important;
+	}
 }
 
 .card-image {
@@ -783,18 +795,26 @@ a {
 	padding: 0;
 	width: 40%;
 
+	display: flex;
+	align-items: center;
+
 	img {
+		width: 100%;
 		height: 100%;
+		object-fit: cover;
 	}
 
 	@include small {
-		display: none;
+		width: 100%;
 	}
 }
 
 .card-content {
 	padding: 20px;
 	width: 60%;
+
+	display: flex;
+	flex-direction: column;
 
 	span {
 		font-size: 2rem;
@@ -808,6 +828,8 @@ a {
 	.btn {
 		margin-left: 0;
 		margin-right: auto;
+		margin-top: auto;
+		margin-bottom: 0;
 	}
 }
 
@@ -816,65 +838,68 @@ a {
 // ============================================================================
 
 // ============================================================================
-// START: FRONTEND CAROUSEL IN HOMEPAGE
+// START: SLIDESHOW IN HOMEPAGE
 // ============================================================================
 
-.carousel-container {
+.slideshow-wrapper {
 	display: flex;
-	flex-direction: row;
+	flex-direction: column;
 	align-items: center;
 }
 
-.carousel-viewport {
+.slideshow-container {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	width: 100%;
+}
+
+.slideshow-viewport {
+	width: 100%;
 	overflow: hidden;
 	position: relative;
+	margin: 0 20px;
 }
 
-.carousel-track {
+.slideshow-track {
 	display: flex;
 	flex-direction: row;
 	align-items: center;
-	will-change: transform;
-	animation: scroll linear infinite;
-	animation-duration: 50s;
+	transition: transform 0.5s ease-in-out;
+}
+
+.slide {
+	min-width: 100%;
+	box-sizing: border-box;
 	padding: 20px;
+	text-align: center;
+
+	display: flex;
+	flex-direction: row;
+	align-items: center;
 }
 
-.carousel-viewport:hover .carousel-track {
-	animation-play-state: paused;
+.dots-container {
+	text-align: center;
+	padding: 10px;
 }
 
-.carousel-viewport::before,
-.carousel-viewport::after {
-	content: "";
-	position: absolute;
-	top: 0;
-	width: 80px;
-	height: 100%;
-	pointer-events: none;
-	z-index: 2;
+.dot {
+	height: 12px;
+	width: 12px;
+	margin: 0 5px;
+	background-color: #bbb;
+	border-radius: 50%;
+	display: inline-block;
+	cursor: pointer;
 }
 
-.carousel-viewport::before {
-	left: 0;
-	background: linear-gradient(to right, white, transparent);
+.dot.active {
+	background-color: $section-headings-color;
 }
 
-.carousel-viewport::after {
-	right: 0;
-	background: linear-gradient(to left, white, transparent);
-}
-
-// ============================================================================
-// END: FRONTEND CAROUSEL IN HOMEPAGE
-// ============================================================================
-
-// ============================================================================
-// START: SINGLE FRONTEND IN HOMEPAGE
-// ============================================================================
-
-.frontend-card {
-	min-width: 300px;
+.slide-card {
+	width: 100%;
 	height: 300px;
 	margin: 0 10px;
 	padding: 20px;
@@ -905,30 +930,19 @@ a {
 
 	.btn {
 		margin-top: auto;
-		padding: 0.25rem 1rem;
 		margin-left: auto;
 		margin-right: auto;
 		margin-bottom: 0;
 	}
-}
 
-.frontend-card-title {
-	font-size: 1.5rem;
-	color: $section-headings-color;
-}
-
-.frontend-card-description {
-	font-size: 1rem;
-	color: $body-text-color;
-}
-
-@keyframes scroll {
-	from {
-		transform: translateX(0);
+	.slide-card-title {
+		font-size: 1.5rem;
+		color: $section-headings-color;
 	}
 
-	to {
-		transform: translateX(var(--scroll-distance));
+	.slide-card-description {
+		font-size: 1rem;
+		color: $body-text-color;
 	}
 }
 
@@ -940,5 +954,5 @@ a {
 }
 
 // ============================================================================
-// END: SINGLE FRONTEND IN HOMEPAGE
+// END: SLIDESHOW IN HOMEPAGE
 // ============================================================================
