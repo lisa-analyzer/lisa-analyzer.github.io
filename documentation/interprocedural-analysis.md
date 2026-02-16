@@ -1,14 +1,17 @@
+---
+layout: docpage
+prereq:
+  - text: Lattices and Domain Lattices
+    link: documentation/lattices.html
+  - text: Scoped Objects
+    link: documentation/common-interfaces.html#the-scoped-object-interface
+  - text: Semantic Domains
+    link: documentation/semantic-domains.html
+  - text: Symbolic Expressions
+    link: documentation/symbolic-expressions.html
+---
+
 # Interprocedural Analyses
-
-{% capture prereq %}
-
-1. [Lattices and Domain Lattices]({{ site.baseurl }}/documentation/lattices.html)<br/>
-2. [Scoped Objects]({{ site.baseurl }}/documentation/common-interfaces.html#the-scoped-object-interface)<br/>
-3. [Semantic Domains]({{ site.baseurl }}/documentation/semantic-domains.html)<br/>
-4. [Symbolic Expressions]({{ site.baseurl }}/documentation/symbolic-expressions.html)
-
-{% endcapture %}
-{% include prereq.html content=prereq %}
 
 The Interprocedural Analysis is the component that oversees the whole analysis.
 It is the entry point that LiSA uses to start the analysis, and it is
@@ -405,7 +408,10 @@ Interprocedural Analysis being implemented.
 
 Note that `return` and `throw` statements will leave on the state's
 `computedExpression` a special `Identifier` (either a `CFGReturn` or a `CFGThrow`
---- see the [Identifiers]({{ site.baseurl }}/documentation/symbolic-expressions.html#identifiers) page)
+
+---
+
+see the [Identifiers]({{ site.baseurl }}/documentation/symbolic-expressions.html#identifiers) page)
 that will contain all [Annotations]({{ site.baseurl }}/documentation/annotations.html)
 defined in the target CFG. This allows the propagation of invariants defined
 through annotations from the callee to the caller.

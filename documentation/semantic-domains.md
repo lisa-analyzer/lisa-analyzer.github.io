@@ -1,13 +1,15 @@
+---
+layout: docpage
+prereq:
+  - text: Program Points
+    link: documentation/common-interfaces.html#minimal-program-components
+  - text: Lattices and Domain Lattices
+    link: documentation/lattices.html
+  - text: Symbolic Expressions
+    link: documentation/symbolic-expressions.html
+---
+
 # Semantic Domains
-
-{% capture prereq %}
-
-1. [Program Points]({{ site.baseurl }}/documentation/common-interfaces.html#minimal-program-components)<br/>
-2. [Lattices and Domain Lattices]({{ site.baseurl }}/documentation/lattices.html)
-3. [Symbolic Expressions]({{ site.baseurl }}/documentation/symbolic-expressions.html)
-
-{% endcapture %}
-{% include prereq.html content=prereq %}
 
 Semantic domains implement transfer functions over lattice structures.
 Contrarty to [Lattices]({{ site.baseurl }}/documentation/lattices.html),

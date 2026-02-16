@@ -1,0 +1,17 @@
+---
+layout: default
+---
+
+{% if page.prereq %}
+
+<div markdown="span" class="prerequisites">
+	<span class="alert-title"><i class="far fa-bookmark"></i>&nbsp;Prerequisites:</span>
+	<ol>
+		{% for prereq in page.prereq %}
+		<li>
+			<a href="{{ site.baseurl }}/{{ prereq.link }}">{{ prereq.text }}</a>
+		</li>
+		{% endfor %}
+	</ol>
+</div>
+{% endif %} {{ content }}

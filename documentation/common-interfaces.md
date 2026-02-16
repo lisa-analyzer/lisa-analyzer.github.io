@@ -1,3 +1,7 @@
+---
+layout: docpage
+---
+
 # Common Interfaces for the Analysis Structure
 
 This page contains information about common interfaces used throughout the

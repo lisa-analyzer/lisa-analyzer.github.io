@@ -1,14 +1,17 @@
+---
+layout: docpage
+prereq:
+  - text: Program Points
+    link: documentation/common-interfaces.html#minimal-program-components
+  - text: Lattices and Domain Lattices
+    link: documentation/lattices.html
+  - text: Semantic Domains
+    link: documentation/semantic-domains.html
+  - text: Symbolic Expressions
+    link: documentation/symbolic-expressions.html
+---
+
 # The Simple Abstract Domain
-
-{% capture prereq %}
-
-1. [Program Points]({{ site.baseurl }}/documentation/common-interfaces.html#minimal-program-components)<br/>
-2. [Lattices and Domain Lattices]({{ site.baseurl }}/documentation/lattices.html)<br/>
-3. [Semantic Domains]({{ site.baseurl }}/documentation/semantic-domains.html)<br/>
-4. [Symbolic Expressions]({{ site.baseurl }}/documentation/symbolic-expressions.html)
-
-{% endcapture %}
-{% include prereq.html content=prereq %}
 
 In LiSA, an abstract domain is responsible for tracking the whole program state,
 including the values and types of variables and expressions, and the structure

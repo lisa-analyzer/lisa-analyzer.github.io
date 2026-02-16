@@ -1,12 +1,13 @@
+---
+layout: docpage
+prereq:
+  - text: Scoped Objects
+    link: documentation/common-interfaces.html#the-scoped-object-interface
+  - text: Program Points
+    link: documentation/common-interfaces.html#minimal-program-components
+---
+
 # Symbolic Expressions
-
-{% capture prereq %}
-
-1. [Scoped Objects]({{ site.baseurl }}/documentation/common-interfaces.html#the-scoped-object-interface)<br/>
-2. [Program Points]({{ site.baseurl }}/documentation/common-interfaces.html#minimal-program-components)
-
-{% endcapture %}
-{% include prereq.html content=prereq %}
 
 Symbolic expressions are LiSA's internal language for defining atomic operations
 that a program performs during its execution. These are the subjects of the

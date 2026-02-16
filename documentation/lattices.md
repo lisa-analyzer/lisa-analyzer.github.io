@@ -1,13 +1,15 @@
+---
+layout: docpage
+prereq:
+  - text: Structured Representation and Structured Objects
+    link: documentation/common-interfaces.html#the-structured-representation-interface
+  - text: Scoped Objects
+    link: documentation/common-interfaces.html#the-scoped-object-interface
+  - text: Program Points
+    link: documentation/common-interfaces.html#minimal-program-components
+---
+
 # Lattices
-
-{% capture prereq %}
-
-1. [Structured Representation and Structured Objects]({{ site.baseurl }}/documentation/common-interfaces.html#the-structured-representation-interface)<br/>
-2. [Scoped Objects]({{ site.baseurl }}/documentation/common-interfaces.html#the-scoped-object-interface)<br/>
-3. [Program Points]({{ site.baseurl }}/documentation/common-interfaces.html#minimal-program-components)
-
-{% endcapture %}
-{% include prereq.html content=prereq %}
 
 Following the Abstract Interpretation theory, lattices are the central data
 structure produced by the analysis. All values returned by domains,
