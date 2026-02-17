@@ -80,17 +80,20 @@ programming languages and domains, all developed as part of the project.
 	<div class="slide frontend-slide">
 	  {% include slide_card.html 
 	    title="JLiSA" 
-	    content="A frontend for the analysis of Java programs, participating in SV-COMP since 2026."
+	    content="A frontend for the analysis of Java programs,
+	    participating in SV-COMP since 2026."
 	    btn_link="https://github.com/lisa-analyzer/jlisa" 
 	    btn_text="<i class=\"fab fa-github\"></i>&nbsp;&nbsp;GitHub" %}
 	  {% include slide_card.html 
 	    title="GoLiSA" 
-	    content="A frontend for the analysis of Go blockchain programs and smart contracts, focusing on Hyperledger Fabric, Cosmos SDK, Tendermint Core, and Ethereum."
+	    content="A frontend for the analysis of Go blockchain programs and
+	    smart contracts, focusing on Hyperledger Fabric, Cosmos SDK,
+	    Tendermint Core, and Ethereum Client."
 	    btn_link="https://github.com/lisa-analyzer/go-lisa" 
 	    btn_text="<i class=\"fab fa-github\"></i>&nbsp;&nbsp;GitHub" %}
 	  {% include slide_card.html 
 	    title="EVMLiSA" 
-	    content="A frontend for the analysis of EVM bytecode for Ethereum blockchains."
+	    content="A frontend for sound CFG reconstruction and analysis of EVM bytecode for Ethereum blockchains."
 	    btn_link="https://github.com/lisa-analyzer/evm-lisa" 
 	    btn_text="<i class=\"fab fa-github\"></i>&nbsp;&nbsp;GitHub" %}
 	</div>
@@ -102,7 +105,8 @@ programming languages and domains, all developed as part of the project.
 	    btn_text="<i class=\"fab fa-github\"></i>&nbsp;&nbsp;GitHub" %}
 	  {% include slide_card.html 
 	    title="PyLiSA" 
-	    content="A frontend for the analysis of Python programs, focusing on Data Science scripts and ROS2 projects."
+	    content="A frontend for the analysis of Python programs, focusing
+	    on Data Science scripts and ROS2 projects."
 	    btn_link="https://github.com/lisa-analyzer/pylisa" 
 	    btn_text="<i class=\"fab fa-github\"></i>&nbsp;&nbsp;GitHub" %}
 	  {% include slide_card.html 
