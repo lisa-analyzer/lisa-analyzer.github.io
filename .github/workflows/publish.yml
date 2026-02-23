@@ -33,12 +33,16 @@ jobs:
         run: |
           cd subtypes-scanner
           chmod +x gradlew
+          # TODO should add some parameter for this
           ./graldew run --args="0.2"
           cd ..
       - name: Check for broken links
         run: |
-          chmod +x check-links.sh
-          ./check-links.sh
+          gem install html-proofer
+          bundle exec jekyll build
+          # TODO restore check for internal hashes once website is complete
+          # in local checks, add --ignore-urls "/localhost:4000/"
+          htmlproofer ./_site --check-internal-hash false --ignore-status-codes "403,521"
       - name: Build site
         run: bundle exec jekyll build
       - name: Upload artifact
