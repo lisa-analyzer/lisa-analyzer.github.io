@@ -1,0 +1,26 @@
+plugins {
+    id 'application'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation "io.github.classgraph:classgraph:4.8.174"
+    implementation "org.yaml:snakeyaml:2.2"
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(11)
+    }
+}
+
+application {
+    mainClass = 'it.unive.SubtypesScanner'
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}

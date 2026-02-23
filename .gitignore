@@ -15,3 +15,5 @@ schemes.fls
 schemes.log
 schemes.synctex.gz
 schemes.xdv
+_data/subtypes.yaml
+subtypes-scanner/bin/main/it/unive

@@ -39,7 +39,24 @@ The value of this option decides what analyysis is being run, and what shape
 will the computed states have. If no value is set for this option, no semantic
 analysis will be executed.
 
-Several abstract domains are available in LiSA: **TODO**
+Several abstract domains are available in LiSA:
+
+{% include github_alternatives.html class="it.unive.lisa.analysis.AbstractDomain" %}
+
+If you adopt the
+[Simple Abstract Domain framework]({{ site.baseurl }}/documentation/simple-abstract-domain.html)
+to build your own abstract domain, LiSA also provides alternatives for each component.
+The out-of-the-box implementations for the heap domain are:
+
+{% include github_alternatives.html class="it.unive.lisa.analysis.heap.HeapDomain" %}
+
+Instead, the bundled alternatives for the value domain are:
+
+{% include github_alternatives.html class="it.unive.lisa.analysis.value.ValueDomain" %}
+
+Finally, the bundled alternatives for the type domain are:
+
+{% include github_alternatives.html class="it.unive.lisa.analysis.type.TypeDomain" %}
 
 ### Interprocedural Analysis and Call Graph
 
@@ -81,11 +98,14 @@ The [Open Call Policy]({{ site.baseurl }}/documentation/interprocedural-analysis
 is used to determine the results of calls that have no targets in the program to
 analyze.
 
-Several interprocedural analyses are available in LiSA: **TODO**
+Several interprocedural analyses are available in LiSA:
+{% include github_alternatives.html class="it.unive.lisa.interprocedural.InterproceduralAnalysis" %}
 
-Several call graphs are available in LiSA: **TODO**
+Orthogonally, call graphs implementations are also bundled with LiSA:
+{% include github_alternatives.html class="it.unive.lisa.interprocedural.callgraph.CallGraph" %}
 
-Several open call policies are available in LiSA: **TODO**
+For open call policies, LiSA provides:
+{% include github_alternatives.html class="it.unive.lisa.interprocedural.OpenCallPolicy" %}
 
 ### Adding Syntactic and Semantic Checks
 
@@ -118,9 +138,14 @@ replaced with other (possibly immutable) collections, as LiSA might add new
 checks depending on the values of other options. The same applies to the
 collection of semantic checks.
 
-Several syntactic checks are available in LiSA: **TODO**
+As of today, LiSA does not include any syntactic or semantic check
+implementations, as they are highly situational.
 
-Several semantic checks are available in LiSA: **TODO**
+<!-- Several syntactic checks are available in LiSA: -->
+<!-- {% include github_alternatives.html class="it.unive.lisa.checks.syntactic.SyntacticCheck" %} -->
+<!---->
+<!-- Several semantic checks are available in LiSA: -->
+<!-- {% include github_alternatives.html class="it.unive.lisa.checks.semantic.SemanticCheck" %} -->
 
 ### Thresholds for Widenings and GLBs
 
@@ -219,15 +244,14 @@ is determined by the `WorkingSet` passed to the `fixpointWorkingSet` option.
 In all options above, the instances passed to the fields are used as factories
 to create new fixpoint instances or new working sets.
 
-Several abstract domains are available in LiSA: **TODO**
+LiSA provides standard forward fixpoint algorithms, alongside their optimized variants:
+{% include github_alternatives.html class="it.unive.lisa.program.cfg.fixpoints.forward.ForwardCFGFixpoint" %}
 
-Several abstract domains are available in LiSA: **TODO**
+These are paired with their backward variants:
+{% include github_alternatives.html class="it.unive.lisa.program.cfg.fixpoints.backward.BackwardCFGFixpoint" %}
 
-Several abstract domains are available in LiSA: **TODO**
-
-Several abstract domains are available in LiSA: **TODO**
-
-Several abstract domains are available in LiSA: **TODO**
+Each fixpoint implementation can be customized by the following bundled working sets:
+{% include github_alternatives.html class="it.unive.lisa.util.collections.workset.WorkingSet" %}
 
 ### Optimization-related Options
 
@@ -333,11 +357,11 @@ The lists of listeners should only be added to, and not
 replaced with other (possibly immutable) lists, as LiSA might add new
 listeners depending on the values of other options.
 
-Several abstract domains are available in LiSA: **TODO**
+LiSA bundles the following event listeners, that can be used both synchronously and asynchronously:
+{% include github_alternatives.html class="it.unive.lisa.events.EventListener" %}
 
-Several abstract domains are available in LiSA: **TODO**
-
-Several events are available in LiSA: **TODO**
+When implementinc custom listeners, the following events are issued automatically by the analysis:
+{% include github_alternatives.html class="it.unive.lisa.events.Event" %}
 
 ### Producing Outputs
 
@@ -366,7 +390,8 @@ The collection of outputs to produce should only be added to, and not replaced w
 other (possibly immutable) collections, as LiSA might add new outputs depending on
 on the values of other options.
 
-Several abstract domains are available in LiSA: **TODO**
+LiSA includes the following output generators:
+{% include github_alternatives.html class="it.unive.lisa.outputs.LiSAOutput" %}
 
 ## Logging
 

@@ -1,0 +1,18 @@
+{% assign class_name = include.class %} 
+{% assign alternatives = site.data.subtypes[class_name] %} 
+{% if alternatives and alternatives.size > 0 %}
+<ul>
+  {% for pair in alternatives %} 
+  {% assign alt = pair[0] %} 
+  {% assign folder = pair[1] %} 
+  {% assign path = alt | replace: ".", "/" | append: ".java" %}
+  <li>
+    <a href="https://github.com/lisa-analyzer/lisa/blob/master/lisa/{{ folder }}/src/main/java/{{ path }}">
+      {{ alt }}
+    </a>
+  </li>
+  {% endfor %}
+</ul>
+{% else %}
+<p>No alternatives found for {{ class_name }}</p>
+{% endif %}

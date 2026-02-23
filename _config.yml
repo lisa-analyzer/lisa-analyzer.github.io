@@ -18,6 +18,8 @@ exclude:
     schemes.synctex.gz,
     schemes.xdv,
     schemes.fls,
+    subtypes-scanner,
+    subtypes.yaml,
   ]
 
 ssv-homepage: https://unive-ssv.github.io/
