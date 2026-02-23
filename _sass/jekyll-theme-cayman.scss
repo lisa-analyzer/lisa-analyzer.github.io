@@ -50,6 +50,10 @@ a {
 	&:hover {
 		text-decoration: underline;
 	}
+
+	code {
+		text-decoration: underline;
+	}
 }
 
 .btn {
@@ -496,6 +500,8 @@ a {
 .head-menu-item a {
 	text-decoration: none;
 	color: white;
+	position: relative;
+	padding-bottom: 5px;
 
 	@include large {
 		line-height: 4em;
@@ -510,8 +516,21 @@ a {
 	}
 }
 
-.head-menu-item a:hover {
-	color: #B2FFD9;
+.head-menu-item a::after {
+	content: "";
+	position: absolute;
+	width: 100%;
+	height: 2px;
+	left: 0;
+	bottom: 0;
+	background-color: white;
+	transform: scaleX(0);
+	transform-origin: bottom center;
+	transition: transform 0.3s ease;
+}
+
+.head-menu-item a:hover::after {
+	transform: scaleX(1);
 }
 
 .active-menu-item a {}
@@ -972,7 +991,7 @@ a {
 
 .slide-card {
 	width: 100%;
-	height: 300px;
+	min-height: 300px;
 	margin: 0 10px;
 	padding: 20px;
 	box-shadow: 0 0 20px 5px lightgray;
@@ -1077,4 +1096,70 @@ a {
 
 // ============================================================================
 // END: SEARCH
+// ============================================================================
+
+// ============================================================================
+// START: CONFIGURATION OPTIONS TABLE
+// ============================================================================
+
+.config-option {
+	padding: 10px;
+	box-shadow: 0 0 20px 5px lightgray;
+
+	position: relative;
+	box-sizing: border-box;
+	background: white;
+	background-clip: padding-box;
+	border: solid 5px transparent;
+	border-radius: 1em;
+
+	&:before {
+		content: '';
+		position: absolute;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		left: 0;
+		z-index: -1;
+		margin: -5px;
+		border-radius: inherit;
+		background: linear-gradient(120deg, $header-bg-color-secondary, $header-bg-color);
+	}
+	
+	+.config-option {
+		margin-top: 1em;
+	}
+}
+
+.config-option-row {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	flex-wrap: wrap;
+}
+
+.config-option-type {
+	text-align: center;
+}
+
+.config-option-default {
+	text-align: right;
+}
+
+.config-option-ex {
+	margin-top: 0.5em;
+
+	pre {
+		overflow: auto;
+		margin-bottom: 0;
+		max-width: 100%;
+	}
+
+	b {
+		display: block;
+	}
+}
+
+// ============================================================================
+// END: CONFIGURATION OPTIONS TABLE
 // ============================================================================

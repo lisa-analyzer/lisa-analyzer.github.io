@@ -190,6 +190,19 @@ interprocedural analysis whenever a call is encountered, and it returns the set
 of possible targets for that call. Read more about the call graph in the
 [Call Graph]({{ site.baseurl }}/documentation/call-graph.html) page.
 
+### Semantics of Statements and Expressions
+
+The aim of LiSA is to be applicable not only to several programming languages,
+but also to a variety of analyses. This entails that the specification of the
+semantics of the code under analysis must be independent from the abstract
+domains used in the analysis. LiSA adopts an analysis-time rewriting towards
+Symbolic Expressions, that allows the semantics to be tuned relying on the
+invariants computed by the fixpoint engine. Each `Statement` and `Expression`
+defines its own `forwardSemantics` and `backwardSemantics` methods, that
+is implemented by feeding symbolic expressions to the analysis being executed.
+Read more on semantics definitions in the
+[Instruction Semantics]({{ site.baseurl }}/documentation/instruction-semantics.html) page.
+
 ### Syntactic and Semantic Checks
 
 A `Check` is simply a visitor of the program, that provides hooks to inspect
