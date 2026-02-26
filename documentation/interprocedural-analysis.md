@@ -329,7 +329,7 @@ Interprocedural Analysis must implement to be executed by LiSA:
 The analysis is _initialized_ by LiSA by calling the `init` method, that passes
 the analysis-specific configuration:
 
-- the [Appliication]({{ site.baseurl }}/documentation/units.html#application) to
+- the [Application]({{ site.baseurl }}/documentation/units.html#application) to
   analyze;
 - the [Call Graph]({{ site.baseurl }}/documentation/call-graph.html) to use for
   call resolution;

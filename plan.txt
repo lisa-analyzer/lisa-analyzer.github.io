@@ -37,7 +37,8 @@
 |    |    [x] fixpoints
 |    |    [x] optimizations
 |    |    [x] scoping
-|    |    +-- [ ] callgraph
+|    |    +-- [x] callgraph
+|    +-- [ ] instruction semantics
 |    +-- [ ] checks
 |    +-- [ ] events
 |    +-- [ ] units
@@ -56,11 +57,11 @@
 |    |    +-- [ ] phases
 |    |    +-- [ ] libraries
 |    |    +-- [ ] overall workflow
-+-- [ ] configuration
-|    +-- [ ] sketch creating and configuring lisa
-|    +-- [ ] options
-|    +-- [ ] implementations
-|    +-- [ ] frontends available
++-- [x] configuration
+|    +-- [x] sketch creating and configuring lisa
+|    +-- [x] options
+|    +-- [x] implementations
+|    +-- [x] frontends available
 +-- [x] IMP
 +-- [x] resources
 |    +-- [x] releases
