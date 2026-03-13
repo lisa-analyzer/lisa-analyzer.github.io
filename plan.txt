@@ -38,7 +38,7 @@
 |    |    [x] optimizations
 |    |    [x] scoping
 |    |    +-- [x] callgraph
-|    +-- [ ] instruction semantics
+|    +-- [x] instruction semantics
 |    +-- [ ] checks
 |    +-- [ ] events
 |    +-- [ ] units
