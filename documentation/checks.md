@@ -91,6 +91,47 @@ the `CallGraph` class.
 
 ## The Check interface
 
+The `Check` interface defines the contract for all checks that can be performed
+on the program under analysis. `Check` inherits from `GraphVisitor`, an
+interface that defines the visitor pattern for arbitrary graphs. `Check` instead
+can only be used on `CFG`s. It is parametric on the type `T` of the `tool` to
+use, which is an arbitrary object that is passed to each call to a visit
+operation. The two interfaces combined provide the following methods to
+implement:
+
+- `beforeExecution`, that is invoked before the start of the visit of the
+  program to perform setup operations;
+- `afterExecution`, that is invoked after the end of the visit of the program to
+  perform cleanup operations;
+- `visitSubNodesFirst`, that decides whether the sub-nodes of a compound node
+  (e.g., sub-expressions of a statement) should be visited before or after the
+  node itself;
+- `visitUnit`, invoked once for each `Unit` that is part of the program;
+- `visitGlobal`, invoked once for each `Global` in each `Unit` of the program;
+- a `visit` overload accepting a graph (i.e., a `CFG` in the case of `Check`s),
+  invoked once for each `CFG` in the program;
+- a `visit` overload accepting a statement, invoked once for each statement in
+  the program;
+- a `visit` overload accepting an edge, invoked once for each edge in the
+  program.
+
+Users of LiSA should not implement the `Check` interface durectly, but rather
+implement the `SyntacticCheck` or `SemanticCheck` interfaces.
+
 ### Syntactic Checks
 
+A `SyntacticCheck` is a `Check` that fixes its type parameter `T` to
+`ReportingTool`, and that is thus able to produce warnings, notices, and output
+files. It is syntactic since it is executed before the analysis starts, and thus
+has no access to any semantic information computed by LiSA. The order of
+execution of syntactic checks is not specified and should not be relied upon:
+execution might happen in parallel, or sequentially according to some ordering.
+
 ### Semantic Checks
+
+A `SemanticCheck` is a `Check` that fixes its type parameter `T` to
+`SemanticTool`, and that is thus able to produce warnings, notices, and output
+files. It is semantic since it is executed after the analysis starts, and thus
+has access to all semantic information computed by LiSA. The order of
+execution of semantic checks is not specified and should not be relied upon:
+execution might happen in parallel, or sequentially according to some ordering.
