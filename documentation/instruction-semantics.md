@@ -1,7 +1,7 @@
 ---
 layout: docpage
 prereq:
-  - text: Abstract State
+  - text: Analysis State
     link: documentation/lattices.html#the-analysis-state
   - text: Analysis
     link: documentation/semantic-domains.html#the-analysis-class

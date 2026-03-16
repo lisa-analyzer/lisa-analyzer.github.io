@@ -1242,4 +1242,78 @@ NoContextual}}
 	\draw[->, thick, dashed] ($(cwr.north)+(0.2,0)$) |- ($(rc.south)+(0,-2.3)$) to (rc);
 \end{tikzpicture}
 
+\newpage
+\section*{Checks}
+
+\begin{tikzpicture}[nodes={font={\small}, minimum width=3.5cm}]%
+	\node[interfacenode] (visitor) {\begin{tabular}{l}
+			\multicolumn{1}{c}{\interfacename{GraphVisitor}: G, N, E, V} \\
+			\hline
+			+ visit(tool: V, graph: G): boolean                          \\
+			+ visit(tool: V, graph: G, node: N): boolean                 \\
+			+ visit(tool: V, graph: G, edge: E): boolean                 \\
+			+ visitSubNodesFirst(): boolean                              \\
+		\end{tabular}};
+
+	\node[interfacenode] (check) [below=of visitor] {\begin{tabular}{l}
+			\multicolumn{1}{c}{\interfacename{Check}: T}                                    \\
+			\hline
+			+ beforeExecution(tool: T): void                                                \\
+			+ afterExecution(tool: T): void                                                 \\
+			+ visitUnit(tool: T, unit: Unit): boolean                                       \\
+			+ !visitGlobal(tool: T, unit: Unit, global: Global, instance: boolean): boolean \\
+		\end{tabular}};
+
+	\node[interfacenode, inlinenode, below=of check.south west, anchor=north west] (syncheck) {\interfacename{SyntacticCheck}};
+	\node[interfacenode, inlinenode, below=of check.south east, anchor=north east] (semcheck) {\interfacename{SemanticCheck}};
+
+	\node[classnode] (msg) [below=of $(syncheck)!0.5!(semcheck)$] {\begin{tabular}{l}
+			\multicolumn{1}{c}{\classname{Message}} \\
+			\hline
+			+ getMessage(): String                  \\
+			+ getTag(): String                      \\
+			+ getTaggedMessage(): String            \\
+		\end{tabular}};
+
+	\node[classnode, right=4cm of visitor.north east, anchor=north west] (reptool) {\begin{tabular}{l}
+			\multicolumn{1}{c}{\classname{ReportingTool}}                       \\
+			\hline
+			+ getConfiguration(): LiSAConfiguration                             \\
+			+ getFileManager(): FileManager                                     \\
+			+ getWarnings(): Collection<Message>                                \\
+			+ getNotices(): Collection<Message>                                 \\
+			+ warn(message: String): void                                       \\
+			+ notice(message: String): void                                     \\
+			+ warnOn(unit: Unit, message: String): void                         \\
+			+ noticeOn(unit: Unit, message: String): void                       \\
+			+ warnOn(unit: Unit, global: Global, message: String): void         \\
+			+ noticeOn(unit: Unit, global: Global, message: String): void       \\
+			+ warnOn(cfg: CFG, message: String): void                           \\
+			+ noticeOn(cfg: CFG, message: String): void                         \\
+			+ warnOn(descriptor: CodeMemberDescriptor, message: String): void   \\
+			+ noticeOn(descriptor: CodeMemberDescriptor, message: String): void \\
+			+ warnOn(statement: Statement, message: String): void               \\
+			+ noticeOn(statement: Statement, message: String): void             \\
+			+ warnOn(expression: Expression, message: String): void             \\
+			+ noticeOn(expression: Expression, message: String): void           \\
+		\end{tabular}};
+
+	\node[classnode, below=of reptool] (semtool) {\begin{tabular}{l}
+			\multicolumn{1}{c}{\classname{SemanticTool}: A, D}                       \\
+			\hline
+			+ getResultOf(cfg: CFG): Collection<AnalyzedCFG<A>>                      \\
+			+ getAnalysis(): Analysis<A, D>                                          \\
+			+ getCallGraph(): CallGraph                                              \\
+			+ getCallers(cm: CodeMember): Collection<CodeMember>                     \\
+			+ getCallees(cm: CodeMember): Collection<CodeMember>                     \\
+			+ getCallSites(cm: CodeMember): Collection<Call>                         \\
+			+ getResolvedVersion(call: UnresolvedCall, result: AnalyzedCFG<A>): Call \\
+		\end{tabular}};
+
+	\draw[->, thick] (check) to (visitor);
+	\draw[->, thick] (syncheck) |- ($(check.south)+(0,-0.5)$) to (check);
+	\draw[->, thick] (semcheck) |- ($(check.south)+(0,-0.5)$) to (check);
+	\draw[->, thick] (semtool) to (reptool);
+\end{tikzpicture}
+
 \end{document}
