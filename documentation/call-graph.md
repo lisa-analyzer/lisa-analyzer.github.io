@@ -132,6 +132,9 @@ edge from a caller to one or more callees. Instead, the `resolve` method
 receives an `UnresolvedCall`, the set of `Type`s for each argument, and
 `SymbolAliasing` information, produces a resolved `Call` instance.
 
+For a list of call graphs already implemented in LiSA, see the
+[Configuration]({{ site.baseurl }}/configuration/#interprocedural-analysis-and-call-graph) page.
+
 ### The BaseCallGraph class
 
 In most cases, the resolution logic follows the same workflow,

@@ -134,6 +134,9 @@ individual nodes (i.e., [Statement]({{ site.baseurl }}/documentation/st-ex-e.htm
 Each result is identified by a `ScopeId`, that will be
 explained together with the interprocedural analysis interface.
 
+For a list of fixpoint algorithms already implemented in LiSA, see the
+[Configuration]({{ site.baseurl }}/configuration/#selecting-the-fixpoint-algorithms) page.
+
 ### Optimized fixpoints
 
 Fixpoints can be **optimized**, as in they can be executed over the basic blocks
@@ -271,8 +274,8 @@ LiSA provides three base implementations of `OpenCallPolicy`:
   as normal execution's computed expression).
 
 These are just commonly used policies, but users can implement their own
-policies. The `OpenCallPolicy` to use for the analysis can be set in the
-[configuration]({{ site.baseurl }}/configuration/).
+policies. For a list of policies already implemented in LiSA, see the
+[Configuration]({{ site.baseurl }}/configuration/#interprocedural-analysis-and-call-graph) page.
 
 ### Storing Fixpoint Results
 
@@ -363,6 +366,9 @@ the analysis has been completed will return partial and possibly unsound
 results. Results of individual CFGs can be obtained through the
 `getAnalysisResultsOf` method, that returns a flattened view of the fixpoint
 results for all `ScopeId`s of the given `CFG`.
+
+For a list of interprocedural analyses already implemented in LiSA, see the
+[Configuration]({{ site.baseurl }}/configuration/#interprocedural-analysis-and-call-graph) page.
 
 ### Handling Calls
 

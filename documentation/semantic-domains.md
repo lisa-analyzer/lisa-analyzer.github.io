@@ -144,6 +144,9 @@ throughout the analysis, e.g. when resolving call targets or when computing the
 semantics of a statement. The more precise the oracle is, the more precise the analysis
 will be, but also the more expensive it will be to compute.
 
+For a list of abstract domains already implemented in LiSA, see the
+[Configuration]({{ site.baseurl }}/configuration/#setting-the-abstract-domain) page.
+
 ## The Analysis Class
 
 The `Analysis` class is the central component that LiSA uses to evolve

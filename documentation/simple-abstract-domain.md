@@ -236,6 +236,9 @@ corresponding component, passing the held state and the oracle itself as paramet
 Thus, components always recieve an oracle that has an overview of the whole program
 state, and can query information from each other as needed.
 
+For a list of heap, value, and type domains already implemented in LiSA, see the
+[Configuration]({{ site.baseurl }}/configuration/#setting-the-abstract-domain) page.
+
 ## Non-Relational Analyses
 
 One of the key objectives of LiSA is the ease of implementing new analyses by
