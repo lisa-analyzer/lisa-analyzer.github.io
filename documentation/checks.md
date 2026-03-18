@@ -13,6 +13,8 @@ prereq:
     link: documentation/st-ex-e.html
   - text: Units
     link: documentation/units.html
+  - text: Outputs
+    link: documentation/outputs.html
 ---
 
 # Syntactic and Semantic Checks

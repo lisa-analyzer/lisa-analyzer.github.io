@@ -1316,4 +1316,60 @@ NoContextual}}
 	\draw[->, thick] (semtool) to (reptool);
 \end{tikzpicture}
 
+\newpage
+\section*{Events}
+
+\begin{tikzpicture}[nodes={font={\small}, minimum width=3.5cm}]%
+	\node[interfacenode, inlinenode] (fix) {\interfacename{FixpointEvent}};
+	\node[interfacenode, inlinenode] (interproc) [left=of fix] {\interfacename{InterproceduralEvent}};
+	\node[interfacenode, inlinenode] (analysis) [right=of fix] {\interfacename{AnalysisEvent}};
+	\node[interfacenode, inlinenode] (domain) [right=of analysis] {\interfacename{DomainEvent}};
+
+	\node[classnode] (queue) [above=of $(fix)!0.5!(analysis)$] {\begin{tabular}{l}
+			\multicolumn{1}{c}{\classname{EventQueue}}                                                                     \\
+			\hline
+			EventQueue(syncListeners: List<EventListener>, asyncListeners: List<EventListener>, tool: ReportingTool): void \\
+			+ post(event: Event): void                                                                                     \\
+			+ join(): void                                                                                                 \\
+			+ close(): void                                                                                                \\
+		\end{tabular}};
+
+	\node[interfacenode, above=of queue.north east, anchor=south east] (listener) {\begin{tabular}{l}
+			\multicolumn{1}{c}{\interfacename{EventListener}}                     \\
+			\hline
+			+ !beforeExecution(tool: ReportingTool): void                         \\
+			+ !afterExecution(tool: ReportingTool): void                          \\
+			+ onEvent(event: Event, tool: ReportingTool): void                    \\
+			+ !onEvent(event: Event, error: Exception, tool: ReportingTool): void \\
+		\end{tabular}};
+
+	\node[abstractclassnode, anchor=north west] (event) at (queue.north west |- listener.north west) {\begin{tabular}{l}
+			\multicolumn{1}{c}{\absclassname{Event}} \\
+			\hline
+			+ timestamp: long                        \\
+			\hline
+			+ getTimestamp(): long                   \\
+		\end{tabular}};
+
+	\node[interfacenode] (start) [below=of $(fix)!0.5!(analysis)$] {\begin{tabular}{l}
+			\multicolumn{1}{c}{\interfacename{StartEvent}} \\
+			\hline
+			+ getTarget(): String                          \\
+		\end{tabular}};
+
+	\node[interfacenode] (end) [right=of start] {\begin{tabular}{l}
+			\multicolumn{1}{c}{\interfacename{EndEvent}} \\
+			\hline
+			+ getTarget(): String                        \\
+		\end{tabular}};
+
+	\node[interfacenode, left=of start.north west, anchor=north east] (eval)  {\begin{tabular}{l}
+			\multicolumn{1}{c}{\interfacename{EvaluationEvent}: I, O} \\
+			\hline
+			+ getPreState(): I                                        \\
+			+ getPostState(): O                                       \\
+			+ getProgramPoint(): ProgramPoint                         \\
+		\end{tabular}};
+\end{tikzpicture}
+
 \end{document}
