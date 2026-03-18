@@ -20,6 +20,7 @@ exclude:
     schemes.fls,
     subtypes-scanner,
     subtypes.yaml,
+    vendor,
   ]
 
 ssv-homepage: https://unive-ssv.github.io/
