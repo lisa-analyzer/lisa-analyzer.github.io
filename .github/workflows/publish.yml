@@ -37,11 +37,10 @@ jobs:
           cd ..
       - name: Check for broken links
         run: |
-          gem install html-proofer
           bundle exec jekyll build
           # TODO restore check for internal hashes once website is complete
           # in local checks, add --ignore-urls "/localhost:4000/"
-          htmlproofer ./_site --check-internal-hash false --ignore-status-codes "403,521"
+          bundle exec htmlproofer ./_site --no-check-internal-hash --ignore-status-codes "403,521"
       - name: Build site
         run: bundle exec jekyll build
       - name: Upload artifact
