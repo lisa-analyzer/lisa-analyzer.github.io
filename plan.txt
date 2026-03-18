@@ -39,8 +39,10 @@
 |    |    [x] scoping
 |    |    +-- [x] callgraph
 |    +-- [x] instruction semantics
-|    +-- [ ] checks
-|    +-- [ ] events
+|    +-- [x] checks
+|    +-- [x] events
+|    +-- [ ] outputs
+|    |    +-- [ ] file manager
 |    +-- [ ] units
 |    +-- [ ] cfgs
 |    |    +-- [ ] annotations
@@ -50,8 +52,6 @@
 |    +-- [ ] validation
 |    +-- [ ] statements and edges
 |    +-- [ ] visitors
-|    +-- [ ] outputs
-|    |    +-- [ ] file manager
 |    +-- [ ] frontends
 |    |    +-- [ ] parsers
 |    |    +-- [ ] phases
