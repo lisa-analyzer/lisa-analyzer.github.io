@@ -1,0 +1,51 @@
+% !TeX program = xelatex
+\documentclass[
+  convert={density=500, size=600, outext=.png}, 
+  border=2pt
+]{standalone}
+
+\input{settings.tex}
+
+\begin{document}
+\sffamily
+
+\begin{tikzpicture}[nodes={font={\small}, minimum width=3.5cm}]%
+	\node[interfacenode, inlinenode] (so) {\interfacename{ScopedObject} : T};
+	\node[abstractclassnode, inlinenode] (se) [below=of so] {\absclassname{SymbolicExpression}};
+	\node[abstractclassnode, inlinenode] (ve) [below=of se] {\absclassname{ValueEpression}};
+	\node[abstractclassnode] (id) [below=of ve] {\begin{tabular}{l}
+			\multicolumn{1}{c}{\absclassname{Identifier}} \\
+			\hline
+			+ !getName(): String                          \\
+			+ !isWeak(): boolean                          \\
+			+ !isScopedByCall(): boolean                  \\
+			+ canBeScoped(): boolean                      \\
+			+ !getAnnotations(): Annotations              \\
+			+ !lub(other: Identifier): Identifier         \\
+			+ !isInstrumentedReceiver(): boolean          \\
+			+ !canBeAssigned(): boolean                   \\
+		\end{tabular}};
+
+	\node[classnode, inlinenode] (var) [below=of id] {\classname{Variable}};
+	\node[classnode, inlinenode] (gvar) [right=of var] {\classname{GlobalVariable}};
+	\node[classnode, inlinenode] (oos) [right=of gvar] {\classname{OutOfScopeIdentifier}};
+	\node[classnode, inlinenode] (mp) [left=of var] {\classname{MemoryPointer}};
+	\node[classnode, inlinenode] (hl) [left=of mp] {\classname{HeapLocation}};
+	\node[classnode, inlinenode] (ir) [below=of var] {\classname{InstrumentedReceiver}};
+	\node[classnode, inlinenode] (cr) [left=of ir] {\classname{CFGReturn}};
+	\node[classnode, inlinenode] (ct) [right=of ir] {\classname{CFGThrow}};
+
+	\draw[->, thick, dashed] (se) to (so);
+	\draw[->, thick] (ve) to (se);
+	\draw[->, thick] (id) to (ve);
+	\draw[->, thick] (var) to (id);
+	\draw[->, thick] (gvar) |- ($(id.south)+(0,-0.5)$) to (id);
+	\draw[->, thick] (oos) |- ($(id.south)+(0,-0.5)$) to (id);
+	\draw[->, thick] (mp) |- ($(id.south)+(0,-0.5)$) to (id);
+	\draw[->, thick] (hl) |- ($(id.south)+(0,-0.5)$) to (id);
+	\draw[->, thick] (ir) to (var);
+	\draw[->, thick] (cr) |- ($(var.south)+(0,-0.5)$) to (var);
+	\draw[->, thick] (ct) |- ($(var.south)+(0,-0.5)$) to (var);
+\end{tikzpicture}
+
+\end{document}

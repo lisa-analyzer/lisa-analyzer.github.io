@@ -1,0 +1,29 @@
+% !TeX program = xelatex
+\documentclass[
+  convert={density=500, size=600, outext=.png}, 
+  border=2pt
+]{standalone}
+
+\input{settings.tex}
+
+\begin{document}
+\sffamily
+
+\begin{tikzpicture}[nodes={font={\small}, minimum width=4.5cm}]%
+	\node[interfacenode] (blattice) {\interfacename{BaseLattice} : L};
+
+	\node[abstractclassnode] (comb) [below=of blattice] {\begin{tabular}{l}
+			\multicolumn{1}{c}{\absclassname{CartesianCombination} : C, T1, T2} \\
+			\hline
+			+ first: T1                                                         \\
+			+ second: T2                                                        \\
+			\hline
+			+ mk(first: T1, second: T2): C                                      \\
+		\end{tabular}};
+	\node[classnode, inlinenode] (prod) [below=of comb] {\classname{LatticeProduct} : T1, T2};
+
+	\draw[->, thick, dashed] (comb) to (blattice);
+	\draw[->, thick] (prod) to (comb);
+\end{tikzpicture}
+
+\end{document}

@@ -1,0 +1,29 @@
+% !TeX program = xelatex
+\documentclass[
+  convert={density=500, size=600, outext=.png}, 
+  border=2pt
+]{standalone}
+
+\input{settings.tex}
+
+\begin{document}
+\sffamily
+
+\begin{tikzpicture}[nodes={font={\small}, minimum width=3cm}]%
+	\node[classnode] (repl) {\begin{tabular}{l}
+			\multicolumn{1}{c}{\classname{HeapReplacement}} \\
+			\hline
+			+ sources: Set<Identifier>                      \\
+			+ targets: Set<Identifier>                      \\
+			\hline
+			+ addSource(id: Identifier): void               \\
+			+ withSource(id: Identifier): HeapReplacement   \\
+			+ addTarget(id: Identifier): void               \\
+			+ withTarget(id: Identifier): HeapReplacement   \\
+			+ getSources(): Set<Identifier>                 \\
+			+ getTargets(): Set<Identifier>                 \\
+			+ getIdsToForget(): Set<Identifier>             \\
+		\end{tabular}};
+\end{tikzpicture}
+
+\end{document}

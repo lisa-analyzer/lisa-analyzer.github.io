@@ -1,0 +1,56 @@
+% !TeX program = xelatex
+\documentclass[
+  convert={density=500, size=600, outext=.png}, 
+  border=2pt
+]{standalone}
+
+\input{settings.tex}
+
+\begin{document}
+\sffamily
+
+\begin{tikzpicture}[nodes={font={\small}, minimum width=5cm, minimum height=.6cm}]%
+	\node[interfacenode, inlinenode] (vd) {\interfacename{ValueDomain}: L};
+	\node[interfacenode, inlinenode] (se) [right=of vd] {\interfacename{SemanticEvaluator}};
+	\node[abstractclassnode] (dd) [below=of $(vd)!0.5!(se)$] {\begin{tabular}{l}
+			\multicolumn{1}{c}{\interfacename{DataflowDomain}: L, E}                                        \\
+			\hline
+			+ gen(state: L, id: Identifier, expression: ValueExpression, arg: L, pp: ProgramPoint): Set<E>  \\
+			+ gen(state: L, expression: ValueExpression, arg: L, pp: ProgramPoint): Set<E>                  \\
+			+ kill(state: L, id: Identifier, expression: ValueExpression, arg: L, pp: ProgramPoint): Set<E> \\
+			+ kill(state: L, expression: ValueExpression, arg: L, pp: ProgramPoint): Set<E>                 \\
+		\end{tabular}};
+
+	\node[interfacenode, inlinenode] (so) [right=of se] {\interfacename{StructuredObject}};
+	\node[interfacenode, inlinenode] (sO) [right=of so] {\interfacename{ScopedObject} : T};
+	\node[interfacenode] (de) [below=of $(so)!0.5!(sO)$] {\begin{tabular}{l}
+			\multicolumn{1}{c}{\interfacename{DataflowElement}: E}         \\
+			\hline
+			+ getInvolvedIdentifiers(): Collection<Identifier>             \\
+			+ replaceIdentifier(source: Identifier, target: Identifier): E \\
+		\end{tabular}};
+
+	\node[interfacenode, inlinenode] (vl) [below=of $(dd.south)!0.5!(de.south)$] {\interfacename{ValueLattice} : L};
+	\node[interfacenode] (ddl) [below=of vl] {\begin{tabular}{l}
+			\multicolumn{1}{c}{\interfacename{DataflowDomainLattice}: L, E} \\
+			\hline
+			+ getDataflowElements(): Set<E>                                 \\
+			+ update(killed: Set<E>, generated: Set<E>): L                  \\
+		\end{tabular}};
+	\node[abstractclassnode, inlinenode] (sl) [left=of ddl] {\absclassname{SetLattice} : S, E};
+	\node[abstractclassnode, inlinenode] (isl) [right=of ddl] {\absclassname{InverseSetLattice} : S, E};
+	\node[classnode, inlinenode] (ps) [below=of $(sl.south)!0.5!(ddl.south)$] {\classname{PossibleSet} : E};
+	\node[classnode, inlinenode] (ds) [below=of $(isl.south)!0.5!(ddl.south)$] {\classname{DefiniteSet} : E};
+
+	\draw[->, thick, dashed] (dd) |- ($(vd.south)+(0,-0.5)$) to (vd);
+	\draw[->, thick, dashed] (dd) |- ($(se.south)+(0,-0.5)$) to (se);
+	\draw[->, thick] (de) |- ($(so.south)+(0,-0.5)$) to (so);
+	\draw[->, thick] (de) |- ($(sO.south)+(0,-0.5)$) to (sO);
+	\draw[->, thick] (ddl) to (vl);
+	\draw[->, thick, dashed] ($(ps.north)+(0.2,0)$) to ($(ps.north)+(0.2,0.3)$) -| ($(ddl.south)+(-0.2,0)$);
+	\draw[->, thick] ($(ps.north)+(-0.2,0)$) to ($(ps.north)+(-0.2,0.3)$) -| (sl);
+	\draw[->, thick, dashed] ($(ds.north)+(-0.2,0)$) to ($(ds.north)+(-0.2,0.3)$) -| ($(ddl.south)+(0.2,0)$);
+	\draw[->, thick] ($(ds.north)+(0.2,0)$) to ($(ds.north)+(0.2,0.3)$) -| (isl);
+\end{tikzpicture}
+
+\end{document}

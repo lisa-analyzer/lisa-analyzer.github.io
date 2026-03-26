@@ -1,0 +1,83 @@
+% !TeX program = xelatex
+\documentclass[
+  convert={density=500, size=600, outext=.png}, 
+  border=2pt
+]{standalone}
+
+\input{settings.tex}
+
+\begin{document}
+\sffamily
+
+\begin{tikzpicture}[nodes={font={\small}, minimum width=3.5cm}]%
+	\node[abstractclassnode, inlinenode] (nary) {\absclassname{NaryExpression}};
+
+	\node[abstractclassnode] (call) [below=of nary] {\begin{tabular}{l}
+			\multicolumn{1}{c}{\absclassname{Call}}  \\
+			\hline
+			+ !getCallType(): CallType               \\
+			+ !getFullTargetName(): String           \\
+			+ !getTargetName(): String               \\
+			+ !getQualifier(): String                \\
+			+ !getParameters(): Expression[]         \\
+			+ !getSource(): UnresolvedCall           \\
+			+ !setSource(call: UnresolvedCall): void \\
+			$\dots$
+		\end{tabular}};
+
+	\node[interfacenode, right=of call.south east, anchor=south west] (rc)  {\begin{tabular}{l}
+			\multicolumn{1}{c}{\interfacename{ResolvedCall}} \\
+			\hline
+			+ getTargets(): Collection<CodeMember>           \\
+		\end{tabular}};
+
+	\node[classnode, inlinenode] (uc) [below left=and -2cm of call] {\classname{UnresolvedCall}};
+
+	\node[classnode] (mc) [below right=and -2cm of call] {\begin{tabular}{l}
+			\multicolumn{1}{c}{\classname{MultiCall}} \\
+			\hline
+			+ !getCalls(): Collection<Call>           \\
+		\end{tabular}};
+
+	\node[classnode] (tpc) [below right=and -2cm of rc] {\begin{tabular}{l}
+			\multicolumn{1}{c}{\classname{TruncatedParamsCall}} \\
+			\hline
+			+ !getInnerCall(): Call                             \\
+		\end{tabular}};
+
+	\node[classnode, below=of mc.south east, anchor=north east] (nc) {\begin{tabular}{l}
+			\multicolumn{1}{c}{\classname{NativeCall}}        \\
+			\hline
+			+ !getTargetedConstructs(): Collection<NativeCFG> \\
+		\end{tabular}};
+
+	\node[abstractclassnode, below=of tpc.south west, anchor=north west] (cwr) {\begin{tabular}{l}
+			\multicolumn{1}{c}{\absclassname{CallWithResult}}                                              \\
+			\hline
+			+ <A, D> compute(entryState: AnalysisState<A>, interprocedural: InterproceduralAnalysis<A, D>, \\
+			$\qquad\qquad$params: ExpressionSet[], expressions: StatementStore): AnalysisState<A>          \\
+		\end{tabular}};
+
+	\node[classnode, below=of cwr.south east, anchor=north east] (cc) {\begin{tabular}{l}
+			\multicolumn{1}{c}{\classname{CFGCall}} \\
+			\hline
+			+ !getTargetedCFGs(): Collection<CFG>   \\
+		\end{tabular}};
+
+	\node[classnode, inlinenode, below=of cwr.south west, anchor=north west] (oc) {\classname{OpenCall}};
+
+	\draw[->, thick] (call) to (nary);
+	\draw[->, thick] (uc) |- ($(call.south)+(0,-0.5)$) to (call);
+	\draw[->, thick] ($(mc.north)+(-0.2,0)$) |- ($(call.south)+(0,-0.5)$) to (call);
+	\draw[->, thick] ($(tpc.north)+(-0.2,0)$) |- ($(call.south)+(0,-0.5)$) to (call);
+	\draw[->, thick] ($(nc.north)+(-0.2,0)$) |- ($(call.south)+(0,-2.5)$) to (call);
+	\draw[->, thick] ($(cwr.north)+(-0.2,0)$) |- ($(call.south)+(0,-2.5)$) to (call);
+	\draw[->, thick] (cc) |- ($(cwr.south)+(0,-0.5)$) to (cwr);
+	\draw[->, thick] (oc) |- ($(cwr.south)+(0,-0.5)$) to (cwr);
+	\draw[->, thick, dashed] ($(mc.north)+(0.2,0)$) |- ($(rc.south)+(0,-0.3)$) to (rc);
+	\draw[->, thick, dashed] ($(tpc.north)+(0.2,0)$) |- ($(rc.south)+(0,-0.3)$) to (rc);
+	\draw[->, thick, dashed] ($(nc.north)+(0.2,0)$) |- ($(rc.south)+(0,-2.3)$) to (rc);
+	\draw[->, thick, dashed] ($(cwr.north)+(0.2,0)$) |- ($(rc.south)+(0,-2.3)$) to (rc);
+\end{tikzpicture}
+
+\end{document}

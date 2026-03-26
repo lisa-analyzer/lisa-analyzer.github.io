@@ -1,0 +1,37 @@
+% !TeX program = xelatex
+\documentclass[
+  convert={density=500, size=600, outext=.png}, 
+  border=2pt
+]{standalone}
+
+\input{settings.tex}
+
+\begin{document}
+\sffamily
+
+\begin{tikzpicture}[nodes={font={\small}, minimum width=3.5cm}]%
+	\node[abstractclassnode] (fl) {\absclassname{FunctionalLattice} : F, K, V};
+	\node[classnode] (fr) [below left=1cm and -1cm of fl] {\begin{tabular}{l}
+			\multicolumn{1}{c}{\classname{FixpointResults}: A}                   \\
+			\hline
+			+ putResult(cfg: CFG, token: ScopeId<A>,                             \\
+			$\qquad\qquad$result: AnalyzedCFG<A>): Pair<Boolean, AnalyzedCFG<A>> \\
+			+ contains(cfg: CFG): boolean                                        \\
+			+ get(cfg: CFG): CFGResults<A>                                       \\
+			+ forget(cfg: CFG): void                                             \\
+		\end{tabular}};
+	\node[classnode] (cr) [below right=1cm and -1cm of fl] {\begin{tabular}{l}
+			\multicolumn{1}{c}{\classname{CFGResults}: A}                        \\
+			\hline
+			+ putResult(token: ScopeId<A>,                                       \\
+			$\qquad\qquad$result: AnalyzedCFG<A>): Pair<Boolean, AnalyzedCFG<A>> \\
+			+ contains(token: ScopeId<A>): boolean                               \\
+			+ get(token: ScopeId<A>): AnalyzedCFG<A>                             \\
+			+ getAll(): Collection<AnalyzedCFG<A>>                               \\
+		\end{tabular}};
+
+	\draw[->, thick] (fr) |- ($(fl.south)+(0,-0.5)$) to (fl);
+	\draw[->, thick] (cr) |- ($(fl.south)+(0,-0.5)$) to (fl);
+\end{tikzpicture}
+
+\end{document}

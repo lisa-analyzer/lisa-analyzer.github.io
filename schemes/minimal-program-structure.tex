@@ -1,0 +1,36 @@
+% !TeX program = xelatex
+\documentclass[
+  convert={density=500, size=600, outext=.png}, 
+  border=2pt
+]{standalone}
+
+\input{settings.tex}
+
+\begin{document}
+\sffamily
+
+\begin{tikzpicture}[nodes={font={\small}, minimum width=3cm}]%
+	\node[interfacenode] (cl) {\begin{tabular}{l}
+			\multicolumn{1}{c}{\interfacename{CodeLocation}} \\
+			\hline
+			+ getCodeLocation(): String                      \\
+		\end{tabular}};
+
+	\node[interfacenode] (ce) [right=of cl] {\begin{tabular}{l}
+			\multicolumn{1}{c}{\interfacename{CodeElement}} \\
+			\hline
+			+ getLocation(): CodeLocation                   \\
+		\end{tabular}};
+
+	\node[interfacenode] (pp) [below=of ce] {\begin{tabular}{l}
+			\multicolumn{1}{c}{\interfacename{ProgramPoint}} \\
+			\hline
+			+ getCFG(): CFG                                  \\
+			+ !getUnit(): Unit                               \\
+			+ !getProgram(): Program                         \\
+		\end{tabular}};
+
+	\draw[->, thick] (pp) to (ce);
+\end{tikzpicture}
+
+\end{document}

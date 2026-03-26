@@ -1,0 +1,25 @@
+% !TeX program = xelatex
+\documentclass[
+  convert={density=500, size=600, outext=.png}, 
+  border=2pt
+]{standalone}
+
+\input{settings.tex}
+
+\begin{document}
+\sffamily
+
+\begin{tikzpicture}[nodes={font={\small}, minimum width=3.5cm}]%
+	\node[interfacenode] (sid) {\begin{tabular}{l}
+			\multicolumn{1}{c}{\interfacename{ScopeId}: A}          \\
+			\hline
+			+ startingId(): ScopeId<A>                              \\
+			+ isStartingId(): boolean                               \\
+			+ push(c: CFGCall, state: AnalysisState<A>): ScopeId<A> \\
+		\end{tabular}};
+	\node[classnode, inlinenode] (usc) [below=of sid] {\classname{UniqueScope}: A};
+
+	\draw[->, thick, dashed] (usc) to (sid);
+\end{tikzpicture}
+
+\end{document}

@@ -1,0 +1,49 @@
+% !TeX program = xelatex
+\documentclass[
+  convert={density=500, size=600, outext=.png}, 
+  border=2pt
+]{standalone}
+
+\input{settings.tex}
+
+\begin{document}
+\sffamily
+
+\begin{tikzpicture}[nodes={font={\small}, minimum width=6cm}]%
+	\node[interfacenode] (dom) {\begin{tabular}{l}
+			\multicolumn{1}{c}{\interfacename{SemanticDomain} : L, T, E, I}             \\
+			\hline
+			+ assign(state: L, id: I, expression: E, pp: ProgramPoint): T               \\
+			+ smallStepSemantics(state: L, expression: E, pp: ProgramPoint): T          \\
+			+ assume(state: L, expression: E, src: ProgramPoint, dest: ProgramPoint): T \\
+			+ !satisfies(state: L, expression: E, pp: ProgramPoint): Satisfiability     \\
+			+ makeLattice(): L                                                          \\
+			+ onCallReturn(entryState: L, callres: L, call: ProgramPoint): L            \\
+			+ setEventQueue(queue: EventQueue): void                                    \\
+		\end{tabular}};
+
+	\node[interfacenode, inlinenode, right=of dom.north east, anchor=north west] (lattice) {\interfacename{Lattice} : L};
+
+	\node[interfacenode, inlinenode] (blattice) [below=of lattice] {\interfacename{BaseLattice} : L};
+
+	\node[classnode] (sat) [below=of blattice] {\begin{tabular}{l}
+			\multicolumn{1}{c}{\classname{Satisfiability}} \\
+			\hline
+			+ BOTTOM: Satisfiability                       \\
+			+ SATISFIED: Satisfiability                    \\
+			+ NOT\_SATISFIED: Satisfiability               \\
+			+ UNKNOWN: Satisfiability                      \\
+			\hline
+			* fromBoolean(bool: boolean): Satisfiability   \\
+			+ negate(): Satisfiability                     \\
+			+ and(other: Satisfiability): Satisfiability   \\
+			+ or(other: Satisfiability): Satisfiability    \\
+			+ mightBeTrue(): boolean                       \\
+			+ mightBeFalse(): boolean                      \\
+		\end{tabular}};
+
+	\draw[->, thick] (blattice) to (lattice);
+	\draw[->, thick] (sat) to (blattice);
+\end{tikzpicture}
+
+\end{document}

@@ -1,0 +1,33 @@
+% !TeX program = xelatex
+\documentclass[
+  convert={density=500, size=600, outext=.png}, 
+  border=2pt
+]{standalone}
+
+\input{settings.tex}
+
+\begin{document}
+\sffamily
+
+\begin{tikzpicture}[nodes={font={\small}, minimum width=5cm}]%
+	\node[interfacenode] (blattice) {\interfacename{BaseLattice} : L};
+
+	\node[abstractclassnode, inlinenode] (func) [below=of blattice] {\absclassname{FunctionalLattice} : F, K, V\\
+		\color{gray}$\langle K \to V, \dot{\sqsubseteq}_V, \dot{\sqcup}_V, \dot{\sqcap}_V, \bot, \top \rangle$};
+	\node[classnode, inlinenode] (gfunc) [below=of func] {\classname{GenericMapLattice} : K, V};
+	\node[abstractclassnode, inlinenode] (set) [left=of func] {\absclassname{SetLattice} : S, E\\
+		\color{gray}$\langle \wp(X), \subseteq, \cup, \cap, \emptyset, X \rangle$};
+	\node[classnode, inlinenode] (gset) [left=of gfunc] {\classname{GenericSetLattice} : S, E};
+	\node[abstractclassnode, inlinenode] (iset) [right=of func] {\absclassname{InverseSetLattice} : E\\
+		\color{gray}$\langle \wp(X), \supseteq, \cap, \cup, X, \emptyset \rangle$};
+	\node[classnode, inlinenode] (giset) [right=of gfunc] {\classname{GenericInverseSetLattice} : E};
+
+	\draw[->, thick, dashed] (func) to (blattice);
+	\draw[->, thick, dashed] (set) |- ($(func.north)+(0,.5)$) to (blattice);
+	\draw[->, thick, dashed] (iset) |- ($(func.north)+(0,.5)$) to (blattice);
+	\draw[->, thick] (gfunc) to (func);
+	\draw[->, thick] (gset) to (set);
+	\draw[->, thick] (giset) to (iset);
+\end{tikzpicture}
+
+\end{document}

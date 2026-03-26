@@ -1,0 +1,30 @@
+% !TeX program = xelatex
+\documentclass[
+  convert={density=500, size=600, outext=.png}, 
+  border=2pt
+]{standalone}
+
+\input{settings.tex}
+
+\begin{document}
+\sffamily
+
+\begin{tikzpicture}[nodes={font={\small}, minimum width=5cm}]%
+	\node[interfacenode, inlinenode] (lattice) {\interfacename{Lattice} : L};
+
+	\node[interfacenode] (blattice) [below=of lattice] {\begin{tabular}{l}
+			\multicolumn{1}{c}{\interfacename{BaseLattice} : L} \\
+			\hline
+			+ lessOrEqualAux(other: L): boolean                 \\
+			+ lubAux(other: L): L                               \\
+			+ !upchainAux(other: L): L                          \\
+			+ !wideningAux(other: L): L                         \\
+			+ !glbAux(other: L): L                              \\
+			+ !downchainAux(other: L): L                        \\
+			+ !narrowingAux(other: L): L                        \\
+		\end{tabular}};
+
+	\draw[->, thick] (blattice) to (lattice);
+\end{tikzpicture}
+
+\end{document}

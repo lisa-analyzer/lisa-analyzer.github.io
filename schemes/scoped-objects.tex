@@ -1,0 +1,27 @@
+% !TeX program = xelatex
+\documentclass[
+  convert={density=500, size=600, outext=.png},
+  border=2pt
+]{standalone}
+
+\input{settings.tex}
+
+\begin{document}
+\sffamily
+
+\begin{tikzpicture}[nodes={font={\small}, minimum width=3cm}]%
+	\node[interfacenode] (scoped) {\begin{tabular}{l}
+			\multicolumn{1}{c}{\interfacename{ScopedObject} : T} \\
+			\hline
+			+ pushScope(token: ScopeToken, pp: ProgramPoint): T  \\
+			+ popScope(token: ScopeToken, pp: ProgramPoint): T   \\
+		\end{tabular}};
+
+	\node[classnode] (st) [right=of scoped] {\begin{tabular}{l}
+			\multicolumn{1}{c}{\classname{ScopeToken}} \\
+			\hline
+			+ getScoper(): CodeElement                 \\
+		\end{tabular}};
+\end{tikzpicture}
+
+\end{document}

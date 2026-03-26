@@ -1,0 +1,42 @@
+% !TeX program = xelatex
+\documentclass[
+  convert={density=500, size=600, outext=.png}, 
+  border=2pt
+]{standalone}
+
+\input{settings.tex}
+
+\begin{document}
+\sffamily
+
+\begin{tikzpicture}[nodes={font={\small}, minimum width=4.6cm}]%
+	\node[interfacenode, inlinenode] (struct) {\interfacename{StructuredObject}};
+
+	\node[interfacenode] (lattice) [below=of struct] {\begin{tabular}{l}
+			\multicolumn{1}{c}{\interfacename{Lattice} : L}               \\
+			\hline
+			+ BOTTOM\_STRING: String                                      \\
+			+ TOP\_STRING: String                                         \\
+			\hline
+			* bottomRepresentation(): StructuredRepresentation            \\
+			* topRepresentation(): StructuredRepresentation               \\
+			+ lessOrEqual(other: L): boolean                              \\
+			+ lub(other: L): L                                            \\
+			+ !upchain(other: L): L                                       \\
+			+ !widening(other: L): L                                      \\
+			+ !glb(other: L): L                                           \\
+			+ !downchain(other: L): L                                     \\
+			+ !narrowing(other: L): L                                     \\
+			+ top(): L                                                    \\
+			+ !isTop(): boolean                                           \\
+			+ bottom(): L                                                 \\
+			+ !isBottom(): boolean                                        \\
+			+ <D> !getLatticeInstance(Class<D> domain): D                 \\
+			+ <D> !getAllLatticeInstances(Class<D> domain): Collection<D> \\
+		\end{tabular}};
+
+
+	\draw[->, thick] (lattice) to (struct);
+\end{tikzpicture}
+
+\end{document}

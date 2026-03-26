@@ -1,0 +1,27 @@
+% !TeX program = xelatex
+\documentclass[
+  convert={density=500, size=600, outext=.png}, 
+  border=2pt
+]{standalone}
+
+\input{settings.tex}
+
+\begin{document}
+\sffamily
+
+\begin{tikzpicture}[nodes={font={\small}, minimum width=3.5cm}]%
+	\node[interfacenode] (ocp) {\begin{tabular}{l}
+			\multicolumn{1}{c}{\interfacename{OpenCallPolicy}}                                                                                \\
+			\hline
+			+ <A, D> apply(call: OpenCall, entryState: AnalysisState<A>, analysis: Analysis<A, D>, params: ExpressionSet[]): AnalysisState<A> \\
+		\end{tabular}};
+	\node[classnode, inlinenode] (ocp1) [below=of ocp] {\classname{TopExecutionPolicy}};
+	\node[classnode, inlinenode] (ocp2) [left=of ocp1] {\classname{ReturnTopPolicy}};
+	\node[classnode, inlinenode] (ocp3) [right=of ocp1] {\classname{WorstCasePolicy}};
+
+	\draw[->, thick, dashed] (ocp1) to (ocp);
+	\draw[->, thick, dashed] (ocp2) |- ($(ocp.south)+(0,-0.5)$) to (ocp);
+	\draw[->, thick, dashed] (ocp3) |- ($(ocp.south)+(0,-0.5)$) to (ocp);
+\end{tikzpicture}
+
+\end{document}

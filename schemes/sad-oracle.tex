@@ -1,0 +1,37 @@
+% !TeX program = xelatex
+\documentclass[
+  convert={density=500, size=600, outext=.png}, 
+  border=2pt
+]{standalone}
+
+\input{settings.tex}
+
+\begin{document}
+\sffamily
+
+\begin{tikzpicture}[nodes={font={\small}, minimum width=3cm}]%
+	\node[classnode] (sad) {\begin{tabular}{l}
+			\multicolumn{1}{c}{\classname{SimpleAbstractDomain} : H, V, T} \\
+			\hline
+			+ heapDomain: HeapDomain<H>                                    \\
+			+ valueDomain: ValueDomain<V>                                  \\
+			+ typeDomain: TypeDomain<T>                                    \\
+		\end{tabular}};
+
+	\node[interfacenode, inlinenode] (dom) [above=of sad] {\interfacename{AbstractDomain} : L};
+
+	\node[classnode] (moracle) [right=of sad] {\begin{tabular}{l}
+			\multicolumn{1}{c}{\classname{MutableOracle} : H, V, T} \\
+			\hline
+			+ heap: H                                               \\
+			+ value: V                                              \\
+			+ type: T                                               \\
+		\end{tabular}};
+
+	\node[interfacenode, inlinenode] (oracle) [above=of moracle] {\interfacename{SemanticOracle}};
+
+	\draw[->, thick, dashed] (sad) to (dom);
+	\draw[->, thick, dashed] (moracle) to (oracle);
+\end{tikzpicture}
+
+\end{document}

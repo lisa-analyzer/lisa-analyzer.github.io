@@ -1,0 +1,55 @@
+% !TeX program = xelatex
+\documentclass[
+  convert={density=500, size=600, outext=.png}, 
+  border=2pt
+]{standalone}
+
+\input{settings.tex}
+
+\begin{document}
+\sffamily
+
+\begin{tikzpicture}[nodes={font={\small}, minimum width=5cm, minimum height=.6cm}]%
+	\node[interfacenode, inlinenode] (nrd) {\interfacename{NonRelationalDomain}: L, T, M, E};
+	\node[interfacenode, inlinenode] (td) [left=of nrd] {\interfacename{TypeDomain} : L};
+	\node[interfacenode, inlinenode] (nrtd) [below=of td] {\interfacename{NonRelationalTypeDomain} : L};
+	\node[interfacenode, inlinenode] (vd) [right=7cm of nrd] {\interfacename{ValueDomain} : L};
+	\node[interfacenode, inlinenode] (nrvd) [below=of vd] {\interfacename{NonRelationalValueDomain} : L};
+	\node[interfacenode, inlinenode] (ev) [left=of nrvd] {\interfacename{ExpressionVisitor}: T};
+
+	\node[interfacenode] (bnrd) [below=of $(nrvd)!0.5!(nrtd)$] {\begin{tabular}{l}
+			\multicolumn{1}{c}{\interfacename{BaseNonRelationalDomain}: L, M}               \\
+			\hline
+			+ !evalUnaryExpression(expression: UnaryExpression, arg: L,                     \\
+			$\qquad\qquad$pp: ProgramPoint, oracle: SemanticOracle): L                      \\
+			+ !evalBinaryExpression(expression: BinaryExpression, left: L, right: L,        \\
+			$\qquad\qquad$pp: ProgramPoint, oracle: SemanticOracle): L                      \\
+			+ $\dots$                                                                       \\
+			+ !satisfiesUnaryExpression(expression: UnaryExpression, arg: L,                \\
+			$\qquad\qquad$pp: ProgramPoint, oracle: SemanticOracle): Satisfiability         \\
+			+ !satisfiesBinaryExpression(expression: BinaryExpression, left: L, right: L,   \\
+			$\qquad\qquad$pp: ProgramPoint, oracle: SemanticOracle): Satisfiability         \\
+			+ $\dots$                                                                       \\
+			+ !assumeUnaryExpression(environment: M, expression: UnaryExpression,           \\
+			$\qquad\qquad$src: ProgramPoint, dest: ProgramPoint, oracle: SemanticOracle): M \\
+			+ !assumeBinaryExpression(environment: M, expression: BinaryExpression,         \\
+			$\qquad\qquad$src: ProgramPoint, dest: ProgramPoint, oracle: SemanticOracle): M \\
+			+ $\dots$                                                                       \\
+		\end{tabular}};
+
+	\node[interfacenode, inlinenode] (bnrvd) [below right=1cm and -2cm of bnrd] {\interfacename{BaseNonRelationalValueDomain} : L};
+	\node[interfacenode, inlinenode] (bnrtd) [below left=1cm and -2cm of bnrd] {\interfacename{BaseNonRelationalTypeDomain} : L};
+
+	\draw[->, thick] (nrvd) to (vd);
+	\draw[->, thick] (nrtd) to (td);
+	\draw[->, thick] ($(nrtd.north)+(0.2,0)$) |- ($(nrd.south)+(0,-0.5)$) to (nrd);
+	\draw[->, thick] ($(nrvd.north)+(-0.2,0)$) |- ($(nrd.south)+(0,-0.5)$) to (nrd);
+	\draw[->, thick] ($(bnrd.north)+(-0.2,0)$) |- ($(nrd.south)+(0,-2.0)$) to (nrd);
+	\draw[->, thick] ($(bnrd.north)+(0.2,0)$) |- ($(ev.south)+(0,-0.4)$) to (ev);
+	\draw[->, thick] ($(bnrvd.north)+(-0.2,0)$) |- ($(bnrd.south)+(0,-0.5)$) to (bnrd);
+	\draw[->, thick] ($(bnrvd.north)+(0.2,0)$) to ($(bnrvd.north)+(0.2,0.5)$) -| (nrvd);
+	\draw[->, thick] ($(bnrtd.north)+(0.2,0)$) |- ($(bnrd.south)+(0,-0.5)$) to (bnrd);
+	\draw[->, thick] ($(bnrtd.north)+(-0.2,0)$) to ($(bnrtd.north)+(-0.2,0.5)$) -| (nrtd);
+\end{tikzpicture}
+
+\end{document}

@@ -1,0 +1,49 @@
+% !TeX program = xelatex
+\documentclass[
+  convert={density=500, size=600, outext=.png}, 
+  border=2pt
+]{standalone}
+
+\input{settings.tex}
+
+\begin{document}
+\sffamily
+
+\begin{tikzpicture}[nodes={font={\small}, minimum width=3.5cm}]%
+	\node[abstractclassnode] (cg) {\begin{tabular}{l}
+			\multicolumn{1}{c}{\absclassname{CallGraph}}                                        \\
+			\hline
+			+ !init(app: Application, events: EventQueue): void                                 \\
+			+ resolve(call: UnresolvedCall, types: Set<Type>[], aliasing: SymbolAliasing): Call \\
+			+ registerCall(call: CFGCall): void                                                 \\
+			+ getCallSites(cm: CodeMember): Collection<Call>                                    \\
+			+ !getCallSites(cms: Collection<CodeMember>): Collection<Call>                      \\
+			+ !getCallers(cm: CodeMember): Collection<CodeMember>                               \\
+			+ !getCallers(cms: Collection<CodeMember>): Collection<CodeMember>                  \\
+			+ !getCallersTransitively(cm: CodeMember): Collection<CodeMember>                   \\
+			+ !getCallersTransitively(cms: Collection<CodeMember>): Collection<CodeMember>      \\
+			+ !getCallees(cm: CodeMember): Collection<CodeMember>                               \\
+			+ !getCallees(cms: Collection<CodeMember>): Collection<CodeMember>                  \\
+			+ !getCalleesTransitively(cm: CodeMember): Collection<CodeMember>                   \\
+			+ !getCalleesTransitively(cms: Collection<CodeMember>): Collection<CodeMember>      \\
+			+ !getRecursions(): Collection<Collection<CodeMember>>                              \\
+			+ !getRecursionsContaining(cm: CodeMember): Collection<Collection<CodeMember>>      \\
+		\end{tabular}};
+
+	\node[classnode] (bcg) [below=of cg] {\begin{tabular}{l}
+			\multicolumn{1}{c}{\classname{BaseCallGraph}}                                                                                                             \\
+			\hline
+			+ !resolveNonInstance(call: UnresolvedCall, types: Set<Type>[], targets: Collection<CFG>, natives: Collection<NativeCFG>, aliasing: SymbolAliasing): Call \\
+			+ !resolveInstance(call: UnresolvedCall, types: Set<Type>[], targets: Collection<CFG>, natives: Collection<NativeCFG>, aliasing: SymbolAliasing): Call    \\
+			+ !getReceiverCompilationUnit(receiverType: Type): CompilationUnit                                                                                        \\
+			+ !isATarget(call: UnresolvedCall, aliasing: SymbolAliasing, cm: CodeMember, types: Set<Type>[], instance: boolean): boolean                              \\
+			+ !matchesAlias(call: UnresolvedCall, aliasing: SymbolAliasing, name: String, qualifier: String): boolean                                                 \\
+			+ !addTarget(cm: CodeMember, cfgTargets: Collection<CFG>, nativeTargets: Collection<NativeCFG>): void                                                     \\
+			+ !matchesCodeMemberName(call: UnresolvedCall, name: String, qualifier: String): boolean                                                                  \\
+			+ getPossibleTypesOfReceiver(receiver: Expression, types: Set<Type>): Collection<Type>                                                                    \\
+		\end{tabular}};
+
+	\draw[->, thick] (bcg) to (cg);
+\end{tikzpicture}
+
+\end{document}

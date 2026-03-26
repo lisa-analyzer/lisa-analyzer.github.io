@@ -1,0 +1,51 @@
+% !TeX program = xelatex
+\documentclass[
+  convert={density=500, size=600, outext=.png}, 
+  border=2pt
+]{standalone}
+
+\input{settings.tex}
+
+\begin{document}
+\sffamily
+
+\begin{tikzpicture}[nodes={font={\small}, minimum width=3.5cm}]%
+	\node[classnode, inlinenode] (cfg) {\classname{CFG}};
+	\node[interfacenode, inlinenode] (bl) [right=of cfg] {\interfacename{BaseLattice} : L};
+	\node[classnode] (acfg) [below=of $(cfg)!0.5!(bl)$] {\begin{tabular}{l}
+			\multicolumn{1}{c}{\classname{AnalyzedCFG}: A}            \\
+			\hline
+			+ results: StatementStore<A>                              \\
+			+ entryState: StatementStore<A>                           \\
+			+ id: ScopeId<A>                                          \\
+			\hline
+			+ getId(): ScopeId<A>                                     \\
+			+ getAnalysisStateBefore(st: Statement): AnalysisState<A> \\
+			+ getAnalysisStateAfter(st: Statement): AnalysisState<A>  \\
+			+ getEntryState(): AnalysisState<A>                       \\
+			+ getExitState(): AnalysisState<A>                        \\
+		\end{tabular}};
+
+	\node[classnode, inlinenode] (cfg2) [right=of bl] {\classname{CFG}};
+	\node[interfacenode, inlinenode] (bl2) [right=of cfg2] {\interfacename{BaseLattice} : L};
+	\node[classnode] (bacfg) [below=of $(cfg2)!0.5!(bl2)$] {\begin{tabular}{l}
+			\multicolumn{1}{c}{\classname{BackwardAnalyzedCFG}: A}    \\
+			\hline
+			+ results: StatementStore<A>                              \\
+			+ exitState: StatementStore<A>                            \\
+			+ id: ScopeId<A>                                          \\
+			\hline
+			+ getId(): ScopeId<A>                                     \\
+			+ getAnalysisStateBefore(st: Statement): AnalysisState<A> \\
+			+ getAnalysisStateAfter(st: Statement): AnalysisState<A>  \\
+			+ getEntryState(): AnalysisState<A>                       \\
+			+ getExitState(): AnalysisState<A>                        \\
+		\end{tabular}};
+
+	\draw[->, thick] ($(acfg.north)+(-0.2,0)$) |- ($(cfg.south)+(0,-0.5)$) to (cfg);
+	\draw[->, thick, dashed] ($(acfg.north)+(0.2,0)$) |- ($(bl.south)+(0,-0.5)$) to (bl);
+	\draw[->, thick] ($(bacfg.north)+(-0.2,0)$) |- ($(cfg2.south)+(0,-0.5)$) to (cfg2);
+	\draw[->, thick, dashed] ($(bacfg.north)+(0.2,0)$) |- ($(bl2.south)+(0,-0.5)$) to (bl2);
+\end{tikzpicture}
+
+\end{document}

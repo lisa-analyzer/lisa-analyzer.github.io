@@ -1,0 +1,53 @@
+% !TeX program = xelatex
+\documentclass[
+  convert={density=500, size=600, outext=.png}, 
+  border=2pt
+]{standalone}
+
+\input{settings.tex}
+
+\begin{document}
+\sffamily
+
+\begin{tikzpicture}[nodes={font={\small}, minimum width=3cm}]%
+	\node[interfacenode, inlinenode] (dl) {\interfacename{DomainLattice} : L, T};
+
+	\node[interfacenode, inlinenode] (blattice) [left=of dl] {\interfacename{BaseLattice} : L};
+
+	\node[interfacenode] (lwr) [below=of dl] {\begin{tabular}{l}
+			\multicolumn{1}{c}{\interfacename{LatticeWithReplacement} : L} \\
+			\hline
+			+ !applyReplacement(r: HeapReplacement, pp: ProgramPoint): L   \\
+			+ store(target: Identifier, source: Identifier): L             \\
+		\end{tabular}};
+
+	\node[interfacenode, right=of lwr.north east, anchor=north west] (hl) {\begin{tabular}{l}
+			\multicolumn{1}{c}{\interfacename{HeapLattice} : L}    \\
+			\hline
+			+ expand(base: HeapReplacement): List<HeapReplacement> \\
+		\end{tabular}};
+
+	\node[interfacenode, inlinenode, left=of lwr.north west, anchor=north east] (al) {\interfacename{AbstractLattice} : L};
+
+	\node[classnode] (sad) [below=of al] {\begin{tabular}{l}
+			\multicolumn{1}{c}{\classname{SimpleAbstractState} : H, V, T} \\
+			\hline
+			+ heapState: H                                                \\
+			+ valueState: V                                               \\
+			+ typeState: T                                                \\
+		\end{tabular}};
+
+	\node[interfacenode, inlinenode] (vl) [below left=1cm and 1.5cm of lwr.south] {\interfacename{ValueLattice} : L};
+
+	\node[interfacenode, inlinenode] (tl) [below right=1cm and 1.5cm of lwr.south] {\interfacename{TypeLattice} : L};
+
+	\draw[->, thick] (lwr) to (dl);
+	\draw[->, thick] (al) |- ($(dl.south)+(0,-0.5)$) to (dl);
+	\draw[->, thick] (hl) |- ($(dl.south)+(0,-0.5)$) to (dl);
+	\draw[->, thick, dashed] (sad) to ($(sad.north)+(0,0.5)$) -| ($(sad.north)+(2.1,1.9)$) -| (blattice);
+	\draw[->, thick, dashed] (sad) to (al);
+	\draw[->, thick] (vl) |- ($(lwr.south)+(0,-0.5)$) to (lwr);
+	\draw[->, thick] (tl) |- ($(lwr.south)+(0,-0.5)$) to (lwr);
+\end{tikzpicture}
+
+\end{document}

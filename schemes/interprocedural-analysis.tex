@@ -1,0 +1,44 @@
+% !TeX program = xelatex
+\documentclass[
+  convert={density=500, size=600, outext=.png}, 
+  border=2pt
+]{standalone}
+
+\input{settings.tex}
+
+\begin{document}
+\sffamily
+
+\begin{tikzpicture}[nodes={font={\small}, minimum width=3.5cm}]%
+	\node[interfacenode] (ia) {\begin{tabular}{l}
+			\multicolumn{1}{c}{\interfacename{InterproceduralAnalysis}: A, D}                                                          \\
+			\hline
+			+ needsCallGraph(): boolean                                                                                                \\
+			+ init(app: Application, callgraph: CallGraph, policy: OpenCallPolicy, events: EventQueue, analysis: Analysis<A, D>): void \\
+			+ getAnalysis(): Analysis<A, D>                                                                                            \\
+			+ getEventQueue(): EventQueue                                                                                              \\
+			+ fixpoint(entryState: AnalysisState<A>, conf: FixpointConfiguration<A, D>): void                                          \\
+			+ getAnalysisResultsOf(cfg: CFG): Collection<AnalyzedCFG<A>>                                                               \\
+			+ getAbstractResultOf(call: CFGCall, entryState: AnalysisState<A>, parameters: ExpressionSet[],                            \\
+			$\qquad\qquad$expressions: StatementStore<A>): AnalysisState<A>                                                            \\
+			+ getAbstractResultOf(call: OpenCall, entryState: AnalysisState<A>, parameters: ExpressionSet[],                           \\
+			$\qquad\qquad$expressions: StatementStore<A>): AnalysisState<A>                                                            \\
+			+ resolve(call: UnresolvedCall, types: Set<Type>[], aliasing: SymbolAliasing): Call                                        \\
+			+ getFixpointResults(): FixpointResults<A>                                                                                 \\
+		\end{tabular}};
+	\node[abstractclassnode] (cgbia) [below=of ia] {\begin{tabular}{l}
+			\multicolumn{1}{c}{\absclassname{CallGraphBasedAnalysis}: A, D}                           \\
+			\hline
+			+ callgraph: CallGraph                                                                    \\
+			+ app: Application                                                                        \\
+			+ policy: OpenCallPolicy                                                                  \\
+			+ events: EventQueue                                                                      \\
+			+ analysis: Analysis<A, D>                                                                \\
+			\hline
+			+ prepareEntryStateOfEntryPoint(entryState: AnalysisState<A>, cfg: CFG): AnalysisState<A> \\
+		\end{tabular}};
+
+	\draw[->, thick, dashed] (cgbia) to (ia);
+\end{tikzpicture}
+
+\end{document}

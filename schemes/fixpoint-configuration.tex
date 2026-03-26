@@ -1,0 +1,32 @@
+% !TeX program = xelatex
+\documentclass[
+  convert={density=500, size=600, outext=.png}, 
+  border=2pt
+]{standalone}
+
+\input{settings.tex}
+
+\begin{document}
+\sffamily
+
+\begin{tikzpicture}[nodes={font={\small}, minimum width=3.5cm}]%
+	\node[classnode] (fc) {\begin{tabular}{l}
+			\multicolumn{1}{c}{\classname{FixpointConfiguration}: A, D} \\
+			\hline
+			+ fixpointWorkingSet: WorkingSet<Statement>                 \\
+			+ wideningThreshold: int                                    \\
+			+ recursionWideningThreshold: int                           \\
+			+ glbThreshold: int                                         \\
+			+ useWideningPoints: boolean                                \\
+			+ hotspots: Predicate<Statement>                            \\
+			+ forwardFixpoint: ForwardCFGFixpoint<A, D>                 \\
+			+ forwardDescendingFixpoint: ForwardCFGFixpoint<A, D>       \\
+			+ backwardFixpoint: BackwardCFGFixpoint<A, D>               \\
+			+ backwardDescendingFixpoint: BackwardCFGFixpoint<A, D>     \\
+			\hline
+			+ usesOptimizedForwardFixpoint(): boolean                   \\
+			+ usesOptimizedBackwardFixpoint(): boolean                  \\
+		\end{tabular}};
+\end{tikzpicture}
+
+\end{document}

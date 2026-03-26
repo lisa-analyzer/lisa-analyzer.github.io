@@ -1,0 +1,67 @@
+% !TeX program = xelatex
+\documentclass[
+  convert={density=500, size=600, outext=.png}, 
+  border=2pt
+]{standalone}
+
+\input{settings.tex}
+
+\begin{document}
+\sffamily
+
+\begin{tikzpicture}[nodes={font={\small}, minimum width=3cm}]%
+	\node[interfacenode] (td) {\begin{tabular}{l}
+			\multicolumn{1}{c}{\interfacename{TypeDomain} : L}                 \\
+			\hline
+			+ getRuntimeTypesOf(state: L, expression: SymbolicExpression,      \\
+			$\qquad\qquad$pp: ProgramPoint, oracle: SemanticOracle): Set<Type> \\
+			+ getDynamicTypeOf(state: L, expressions: ExpressionSet,           \\
+			$\qquad\qquad$pp: ProgramPoint, oracle: SemanticOracle): Type      \\
+		\end{tabular}};
+
+	\node[interfacenode, inlinenode, left=of td.north west, anchor=north east] (vd) {\begin{tabular}{l}
+			\multicolumn{1}{c}{\interfacename{ValueDmain} : L} \\
+		\end{tabular}};
+
+	\node[interfacenode] (dwr) [above=1.5cm of $(td)!0.5!(vd)$] {\begin{tabular}{l}
+			\multicolumn{1}{c}{\interfacename{DomainWithReplacement} : L, E} \\
+			\hline
+			+ !applyReplacement(state: L, r: HeapReplacement,                \\
+			$\qquad\qquad$pp: ProgramPoint, oracle: SemanticOracle): L       \\
+		\end{tabular}};
+
+	\node[interfacenode, left=2cm of dwr.north west, anchor=north east] (hd) {\begin{tabular}{l}
+			\multicolumn{1}{c}{\interfacename{HeapDomain} : L}                             \\
+			\hline
+			+ rewrite(state: L, expression: SymbolicExpression,                            \\
+			$\qquad\qquad$pp: ProgramPoint, oracle: SemanticOracle): ExpressionSet         \\
+			+ rewrite(state: L, expressions: ExpressionSet,                                \\
+			$\qquad\qquad$pp: ProgramPoint, oracle: SemanticOracle): ExpressionSet         \\
+			+ alias(state: L, x: SymbolicExpression, y: SymbolicExpression,                \\
+			$\qquad\qquad$pp: ProgramPoint, oracle: SemanticOracle): Satisfiability        \\
+			+ reachableFrom(state: L, e: SymbolicExpression,                               \\
+			$\qquad\qquad$pp: ProgramPoint, oracle: SemanticOracle): ExpressionSet         \\
+			+ isReachableFrom(state: L, x: SymbolicExpression, y: SymbolicExpression,      \\
+			$\qquad\qquad$pp: ProgramPoint, oracle: SemanticOracle): Satisfiability        \\
+			+ areMutuallyReachable(state: L, x: SymbolicExpression, y: SymbolicExpression, \\
+			$\qquad\qquad$pp: ProgramPoint, oracle: SemanticOracle): Satisfiability        \\
+		\end{tabular}};
+
+	\node[interfacenode] (comp) [above=of $(hd.north)!0.5!(dwr.north)$] {\begin{tabular}{l}
+			\multicolumn{1}{c}{\interfacename{SemanticComponent} : L, T, E, I}                                  \\
+			\hline
+			+ assign(state: L, id: I, expression: E, pp: ProgramPoint, oracle: SemanticOracle): T               \\
+			+ smallStepSemantics(state: L, expression: E, pp: ProgramPoint, oracle: SemanticOracle): T          \\
+			+ assume(state: L, expression: E, src: ProgramPoint, dest: ProgramPoint, oracle: SemanticOracle): T \\
+			+ !satisfies(state: L, expression: E, pp: ProgramPoint, oracle: SemanticOracle): Satisfiability     \\
+			+ makeLattice(): L                                                                                  \\
+			+ onCallReturn(entryState: L, callres: L, call: ProgramPoint): L                                    \\
+		\end{tabular}};
+
+	\draw[->, thick] (vd) |- ($(dwr.south)+(0,-0.5)$) to (dwr);
+	\draw[->, thick] (td) |- ($(dwr.south)+(0,-0.5)$) to (dwr);
+	\draw[->, thick] (hd) |- ($(comp.south)+(0,-0.5)$) to (comp);
+	\draw[->, thick] (dwr) |- ($(comp.south)+(0,-0.5)$) to (comp);
+\end{tikzpicture}
+
+\end{document}

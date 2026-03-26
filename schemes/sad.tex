@@ -1,0 +1,35 @@
+% !TeX program = xelatex
+\documentclass[
+  convert={density=500, size=600, outext=.png}, 
+  border=2pt
+]{standalone}
+
+\input{settings.tex}
+
+\begin{document}
+\sffamily
+
+\begin{tikzpicture}[comp/.style={
+				draw=cgreen,
+				very thick,
+				rectangle,
+				rounded corners,
+				minimum width=3cm,
+				minimum height=1.0cm}]
+	\node[comp] (val) {Value Domain};
+	\node[comp] (type) [left=of val] {Type Domain};
+	\node[comp] (mem) [above=2cm of $(val)!0.5!(type)$] {Heap Domain};
+	\node (txt) [above=.3cm of mem] {SimpleAbstractDomain};
+	\node[comp, fit=(mem)(val)(type)(txt), inner xsep=.5cm, inner ysep=.2cm, draw=black] (abs) {};
+
+	\node [below=.3cm of abs] {\cgreen{$\Box$ configurable}};
+
+	\draw[->, thick] (mem) to (val);
+	\draw[->, thick] (mem) to (type);
+	\draw[->, thick] (abs.west) to ($(abs.west)+(0.5,0)$) |- (mem.west);
+	\draw[->, thick] ($(abs.west)+(-.5,0)$) node[above] {expr} to (abs.west);
+
+	\node[fill=white] [below=.5cm of mem] {substitution and rewriting};
+\end{tikzpicture}
+
+\end{document}

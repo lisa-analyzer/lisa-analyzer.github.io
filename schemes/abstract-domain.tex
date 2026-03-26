@@ -1,0 +1,38 @@
+% !TeX program = xelatex
+\documentclass[
+  convert={density=500, size=600, outext=.png}, 
+  border=2pt
+]{standalone}
+
+\input{settings.tex}
+
+\begin{document}
+\sffamily
+
+\begin{tikzpicture}[nodes={font={\small}, minimum width=3cm}]%
+	\node[interfacenode, inlinenode] (dom) {\interfacename{SemanticDomain} : L, T, E, I};
+
+	\node[interfacenode] (ad) [below=of dom] {\begin{tabular}{l}
+			\multicolumn{1}{c}{\interfacename{AbstractDomain} : L} \\
+			\hline
+			+ makeOracle(state: L): SemanticOracle                 \\
+		\end{tabular}};
+
+	\node[interfacenode, right=of dom.north east, anchor=north west] (oracle) {\begin{tabular}{l}
+			\multicolumn{1}{c}{\interfacename{SemanticOracle}}                                                     \\
+			\hline
+			+ getEventQueue(): EventQueue                                                                          \\
+			+ getRuntimeTypesOf(e: SymbolicExpression, pp: ProgramPoint): Set<Type>                                \\
+			+ getDynamicTypeOf(e: SymbolicExpression, pp: ProgramPoint): Type                                      \\
+			+ rewrite(expression: SymbolicExpression, pp: ProgramPoint): ExpressionSet                             \\
+			+ rewrite(expressions: ExpressionSet, pp: ProgramPoint): ExpressionSet                                 \\
+			+ alias(x: SymbolicExpression, y: SymbolicExpression, pp: ProgramPoint): Satisfiability                \\
+			+ reachableFrom(e: SymbolicExpression, pp: ProgramPoint): ExpressionSet                                \\
+			+ isReachableFrom(x: SymbolicExpression, y: SymbolicExpression, pp: ProgramPoint): Satisfiability      \\
+			+ areMutuallyReachable(x: SymbolicExpression, y: SymbolicExpression, pp: ProgramPoint): Satisfiability \\
+		\end{tabular}};
+
+	\draw[->, thick] (ad) to (dom);
+\end{tikzpicture}
+
+\end{document}

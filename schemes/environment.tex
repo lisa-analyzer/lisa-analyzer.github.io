@@ -1,0 +1,55 @@
+% !TeX program = xelatex
+\documentclass[
+  convert={density=500, size=600, outext=.png}, 
+  border=2pt
+]{standalone}
+
+\input{settings.tex}
+
+\begin{document}
+\sffamily
+
+\begin{tikzpicture}[nodes={font={\small}, minimum width=3cm}]%
+
+	\node[interfacenode, inlinenode] (dl) {\interfacename{DomainLattice} : L, T};
+	\node[abstractclassnode, inlinenode] (fl) [right=of dl] {\absclassname{FunctionalLattice} : F, K, V};
+
+	\node[abstractclassnode, inlinenode] (env) [below=of $(dl.south)!0.5!(fl.south)$] {\absclassname{Environment} : L, E};
+	\node[interfacenode, inlinenode] (vl) [left=of env] {\interfacename{ValueLattice} : L};
+
+	\node[interfacenode, inlinenode] (tl) [right=of env] {\interfacename{TypeLattice} : L};
+	\node[interfacenode, inlinenode] (hl) [right=of tl] {\interfacename{HeapLattice} : L};
+
+	\node[classnode, inlinenode] (venv) [below=of vl] {\classname{ValueEnvironment} : L};
+	\node[classnode, inlinenode] (tenv) [below=of tl] {\classname{TypeEnvironment} : L};
+	\node[classnode, inlinenode] (henv) [below=of hl] {\classname{HeapEnvironment} : L};
+
+	\node[interfacenode, inlinenode] (lattice) [below=of $(tenv.south)!0.5!(henv.south)$] {\interfacename{Lattice} : L};
+
+	\node[interfacenode] (tv) [below right=1cm and -1cm of lattice] {\begin{tabular}{l}
+			\multicolumn{1}{c}{\interfacename{TypeValue} : L} \\
+			\hline
+			+ getRuntimeTypes(): Set<Type>                    \\
+		\end{tabular}};
+
+	\node[interfacenode] (hv) [below left=1cm and -1cm of lattice] {\begin{tabular}{l}
+			\multicolumn{1}{c}{\interfacename{HeapValue} : L}                                      \\
+			\hline
+			+ <F> !reachableOnlyFrom(state: F, id: Identifier): Collection<Identifier>             \\
+			+ <F> reachableOnlyFrom(state: F, ids: Collection<Identifier>): Collection<Identifier> \\
+		\end{tabular}};
+
+	\draw[->, thick] ($(env.north)+(0.2,0)$) |- ($(fl.south)+(0,-0.5)$) to (fl);
+	\draw[->, thick, dashed] ($(env.north)+(-0.2,0)$) |- ($(dl.south)+(0,-0.5)$) to (dl);
+	\draw[->, thick] ($(venv.north)+(0.2,0)$) |- ($(env.south)+(0,-0.5)$) to (env);
+	\draw[->, thick] ($(tenv.north)+(-0.2,0)$) |- ($(env.south)+(0,-0.5)$) to (env);
+	\draw[->, thick] ($(henv.north)+(-0.2,0)$) |- ($(env.south)+(0,-0.5)$) to (env);
+	\draw[->, thick, dashed] (venv) to (vl);
+	\draw[->, thick, dashed] (tenv) to (tl);
+	\draw[->, thick, dashed] (henv) to (hl);
+
+	\draw[->, thick] (tv) |- ($(lattice.south)+(0,-0.5)$) to (lattice);
+	\draw[->, thick] (hv) |- ($(lattice.south)+(0,-0.5)$) to (lattice);
+\end{tikzpicture}
+
+\end{document}

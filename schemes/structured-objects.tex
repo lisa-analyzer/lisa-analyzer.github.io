@@ -1,0 +1,33 @@
+% !TeX program = xelatex
+\documentclass[
+  convert={density=500, size=600, outext=.png}, 
+  border=2pt
+]{standalone}
+
+\input{settings.tex}
+
+\begin{document}
+\sffamily
+
+\begin{tikzpicture}[nodes={font={\small}, minimum width=5cm}]%
+	\node[abstractclassnode, inlinenode] (repr) {\interfacename{StructuredRepresentation}};
+	\node[classnode, inlinenode] (strrepr) [below=of repr] {\classname{StringRepresentation}};
+	\node[classnode, inlinenode] (setrepr) [left=of strrepr] {\classname{SetRepresentation}};
+	\node[classnode, inlinenode] (listrepr) [below=of $(strrepr.south)!0.5!(setrepr.south)$] {\classname{ListRepresentation}};
+	\node[classnode, inlinenode] (maprepr) [right=of strrepr] {\classname{MapRepresentation}};
+	\node[classnode, inlinenode] (objrepr) [below=of $(strrepr.south)!0.5!(maprepr.south)$] {\classname{ObjectRepresentation}};
+
+	\draw[->, thick] (strrepr) to (repr);
+	\draw[->, thick] (setrepr) |- ($(strrepr.north)+(0,.5)$) to (repr);
+	\draw[->, thick] (listrepr) |- ($(strrepr.north)+(0,.5)$) to (repr);
+	\draw[->, thick] (maprepr) |- ($(strrepr.north)+(0,.5)$) to (repr);
+	\draw[->, thick] (objrepr) |- ($(strrepr.north)+(0,.5)$) to (repr);
+
+	\node[interfacenode] (struct) [below=of $(listrepr.south)!0.5!(objrepr.south)$] {\begin{tabular}{l}
+			\multicolumn{1}{c}{\interfacename{StructuredObject}} \\
+			\hline
+			+ representation(): StructuredRepresentation         \\
+		\end{tabular}};
+\end{tikzpicture}
+
+\end{document}

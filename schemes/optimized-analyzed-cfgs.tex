@@ -1,0 +1,43 @@
+% !TeX program = xelatex
+\documentclass[
+  convert={density=500, size=600, outext=.png}, 
+  border=2pt
+]{standalone}
+
+\input{settings.tex}
+
+\begin{document}
+\sffamily
+
+\begin{tikzpicture}[nodes={font={\small}, minimum width=3.5cm}]%
+	\node[classnode, inlinenode] (acfg) {\classname{AnalyzedCFG}: A};
+	\node[classnode] (oacfg) [below=of acfg] {\begin{tabular}{l}
+			\multicolumn{1}{c}{\classname{OptimizedAnalyzedCFG}: A, D}                                          \\
+			\hline
+			+ interprocedural: InterproceduralAnalysis<A, D>                                                    \\
+			+ epanded: StatementStore<A>                                                                        \\
+			\hline
+			+ getUnwindedAnalysisStateAfter(st: Statement, conf: FixpointConfiguration<A, D>): AnalysisState<A> \\
+			+ unwind(conf: FixpointConfiguration<A, D>): void                                                   \\
+			+ hasPostStateOf(st: Statement): boolean                                                            \\
+			+ storePostStateOf(st: Statement, postState: AnalysisState<A>): void                                \\
+		\end{tabular}};
+
+	\node[classnode, inlinenode] (bacfg) [below=of oacfg] {\classname{BackwardAnalyzedCFG}: A};
+	\node[classnode] (boacfg) [below=of bacfg] {\begin{tabular}{l}
+			\multicolumn{1}{c}{\classname{OptimizedAnalyzedCFG}: A, D}                                           \\
+			\hline
+			+ interprocedural: InterproceduralAnalysis<A, D>                                                     \\
+			+ epanded: StatementStore<A>                                                                         \\
+			\hline
+			+ getUnwindedAnalysisStateBefore(st: Statement, conf: FixpointConfiguration<A, D>): AnalysisState<A> \\
+			+ unwind(conf: FixpointConfiguration<A, D>): void                                                    \\
+			+ hasPreStateOf(st: Statement): boolean                                                              \\
+			+ storePreStateOf(st: Statement, preState: AnalysisState<A>): void                                   \\
+		\end{tabular}};
+
+	\draw[->, thick] (oacfg) to (acfg);
+	\draw[->, thick] (boacfg) to (bacfg);
+\end{tikzpicture}
+
+\end{document}

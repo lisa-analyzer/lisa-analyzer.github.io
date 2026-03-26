@@ -1,0 +1,41 @@
+% !TeX program = xelatex
+\documentclass[
+  convert={density=500, size=600, outext=.png}, 
+  border=2pt
+]{standalone}
+
+\input{settings.tex}
+
+\begin{document}
+\sffamily
+
+\begin{tikzpicture}[nodes={font={\small}, minimum width=3cm}]%
+	\node[interfacenode, inlinenode] (dom) {\interfacename{SemanticDomain} : L, T, E, I};
+
+	\node[classnode] (ad) [below=of dom] {\begin{tabular}{l}
+			\multicolumn{1}{c}{\classname{Analysis} : A, D}                                                                               \\
+			\hline
+			+ domain: D                                                                                                                   \\
+			+ shouldSmashErrors: Predicate<Type>                                                                                          \\
+			\hline
+			+ assign(state: AnalysisState<A>, id: SymbolicExpression, expression: SymbolicExpression, pp: ProgramPoint): AnalysisState<A> \\
+			+ getRuntimeTypesOf(e: SymbolicExpression, pp: ProgramPoint): Set<Type>                                                       \\
+			+ getDynamicTypeOf(e: SymbolicExpression, pp: ProgramPoint): Type                                                             \\
+			+ rewrite(expression: SymbolicExpression, pp: ProgramPoint): ExpressionSet                                                    \\
+			+ rewrite(expressions: ExpressionSet, pp: ProgramPoint): ExpressionSet                                                        \\
+			+ alias(x: SymbolicExpression, y: SymbolicExpression, pp: ProgramPoint): Satisfiability                                       \\
+			+ reachableFrom(e: SymbolicExpression, pp: ProgramPoint): ExpressionSet                                                       \\
+			+ isReachableFrom(x: SymbolicExpression, y: SymbolicExpression, pp: ProgramPoint): Satisfiability                             \\
+			+ areMutuallyReachable(x: SymbolicExpression, y: SymbolicExpression, pp: ProgramPoint): Satisfiability                        \\
+			+ moveExecutionToError(state: AnalysisState<A>, error: Error, pp: ProgramPoint): AnalysisState<A>                             \\
+			+ moveErrorsToExecution(state: AnalysisState<A>, pp: ProgramPoint, ProtectedBlock block, Collection<Type> targets,            \\
+			$\qquad\qquad\qquad\qquad$Collection<Type> excluded, VariableRef variable): AnalysisState<A>                                  \\
+			+ transferThrowers(state: AnalysisState<A>, Statement target, CFG origin): AnalysisState<A>                                   \\
+			+ removeCaughtErrors(state: AnalysisState<A>, Statement source): AnalysisState<A>                                             \\
+			+ moveExecutionToHalting(state: AnalysisState<A>, pp: ProgramPoint): AnalysisState<A>                                         \\
+		\end{tabular}};
+
+	\draw[->, thick] (ad) to (dom);
+\end{tikzpicture}
+
+\end{document}

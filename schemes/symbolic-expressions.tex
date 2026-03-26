@@ -1,0 +1,80 @@
+% !TeX program = xelatex
+\documentclass[
+  convert={density=500, size=600, outext=.png}, 
+  border=2pt
+]{standalone}
+
+\input{settings.tex}
+
+\begin{document}
+\sffamily
+
+\begin{tikzpicture}[nodes={font={\small}, minimum width=3.5cm}]%
+	\node[interfacenode, inlinenode] (so) {\interfacename{ScopedObject} : T};
+
+	\node[abstractclassnode] (se) [below=of so] {\begin{tabular}{l}
+			\multicolumn{1}{c}{\absclassname{SymbolicExpression}}                                 \\
+			\hline
+			+ !getStaticType(): Type                                                              \\
+			+ !getCodeLocation(): CodeLocation                                                    \\
+			+ <T> accept(visitor: ExpressionVisitor<T>, params: Object...): CodeLocation          \\
+			+ mightNeedRewriting(): boolean                                                       \\
+			+ removeTypingExpressions(): SymbolicExpression                                       \\
+			+ replace(source: SymbolicExpression, target: SymbolicExpression): SymbolicExpression \\
+		\end{tabular}};
+
+	\node[interfacenode] (ev) [right=of se] {\begin{tabular}{l}
+			\multicolumn{1}{c}{\interfacename{ExpressionVisitor}: T}                        \\
+			\hline
+			+ visit(expression: MemoryAllocation, params: Object...): T                     \\
+			+ visit(expression: BinaryExpression, left: T, right: T, params: Object...): T  \\
+			+ visit(expression: Identifier, params: Object...): T                           \\
+			+ $\dots$                                                                       \\
+			+ visit(expression: HeapExpression, subExpressions: T[], params: Object...): T  \\
+			+ visit(expression: ValueExpression, subExpressions: T[], params: Object...): T \\
+		\end{tabular}};
+
+	\node[abstractclassnode, inlinenode] (he) [below left=1cm and -5cm of se] {\absclassname{HeapEpression}};
+	\node[classnode, inlinenode] (hr) [below left=1cm and -1cm of he] {\classname{HeapReference}};
+	\node[classnode, inlinenode] (hd) [below right=1cm and -1cm of he] {\classname{HeapDereference}};
+	\node[classnode, inlinenode] (ma) [below=of hr] {\classname{MemoryAllocation}};
+	\node[classnode, inlinenode] (ac) [below=of hd] {\classname{AccessChild}};
+	\node[classnode, inlinenode] (nc) [below=of $(ma.south)!0.5!(ac.south)$] {\classname{NullConstant}};
+
+
+
+	\node[abstractclassnode] (ve) [below right=1cm and -7cm of ev] {\begin{tabular}{l}
+			\multicolumn{1}{c}{\absclassname{ValueEpression}} \\
+			\hline
+			+ !removeNegations(): ValueExpression             \\
+		\end{tabular}};
+	\node[classnode, inlinenode] (const) [below=of ve] {\classname{Constant}};
+	\node[classnode, inlinenode] (skip) [left=of const] {\classname{Skip}};
+	\node[classnode, inlinenode] (pi) [left=of skip] {\classname{PushInv}};
+	\node[classnode, inlinenode] (pa) [right=of const] {\classname{PushAny}};
+	\node[classnode, inlinenode] (pac) [below=of pa] {\classname{PushAnyWithConstraints}};
+	\node[classnode, inlinenode] (ue) [below=of const] {\classname{UnaryExpression}};
+	\node[classnode, inlinenode] (be) [below=of skip] {\classname{BinaryExpression}};
+	\node[classnode, inlinenode] (te) [below=of pi] {\classname{TernaryExpression}};
+	\node[abstractclassnode, inlinenode] (id) [below=of $(be.south)!0.5!(ue.south)$] {\absclassname{Identifier}};
+
+	\draw[->, thick, dashed] (se) to (so);
+	\draw[->, thick] (he) |- ($(se.south)+(0,-0.5)$) to (se);
+	\draw[->, thick] (ve) |- ($(se.south)+(0,-0.5)$) to (se);
+	\draw[->, thick] (nc) to (he);
+	\draw[->, thick] (ma) |- ($(he.south)+(0,-2.1)$) to (he);
+	\draw[->, thick] (ac) |- ($(he.south)+(0,-2.1)$) to (he);
+	\draw[->, thick] (hr) |- ($(he.south)+(0,-0.5)$) to (he);
+	\draw[->, thick] (hd) |- ($(he.south)+(0,-0.5)$) to (he);
+	\draw[->, thick] (const) to (ve);
+	\draw[->, thick] (skip) |- ($(ve.south)+(0,-0.5)$) to (ve);
+	\draw[->, thick] (pa) |- ($(ve.south)+(0,-0.5)$) to (ve);
+	\draw[->, thick] (pac) to (pa);
+	\draw[->, thick] (pi) |- ($(ve.south)+(0,-0.5)$) to (ve);
+	\draw[->, thick] (id) |- ($(ve.south)+(0,-0.5)$) to (ve);
+	\draw[->, thick] (be) |- ($(be.north)+(2.25,0.5)$) |- ($(ve.south)+(0,-0.5)$) to (ve);
+	\draw[->, thick] (te) |- ($(be.north)+(2.25,0.5)$) |- ($(ve.south)+(0,-0.5)$) to (ve);
+	\draw[->, thick] (ue) |- ($(be.north)+(2.25,0.5)$) |- ($(ve.south)+(0,-0.5)$) to (ve);
+\end{tikzpicture}
+
+\end{document}
