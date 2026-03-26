@@ -20,19 +20,19 @@ reference that their callbacks accept as parameter.
 
 ## The FileManager class
 
-https://github.com/lisa-analyzer/lisa/blob/master/lisa/lisa-sdk/src/main/java/it/unive/lisa/util/file/FileManager.java
+<center><img src="{{ site.baseurl }}/schemes/file-manager.png" alt="FileManager class diagram" style="width: 70%"></center>
 
-Anywhere there is a reference you can create an output
+The `FileManager` class is the main API for file management in LiSA. It
+provides utilities for creating output files by providing a filler action (i.e.,
+a function that consumes a `Writer` instance to write to the output file) or for
+creating `BufferedWriter` instances pointint to specific files. In both cases,
+file creation happens by creating a file with the given `name` that is created
+**inside the working directory of the analysis**, as identified by the
+configuration passed to LiSA. More information about the working directory and
+how it can be set can be found in the [Configuration page]({{ site.baseurl }}/configuration/).
+Optionally, a `path` can be specified to create the file in a subdirectory of the working
+directory.
 
-## The LiSAReport class
-
-https://github.com/lisa-analyzer/lisa/blob/master/lisa/lisa-sdk/src/main/java/it/unive/lisa/LiSARunInfo.java
-https://github.com/lisa-analyzer/lisa/blob/master/lisa/lisa-sdk/src/main/java/it/unive/lisa/LiSAReport.java
-Additional info
-
-## The LiSAOutput interface
-
-Deferred execution of report outputs
-
-https://github.com/lisa-analyzer/lisa/blob/master/lisa/lisa-sdk/src/main/java/it/unive/lisa/outputs/LiSAOutput.java
-https://github.com/lisa-analyzer/lisa/blob/master/lisa/lisa-sdk/src/main/java/it/unive/lisa/LiSA.java#L70
+A `FileManager` instance is accessible from the `ReportingTool` passed to both
+`Check`s and `EventListener`s: thus, both these components can also create output
+files during their execution.

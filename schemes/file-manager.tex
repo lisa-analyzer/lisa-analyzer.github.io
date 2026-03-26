@@ -1,0 +1,39 @@
+% !TeX program = xelatex
+\documentclass[
+  convert={density=500, size=600, outext=.png}, 
+  border=2pt
+]{standalone}
+
+\input{settings.tex}
+
+\begin{document}
+\sffamily
+
+\begin{tikzpicture}[nodes={font={\small}, minimum width=4.5cm}]%
+	\node[interfacenode] (wa) {\begin{tabular}{l}
+			\multicolumn{1}{c}{\interfacename{WriteAction}} \\
+			\hline
+			+ perform(writer: Writer): void                 \\
+		\end{tabular}};
+	\node[classnode] (fm) [below=of wa] {\begin{tabular}{l}
+			\multicolumn{1}{c}{\classname{FileManager}}                                         \\
+			\hline
+			+ createdFiles(): Collection<String>                                                \\
+			+ usedHtmlViewer(): void                                                            \\
+			+ generateSupportFiles(): void                                                      \\
+			+ mkOutputFile(name: String, filler: WriteAction): void                             \\
+			+ mkOutputFile(path: String, name: String, filler: WriteAction): void               \\
+			+ mkOutputFile(name: String, bom: boolean, filler: WriteAction): void               \\
+			+ mkOutputFile(path: String, name: String, bom: boolean, filler: WriteAction): void \\
+			+ mkDotFile(name: String, filler: WriteAction): void                                \\
+			+ mkJsonFile(name: String, filler: WriteAction): void                               \\
+			+ mkHtmlFile(name: String, filler: WriteAction): void                               \\
+			+ mkOutputWriter(name: String): BuffredWriter                                       \\
+			+ mkOutputWriter(path: String, name: String): BuffredWriter                         \\
+			+ mkOutputWriter(name: String, bom: boolean): BuffredWriter                         \\
+			+ mkOutputWriter(path: String, name: String, bom: boolean): BuffredWriter           \\
+			* forceDeleteFolder(path: String): void                                             \\
+		\end{tabular}};
+\end{tikzpicture}
+
+\end{document}
