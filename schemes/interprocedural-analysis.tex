@@ -18,7 +18,7 @@
 			+ getAnalysis(): Analysis<A, D>                                                                                            \\
 			+ getEventQueue(): EventQueue                                                                                              \\
 			+ fixpoint(entryState: AnalysisState<A>, conf: FixpointConfiguration<A, D>): void                                          \\
-			+ getAnalysisResultsOf(cfg: CFG): Collection<AnalyzedCFG<A>>                                                               \\
+			+ getAnalysisResultsOf(cfg: CFG): Collection<AnalyzedCFG<A>{}>                                                             \\
 			+ getAbstractResultOf(call: CFGCall, entryState: AnalysisState<A>, parameters: ExpressionSet[],                            \\
 			$\qquad\qquad$expressions: StatementStore<A>): AnalysisState<A>                                                            \\
 			+ getAbstractResultOf(call: OpenCall, entryState: AnalysisState<A>, parameters: ExpressionSet[],                           \\

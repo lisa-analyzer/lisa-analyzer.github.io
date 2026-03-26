@@ -26,8 +26,8 @@
 			+ !getCallees(cms: Collection<CodeMember>): Collection<CodeMember>                  \\
 			+ !getCalleesTransitively(cm: CodeMember): Collection<CodeMember>                   \\
 			+ !getCalleesTransitively(cms: Collection<CodeMember>): Collection<CodeMember>      \\
-			+ !getRecursions(): Collection<Collection<CodeMember>>                              \\
-			+ !getRecursionsContaining(cm: CodeMember): Collection<Collection<CodeMember>>      \\
+			+ !getRecursions(): Collection<Collection<CodeMember>{}>                            \\
+			+ !getRecursionsContaining(cm: CodeMember): Collection<Collection<CodeMember>{}>    \\
 		\end{tabular}};
 
 	\node[classnode] (bcg) [below=of cg] {\begin{tabular}{l}

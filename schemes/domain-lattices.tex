@@ -51,36 +51,36 @@
 		\end{tabular}};
 
 	\node[classnode, left=of ps.north west, anchor=north east] (as) {\begin{tabular}{l}
-			\multicolumn{1}{c}{\classname{AnalysisState} : A}                           \\
+			\multicolumn{1}{c}{\classname{AnalysisState} : A}                             \\
 			\hline
-			+ withExecution(state: ProgramState<A>): AnalysisState<A>                   \\
-			+ withHalt(state: ProgramState<A>): AnalysisState<A>                        \\
-			+ getExecutionState(): A                                                    \\
-			+ getExecutionExpressions(): ExpressionSet                                  \\
-			+ withExecutionExpression(expr: SymbolicExpression): AnalysisState<A>       \\
-			+ withExecutionExpressions(exprs: ExpressionSet): AnalysisState<A>          \\
-			+ getExecutionInformation(): FixpointInfo                                   \\
-			+ getExecutionInfo(key: String): Lattice<?>                                 \\
-			+ <T> getExecutionInfo(key: String, type: Class<T>): T                      \\
-			+ storeExecutionInfo(key: String, info: Lattice<?>): AnalysisState<A>       \\
-			+ weakStoreExecutionInfo(key: String, info: Lattice<?>): AnalysisState<A>   \\
-			+ getExecution(): ProgramState<A>                                           \\
-			+ getHalt(): ProgramState<A>                                                \\
-			+ getErrors(): GenericMapLattice<Error, ProgramState<A>>                    \\
-			+ getSmashedErrors(): GenericMapLattice<Type, GenericSetLattice<Statement>> \\
-			+ getSmashedErrorsState(): ProgramState<A>                                  \\
-			+ removeAllErrors(): AnalysisState<A>                                       \\
-			+ addError(): AnalysisState<A>                                              \\
-			+ addErrors(): AnalysisState<A>                                             \\
-			+ removeErrors(): AnalysisState<A>                                          \\
-			+ addSmashedError(): AnalysisState<A>                                       \\
-			+ addSmashedErrors(): AnalysisState<A>                                      \\
-			+ removeSmashedErrors(): AnalysisState<A>                                   \\
-			+ bottomExecution(): AnalysisState<A>                                       \\
-			+ topExecution(): AnalysisState<A>                                          \\
-			+ withTopMemory(): AnalysisState<A>                                         \\
-			+ withTopValues(): AnalysisState<A>                                         \\
-			+ withTopTypes(): AnalysisState<A>                                          \\
+			+ withExecution(state: ProgramState<A>): AnalysisState<A>                     \\
+			+ withHalt(state: ProgramState<A>): AnalysisState<A>                          \\
+			+ getExecutionState(): A                                                      \\
+			+ getExecutionExpressions(): ExpressionSet                                    \\
+			+ withExecutionExpression(expr: SymbolicExpression): AnalysisState<A>         \\
+			+ withExecutionExpressions(exprs: ExpressionSet): AnalysisState<A>            \\
+			+ getExecutionInformation(): FixpointInfo                                     \\
+			+ getExecutionInfo(key: String): Lattice<?>                                   \\
+			+ <T> getExecutionInfo(key: String, type: Class<T>): T                        \\
+			+ storeExecutionInfo(key: String, info: Lattice<?>): AnalysisState<A>         \\
+			+ weakStoreExecutionInfo(key: String, info: Lattice<?>): AnalysisState<A>     \\
+			+ getExecution(): ProgramState<A>                                             \\
+			+ getHalt(): ProgramState<A>                                                  \\
+			+ getErrors(): GenericMapLattice<Error, ProgramState<A>{}>                    \\
+			+ getSmashedErrors(): GenericMapLattice<Type, GenericSetLattice<Statement>{}> \\
+			+ getSmashedErrorsState(): ProgramState<A>                                    \\
+			+ removeAllErrors(): AnalysisState<A>                                         \\
+			+ addError(): AnalysisState<A>                                                \\
+			+ addErrors(): AnalysisState<A>                                               \\
+			+ removeErrors(): AnalysisState<A>                                            \\
+			+ addSmashedError(): AnalysisState<A>                                         \\
+			+ addSmashedErrors(): AnalysisState<A>                                        \\
+			+ removeSmashedErrors(): AnalysisState<A>                                     \\
+			+ bottomExecution(): AnalysisState<A>                                         \\
+			+ topExecution(): AnalysisState<A>                                            \\
+			+ withTopMemory(): AnalysisState<A>                                           \\
+			+ withTopValues(): AnalysisState<A>                                           \\
+			+ withTopTypes(): AnalysisState<A>                                            \\
 		\end{tabular}};
 
 	\draw[->, thick] (dl) |- ($(scoped.south)+(0,-0.5)$) to (scoped);

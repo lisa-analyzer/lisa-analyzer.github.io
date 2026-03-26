@@ -65,7 +65,7 @@
 	\node[classnode, below=of reptool] (semtool) {\begin{tabular}{l}
 			\multicolumn{1}{c}{\classname{SemanticTool}: A, D}                       \\
 			\hline
-			+ getResultOf(cfg: CFG): Collection<AnalyzedCFG<A>>                      \\
+			+ getResultOf(cfg: CFG): Collection<AnalyzedCFG<A>{}>                    \\
 			+ getAnalysis(): Analysis<A, D>                                          \\
 			+ getCallGraph(): CallGraph                                              \\
 			+ getCallers(cm: CodeMember): Collection<CodeMember>                     \\
