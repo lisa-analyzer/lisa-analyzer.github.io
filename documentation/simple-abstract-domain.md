@@ -41,7 +41,7 @@ rewriting happened), but before the value abstraction, so that the value
 abstraction can leverage type information to improve its precision if necessary.
 An intutive scheme of how the framework operates can be seen below:
 
-<center> <img src="{{ site.baseurl }}/documentation/sad-overview.png" alt="Simple Abstract Domain Overview" style="width: 60%"/> </center>
+<center> <img src="{{ site.baseurl }}/schemes/sad.png" alt="Simple Abstract Domain Overview" style="width: 60%"/> </center>
 
 Intuitively, whenever an expression (assignment or not) must be evaluated, the
 `SimpleAbstractDomain` first feeds it to the `HeapDomain`, the domain that
@@ -85,7 +85,7 @@ In LiSA, a substitution is a list of `HeapReplacement` objects, each
 representing an operation of the form `{ x1, x2, ..., xn } -> { y1, y2, ..., ym }`
 described above:
 
-<center> <img src="{{ site.baseurl }}/documentation/repl.png" alt="The Heap Replacement class" style="width: 40%"/> </center>
+<center> <img src="{{ site.baseurl }}/schemes/heap-replacement.png" alt="The Heap Replacement class" style="width: 40%"/> </center>
 
 A `HeapReplacement` is composed of two sets of `Identifier`s, the
 _source_ set (i.e., `{ x1, x2, ..., xn }` in the example above) and the _target_ set
@@ -104,7 +104,7 @@ The lattices managed by the `SimpleAbstractDomain` and its components are all
 since they must provide the basic operations over variables and the scoping
 logic other than lattice operations.
 
-<center> <img src="{{ site.baseurl }}/documentation/sad-lattices.png" alt="Simple Abstract Domain Lattices" /> </center>
+<center> <img src="{{ site.baseurl }}/schemes/sad-state.png" alt="Simple Abstract Domain Lattices" /> </center>
 
 Specifically, the `HeapLattice` interface, parametric on the concrete type `L`
 of the lattice, that must extend `HeapLattice<L>`, extends
@@ -161,7 +161,7 @@ this end, LiSA introduces the `SemanticComponent` interface, that matches
 `SemanticDomain` except for having an additional parameter, the
 `SemanticOracle`, in all transformers:
 
-<center> <img src="{{ site.baseurl }}/documentation/sad-comps.png" alt="Simple Abstract Domain Components" /> </center>
+<center> <img src="{{ site.baseurl }}/schemes/sad-domain.png" alt="Simple Abstract Domain Components" /> </center>
 
 The `SemanticOracle` parameter can effectively be used for cross-component communication,
 exploiting the methods it exposes to query information from other components.
@@ -209,7 +209,7 @@ This allows domain-specific answers to each query to be computed modularly.
 
 The `SimpleAbstractDomain` class can be defined in terms of these components:
 
-<center> <img src="{{ site.baseurl }}/documentation/sad-dom.png" alt="Simple Abstract Domain" style="width: 50%"/> </center>
+<center> <img src="{{ site.baseurl }}/schemes/sad-oracle.png" alt="Simple Abstract Domain" style="width: 50%"/> </center>
 
 `SimpleAbstractDomain`, parametric on the types `H extends HeapLattice<H>`,
 `T extends TypeLattice<T>`, and `V extends ValueLattice<V>` of the
@@ -256,7 +256,7 @@ the abstract values of their sub-expressions.
 The mapping from program variables to abstract values is modeled in LiSA through
 the `Environment` class hierarchy:
 
-<center> <img src="{{ site.baseurl }}/documentation/environments.png" alt="The Environment class hierarchy"/> </center>
+<center> <img src="{{ site.baseurl }}/schemes/environment.png" alt="The Environment class hierarchy"/> </center>
 
 An `Environment` is a `FunctionalLattice` that has `Identifier`s as keys and
 lattice instances as values. The class is parametric on the type `L`, that must
@@ -285,7 +285,7 @@ additional operations for their specific types:
 Non-relational domains can be implemented in LiSA by subclassing the
 `NonRelationalDomain` interface:
 
-<center> <img src="{{ site.baseurl }}/documentation/nonrel.png" alt="Non-Relational Domains" style="width: 80%"/> </center>
+<center> <img src="{{ site.baseurl }}/schemes/non-relational.png" alt="Non-Relational Domains" style="width: 80%"/> </center>
 
 A `NonRelationalDomain` is parametric on the type `L` of lattice instances it
 uses as values (that must extend `Lattice<L>`), on the type `T` of the values it
@@ -358,7 +358,7 @@ Still, even after the infrastructure has been taken care of, parts of the
 implementations can be factored out. In LiSA, this is achieved with the
 `BaseNonRelationalDomain` interface and its children.
 
-<center> <img src="{{ site.baseurl }}/documentation/base-nonrel.png" alt="Base Non-Relational Domains"/> </center>
+<center> <img src="{{ site.baseurl }}/schemes/base-non-relational.png" alt="Base Non-Relational Domains"/> </center>
 
 `BaseNonRelationalDomain` is parametric to the type `L`, that must extend `Lattice<L>`,
 of the values to use in the mapping, and to the type `M` of the mapping itself, that must
@@ -441,7 +441,7 @@ implemented:
 
 This structure is captured by the Dataflow Analysis infrastructure:
 
-<center> <img src="{{ site.baseurl }}/documentation/dataflow.png" alt="Dataflow Analyses"/> </center>
+<center> <img src="{{ site.baseurl }}/schemes/dataflow.png" alt="Dataflow Analyses"/> </center>
 
 The `DataflowDomain` interface defines the concrete operations that a dataflow
 analysis must support to be used within LiSA. It is parametric to the type `L`

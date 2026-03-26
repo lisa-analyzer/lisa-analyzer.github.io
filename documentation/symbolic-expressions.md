@@ -50,7 +50,7 @@ when analyzing function calls. In the class diagrams in the remainder of this
 page, methods have been removed from concrete expression instances for the sake
 of clarity, and they will be described in the relevant sections.
 
-<center> <img src="{{ site.baseurl }}/documentation/symbexps.png" alt="The SymbolicExpression class hierarchy" /> </center>
+<center> <img src="{{ site.baseurl }}/schemes/symbolic-expressions.png" alt="The SymbolicExpression class hierarchy" /> </center>
 
 Each symbolic expression is identified by a static [Type]({{ site.baseurl }}/documentation/types.html),
 that is, a supertype of all possible runtime types the expression can take, and
@@ -154,7 +154,7 @@ a value expression may be heap expressions that need to be rewritten first.
 they alre also used by a number of analysis components to represent specal
 values (e.g., the return value of a function, the exception being thrown).
 
-<center> <img src="{{ site.baseurl }}/documentation/ids.png" alt="The Identifier class hierarchy" /> </center>
+<center> <img src="{{ site.baseurl }}/schemes/identifiers.png" alt="The Identifier class hierarchy" /> </center>
 
 An `Identifier` is a `ValueExpression` that is uniquely identified by its name.
 An identifier can be _weak_ (as returned by the `isWeak` method), meaning that it

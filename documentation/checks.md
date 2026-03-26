@@ -30,7 +30,7 @@ user.
 The classes involved in the definition and operation of `Check` instances are
 visible in the diagram below, and will be explained throughout this page.
 
-<center> <img src="{{ site.baseurl }}/documentation/checks.png" alt="The Check class hierarchy" /> </center>
+<center> <img src="{{ site.baseurl }}/schemes/checks.png" alt="The Check class hierarchy" /> </center>
 
 ## The Message class
 

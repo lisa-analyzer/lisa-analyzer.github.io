@@ -23,7 +23,7 @@ performance of the analysis, and should be used with care.
 The classes involved in event creation and management are shown in the class
 diagram below.
 
-<center> <img src="events.png" alt="Class diagram for events" class="diagram"> </center>
+<center> <img src="{{ site.baseurl }}/schemes/events.png" alt="Class diagram for events" class="diagram"> </center>
 
 ## Types of events
 

@@ -42,7 +42,7 @@ a [`DomainLattice`]({{ site.baseurl }}/documentation/lattices.html#domain-lattic
   [Identifiers]({{ site.baseurl }}/documentation/symbolic-expressions.html#identifiers)
   the transformers can assign values to.
 
-<center> <img src="{{ site.baseurl }}/documentation/sem-dom.png" alt="SemanticDomain Interface Diagram"> </center>
+<center> <img src="{{ site.baseurl }}/schemes/semantic-domain.png" alt="SemanticDomain Interface Diagram"> </center>
 
 There are three main transformers defined in the `SemanticDomain` interface:
 
@@ -121,7 +121,7 @@ managed by the domain. The interface extends `SemanticDomain<L, L, SymbolicExpre
 meaning that the transformers return instances of the same type as the input state, and
 that they operate on generic symbolic expressions and identifiers.
 
-<center> <img src="{{ site.baseurl }}/documentation/abs-dom.png" alt="AbstractDomain Interface Diagram"> </center>
+<center> <img src="{{ site.baseurl }}/schemes/abstract-domain.png" alt="AbstractDomain Interface Diagram"> </center>
 
 `AbstractDomain` adds one additional method to those already defined in
 `SemanticDomain`: `makeOracle`. This method returns a `SemanticOracle`, that
@@ -171,7 +171,7 @@ meaning that the transformers return instances of the same type as the input sta
 (that is, of the [Analysis State]({{ site.baseurl }}/documentation/lattices.html#the-analysis-state)), and
 that they operate on generic symbolic expressions and identifiers.
 
-<center> <img src="{{ site.baseurl }}/documentation/analysis.png" alt="Analysis Class Diagram"> </center>
+<center> <img src="{{ site.baseurl }}/schemes/analysis.png" alt="Analysis Class Diagram"> </center>
 
 The `Analysis` class contains the `domain` to execute and the
 `shouldSmashErrors` predicate as fields. The latter is a predicate passed to

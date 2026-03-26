@@ -9,18 +9,11 @@ exclude:
     README.md,
     release.sh,
     check-links.sh,
-    schemes.tex,
-    schemes.pdf,
-    schemes.aux,
-    schemes.fdb_latexmk,
-    schemes.log,
-    schemes.out,
-    schemes.synctex.gz,
-    schemes.xdv,
-    schemes.fls,
     subtypes-scanner,
     subtypes.yaml,
     vendor,
+    schemes/*.tex,
+    schemes/generator.py,
   ]
 
 ssv-homepage: https://unive-ssv.github.io/

@@ -20,7 +20,7 @@ Understanding how calls are represented in LiSA is crucial to reason on the
 call graph. The `Call` class is the root of the call hierarchy, and contains the
 general structure that is shared among all call types.
 
-<center> <img src="{{ site.baseurl }}/documentation/calls.png" alt="The Call class hierarchy" /> </center>
+<center> <img src="{{ site.baseurl }}/schemes/calls.png" alt="The Call class hierarchy" /> </center>
 
 The superclass of `Call`, the `NaryExpression` class, is detailed in the
 [expressions page]({{ site.baseurl }}/documentation/st-ex-e.html): for the
@@ -99,7 +99,7 @@ The `CallGraph` class is the root class of the call graph hierarchy. It inherits
 from `BaseGraph` (hidden in the class diagram), and provides standard graph
 methods to access, add, and remove nodes and edges.
 
-<center> <img src="{{ site.baseurl }}/documentation/callgraph.png" alt="The CallGraph class hierarchy" style="width:80%"/> </center>
+<center> <img src="{{ site.baseurl }}/schemes/call-graph.png" alt="The CallGraph class hierarchy" style="width:80%"/> </center>
 
 The `CallGraph` class adds several methods, most of which have default
 implementations:

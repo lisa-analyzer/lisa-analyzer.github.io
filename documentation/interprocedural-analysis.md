@@ -122,7 +122,7 @@ optional.
 Results returned by `CFG.fixpoint` and `CFG.backwardFixpoint` are stored in
 `AnalyzedCFG`s and `BackwardAnalyzedCFG`s, respectively:
 
-<center> <img src="{{ site.baseurl }}/documentation/analyzedcfgs.png" alt="Fixpoint results classes"/> </center>
+<center> <img src="{{ site.baseurl }}/schemes/analyzed-cfgs.png" alt="Fixpoint results classes"/> </center>
 
 These are parametric to the type `A extends AbstractLattice<A>` that the results
 (i.e., `AnalysisState<A>` instances) contain, and are subclasses of `CFG`
@@ -175,7 +175,7 @@ rest of the nodes.
 Results of optimized fixpoints are stored in `OptimizedAnalyzedCFG`s and
 `OptimizedBackwardAnalyzedCFG`s, respectively:
 
-<center> <img src="{{ site.baseurl }}/documentation/optanalyzedcfgs.png" alt="Optimized fixpoint results classes" style="width: 60%"/> </center>
+<center> <img src="{{ site.baseurl }}/schemes/optimized-analyzed-cfgs.png" alt="Optimized fixpoint results classes" style="width: 60%"/> </center>
 
 These inherit from `AnalyzedCFG` and `BackwardAnalyzedCFG`, respectively, and
 add as type parameter the type `D extends AbstractDomain<A>` that the analysis
@@ -191,7 +191,7 @@ Analysis options that are related to fixpoint executions are passed around
 relevant methods through the `FixpointConfiguration` class, that mainly holds
 values that have been passed in the main configuration:
 
-<center> <img src="{{ site.baseurl }}/documentation/fixconf.png" alt="The Fixpoint Configuration class" style="width: 50%"/> </center>
+<center> <img src="{{ site.baseurl }}/schemes/fixpoint-configuration.png" alt="The Fixpoint Configuration class" style="width: 50%"/> </center>
 
 The configuration holds (i) the instance of `WorkingSet` to use in fixpoints,
 that can be used to tune the order in which nodes are analyzed, (ii) several
@@ -209,7 +209,7 @@ want to distinguish between different invocations of the same CFG, they must
 identify them by abstracting the concrete call stack. This is modeled in LiSA
 with the `ScopeId` class:
 
-<center> <img src="{{ site.baseurl }}/documentation/scopeids.png" alt="Scope Identifiers" style="width: 40%"/> </center>
+<center> <img src="{{ site.baseurl }}/schemes/scope-ids.png" alt="Scope Identifiers" style="width: 40%"/> </center>
 
 A `ScopeId` is parametric to the type `A extends AbstractLattice<A>` of the
 states that the analysis computes. There is no particular structure required for
@@ -247,7 +247,7 @@ To avoid reimplementation of Interprocedural Analyses that just differ in how
 they handle `OpenCall`s, LiSA provides the `OpenCallPolicy` interface, that defines
 the policy to apply when an `OpenCall` is encountered during the analysis:
 
-<center> <img src="{{ site.baseurl }}/documentation/opencallpolicy.png" alt="Policies for Open Calls" style="width: 80%"/> </center>
+<center> <img src="{{ site.baseurl }}/schemes/open-call-policies.png" alt="Policies for Open Calls" style="width: 80%"/> </center>
 
 An `OpenCallPolicy` is simply a wrapper around the `apply` method, parametric on
 the types `A extends AbstractLattice<A>` of states that the analysis computes
@@ -284,7 +284,7 @@ later usage, e.g., for producing [outputs]({{ site.baseurl }}/documentation/outp
 or executing [semantic checks]({{ site.baseurl }}/documentation/checks.html).
 Storage is centralized in two classes, `FixpointResults` and `CFGResults`:
 
-<center> <img src="{{ site.baseurl }}/documentation/fixres.png" alt="Classes for storing fixpoint results"/> </center>
+<center> <img src="{{ site.baseurl }}/schemes/fixpoint-results.png" alt="Classes for storing fixpoint results"/> </center>
 
 `CFGResults`, parametric on the type `A extends AbstractLattice<A>` of the states that the
 analysis computes, is a function from `ScopeId`s to `AnalyzedCFG`s. It provides
@@ -327,7 +327,7 @@ of `CFGResults`'s `putResult`.
 The `InterproceduralAnalysis` interface defines all operations that an
 Interprocedural Analysis must implement to be executed by LiSA:
 
-<center> <img src="{{ site.baseurl }}/documentation/interproc.png" alt="The Interprocedural Analysis Interface" style="width: 70%"/> </center>
+<center> <img src="{{ site.baseurl }}/schemes/interprocedural-analysis.png" alt="The Interprocedural Analysis Interface" style="width: 70%"/> </center>
 
 The analysis is _initialized_ by LiSA by calling the `init` method, that passes
 the analysis-specific configuration:
@@ -413,11 +413,8 @@ This general workflow might need slight adaptations depending on the particular
 Interprocedural Analysis being implemented.
 
 Note that `return` and `throw` statements will leave on the state's
-`computedExpression` a special `Identifier` (either a `CFGReturn` or a `CFGThrow`
-
----
-
-see the [Identifiers]({{ site.baseurl }}/documentation/symbolic-expressions.html#identifiers) page)
+`computedExpression` a special `Identifier` (either a `CFGReturn` or a `CFGThrow` --- see
+the [Identifiers]({{ site.baseurl }}/documentation/symbolic-expressions.html#identifiers) page)
 that will contain all [Annotations]({{ site.baseurl }}/documentation/annotations.html)
 defined in the target CFG. This allows the propagation of invariants defined
 through annotations from the callee to the caller.
