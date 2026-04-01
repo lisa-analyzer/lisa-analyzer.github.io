@@ -41,22 +41,23 @@
 |    +-- [x] instruction semantics
 |    +-- [x] checks
 |    +-- [x] events
-|    +-- [ ] outputs
-|    |    +-- [ ] file manager
-|    +-- [ ] units
+|    +-- [x] outputs
+|    |    +-- [x] file manager
+|    +-- [ ] statements and edges
 |    +-- [ ] cfgs
 |    |    +-- [ ] annotations
 |    |    +-- [ ] native cfgs
+|    +-- [ ] units
 |    +-- [ ] types
 |    +-- [ ] features and type systems
 |    +-- [ ] validation
-|    +-- [ ] statements and edges
 |    +-- [ ] visitors
 |    +-- [ ] frontends
 |    |    +-- [ ] parsers
 |    |    +-- [ ] phases
 |    |    +-- [ ] libraries
 |    |    +-- [ ] overall workflow
+|    +-- [ ] testing utilities
 +-- [x] configuration
 |    +-- [x] sketch creating and configuring lisa
 |    +-- [x] options

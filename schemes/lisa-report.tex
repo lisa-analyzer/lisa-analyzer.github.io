@@ -1,0 +1,45 @@
+% !TeX program = xelatex
+\documentclass[
+  convert={density=500, size=600, outext=.png}, 
+  border=2pt
+]{standalone}
+
+\input{settings.tex}
+
+\begin{document}
+\sffamily
+
+\begin{tikzpicture}[nodes={font={\small}, minimum width=4.5cm}]%
+	\node[classnode] (report) {\begin{tabular}{l}
+			\multicolumn{1}{c}{\classname{LiSAReport}}              \\
+			\hline
+			+ info: LiSARunInfo                                     \\
+			+ configuration: LiSAConfiguration                      \\
+			+ warnings: Collection<Message>                         \\
+			+ notices: Collection<Message>                          \\
+			+ createdFiles: Collection<String>                      \\
+			+ additionalInfo: Map<String, StructuredRepresentation> \\
+		\end{tabular}};
+	\node[classnode] (info) [right=of report] {\begin{tabular}{l}
+			\multicolumn{1}{c}{\classname{LiSARunInfo}}       \\
+			\hline
+			+ version: String                                 \\
+			+ warnings: int                                   \\
+			+ notices: int                                    \\
+			+ files: int                                      \\
+			+ units: int                                      \\
+			+ globals: int                                    \\
+			+ members: int                                    \\
+			+ cfgs: int                                       \\
+			+ statements: int                                 \\
+			+ expressions: int                                \\
+			+ programs: int                                   \\
+			+ start: String                                   \\
+			+ end: String                                     \\
+			+ duration: String                                \\
+			\hline
+			+ sameCodeAndResults(other: LiSARunInfo): boolean \\
+		\end{tabular}};
+\end{tikzpicture}
+
+\end{document}

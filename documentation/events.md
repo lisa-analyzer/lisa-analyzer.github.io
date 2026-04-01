@@ -81,6 +81,9 @@ Every method above receives a `ResultTool` as parameter, enabling the generation
 of warnings and notices and the access to the `FileManager` for the analysis to
 generate output files.
 
+For a list of event listeners already implemented in LiSA, see the
+[Configuration]({{ site.baseurl }}/configuration/#event-listeners) page.
+
 ## The EventQueue class
 
 Event management happens in the `EventQueue` class. An event queue is created

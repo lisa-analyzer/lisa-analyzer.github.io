@@ -129,6 +129,9 @@ has no access to any semantic information computed by LiSA. The order of
 execution of syntactic checks is not specified and should not be relied upon:
 execution might happen in parallel, or sequentially according to some ordering.
 
+For a list of syntactic checks already implemented in LiSA, see the
+[Configuration]({{ site.baseurl }}/configuration/#adding-syntactic-and-semantic-checks) page.
+
 ### Semantic Checks
 
 A `SemanticCheck` is a `Check` that fixes its type parameter `T` to
@@ -137,3 +140,6 @@ files. It is semantic since it is executed after the analysis starts, and thus
 has access to all semantic information computed by LiSA. The order of
 execution of semantic checks is not specified and should not be relied upon:
 execution might happen in parallel, or sequentially according to some ordering.
+
+For a list of semantic checks already implemented in LiSA, see the
+[Configuration]({{ site.baseurl }}/configuration/#adding-syntactic-and-semantic-checks) page.

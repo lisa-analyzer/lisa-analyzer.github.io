@@ -1,0 +1,21 @@
+% !TeX program = xelatex
+\documentclass[
+  convert={density=500, size=600, outext=.png}, 
+  border=2pt
+]{standalone}
+
+\input{settings.tex}
+
+\begin{document}
+\sffamily
+
+\begin{tikzpicture}[nodes={font={\small}, minimum width=4.5cm}]%
+	\node[interfacenode] (report) {\begin{tabular}{l}
+			\multicolumn{1}{c}{\interfacename{LiSAOutput}}                                                    \\
+			\hline
+			+ dump(app: Application, report: LiSAReport, tool: ReportingTool, fileManager: FileManager): void \\
+			+ !isReportOutput(): boolean                                                                      \\
+		\end{tabular}};
+\end{tikzpicture}
+
+\end{document}
