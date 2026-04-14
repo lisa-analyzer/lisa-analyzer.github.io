@@ -1,15 +1,19 @@
-{% assign class_name = include.class %} 
-{% assign alternatives = site.data.subtypes[class_name] %} 
+{% assign class_name = include.class %}
+{% assign alternatives = site.data.subtypes[class_name] %}
 {% if alternatives and alternatives.size > 0 %}
 <ul>
-  {% for pair in alternatives %} 
-  {% assign alt = pair[0] %} 
-  {% assign folder = pair[1] %} 
+  {% for pair in alternatives %}
+  {% assign alt = pair[0] %}
+  {% assign data = pair[1] %}
+  {% assign folder = data.artifact %}
   {% assign path = alt | replace: ".", "/" | append: ".java" %}
   <li>
     <a href="https://github.com/lisa-analyzer/lisa/blob/master/lisa/{{ folder }}/src/main/java/{{ path }}">
       {{ alt }}
     </a>
+    {% if data.doc and data.doc != "" %}
+    : {{ data.doc | replace: "<br>", " "}}
+    {% endif %}
   </li>
   {% endfor %}
 </ul>

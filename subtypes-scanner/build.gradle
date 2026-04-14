@@ -9,6 +9,7 @@ repositories {
 dependencies {
     implementation "io.github.classgraph:classgraph:4.8.174"
     implementation "org.yaml:snakeyaml:2.2"
+    implementation "org.jsoup:jsoup:1.17.2"
 }
 
 java {

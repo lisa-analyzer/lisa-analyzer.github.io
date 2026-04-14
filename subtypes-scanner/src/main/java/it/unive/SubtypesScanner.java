@@ -4,17 +4,23 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.Writer;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.yaml.snakeyaml.Yaml;
 
 import io.github.classgraph.ClassGraph;
@@ -40,9 +46,14 @@ public class SubtypesScanner {
 
         Path tempDir = Files.createTempDirectory("jars");
         List<Path> jars = downloadJars(version, tempDir);
+        List<Path> javadocJars = downloadJavadocJars(version, tempDir);
+
+        Map<String, String> javadocs = extractJavadocs(javadocJars);
+        System.out.println("Extracted javadocs for " + javadocs.size() + " classes");
 
         Map<String, Object> result = scan(
                 jars,
+                javadocs,
                 "it.unive.lisa.analysis.AbstractDomain",
                 "it.unive.lisa.analysis.value.ValueDomain",
                 "it.unive.lisa.analysis.type.TypeDomain",
@@ -70,12 +81,27 @@ public class SubtypesScanner {
             String version,
             Path dir)
             throws IOException {
+        return downloadJars(version, dir, "");
+    }
+
+    static List<Path> downloadJavadocJars(
+            String version,
+            Path dir)
+            throws IOException {
+        return downloadJars(version, dir, "-javadoc");
+    }
+
+    static List<Path> downloadJars(
+            String version,
+            Path dir,
+            String classifier)
+            throws IOException {
         List<Path> jars = new ArrayList<>();
 
         for (String art : ARTIFACTS) {
-            String jar = art + "-" + version + ".jar";
-            String url = BASE_URL + "/" + art + "/" + version + "/" + jar;
-            Path out = dir.resolve(jar);
+            String jarName = art + "-" + version + classifier + ".jar";
+            String url = BASE_URL + "/" + art + "/" + version + "/" + jarName;
+            Path out = dir.resolve(jarName);
 
             System.out.println("Downloading " + url);
             try (InputStream in = new URL(url).openStream()) {
@@ -88,8 +114,67 @@ public class SubtypesScanner {
         return jars;
     }
 
+    static Map<String, String> extractJavadocs(
+            List<Path> javadocJars)
+            throws IOException {
+        Map<String, String> result = new HashMap<>();
+
+        for (Path jar : javadocJars) {
+            try (ZipInputStream zis = new ZipInputStream(Files.newInputStream(jar))) {
+                ZipEntry entry;
+                while ((entry = zis.getNextEntry()) != null) {
+                    String name = entry.getName();
+                    if (!entry.isDirectory() && name.endsWith(".html")) {
+                        String baseName = name.substring(name.lastIndexOf('/') + 1, name.length() - 5);
+                        // Skip package-summary, package-tree, index, overview, etc.
+                        // Class files follow PascalCase and never contain hyphens.
+                        if (!baseName.isEmpty()
+                                && Character.isUpperCase(baseName.charAt(0))
+                                && !baseName.contains("-")) {
+                            // it/unive/lisa/Foo.html -> it.unive.lisa.Foo
+                            String className = name.replace('/', '.').replace('\\', '.');
+                            className = className.substring(0, className.length() - 5);
+
+                            String html = new String(zis.readAllBytes(), StandardCharsets.UTF_8);
+                            String doc = extractClassDescription(html);
+                            if (doc != null && !doc.isBlank())
+                                result.put(className, doc);
+                        }
+                    }
+                    zis.closeEntry();
+                }
+            }
+        }
+
+        return result;
+    }
+
+    static String extractClassDescription(
+            String html) {
+        Document doc = Jsoup.parse(html);
+
+        // Java 17+ doclet: <section class="class-description"> ... <div class="block">
+        Element block = doc.selectFirst("section.class-description .block");
+        // Java 11-16 doclet: <div class="description"> ... <div class="block">
+        if (block == null)
+            block = doc.selectFirst("div.description .block");
+        // Generic fallback: first .block on the page
+        if (block == null)
+            block = doc.selectFirst(".block");
+
+        if (block == null)
+            return null;
+
+        // Unwrap relative links — they point into the javadoc tree and are broken
+        // on the website; keep the link text.
+        block.select("a[href]").forEach(Element::unwrap);
+
+        return block.html().trim();
+    }
+
     static Map<String, Object> scan(
             List<Path> jars,
+            Map<String, String> javadocs,
             String... roots) {
         try (ScanResult scan = new ClassGraph()
                 .overrideClasspath(jars)
@@ -104,8 +189,8 @@ public class SubtypesScanner {
                     System.err.println("WARNING: root not found: " + root);
                     continue;
                 }
-                SortedMap<String, String> node = new TreeMap<>();
-                build(rootInfo, node);
+                SortedMap<String, Map<String, String>> node = new TreeMap<>();
+                build(rootInfo, node, javadocs);
                 output.put(root, node);
             }
 
@@ -115,22 +200,35 @@ public class SubtypesScanner {
 
     static void build(
             ClassInfo info,
-            SortedMap<String, String> children) {
+            SortedMap<String, Map<String, String>> children,
+            Map<String, String> javadocs) {
         for (ClassInfo sub : info.getSubclasses()) {
-            if (kind(sub).equals("class")) {
-                String name = sub.getClasspathElementFile().getName();
-                children.put(sub.getName(), name.substring(0, name.lastIndexOf('-')));
-            }
-            build(sub, children);
+            if (kind(sub).equals("class"))
+                children.put(sub.getName(), entry(sub, javadocs));
+            build(sub, children, javadocs);
         }
 
         for (ClassInfo impl : info.getClassesImplementing()) {
-            if (kind(impl).equals("class")) {
-                String name = impl.getClasspathElementFile().getName();
-                children.put(impl.getName(), name.substring(0, name.lastIndexOf('-')));
-            }
-            build(impl, children);
+            if (kind(impl).equals("class"))
+                children.put(impl.getName(), entry(impl, javadocs));
+            build(impl, children, javadocs);
         }
+    }
+
+    static Map<String, String> entry(
+            ClassInfo ci,
+            Map<String, String> javadocs) {
+        String jarName = ci.getClasspathElementFile().getName();
+        String artifact = jarName.substring(0, jarName.lastIndexOf('-'));
+
+        Map<String, String> e = new LinkedHashMap<>();
+        e.put("artifact", artifact);
+
+        String doc = javadocs.get(ci.getName());
+        if (doc != null)
+            e.put("doc", doc);
+
+        return e;
     }
 
     static String kind(
