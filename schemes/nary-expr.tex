@@ -1,0 +1,63 @@
+% !TeX program = xelatex
+\documentclass[
+  convert={density=500, size=600, outext=.png}, 
+  border=2pt
+]{standalone}
+
+\input{settings.tex}
+
+\begin{document}
+\sffamily
+
+\begin{tikzpicture}[nodes={font={\small}, minimum width=3cm}]%
+	\node[abstractclassnode, inlinenode] (st) {\absclassname{Expression}};
+
+	\node[abstractclassnode] (nst) [below=of st] {\begin{tabular}{l}
+			\multicolumn{1}{c}{\absclassname{NaryExpression}}                                                                                                                                  \\
+			\hline
+			+ !getConstructName(): String                                                                                                                                                      \\
+			+ !getSubExpressions(): Expression[]                                                                                                                                               \\
+			+ !getOrder(): EvaluationOrder                                                                                                                                                     \\
+			+ compareSameClassAndParams(o: Statement): int                                                                                                                                     \\
+			+ <A, D> forwardSemanticsAux(interprocedural: InterproceduralAnalysis<A, D>, state: AnalysisState<A>,  params: ExpressionSet[], expressions: StatementStore<A>): AnalysisState<A>  \\
+			+ !<A, D> backwardSemanticsAux(interprocedural: InterproceduralAnalysis<A, D>, state: AnalysisState<A>, params: ExpressionSet[], expressions: StatementStore<A>): AnalysisState<A> \\
+		\end{tabular}};
+
+	\node[abstractclassnode] (bst) [below right=1cm and -11cm of nst] {\begin{tabular}{l}
+			\multicolumn{1}{c}{\absclassname{BinaryExpression}}                                                                          \\
+			\hline
+			+ !getLeft(): Expression                                                                                                     \\
+			+ !getRight(): Expression                                                                                                    \\
+			+ <A, D> fwdBinarySemantics(interprocedural: InterproceduralAnalysis<A, D>, state: AnalysisState<A>,                         \\
+			$\qquad\qquad\qquad$left: SymbolicExpression, right: SymbolicExpression, expressions:  StatementStore<A>):  AnalysisState<A> \\
+			+ <A, D> !bwdBinarySemantics(interprocedural: InterproceduralAnalysis<A, D>, state: AnalysisState<A>,                        \\
+			$\qquad\qquad\qquad$left: SymbolicExpression, right: SymbolicExpression, expressions: StatementStore<A>): AnalysisState<A>   \\
+		\end{tabular}};
+
+	\node[abstractclassnode] (ust) [below left=1cm and -11cm of nst] {\begin{tabular}{l}
+			\multicolumn{1}{c}{\absclassname{UnaryExpression}}                                                   \\
+			\hline
+			+ !getSubExpression(): Expression                                                                    \\
+			+ <A, D> fwdUnarySemantics(interprocedural: InterproceduralAnalysis<A, D>, state: AnalysisState<A>,  \\
+			$\qquad\qquad\qquad$expr: SymbolicExpression, expressions:  StatementStore<A>):  AnalysisState<A>    \\
+			+ <A, D> !bwdUnarySemantics(interprocedural: InterproceduralAnalysis<A, D>, state: AnalysisState<A>, \\
+			$\qquad\qquad\qquad$expr: SymbolicExpression, expressions: StatementStore<A>): AnalysisState<A>      \\
+		\end{tabular}};
+
+	\node[abstractclassnode] (tst) [below=5cm of nst] {\begin{tabular}{l}
+			\multicolumn{1}{c}{\absclassname{TernaryExpression}}                                                                                                                                                                                       \\
+			\hline
+			+ !getLeft(): Expression                                                                                                                                                                                                                   \\
+			+ !getMiddle(): Expression                                                                                                                                                                                                                 \\
+			+ !getRight(): Expression                                                                                                                                                                                                                  \\
+			+ <A, D> fwdTernarySemantics(interprocedural: InterproceduralAnalysis<A, D>, state: AnalysisState<A>, left: SymbolicExpression, middle: SymbolicExpression, right: SymbolicExpression, expressions:  StatementStore<A>):  AnalysisState<A> \\
+			+ <A, D> !bwdTernarySemantics(interprocedural: InterproceduralAnalysis<A, D>, state: AnalysisState<A>, left: SymbolicExpression, middle: SymbolicExpression, right: SymbolicExpression, expressions: StatementStore<A>): AnalysisState<A>  \\
+		\end{tabular}};
+
+	\draw[->, thick] (nst) to (st);
+	\draw[->, thick] (ust) |- ($(nst.south)+(0,-0.5)$) to (nst);
+	\draw[->, thick] (bst) |- ($(nst.south)+(0,-0.5)$) to (nst);
+	\draw[->, thick] (tst) to (nst);
+\end{tikzpicture}
+
+\end{document}

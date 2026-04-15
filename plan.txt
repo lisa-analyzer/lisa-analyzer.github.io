@@ -43,15 +43,15 @@
 |    +-- [x] events
 |    +-- [x] outputs
 |    |    +-- [x] file manager
-|    +-- [ ] statements and edges
+|    +-- [x] statements and edges
 |    +-- [ ] cfgs
 |    |    +-- [ ] annotations
 |    |    +-- [ ] native cfgs
 |    +-- [ ] units
+|    |    +-- [ ] visitors
 |    +-- [ ] types
 |    +-- [ ] features and type systems
-|    +-- [ ] validation
-|    +-- [ ] visitors
+|    |    +-- [ ] validation
 |    +-- [ ] frontends
 |    |    +-- [ ] parsers
 |    |    +-- [ ] phases

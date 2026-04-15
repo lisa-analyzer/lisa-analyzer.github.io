@@ -1,0 +1,36 @@
+% !TeX program = xelatex
+\documentclass[
+  convert={density=500, size=600, outext=.png}, 
+  border=2pt
+]{standalone}
+
+\input{settings.tex}
+
+\begin{document}
+\sffamily
+
+\begin{tikzpicture}[nodes={font={\small}, minimum width=3cm}]%
+	\node[abstractclassnode] (st) {\begin{tabular}{l}
+			\multicolumn{1}{c}{\absclassname{Statement}}                                                                                                               \\
+			\hline
+			+ !stopsExecution() : boolean                                                                                                                              \\
+			+ !throwsError() : boolean                                                                                                                                 \\
+			+ !breaksControlFlow() : boolean                                                                                                                           \\
+			+ !continuesControlFlow() : boolean                                                                                                                        \\
+			+ <A, D> forwardSemantics(entryState: AnalysisState<A>, interprocedural: InterproceduralAnalysis<A, D>, expressions: StatementStore<A>): AnalysisState<A>  \\
+			+ !<A, D> backwardSemantics(exitState: AnalysisState<A>, interprocedural: InterproceduralAnalysis<A, D>, expressions: StatementStore<A>): AnalysisState<A> \\
+			+ compareSameClass(o: Statement) : int                                                                                                                     \\
+			+ !getEvaluationPredecessor() : Statement                                                                                                                  \\
+			+ !getStatementEvaluatedBefore(other: Statement) : Statement                                                                                               \\
+			+ !getEvaluationSuccessor() : Statement                                                                                                                    \\
+			+ !getStatementEvaluatedAfter(other: Statement) : Statement                                                                                                \\
+		\end{tabular}};
+
+	\node[interfacenode, inlinenode, above=of st.north west, anchor=south west] (pp) {\interfacename{ProgramPoint}};
+	\node[interfacenode, inlinenode, above=of st.north east, anchor=south east] (cn) {\interfacename{CodeNode}};
+
+	\draw[->, thick] (st) |- ($(pp.south)+(0,-0.5)$) to (pp);
+	\draw[->, thick] (st) |- ($(cn.south)+(0,-0.5)$) to (cn);
+\end{tikzpicture}
+
+\end{document}

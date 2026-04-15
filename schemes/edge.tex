@@ -1,0 +1,43 @@
+% !TeX program = xelatex
+\documentclass[
+  convert={density=500, size=600, outext=.png}, 
+  border=2pt
+]{standalone}
+
+\input{settings.tex}
+
+\begin{document}
+\sffamily
+
+\begin{tikzpicture}[nodes={font={\small}, minimum width=3cm}]%
+
+	\node[classnode, inlinenode] (se) {\classname{SequentialEdge}};
+	\node[classnode, inlinenode] (te) [right=of se] {\classname{TrueEdge}};
+	\node[classnode, inlinenode] (fe) [right=of te] {\classname{FalseEdge}};
+	\node[classnode, right=of fe.north east, anchor=north west] (ee) {\begin{tabular}{l}
+			\multicolumn{1}{c}{\classname{ErrorEdge}} \\
+			\hline
+			+ getTypes() : Type[]                     \\
+			+ getVariable() : VariableRef             \\
+			+ getProtectedBlock() : ProtectedBlock    \\
+		\end{tabular}};
+	\node[abstractclassnode] (edge) [above=of $(te.north)!0.5!(fe.north)$] {\begin{tabular}{l}
+			\multicolumn{1}{c}{\absclassname{Edge}}                                                        \\
+			\hline
+			+ !getSource() : Statement                                                                     \\
+			+ !getDestination() : Statement                                                                \\
+			+ <A, D> traverseForward(state: AnalysisState<A>, analysis: Analysis<A, D>): AnalysisState<A>  \\
+			+ <A, D> traverseBackward(state: AnalysisState<A>, analysis: Analysis<A, D>): AnalysisState<A> \\
+			+ getLabel() : String                                                                          \\
+		\end{tabular}};
+
+	\node[interfacenode, inlinenode, above=of edge] (ce) {\interfacename{CodeEdge}};
+
+	\draw[->, thick] (edge) to (ce);
+	\draw[->, thick] (se) |- ($(edge.south)+(0,-0.5)$) to (edge);
+	\draw[->, thick] (te) |- ($(edge.south)+(0,-0.5)$) to (edge);
+	\draw[->, thick] (fe) |- ($(edge.south)+(0,-0.5)$) to (edge);
+	\draw[->, thick] (ee) |- ($(edge.south)+(0,-0.5)$) to (edge);
+\end{tikzpicture}
+
+\end{document}

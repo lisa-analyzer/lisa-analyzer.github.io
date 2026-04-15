@@ -1,0 +1,27 @@
+% !TeX program = xelatex
+\documentclass[
+  convert={density=500, size=600, outext=.png}, 
+  border=2pt
+]{standalone}
+
+\input{settings.tex}
+
+\begin{document}
+\sffamily
+
+\begin{tikzpicture}[nodes={font={\small}, minimum width=3cm}]%
+	\node[abstractclassnode] (st) {\absclassname{Statement}};
+	\node[abstractclassnode] (expr) [below=of st] {\begin{tabular}{l}
+			\multicolumn{1}{c}{\absclassname{Expression}}  \\
+			\hline
+			+ !getStaticType() : Type                      \\
+			+ !getMetaVariables() : Collection<Identifier> \\
+			+ !setParentStatement(st: Statement) : void    \\
+			+ !getParentStatement() : Statement            \\
+			+ !getRootStatement() : Statement              \\
+		\end{tabular}};
+
+	\draw[->, thick] (expr) to (st);
+\end{tikzpicture}
+
+\end{document}

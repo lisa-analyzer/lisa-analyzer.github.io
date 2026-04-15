@@ -245,14 +245,18 @@ parsed from the input files, together with the
 [Type System and Language Features](#language-features-and-type-system)
 specific to the programming language of the input code.
 
-### Units
+### Statements, Expressions, and Edges
 
-A `Unit` represents a logical grouping of code, such as a source file, a class,
-or a module. The `Program` itself is a `Unit`. A `Unit` contains a set of
-code members ([CFG](#control-flow-graphs)s with a descriptor)
-and a set of `Global`s (global
-variables or constants). Read more about units in the
-[Units]({{ site.baseurl }}/documentation/units.html) page.
+`Statement`s represent high-level constructs such
+as assignments, conditionals, loops, and calls. Each statement defines how it
+affects the program state during the analysis, by providing an implementation of the
+`forwardSemantics()` method. `Expression`s are `Statement`s that evaluate to a value,
+such as literals, variable accesses, and binary operations.
+`Edge`s represent the directed connections between `Statement`s in a `CFG`.
+Similarly to `Statement`s, each `Edge` defines its own `traverseForward()` method,
+which specifies how the edge affects the program state when traversed during
+the analysis. Read more about statements, expressions, and edges in the
+[Statements, Expressions, and Edges]({{ site.baseurl }}/documentation/st-ex-e.html) page.
 
 ### Control Flow Graphs
 
@@ -266,6 +270,15 @@ its parameters, and its return type. A special kind of CFGs, called
 `NativeCFG`s, can be used to compactly represent the behavior of library or
 runtime functions. Read more about control flow graphs in the
 [Control Flow Graphs]({{ site.baseurl }}/documentation/cfgs.html) page.
+
+### Units
+
+A `Unit` represents a logical grouping of code, such as a source file, a class,
+or a module. The `Program` itself is a `Unit`. A `Unit` contains a set of
+code members ([CFG](#control-flow-graphs)s with a descriptor)
+and a set of `Global`s (global
+variables or constants). Read more about units in the
+[Units]({{ site.baseurl }}/documentation/units.html) page.
 
 ### Types
 
@@ -288,19 +301,6 @@ each programming language that LiSA is used to analyze. Read more about language
 features and type systems in the
 [Language Features and Type System]({{ site.baseurl }}/documentation/language-features-and-type-system.html)
 page.
-
-### Statements, Expressions, and Edges
-
-`Statement`s are the nodes of a `CFG`, representing high-level constructs such
-as assignments, conditionals, loops, and calls. Each statement defines how it
-affects the program state during the analysis, by providing an implementation of the
-`forwardSemantics()` method. `Expression`s are `Statement`s that evaluate to a value,
-such as literals, variable accesses, and binary operations.
-`Edge`s represent the directed connections between `Statement`s in a `CFG`.
-Similarly to `Statement`s, each `Edge` defines its own `traverseForward()` method,
-which specifies how the edge affects the program state when traversed during
-the analysis. Read more about statements, expressions, and edges in the
-[Statements, Expressions, and Edges]({{ site.baseurl }}/documentation/st-ex-e.html) page.
 
 ## Frontends
 
