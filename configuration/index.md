@@ -504,7 +504,7 @@ Then, the execution proceeds as follows (in the following, if `testSubDir` is
 Alternatively to `forceUpdate`, the `lisa.cron.update` system property can be set
 to `true` to achieve the same effect.
 
-## Fontends
+## Frontends
 
 Frontends for several languages have been developed over the years. Recall that
 frontends are not part of LiSA, but rather they are fully-fledged static
