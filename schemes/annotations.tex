@@ -1,0 +1,56 @@
+% !TeX program = xelatex
+\documentclass[
+  convert={density=500, size=600, outext=.png}, 
+  border=2pt
+]{standalone}
+
+\input{settings.tex}
+
+\begin{document}
+\sffamily
+
+\begin{tikzpicture}[nodes={font={\small}, minimum width=3.5cm}]%
+	\node[classnode] (ann) {\begin{tabular}{l}
+			\multicolumn{1}{c}{\classname{Annotation}}       \\
+			\hline
+			+ getAnnotationName(): String                    \\
+			+ getAnnotationMembers(): List<AnnotationMember> \\
+			+ isInherited(): boolean                         \\
+		\end{tabular}};
+
+	\node[classnode, left=of ann.south west, anchor=south east] (anns) {\begin{tabular}{l}
+			\multicolumn{1}{c}{\classname{Annotations}}               \\
+			\hline
+			+ getAnnotations(): Collection<Annotation>                \\
+			+ addAnnotation(ann: Annotation): void                    \\
+			+ getAnnotations(matcher: AnnotationMatcher): Annotations \\
+			+ contains(matcher: AnnotationMatcher): boolean           \\
+			+ isEmpty(): boolean                                      \\
+		\end{tabular}};
+
+	\node[classnode, right=of ann.south east, anchor=south west] (mem) {\begin{tabular}{l}
+			\multicolumn{1}{c}{\classname{AnnotationMember}} \\
+			\hline
+			+ getId(): String                                \\
+			+ getValue(): AnnotationValue                    \\
+		\end{tabular}};
+
+	\node[interfacenode, inlinenode] (val) [below=of ann] {\interfacename{AnnotationValue}};
+	\node[classnode, inlinenode] (sval) [below=of val] {\classname{StringAnnotationValue}};
+	\node[classnode, inlinenode] (ival) [left=of sval] {\classname{IntAnnotationValue}};
+	\node[draw=none, inner sep=0, minimum width=1cm] (ldots) [left=of ival] {$\dots$};
+	\node[classnode, inlinenode] (aval) [right=of sval] {\classname{ArrayAnnotationValue}};
+	\node[draw=none, inner sep=0, minimum width=1cm] (rdots) [right=of aval] {$\dots$};
+
+	\node[interfacenode] (matcher) [below=of sval] {\begin{tabular}{l}
+			\multicolumn{1}{c}{\interfacename{AnnotationMatcher}} \\
+			\hline
+			+ matches(annotation: Annotation): boolean            \\
+		\end{tabular}};
+
+	\draw[->, thick] (sval) to (val);
+	\draw[->, thick] (ival) |- ($(val.south)+(0,-0.5)$) to (val);
+	\draw[->, thick] (aval) |- ($(val.south)+(0,-0.5)$) to (val);
+\end{tikzpicture}
+
+\end{document}

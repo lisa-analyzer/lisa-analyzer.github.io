@@ -44,8 +44,8 @@
 |    +-- [x] outputs
 |    |    +-- [x] file manager
 |    +-- [x] statements and edges
+|    +-- [x] annotations
 |    +-- [ ] cfgs
-|    |    +-- [ ] annotations
 |    |    +-- [ ] native cfgs
 |    +-- [ ] units
 |    |    +-- [ ] visitors

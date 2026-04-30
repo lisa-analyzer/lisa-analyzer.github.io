@@ -258,6 +258,17 @@ which specifies how the edge affects the program state when traversed during
 the analysis. Read more about statements, expressions, and edges in the
 [Statements, Expressions, and Edges]({{ site.baseurl }}/documentation/st-ex-e.html) page.
 
+### Annotations
+
+`Annotation`s are metadata that can be attached to various components of the
+program, such as variables, function or procedurs, and types. They are similar to
+syntactic tags such as Java's annotations and C#'s attributes, and do not modify
+the semantics of the program (i.e., they are not executable such as Python's
+decorators). Analyses can use such annotations to tune their resoning process,
+e.g., by assuming that a variable annotated with `@NonNull` cannot be `null`.
+More information on annotations can be found in the
+[Annotations]({{ site.baseurl }}/documentation/annotations.html) page.
+
 ### Control Flow Graphs
 
 A Control Flow Graph (`CFG`) represents the control flow of a single

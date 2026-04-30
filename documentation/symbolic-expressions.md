@@ -158,7 +158,7 @@ values (e.g., the return value of a function, the exception being thrown).
 
 An `Identifier` is a `ValueExpression` that is uniquely identified by its name.
 An identifier can be _weak_ (as returned by the `isWeak` method), meaning that it
-can represent multiple program locations at once (e.g., when modeling aliasing
+can represent multiple memory locations at once (e.g., when modeling aliasing
 or arrays) or _strong_, meaning that it represents a single program variable.
 As discussed in
 [the Semantic Domain page]({{ site.baseurl }}/documentation/semantic-domains.html#the-semantic-domain-interface),
@@ -207,3 +207,20 @@ synthetic variables that LiSA uses to model specific program constructs:
   by the current instruction;
 - `CFGReturn` stores the value returned by `return` statements in control flow graphs;
 - `CFGThrow` stores the exception being thrown by `throw` statements in control flow graphs.
+
+Finally, all `Identifier`s carry a set of
+[Annotations]({{ site.baseurl }}/documentation/annotations.html) that
+can be used to model metadata on the variable or locations it represent.
+Annotations can obtained directly from the code (e.g., by parsing Java
+annotations, Python type hints, C# attributes, etc.) or by propagation:
+for instance, when a call to a function, method, or procedure `f` is analyzed, all annotations
+on the return value of `f` are propagated to the `CFGReturn` variable
+representing the return value of the call. This propagation can be useful for
+implementing analyses parametric to annotations. An example of this is a taint
+analysis that uses annotations to detect tainted values: when a function call
+can generate a tainted value, it can be annotated (manually or automatically)
+with an analysis-defined annotation (e.g., `@Tainted`) that will be propagated
+to the `CFGReturn` variable. When determining the taintedness of an `Identifier`, an
+`AbstractDomain` can inspect its annotations first: if the variable is
+annotated, then it is always considered tainted; otherwise, the domain will have
+to compute its taintedness based on the values it has been assigned.
