@@ -4,6 +4,8 @@ layout: docpage
 
 # Annotations
 
+{% include diagrams.html %}
+
 Annotations are a powerful mechanism for attaching metadata to various program
 elements. Annotations can either be parsed directly from the source code or be
 generated at parsing time, exploting some definition in the static analyzer.
