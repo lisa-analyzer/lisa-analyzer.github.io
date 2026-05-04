@@ -1,0 +1,23 @@
+% !TeX program = xelatex
+\documentclass[
+  convert={density=500, size=600, outext=.png},
+  border=2pt
+]{standalone}
+
+\input{settings.tex}
+
+\begin{document}
+\sffamily
+
+\begin{tikzpicture}[nodes={font={\small}, minimum width=3.5cm}]%
+	\node[classnode] (app) {\begin{tabular}{l}
+			\multicolumn{1}{c}{\classname{Application}}                   \\
+			\hline
+			+ getPrograms(): Program[]                                     \\
+			+ getAllCFGs(): Collection<CFG>                                 \\
+			+ getEntryPoints(): Collection<CFG>                            \\
+			+ getAllCodeCodeMembers(): Collection<CodeMember>               \\
+		\end{tabular}};
+\end{tikzpicture}
+
+\end{document}

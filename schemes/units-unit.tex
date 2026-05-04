@@ -1,0 +1,52 @@
+% !TeX program = xelatex
+\documentclass[
+  convert={density=500, size=600, outext=.png},
+  border=2pt
+]{standalone}
+
+\input{settings.tex}
+
+\begin{document}
+\sffamily
+
+\begin{tikzpicture}[nodes={font={\small}, minimum width=3.5cm}]%
+	\node[abstractclassnode] (unit) {\begin{tabular}{l}
+			\multicolumn{1}{c}{\absclassname{Unit}}                                     \\
+			\hline
+			+ !getName(): String                                                        \\
+			+ !getGlobals(): Collection<Global>                                         \\
+			+ !getCodeMembers(): Collection<CodeMember>                                 \\
+			+ !getGlobal(name: String): Global                                          \\
+			+ !getCodeMember(signature: String): CodeMember                             \\
+			+ !getCodeMembersByName(name: String): Collection<CodeMember>               \\
+			+ !getGlobalsRecursively(): Collection<Global>                              \\
+			+ !getCodeMembersRecursively(): Collection<CodeMember>                      \\
+			+ !addGlobal(global: Global): boolean                                       \\
+			+ !addCodeMember(member: CodeMember): boolean                               \\
+			+ !getMatchingCodeMember(sig: CodeMemberDescriptor): Collection<CodeMember> \\
+			+ canBeInstantiated(): boolean                                              \\
+			+ getProgram(): Program                                                     \\
+		\end{tabular}};
+
+	\node[classnode, right=of unit.north east, anchor=north west] (global) {\begin{tabular}{l}
+			\multicolumn{1}{c}{\classname{Global}}                    \\
+			\hline
+			+ getName(): String                                       \\
+			+ getStaticType(): Type                                   \\
+			+ getContainer(): Unit                                    \\
+			+ isInstance(): boolean                                   \\
+			+ getLocation(): CodeLocation                             \\
+			+ getAnnotations(): Annotations                           \\
+			+ toSymbolicVariable(where: CodeLocation): GlobalVariable \\
+		\end{tabular}};
+
+	\node[classnode] (cg) [below=of global] {\begin{tabular}{l}
+			\multicolumn{1}{c}{\classname{ConstantGlobal}} \\
+			\hline
+			+ getConstant(): Constant                      \\
+		\end{tabular}};
+
+	\draw[->, thick] (cg) to (global);
+\end{tikzpicture}
+
+\end{document}

@@ -1,0 +1,63 @@
+% !TeX program = xelatex
+\documentclass[
+  convert={density=500, size=600, outext=.png},
+  border=2pt
+]{standalone}
+
+\input{settings.tex}
+
+\begin{document}
+\sffamily
+
+\begin{tikzpicture}[nodes={font={\small}, minimum width=3.5cm}]%
+	\node[abstractclassnode, inlinenode] (pu) {\absclassname{ProgramUnit}};
+
+	\node[abstractclassnode] (cu) [below=of pu] {\begin{tabular}{l}
+			\multicolumn{1}{c}{\absclassname{CompilationUnit}}                                                                    \\
+			\hline
+			+ !isSealed(): boolean                                                                                                \\
+			+ addAncestor(unit: CompilationUnit): boolean                                                                         \\
+			+ addInstance(unit: Unit): boolean                                                                                    \\
+			+ getImmediateAncestors(): Collection<CompilationUnit>                                                                \\
+			+ isInstanceOf(unit: CompilationUnit): boolean                                                                        \\
+			+ !addInstanceGlobal(global: Global): boolean                                                                         \\
+			+ !addInstanceCodeMember(member: CodeMember): boolean                                                                 \\
+			+ !getAnnotations(): Annotations                                                                                      \\
+			+ !getInstances(): Collection<Unit>                                                                                   \\
+			+ !getInstanceCodeMembers(traverseHierarchy: boolean): Collection<CodeMember>                                         \\
+			+ !getInstanceGlobals(traverseHierarchy: boolean): Collection<Global>                                                 \\
+			+ !getInstanceCFGs(traverseHierarchy: boolean): Collection<CFG>                                                       \\
+			+ !getInstanceConstructs(traverseHierarchy: boolean): Collection<CFG>                                                 \\
+			+ !getAbstractCodeMembers(traverseHierarchy: boolean): Collection<AbstractCodeMember>                                 \\
+			+ !getInstanceCodeMember(signature: String, traverseHierarchy: boolean): CodeMember                                   \\
+			+ !getInstanceGlobal(name: String, traverseHierarchy: boolean): Global                                                \\
+			+ !getInstanceCodeMembersByName(name: String, traverseHierarchy: boolean): Collection<CodeMember>                     \\
+			+ !getMatchingInstanceCodeMember(signature: CodeMemberDescriptor, traverseHierarchy: boolean): Collection<CodeMember> \\
+			+ <T> !searchCodeMembers(filter: Predicate<CodeMember>, traverseHierarchy: boolean): Collection<T>                    \\
+			+ !searchGlobals(filter: Predicate<Global>, traverseHierarchy: boolean): Collection<Global>                           \\
+		\end{tabular}};
+
+	\node[classnode] (iu) [below left=1cm and -3cm of cu] {\begin{tabular}{l}
+			\multicolumn{1}{c}{\classname{InterfaceUnit}}  \\
+			\hline
+			+ addSuperinterface(u: InterfaceUnit): boolean \\
+		\end{tabular}};
+
+	\node[classnode] (clu) [below right=1cm and -3cm of cu] {\begin{tabular}{l}
+			\multicolumn{1}{c}{\classname{ClassUnit}} \\
+			\hline
+			+ getSuperclasses(): List<ClassUnit>      \\
+			+ getInterfaces(): List<InterfaceUnit>    \\
+			+ addSuperclass(u: ClassUnit): boolean    \\
+			+ addInterface(u: InterfaceUnit): boolean \\
+		\end{tabular}};
+
+	\node[classnode, inlinenode] (acu) [below=of clu] {\classname{AbstractClassUnit}};
+
+	\draw[->, thick] (cu) to (pu);
+	\draw[->, thick] (iu) |- ($(cu.south)+(0,-0.5)$) to (cu);
+	\draw[->, thick] (clu) |- ($(cu.south)+(0,-0.5)$) to (cu);
+	\draw[->, thick] (acu) to (clu);
+\end{tikzpicture}
+
+\end{document}

@@ -1,0 +1,32 @@
+% !TeX program = xelatex
+\documentclass[
+  convert={density=500, size=600, outext=.png},
+  border=2pt
+]{standalone}
+
+\input{settings.tex}
+
+\begin{document}
+\sffamily
+
+\begin{tikzpicture}[nodes={font={\small}, minimum width=3.5cm}]%
+	\node[abstractclassnode, inlinenode] (unit) {\absclassname{Unit}};
+
+	\node[classnode] (prog) [below=of unit] {\begin{tabular}{l}
+			\multicolumn{1}{c}{\classname{Program}}                       \\
+			\hline
+			+ getFeatures(): LanguageFeatures                              \\
+			+ getTypes(): TypeSystem                                       \\
+			+ addUnit(unit: Unit): boolean                                 \\
+			+ getUnits(): Collection<Unit>                                 \\
+			+ getUnit(name: String): Unit                                  \\
+			+ addEntryPoint(cfg: CFG): boolean                             \\
+			+ getEntryPoints(): Collection<CFG>                            \\
+			+ getAllCFGs(): Collection<CFG>                                 \\
+			+ getCodeMembersRecursively(): Collection<CodeMember>          \\
+		\end{tabular}};
+
+	\draw[->, thick] (prog) to (unit);
+\end{tikzpicture}
+
+\end{document}

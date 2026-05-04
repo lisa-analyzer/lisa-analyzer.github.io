@@ -1,0 +1,25 @@
+% !TeX program = xelatex
+\documentclass[
+  convert={density=500, size=600, outext=.png},
+  border=2pt
+]{standalone}
+
+\input{settings.tex}
+
+\begin{document}
+\sffamily
+
+\begin{tikzpicture}[nodes={font={\small}, minimum width=3.5cm}]%
+	\node[abstractclassnode, inlinenode] (unit) {\absclassname{Unit}};
+	\node[interfacenode, inlinenode] (ce) [right=of unit] {\interfacename{CodeElement}};
+
+	\node[abstractclassnode, inlinenode] (pu) [below=of $(unit.south)!0.5!(ce.south)$] {\absclassname{ProgramUnit}};
+
+	\node[classnode, inlinenode] (cu) [below=of pu] {\classname{CodeUnit}};
+
+	\draw[->, thick] ($(pu.north)+(-0.2,0)$) |- ($(unit.south)+(0,-0.5)$) to (unit);
+	\draw[->, thick, dashed] ($(pu.north)+(0.2,0)$) |- ($(ce.south)+(0,-0.5)$) to (ce);
+	\draw[->, thick] (cu) to (pu);
+\end{tikzpicture}
+
+\end{document}
