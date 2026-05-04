@@ -79,7 +79,7 @@ contains no annotations at all, which is a common fast path in analysis code.
 
 Annotations are propagated during program validation, which takes place before
 the analysis starts (see the
-[Language Features and Type System]({{ site.baseurl }}/documentation/language-features-and-type-system.html)
+[Language Features]({{ site.baseurl }}/documentation/language-features.html)
 page). The propagation follows two distinct axes: the class hierarchy and the
 override chain.
 

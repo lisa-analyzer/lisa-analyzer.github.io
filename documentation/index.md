@@ -63,7 +63,7 @@ Upon delegation to the Interprocedural Analysis, the latter computes the
 result of the call by analyzing each possible target. Target resolution is
 performed by the [Call Graph](#the-call-graph), which computes all possible call targets by
 relying on both the program structure and the language-specific algorithms for
-call resolution (part of the [Language Features](#language-features-and-type-system)).
+call resolution (part of the [Language Features](#language-features)).
 This process enables the
 simplification of abstract domains, as they do not need to handle call
 resolution on their own.
@@ -184,7 +184,7 @@ Solving calls is a fundamental task in interprocedural analyses, mainly relying
 on the types of the call's parameters and on how the programming languages
 matches call signatures to their targets. While the latter is fixed for a given
 language (a detailed discussion is present later on this page, in the
-[Language Features and Type System](#language-features-and-type-system) section),
+[Language Features](#language-features) section),
 the former can be carried out in different ways. To decouple call resolution from
 the interprocedural analysis, LiSA introduces the `CallGraph` interface, which
 defines how call targets are resolved. The call graph is queried by the
@@ -242,7 +242,7 @@ creating and managing output files. Read more about outputs in the
 
 LiSA's `Program` is a data structure that contains all of the code that has been
 parsed from the input files, together with the
-[Type System and Language Features](#language-features-and-type-system)
+[Language Features](#language-features) and the [Type System](#types)
 specific to the programming language of the input code.
 
 ### Statements, Expressions, and Edges
@@ -297,20 +297,18 @@ As the aim of LiSA is to be language-agnostic, no assumptions on types are made.
 All types are represented by instances of the `Type` interface, which can be
 extended to represent the types of a specific programming language.
 Sub-interfaces are used to identity specific categories of types, such as primitive types,
-reference types, array types, and function types. Read more about types in the
+reference types, array types, and function types. The `TypeSystem` interface defines how types are managed
+and manipulated during the analysis. It provides operations for type checking,
+type inference, and type compatibility. Read more about types in the
 [Types]({{ site.baseurl }}/documentation/types.html) page.
 
-### Language Features and Type System
+### Language Features
 
 The `LanguageFeatures` interface defines language-specific algorithms and
 behaviors that are required during the analysis. These include algorithms for
 resolving call targets, traversing type hierarchies, and handling specific
-language constructs. The `TypeSystem` interface defines how types are managed
-and manipulated during the analysis. It provides operations for type checking,
-type inference, and type compatibility. Both interfaces must be implemented for
-each programming language that LiSA is used to analyze. Read more about language
-features and type systems in the
-[Language Features and Type System]({{ site.baseurl }}/documentation/language-features-and-type-system.html)
+language constructs. Read more about language features in the
+[Language Features]({{ site.baseurl }}/documentation/language-features.html)
 page.
 
 ## Frontends
@@ -321,7 +319,7 @@ corresponding [CFG](#control-flow-graphs)s, and assemble them into a
 [Program](#program-structure) instance that can be
 analyzed by LiSA. They also provide language-specific algorithms for, e.g.,
 matching a call to its target or traverse a type hierarchy (see the
-[Language Features and Type System](#language-features-and-type-system) section).
+[Language Features](#language-features) section).
 Each programming language requires its own frontend, as the translation
 process is highly language-dependent. Read more about frontends in the
 [Frontends]({{ site.baseurl }}/documentation/frontends.html) page.

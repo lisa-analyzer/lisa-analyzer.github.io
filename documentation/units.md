@@ -82,7 +82,8 @@ A `Program` is a `Unit` that collects all the units composing a single
 programming-language program. The main purpose is to act as a registry of all
 `Unit` instances parsed from the program's source, enriched with the
 type system and the language-specific algorithms (e.g., call resolution --- more information on the
-[Language Features and Type System]({{ site.baseurl }}/documentation/language-features-and-type-system.html) page)
+[Types]({{ site.baseurl }}/documentation/types.html) and
+[Language Features]({{ site.baseurl }}/documentation/language-features.html) pages)
 and the entry points of the analysis. In a `Program` instance,
 globals and code members are typically used to provide always-available built-ins and constants
 (e.g., Python's `print` function).

@@ -2,6 +2,6 @@
 layout: docpage
 ---
 
-# Language Features and Type System
+# Language Features
 
 This page is still under construction. Check back soon!
