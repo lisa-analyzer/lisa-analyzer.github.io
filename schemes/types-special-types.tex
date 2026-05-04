@@ -1,0 +1,41 @@
+% !TeX program = xelatex
+\documentclass[
+  convert={density=500, size=600, outext=.png},
+  border=2pt
+]{standalone}
+
+\input{settings.tex}
+
+\begin{document}
+\sffamily
+
+\begin{tikzpicture}[nodes={font={\small}, minimum width=3.5cm}]%
+	\node[interfacenode, inlinenode] (type) {\interfacename{Type}};
+
+	\node[classnode] (v) [below=of type] {\begin{tabular}{l}
+			\multicolumn{1}{c}{\classname{VoidType}} \\
+			\hline
+			+ INSTANCE: VoidType                     \\
+		\end{tabular}};
+
+	\node[classnode] (u) [left=of v] {\begin{tabular}{l}
+			\multicolumn{1}{c}{\classname{Untyped}} \\
+			\hline
+			+ INSTANCE: Untyped                     \\
+		\end{tabular}};
+
+	\node[classnode] (n) [right=of v] {\begin{tabular}{l}
+			\multicolumn{1}{c}{\classname{NullType}} \\
+			\hline
+			+ INSTANCE: NullType                     \\
+		\end{tabular}};
+
+	\node[interfacenode, inlinenode] (imt) [above=of n] {\interfacename{InMemoryType}};
+
+	\draw[->, thick] (imt) to (type);
+	\draw[->, thick, dashed] (u) |- ($(type.south)+(0,-0.4)$) to (type);
+	\draw[->, thick, dashed] (v) to (type);
+	\draw[->, thick, dashed] (n) to (imt);
+\end{tikzpicture}
+
+\end{document}

@@ -1,0 +1,47 @@
+% !TeX program = xelatex
+\documentclass[
+  convert={density=500, size=600, outext=.png},
+  border=2pt
+]{standalone}
+
+\input{settings.tex}
+
+\begin{document}
+\sffamily
+
+\begin{tikzpicture}[nodes={font={\small}, minimum width=3.5cm}]%
+
+	\node[interfacenode, inlinenode] (ct) {\interfacename{CharacterType}};
+	\node[interfacenode, inlinenode] (st) [right=of ct] {\interfacename{StringType}};
+	\node[interfacenode, inlinenode] (type) [above=of $(ct)!0.5!(st)$] {\interfacename{Type}};
+
+	\node[interfacenode, left=of ct.north west, anchor=north east] (bt) {\begin{tabular}{l}
+			\multicolumn{1}{c}{\interfacename{BooleanType}} \\
+			\hline
+			+ !castIsConversion(): boolean                  \\
+		\end{tabular}};
+
+	\node[interfacenode, right=of st.north east, anchor=north west] (nt) {\begin{tabular}{l}
+			\multicolumn{1}{c}{\interfacename{NumericType}}                      \\
+			\hline
+			+ getNBits(): int                                                    \\
+			+ isUnsigned(): boolean                                              \\
+			+ isIntegral(): boolean                                              \\
+			+ !is8Bits(): boolean                                                \\
+			+ !is16Bits(): boolean                                               \\
+			+ !is32Bits(): boolean                                               \\
+			+ !is64Bits(): boolean                                               \\
+			+ !isSigned(): boolean                                               \\
+			+ !sameNumericTypes(other: NumericType): boolean                     \\
+			+ !supertype(other: NumericType): NumericType                        \\
+			+ !castIsConversion(): boolean                                       \\
+			* !commonNumericalType(left: Set<Type>, right: Set<Type>): Set<Type> \\
+		\end{tabular}};
+
+	\draw[->, thick] (bt) |- ($(type.south)+(0,-0.5)$) to (type);
+	\draw[->, thick] (ct) |- ($(type.south)+(0,-0.5)$) to (type);
+	\draw[->, thick] (st) |- ($(type.south)+(0,-0.5)$) to (type);
+	\draw[->, thick] (nt) |- ($(type.south)+(0,-0.5)$) to (type);
+\end{tikzpicture}
+
+\end{document}

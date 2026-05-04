@@ -1,0 +1,32 @@
+% !TeX program = xelatex
+\documentclass[
+  convert={density=500, size=600, outext=.png},
+  border=2pt
+]{standalone}
+
+\input{settings.tex}
+
+\begin{document}
+\sffamily
+
+\begin{tikzpicture}[nodes={font={\small}, minimum width=3.5cm}]%
+	\node[abstractclassnode] (ts) {\begin{tabular}{l}
+			\multicolumn{1}{c}{\absclassname{TypeSystem}}                                                             \\
+			\hline
+			+ !getTypes(): Set<Type>                                                                                  \\
+			+ !getType(name: String): Type                                                                            \\
+			+ !registerType(type: Type): boolean                                                                      \\
+			+ !cast(types: Set<Type>, tokens: Set<Type>): Set<Type>                                                   \\
+			+ !cast(types: Set<Type>, tokens: Set<Type>, mightFail: AtomicBoolean): Set<Type>                         \\
+			+ !convert(types: Set<Type>, tokens: Set<Type>): Set<Type>                                                \\
+			+ !getReference(type: Type): ReferenceType                                                                \\
+			+ getBooleanType(): BooleanType                                                                           \\
+			+ getStringType(): StringType                                                                             \\
+			+ getIntegerType(): NumericType                                                                           \\
+			+ getCharacterType(): CharacterType                                                                       \\
+			+ canBeReferenced(type: Type): boolean                                                                    \\
+			+ distanceBetweenTypes(first: Type, second: Type): int                                                    \\
+		\end{tabular}};
+\end{tikzpicture}
+
+\end{document}

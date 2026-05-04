@@ -1,0 +1,39 @@
+% !TeX program = xelatex
+\documentclass[
+  convert={density=500, size=600, outext=.png},
+  border=2pt
+]{standalone}
+
+\input{settings.tex}
+
+\begin{document}
+\sffamily
+
+\begin{tikzpicture}[nodes={font={\small}, minimum width=3.5cm}]%
+	\node[interfacenode, inlinenode] (type) {\interfacename{Type}};
+
+	\node[interfacenode, inlinenode] (imt) [below=of type] {\interfacename{InMemoryType}};
+
+	\node[interfacenode] (at) [below left=of imt] {\begin{tabular}{l}
+			\multicolumn{1}{c}{\interfacename{ArrayType}} \\
+			\hline
+			+ getInnerType(): Type                        \\
+			+ getBaseType(): Type                         \\
+			+ getDimensions(): int                        \\
+		\end{tabular}};
+
+	\node[interfacenode] (ut) [below right=of imt] {\begin{tabular}{l}
+			\multicolumn{1}{c}{\interfacename{UnitType}}  \\
+			\hline
+			+ getUnit(): CompilationUnit                  \\
+		\end{tabular}};
+
+	\node[interfacenode, inlinenode] (et) [below=of ut] {\interfacename{ErrorType}};
+
+	\draw[->, thick] (imt) to (type);
+	\draw[->, thick] (at) |- ($(imt.south)+(0,-0.5)$) to (imt);
+	\draw[->, thick] (ut) |- ($(imt.south)+(0,-0.5)$) to (imt);
+	\draw[->, thick] (et) to (ut);
+\end{tikzpicture}
+
+\end{document}

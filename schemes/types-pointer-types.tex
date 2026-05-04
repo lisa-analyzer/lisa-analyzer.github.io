@@ -1,0 +1,35 @@
+% !TeX program = xelatex
+\documentclass[
+  convert={density=500, size=600, outext=.png},
+  border=2pt
+]{standalone}
+
+\input{settings.tex}
+
+\begin{document}
+\sffamily
+
+\begin{tikzpicture}[nodes={font={\small}, minimum width=3.5cm}]%
+	\node[interfacenode, inlinenode] (type) {\interfacename{Type}};
+
+	\node[interfacenode] (pt) [below=of type] {\begin{tabular}{l}
+			\multicolumn{1}{c}{\interfacename{PointerType}} \\
+			\hline
+			+ getInnerType(): Type                          \\
+		\end{tabular}};
+
+	\node[classnode] (rt) [below=of pt] {\begin{tabular}{l}
+			\multicolumn{1}{c}{\classname{ReferenceType}}        \\
+			\hline
+			+ ReferenceType(t: Type)                             \\
+			+ getInnerType(): Type                               \\
+			+ canBeAssignedTo(other: Type): boolean              \\
+			+ commonSupertype(other: Type): Type                 \\
+			+ allInstances(types: TypeSystem): Set<Type>         \\
+		\end{tabular}};
+
+	\draw[->, thick] (pt) to (type);
+	\draw[->, thick, dashed] (rt) to (pt);
+\end{tikzpicture}
+
+\end{document}

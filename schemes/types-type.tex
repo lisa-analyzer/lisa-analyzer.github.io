@@ -1,0 +1,37 @@
+% !TeX program = xelatex
+\documentclass[
+  convert={density=500, size=600, outext=.png},
+  border=2pt
+]{standalone}
+
+\input{settings.tex}
+
+\begin{document}
+\sffamily
+
+\begin{tikzpicture}[nodes={font={\small}, minimum width=3.5cm}]%
+	\node[interfacenode] (type) {\begin{tabular}{ll}
+			\multicolumn{2}{c}{\interfacename{Type}}                                                                                          \\
+			\hline
+			+ !isNumericType(): boolean                                       & + !asNumericType(): NumericType                               \\
+			+ !isCharacterType(): boolean                                     & + !asCharacterType(): CharacterType                           \\
+			+ !isBooleanType(): boolean                                       & + !asBooleanType(): BooleanType                               \\
+			+ !isStringType(): boolean                                        & + !asStringType(): StringType                                 \\
+			+ !isUntyped(): boolean                                           & + !asUntyped(): Untyped                                       \\
+			+ !isVoidType(): boolean                                          & + !asVoidType(): VoidType                                     \\
+			+ !isPointerType(): boolean                                       & + !asPointerType(): PointerType                               \\
+			+ !isInMemoryType(): boolean                                      & + !asInMemoryType(): InMemoryType                             \\
+			+ !isArrayType(): boolean                                         & + !asArrayType(): ArrayType                                   \\
+			+ !isNullType(): boolean                                          & + !asNullType(): NullType                                     \\
+			+ !isUnitType(): boolean                                          & + !asUnitType(): UnitType                                     \\
+			+ !isErrorType(): boolean                                         & + !asErrorType(): ErrorType                                   \\
+			+ !isTypeTokenType(): boolean                                     & + !asTypeTokenType(): TypeTokenType                           \\
+			+ !isReferenceType(): boolean                                     & + !asReferenceType(): ReferenceType                           \\
+			+ !defaultValue(cfg: CFG, location: CodeLocation): Expression     & + !unknownValue(cfg: CFG, location: CodeLocation): Expression \\
+			+ !isValueType(): boolean                                         & + !castIsConversion(): boolean                                \\
+			+ canBeAssignedTo(other: Type): boolean                           & + commonSupertype(other: Type): Type                          \\
+			* !commonSupertype(types: Collection<Type>, fallback: Type): Type & + allInstances(types: TypeSystem): Set<Type>                  \\
+		\end{tabular}};
+\end{tikzpicture}
+
+\end{document}
