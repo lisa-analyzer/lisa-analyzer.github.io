@@ -11,13 +11,13 @@ prereq:
 
 # Control Flow Graphs
 
-A **control flow graph** (CFG) is LiSA's representation of the body of a function,
+A control flow graph (CFG) is LiSA's representation of the body of a function,
 method, or procedure. The nodes of the graph are
 [`Statement`]({{ site.baseurl }}/documentation/st-ex-e.html#the-statement-class) instances, and the
 directed edges between them are instances of
 [`Edge`]({{ site.baseurl }}/documentation/st-ex-e.html#the-edge-class)
 and define the possible flows of execution. Each CFG has
-a **descriptor** that carries its metadata — name, parameters, return type,
+a descriptor that carries its metadata — name, parameters, return type,
 annotations, and more — independent of the code body itself. CFGs live inside
 `Unit`s, which in turn are part of a `Program`; those are described in their own
 documentation pages.
