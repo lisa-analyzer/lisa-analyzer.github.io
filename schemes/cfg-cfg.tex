@@ -1,0 +1,39 @@
+% !TeX program = xelatex
+\documentclass[
+  convert={density=500, size=600, outext=.png},
+  border=2pt
+]{standalone}
+
+\input{settings.tex}
+
+\begin{document}
+\sffamily
+
+\begin{tikzpicture}[nodes={font={\small}, minimum width=3.5cm}]%
+	\node[abstractclassnode, inlinenode] (cg) {\absclassname{CodeGraph}: G, N, E};
+	\node[interfacenode, inlinenode] (cm) [right=of cg] {\interfacename{CodeMember}};
+
+	\node[classnode] (cfg) [below=of $(cg.south)!0.5!(cm.south)$] {\begin{tabular}{l}
+			\multicolumn{1}{c}{\classname{CFG}}                                        \\
+			\hline
+			+ getDescriptor(): CodeMemberDescriptor                                    \\
+			+ getUnit(): Unit                                                           \\
+			+ getProgram(): Program                                                     \\
+			+ getNormalExitpoints(): Collection<Statement>                              \\
+			+ getAllExitpoints(): Collection<Statement>                                 \\
+			+ extractControlFlowStructures(e: ControlFlowExtractor): void              \\
+			+ simplify(): void                                                          \\
+			+ fixpoint(...): AnalyzedCFG<A>                                             \\
+			+ backwardFixpoint(...): AnalyzedCFG<A>                                     \\
+			+ isGuarded(st: Statement): boolean                                         \\
+			+ isInsideLoop(st: Statement): boolean                                      \\
+			+ isInsideIfThenElse(st: Statement): boolean                                \\
+			+ getGuards(st: Statement): Collection<Statement>                           \\
+			+ getMostRecentGuard(pp: ProgramPoint): Statement                           \\
+		\end{tabular}};
+
+	\draw[->, thick] ($(cfg.north)+(-0.2,0)$) |- ($(cg.south)+(0,-0.5)$) to (cg);
+	\draw[->, thick, dashed] ($(cfg.north)+(0.2,0)$) |- ($(cm.south)+(0,-0.5)$) to (cm);
+\end{tikzpicture}
+
+\end{document}

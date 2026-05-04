@@ -1,0 +1,56 @@
+% !TeX program = xelatex
+\documentclass[
+  convert={density=500, size=600, outext=.png},
+  border=2pt
+]{standalone}
+
+\input{settings.tex}
+
+\begin{document}
+\sffamily
+
+\begin{tikzpicture}[nodes={font={\small}, minimum width=3.5cm}]%
+	\node[abstractclassnode] (cg) {\begin{tabular}{l}
+			\multicolumn{1}{c}{\absclassname{CodeGraph}: G, N, E} \\
+			\hline
+			+ getNodeList(): NodeList<G, N, E>                    \\
+			+ getEntrypoints(): Collection<N>                     \\
+			+ getNodes(): Collection<N>                           \\
+			+ getEdges(): Collection<E>                           \\
+			+ addNode(node: N): void                              \\
+			+ addNode(node: N, entrypoint: boolean): void         \\
+			+ addEdge(edge: E): void                              \\
+			+ getIngoingEdges(node: N): Collection<E>             \\
+			+ getOutgoingEdges(node: N): Collection<E>            \\
+			+ followersOf(node: N): Collection<N>                 \\
+			+ predecessorsOf(node: N): Collection<N>              \\
+		\end{tabular}};
+
+	\node[classnode] (nl) [right=of cg] {\begin{tabular}{l}
+			\multicolumn{1}{c}{\classname{NodeList}: G, N, E} \\
+			\hline
+			+ addNode(node: N): void                          \\
+			+ removeNode(node: N): void                       \\
+			+ addEdge(edge: E): void                          \\
+			+ removeEdge(edge: E): void                       \\
+			+ getNodes(): Collection<N>                       \\
+			+ getEdges(): Collection<E>                       \\
+			+ getIngoingEdges(node: N): Collection<E>         \\
+			+ getOutgoingEdges(node: N): Collection<E>        \\
+			+ followersOf(node: N): Collection<N>             \\
+			+ predecessorsOf(node: N): Collection<N>          \\
+			+ simplify(): void                                \\
+		\end{tabular}};
+
+	\node[interfacenode, inlinenode] (cn) [above=of cg] {\interfacename{CodeNode}: G, N, E};
+	\node[interfacenode] (ce) [above=of nl] {\begin{tabular}{l}
+			\multicolumn{1}{c}{\interfacename{CodeEdge}: G, N, E} \\
+			\hline
+			+ isUnconditional(): boolean                          \\
+			+ isErrorHandling(): boolean                          \\
+			+ newInstance(src: N, dst: N): E                      \\
+		\end{tabular}};
+
+\end{tikzpicture}
+
+\end{document}

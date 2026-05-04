@@ -1,0 +1,58 @@
+% !TeX program = xelatex
+\documentclass[
+  convert={density=500, size=600, outext=.png},
+  border=2pt
+]{standalone}
+
+\input{settings.tex}
+
+\begin{document}
+\sffamily
+
+\begin{tikzpicture}[nodes={font={\small}, minimum width=3.5cm}]%
+	\node[classnode] (desc) {\begin{tabular}{l}
+			\multicolumn{1}{c}{\classname{CodeMemberDescriptor}}           \\
+			\hline
+			+ getName(): String                                            \\
+			+ getFullName(): String                                        \\
+			+ getSignature(): String                                       \\
+			+ isInstance(): boolean                                        \\
+			+ isOverridable(): boolean                                     \\
+			+ getReturnType(): Type                                        \\
+			+ getUnit(): Unit                                              \\
+			+ getLocation(): CodeLocation                                  \\
+			+ getFormals(): Parameter[]                                    \\
+			+ getVariables(): List<VariableTableEntry>                     \\
+			+ getAnnotations(): Annotations                                \\
+			+ getAnnotationsOf(name: String, st: Statement): Annotations   \\
+			+ getControlFlowStructures(): Collection<ControlFlowStructure> \\
+			+ getProtectionBlocks(): Collection<ProtectionBlock>           \\
+			+ overrides(): Collection<CodeMember>                          \\
+			+ overriddenBy(): Collection<CodeMember>                       \\
+		\end{tabular}};
+
+	\node[classnode] (par) [left=of desc] {\begin{tabular}{l}
+			\multicolumn{1}{c}{\classname{Parameter}} \\
+			\hline
+			+ getName(): String                       \\
+			+ getStaticType(): Type                   \\
+			+ getLocation(): CodeLocation             \\
+			+ getAnnotations(): Annotations           \\
+			+ getDefaultValue(): Expression           \\
+		\end{tabular}};
+
+	\node[classnode] (vte) [right=of desc] {\begin{tabular}{l}
+			\multicolumn{1}{c}{\classname{VariableTableEntry}} \\
+			\hline
+			+ getIndex(): int                                  \\
+			+ getName(): String                                \\
+			+ getStaticType(): Type                            \\
+			+ getLocation(): CodeLocation                      \\
+			+ getScopeStart(): Statement                       \\
+			+ getScopeEnd(): Statement                         \\
+			+ getAnnotations(): Annotations                    \\
+			+ createReference(cfg: CFG): VariableRef           \\
+		\end{tabular}};
+\end{tikzpicture}
+
+\end{document}

@@ -1,0 +1,46 @@
+% !TeX program = xelatex
+\documentclass[
+  convert={density=500, size=600, outext=.png},
+  border=2pt
+]{standalone}
+
+\input{settings.tex}
+
+\begin{document}
+\sffamily
+
+\begin{tikzpicture}[nodes={font={\small}, minimum width=3.5cm}]%
+	\node[abstractclassnode] (cfs) {\begin{tabular}{l}
+			\multicolumn{1}{c}{\absclassname{ControlFlowStructure}}          \\
+			\hline
+			+ getCondition(): Statement                                       \\
+			+ getFirstFollower(): Statement                                   \\
+			+ allStatements(): Collection<Statement>                          \\
+			+ !contains(st: Statement): boolean                               \\
+			+ !getTargetedStatements(): Collection<Statement>                 \\
+		\end{tabular}};
+
+	\node[classnode] (loop) [below left=of cfs] {\begin{tabular}{l}
+			\multicolumn{1}{c}{\classname{Loop}}            \\
+			\hline
+			+ getBody(): Collection<Statement>               \\
+		\end{tabular}};
+
+	\node[classnode] (ite) [below right=of cfs] {\begin{tabular}{l}
+			\multicolumn{1}{c}{\classname{IfThenElse}}       \\
+			\hline
+			+ getTrueBranch(): Collection<Statement>          \\
+			+ getFalseBranch(): Collection<Statement>         \\
+		\end{tabular}};
+
+	\node[classnode] (cfe) [right=of cfs] {\begin{tabular}{l}
+			\multicolumn{1}{c}{\classname{ControlFlowExtractor}}              \\
+			\hline
+			+ extract(cfg: CFG): Collection<ControlFlowStructure>             \\
+		\end{tabular}};
+
+	\draw[->, thick] (loop) |- ($(cfs.south)+(0,-0.5)$) to (cfs);
+	\draw[->, thick] (ite) |- ($(cfs.south)+(0,-0.5)$) to (cfs);
+\end{tikzpicture}
+
+\end{document}

@@ -1,0 +1,31 @@
+% !TeX program = xelatex
+\documentclass[
+  convert={density=500, size=600, outext=.png},
+  border=2pt
+]{standalone}
+
+\input{settings.tex}
+
+\begin{document}
+\sffamily
+
+\begin{tikzpicture}[nodes={font={\small}, minimum width=3.5cm}]%
+	\node[interfacenode] (cm) {\begin{tabular}{l}
+			\multicolumn{1}{c}{\interfacename{CodeMember}} \\
+			\hline
+			+ getDescriptor(): CodeMemberDescriptor        \\
+			+ !validate(): void                            \\
+		\end{tabular}};
+
+	\node[classnode, inlinenode] (acm) [below left=of cm] {\classname{AbstractCodeMember}};
+
+	\node[classnode, inlinenode] (cfg) [below=of cm] {\classname{CFG}};
+
+	\node[classnode, inlinenode] (ncfg) [below right=of cm] {\classname{NativeCFG}};
+
+	\draw[->, thick, dashed] (acm) |- ($(cm.south)+(0,-0.5)$) to (cm);
+	\draw[->, thick, dashed] (cfg) to (cm);
+	\draw[->, thick, dashed] (ncfg) |- ($(cm.south)+(0,-0.5)$) to (cm);
+\end{tikzpicture}
+
+\end{document}

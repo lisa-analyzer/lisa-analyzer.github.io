@@ -1,0 +1,31 @@
+% !TeX program = xelatex
+\documentclass[
+  convert={density=500, size=600, outext=.png},
+  border=2pt
+]{standalone}
+
+\input{settings.tex}
+
+\begin{document}
+\sffamily
+
+\begin{tikzpicture}[nodes={font={\small}, minimum width=3.5cm}]%
+	\node[interfacenode] (cm) {\begin{tabular}{l}
+			\multicolumn{1}{c}{\interfacename{CodeMember}}  \\
+			\hline
+			+ getDescriptor(): CodeMemberDescriptor          \\
+		\end{tabular}};
+
+	\node[classnode] (ncfg) [below=of cm] {\begin{tabular}{l}
+			\multicolumn{1}{c}{\classname{NativeCFG}}                       \\
+			\hline
+			+ getDescriptor(): CodeMemberDescriptor                          \\
+			+ rewrite(original: Statement, params: Expression[]): NaryExpression \\
+		\end{tabular}};
+
+	\node[interfacenode, inlinenode] (ps) [right=of ncfg] {\interfacename{PluggableStatement}};
+
+	\draw[->, thick, dashed] (ncfg) to (cm);
+\end{tikzpicture}
+
+\end{document}

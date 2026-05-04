@@ -1,0 +1,43 @@
+% !TeX program = xelatex
+\documentclass[
+  convert={density=500, size=600, outext=.png},
+  border=2pt
+]{standalone}
+
+\input{settings.tex}
+
+\begin{document}
+\sffamily
+
+\begin{tikzpicture}[nodes={font={\small}, minimum width=3.5cm}]%
+	\node[classnode] (pb) {\begin{tabular}{l}
+			\multicolumn{1}{c}{\classname{ProtectionBlock}} \\
+			\hline
+			+ getTryBlock(): ProtectedBlock                 \\
+			+ getElseBlock(): ProtectedBlock                \\
+			+ getFinallyBlock(): ProtectedBlock             \\
+			+ getCatchBlocks(): List<CatchBlock>            \\
+			+ getClosing(): Statement                       \\
+			+ getFullBody(cfg: CFG): Collection<Statement>  \\
+		\end{tabular}};
+
+	\node[classnode] (prb) [right=of pb] {\begin{tabular}{l}
+			\multicolumn{1}{c}{\classname{ProtectedBlock}} \\
+			\hline
+			+ getStart(): Statement                        \\
+			+ getEnd(): Statement                          \\
+			+ getBody(): Collection<Statement>             \\
+			+ canBeContinued(): boolean                    \\
+			+ alwaysContinues(): boolean                   \\
+		\end{tabular}};
+
+	\node[classnode] (cb) [right=of prb] {\begin{tabular}{l}
+			\multicolumn{1}{c}{\classname{CatchBlock}} \\
+			\hline
+			+ getExceptions(): Type[]                  \\
+			+ getIdentifier(): VariableRef             \\
+			+ getBody(): ProtectedBlock                \\
+		\end{tabular}};
+\end{tikzpicture}
+
+\end{document}
