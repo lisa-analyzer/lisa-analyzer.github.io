@@ -1,0 +1,35 @@
+% !TeX program = xelatex
+\documentclass[
+  convert={density=500, size=600, outext=.png},
+  border=2pt
+]{standalone}
+
+\input{settings.tex}
+
+\begin{document}
+\sffamily
+
+\begin{tikzpicture}[nodes={font={\small}, minimum width=3.5cm}]%
+	\node[interfacenode] (pvl) {\begin{tabular}{l}
+			\multicolumn{1}{c}{\interfacename{ProgramValidationLogic}} \\
+			\hline
+			+ validateAndFinalize(program: Program): void              \\
+		\end{tabular}};
+
+	\node[classnode] (bvl) [below=of pvl] {\begin{tabular}{l}
+			\multicolumn{1}{c}{\classname{BaseValidationLogic}}     \\
+			\hline
+			+ validateAndFinalize(unit: Unit): void                 \\
+			+ validateAndFinalize(unit: CodeUnit): void             \\
+			+ validateAndFinalize(unit: ClassUnit): void            \\
+			+ validateAndFinalize(unit: AbstractClassUnit): void    \\
+			+ validateAndFinalize(unit: InterfaceUnit): void        \\
+			+ validateAndFinalize(unit: CompilationUnit): void      \\
+			+ validate(global: Global, isInstance: boolean): void   \\
+			+ validate(member: CodeMember, instance: boolean): void \\
+		\end{tabular}};
+
+	\draw[->, thick, dashed] (bvl) to (pvl);
+\end{tikzpicture}
+
+\end{document}

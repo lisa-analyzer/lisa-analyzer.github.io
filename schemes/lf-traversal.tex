@@ -1,0 +1,28 @@
+% !TeX program = xelatex
+\documentclass[
+  convert={density=500, size=600, outext=.png},
+  border=2pt
+]{standalone}
+
+\input{settings.tex}
+
+\begin{document}
+\sffamily
+
+\begin{tikzpicture}[nodes={font={\small}, minimum width=3.5cm}]%
+	\node[interfacenode] (hts) {\begin{tabular}{l}
+			\multicolumn{1}{c}{\interfacename{HierarchyTraversalStrategy}}               \\
+			\hline
+			+ traverse(st: Statement, start: CompilationUnit): Iterable<CompilationUnit> \\
+		\end{tabular}};
+
+	\node[classnode] (sits) [below=of hts] {\begin{tabular}{l}
+			\multicolumn{1}{c}{\classname{SingleInheritanceTraversalStrategy}} \\
+			\hline
+			+ INSTANCE: SingleInheritanceTraversalStrategy                     \\
+		\end{tabular}};
+
+	\draw[->, thick, dashed] (sits) to (hts);
+\end{tikzpicture}
+
+\end{document}

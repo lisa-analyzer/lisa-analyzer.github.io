@@ -1,0 +1,26 @@
+% !TeX program = xelatex
+\documentclass[
+  convert={density=500, size=600, outext=.png},
+  border=2pt
+]{standalone}
+
+\input{settings.tex}
+
+\begin{document}
+\sffamily
+
+\begin{tikzpicture}[nodes={font={\small}, minimum width=3.5cm}]%
+	\node[interfacenode] (ss) {\begin{tabular}{l}
+			\multicolumn{1}{c}{\interfacename{ScopingStrategy}}                                                                     \\
+			\hline
+			+ <A, D> scope(call: CFGCall, scope: ScopeToken, state: AnalysisState<A>, analysis: Analysis<A, D>,                     \\
+			$\qquad\qquad\qquad$actuals: ExpressionSet[]): Pair<AnalysisState<A>, ExpressionSet[]>                                  \\
+			+ <A, D> unscope(call: CFGCall, scope: ScopeToken, state: AnalysisState<A>, analysis: Analysis<A, D>): AnalysisState<A> \\
+		\end{tabular}};
+
+	\node[classnode, inlinenode] (dss) [below=of ss] {\classname{DefaultScopingStrategy}};
+
+	\draw[->, thick, dashed] (dss) to (ss);
+\end{tikzpicture}
+
+\end{document}

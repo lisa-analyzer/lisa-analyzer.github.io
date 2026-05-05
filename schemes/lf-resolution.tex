@@ -1,0 +1,58 @@
+% !TeX program = xelatex
+\documentclass[
+  convert={density=500, size=600, outext=.png},
+  border=2pt
+]{standalone}
+
+\input{settings.tex}
+
+\begin{document}
+\sffamily
+
+\begin{tikzpicture}[nodes={font={\small}, minimum width=3.5cm}]%
+	\node[interfacenode] (pms) {\begin{tabular}{l}
+			\multicolumn{1}{c}{\interfacename{ParameterMatchingStrategy}}                                                  \\
+			\hline
+			+ matches(call: Call, formals: Parameter[], actuals: Expression[], types: Set<Type>[]): boolean                \\
+			+ !distanceFromPerfectTarget(call: UnresolvedCall, types: Set<Type>[], cm: CodeMember, instance: boolean): int \\
+		\end{tabular}};
+
+	\node[classnode] (plm) [below right=1cm and -6cm of pms] {\begin{tabular}{l}
+			\multicolumn{1}{c}{\classname{PythonLikeMatchingStrategy}}                                                       \\
+			\hline
+			* <T, F> pythonLogic(formals: Parameter[], actuals: Expression[], given: T[], givenTypes: Set<Type>[],           \\
+			$\qquad\qquad\qquad$defaults: T[], defaultTypes: Set<Type>[], slots: T[], slotTypes: Set<Type>[], failure: F): F \\
+		\end{tabular}};
+
+	\node[abstractclassnode] (foms) [below left=1cm and -6cm of pms] {\begin{tabular}{l}
+			\multicolumn{1}{c}{\absclassname{FixedOrderMatchingStrategy}}                                     \\
+			\hline
+			+ matches(call: Call, pos: int, formal: Parameter, actual: Expression, types: Set<Type>): boolean \\
+		\end{tabular}};
+
+	\node[classnode] (rts) [below=of foms] {\begin{tabular}{l}
+			\multicolumn{1}{c}{\classname{RuntimeTypesMatchingStrategy}} \\
+			\hline
+			+ INSTANCE: RuntimeTypesMatchingStrategy                     \\
+		\end{tabular}};
+
+	\node[classnode] (sts) [left=of rts] {\begin{tabular}{l}
+			\multicolumn{1}{c}{\classname{StaticTypesMatchingStrategy}} \\
+			\hline
+			+ INSTANCE: StaticTypesMatchingStrategy                     \\
+		\end{tabular}};
+
+	\node[classnode] (jlm) [right=of rts] {\begin{tabular}{l}
+			\multicolumn{1}{c}{\classname{JavaLikeMatchingStrategy}} \\
+			\hline
+			+ INSTANCE: JavaLikeMatchingStrategy                     \\
+		\end{tabular}};
+
+	\draw[->, thick, dashed] (foms) |- ($(pms.south)+(0,-0.5)$) to (pms);
+	\draw[->, thick, dashed] (plm) |- ($(pms.south)+(0,-0.5)$) to (pms);
+	\draw[->, thick] (rts) |- ($(foms.south)+(0,-0.5)$) to (foms);
+	\draw[->, thick] (sts) |- ($(foms.south)+(0,-0.5)$) to (foms);
+	\draw[->, thick] (jlm) |- ($(foms.south)+(0,-0.5)$) to (foms);
+\end{tikzpicture}
+
+\end{document}

@@ -48,10 +48,10 @@
 |    +-- [x] cfgs
 |    |    +-- [x] native cfgs
 |    +-- [x] units
-|    +-- [ ] types
-|    |    +-- [ ] type system
-|    +-- [ ] features
-|    |    +-- [ ] validation
+|    +-- [x] types
+|    |    +-- [x] type system
+|    +-- [x] features
+|    |    +-- [x] validation
 |    +-- [ ] frontends
 |    |    +-- [ ] parsers
 |    |    +-- [ ] phases

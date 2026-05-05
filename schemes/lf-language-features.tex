@@ -1,0 +1,24 @@
+% !TeX program = xelatex
+\documentclass[
+  convert={density=500, size=600, outext=.png},
+  border=2pt
+]{standalone}
+
+\input{settings.tex}
+
+\begin{document}
+\sffamily
+
+\begin{tikzpicture}[nodes={font={\small}, minimum width=3.5cm}]%
+	\node[abstractclassnode] (lf) {\begin{tabular}{l}
+			\multicolumn{1}{c}{\absclassname{LanguageFeatures}}              \\
+			\hline
+			+ getMatchingStrategy(): ParameterMatchingStrategy               \\
+			+ getTraversalStrategy(): HierarchyTraversalStrategy             \\
+			+ getAssigningStrategy(): ParameterAssigningStrategy             \\
+			+ !getScopingStrategy(): ScopingStrategy                         \\
+			+ !getProgramValidationLogic(): ProgramValidationLogic           \\
+		\end{tabular}};
+\end{tikzpicture}
+
+\end{document}

@@ -1,0 +1,36 @@
+% !TeX program = xelatex
+\documentclass[
+  convert={density=500, size=600, outext=.png},
+  border=2pt
+]{standalone}
+
+\input{settings.tex}
+
+\begin{document}
+\sffamily
+
+\begin{tikzpicture}[nodes={font={\small}, minimum width=3.5cm}]%
+	\node[interfacenode] (pas) {\begin{tabular}{l}
+			\multicolumn{1}{c}{\interfacename{ParameterAssigningStrategy}}                                                                            \\
+			\hline
+			+ <A, D> prepare(call: Call, callState: AnalysisState<A>, interprocedural: InterproceduralAnalysis<A, D>, expressions: StatementStore<A>, \\
+			$\qquad\qquad\qquad$formals: Parameter[], actuals: ExpressionSet[]): Pair<AnalysisState<A>, ExpressionSet[]>                              \\
+		\end{tabular}};
+
+	\node[classnode] (opas) [below left=1cm and -6cm of pas] {\begin{tabular}{l}
+			\multicolumn{1}{c}{\classname{OrderPreservingAssigningStrategy}} \\
+			\hline
+			+ INSTANCE: OrderPreservingAssigningStrategy                     \\
+		\end{tabular}};
+
+	\node[classnode] (plas) [below right=1cm and -6cm of pas] {\begin{tabular}{l}
+			\multicolumn{1}{c}{\classname{PythonLikeAssigningStrategy}} \\
+			\hline
+			+ INSTANCE: PythonLikeAssigningStrategy                     \\
+		\end{tabular}};
+
+	\draw[->, thick, dashed] (opas) |- ($(pas.south)+(0,-0.5)$) to (pas);
+	\draw[->, thick, dashed] (plas) |- ($(pas.south)+(0,-0.5)$) to (pas);
+\end{tikzpicture}
+
+\end{document}
