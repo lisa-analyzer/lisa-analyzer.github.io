@@ -396,14 +396,14 @@ should:
    `registerCall` method, so that it can be tracked in the graph's structure;
 2. update the current `ScopeId` if necessary by invoking the `push` method;
 3. compute the result of the call **for each target independently** by:
-   1. using the program's [Scoping Logic]({{ site.baseurl }}/documentation/language-features-and-type-system.html#the-scoping-logic)
+   1. using the program's [Scoping Logic]({{ site.baseurl }}/documentation/language-features.html#the-scoping-logic)
       to hide the caller's variables behind the call site
       (see [Scoped Objects]({{ site.baseurl }}/documentation/common-interfaces.html#the-scoped-object-interface) for more details);
-   2. using the program's [Assigning Strategy]({{ site.baseurl }}/documentation/language-features-and-type-system.html#the-assigning-strategy)
+   2. using the program's [Assigning Strategy]({{ site.baseurl }}/documentation/language-features.html#the-assigning-strategy)
       to assign the actual parameters of the call to the formal parameters of the callee;
    3. computing the result of invoking the target (e.g., by running a fixpoint
       over the target's CFG or by accessing a previously computed result);
-   4. using the program's [Scoping Logic]({{ site.baseurl }}/documentation/language-features-and-type-system.html#the-scoping-logic)
+   4. using the program's [Scoping Logic]({{ site.baseurl }}/documentation/language-features.html#the-scoping-logic)
       to remove the callee's variables and restore the caller's ones;
    5. performing cleanup operations through `Analysis.transferThrowers` and
       `Analysis.onCallReturn`;

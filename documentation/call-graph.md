@@ -190,7 +190,7 @@ possible language-specific optimizations:
   both the target name and the qualifier, and then proceeds by matching the fully
   qualified name through `matchesCodeMemberName` and the suitability of the
   parameters through the program's
-  [parameter matching strategy]({{ site.baseurl }}/documentation/language-features-and-type-system.html#parameter-matching-strategy);
+  [parameter matching strategy]({{ site.baseurl }}/documentation/language-features.html#parameter-matching-strategy);
 - `matchesAlias` checks if an alias exist for the given name and qualifier that
   is suitable for the call; by default, it checks all entries in the
   `SymbolAliasing` for the name and the qualifier, selecting the suitable ones
@@ -211,13 +211,13 @@ filters all code members with `isATarget`. Then, for all selected targets, the
 distance from a _perfect target_ is computed (i.e., the number of type
 conversions necessary for using the actual parameters of the call as parameters
 of the target) using the program's
-[parameter matching strategy]({{ site.baseurl }}/documentation/language-features-and-type-system.html#parameter-matching-strategy),
+[parameter matching strategy]({{ site.baseurl }}/documentation/language-features.html#parameter-matching-strategy),
 and the ones with the lowest distance are added to the possible
 targets. Note that if the call is ambiguous (i.e., there are multiple targets
 with the same distance in the same type), an exception is raised.
 Instead, if tye type is part of a hierarchy, the hierarchy is traversed upwards
 using the program's
-[hierarchy traversal strategy]({{ site.baseurl }}/documentation/language-features-and-type-system.html#hierarchy-traversal-strategy).
+[hierarchy traversal strategy]({{ site.baseurl }}/documentation/language-features.html#hierarchy-traversal-strategy).
 For each traversed type, the same process described above is applied, but the
 search is stopped as soon as at least a target is found, since the traversal
 strategy ensures that the first targets found are the most specific ones.
@@ -230,7 +230,7 @@ implement several techniques for call graph building (e.g., class hierarchy
 analysis, rapid type analysis, etc.). For each such type, the corresponding type
 definition is retriieved through `getReceiverCompilationUnit`. The hieararchy
 of the definition is then traversed using the program's
-[hierarchy traversal strategy]({{ site.baseurl }}/documentation/language-features-and-type-system.html#hierarchy-traversal-strategy),
+[hierarchy traversal strategy]({{ site.baseurl }}/documentation/language-features.html#hierarchy-traversal-strategy),
 and for each traversed type the _instance_ code members are filtered using the
 same process described above: `isATarget` is used to check the suitability of
 the code member, the distance from a perfect target is computed, and the best
