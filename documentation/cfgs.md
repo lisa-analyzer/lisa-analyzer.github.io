@@ -17,8 +17,8 @@ method, or procedure. The nodes of the graph are
 directed edges between them are instances of
 [`Edge`]({{ site.baseurl }}/documentation/st-ex-e.html#the-edge-class)
 and define the possible flows of execution. Each CFG has
-a descriptor that carries its metadata — name, parameters, return type,
-annotations, and more — independent of the code body itself. CFGs live inside
+a descriptor that carries its metadata --- name, parameters, return type,
+annotations, and more --- independent of the code body itself. CFGs live inside
 `Unit`s, which in turn are part of a `Program`; those are described in their own
 documentation pages.
 
@@ -32,7 +32,7 @@ its native counterpart.
 ## Descriptors
 
 The `CodeMemberDescriptor` class carries all the metadata associated with a code
-member — a function, method, or procedure — without containing the body code
+member --- a function, method, or procedure --- without containing the body code
 itself. It is shared by both `CFG` and `NativeCFG` instances, and serves as the
 single point of truth for information about a code member's signature and context.
 
@@ -42,8 +42,8 @@ The main information tracked by a `CodeMemberDescriptor` includes:
 
 - The name and unit of the code member, accessible through `getName()`
   and `getUnit()` respectively. The fully qualified name (prefixed by the unit
-  name) is returned by `getFullName()`, and the full signature — including
-  parameter types and return type — by `getSignature()` and `getFullSignature()`.
+  name) is returned by `getFullName()`, and the full signature --- including
+  parameter types and return type --- by `getSignature()` and `getFullSignature()`.
 - Whether the code member is an instance member (i.e., a method defined on an
   object instance) via `isInstance()`, and whether it can be overridden by
   code members in inheriting units via `isOverridable()`. Instance members are
@@ -147,8 +147,8 @@ page.
 
 ### Control Flow Structures
 
-Control flow structures encode the high-level syntactic constructs — loops and
-conditionals — that organize the statements inside a CFG. They are stored in the
+Control flow structures encode the high-level syntactic constructs --- loops and
+conditionals --- that organize the statements inside a CFG. They are stored in the
 descriptor's `getControlFlowStructures()` collection and can be populated either
 by the frontend at parse time or inferred heuristically from the CFG's edge
 structure.
@@ -210,7 +210,7 @@ Three classes implement `CodeMember`:
   pluggable expression rather than a graph (described in the
   [Native Code](#native-code) section);
 - `AbstractCodeMember`, a lightweight stub for code members that have a signature
-  but no body — such as abstract methods in an abstract class or interface methods.
+  but no body --- such as abstract methods in an abstract class or interface methods.
   It is simply a wrapper around a `CodeMemberDescriptor`, providing no additional
   logic beyond the descriptor access required by `CodeMember`.
 
@@ -276,7 +276,7 @@ the following:
   to the `Unit` and `Program` that contain this CFG without having to navigate
   through the descriptor.
 - Exit points: `getNormalExitpoints()` returns the statements from which
-  normal (non-exceptional) execution exits the CFG — typically `return`
+  normal (non-exceptional) execution exits the CFG --- typically `return`
   statements. `getAllExitpoints()` additionally includes statements that stop
   execution by raising an error. The distinction matters when reasoning about the
   final state of the CFG: normal and error exits correspond to different

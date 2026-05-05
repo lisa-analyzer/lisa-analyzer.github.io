@@ -155,8 +155,8 @@ file, populating it with the functions and top-level variables defined in it.
 
 ## Compilation Units
 
-Compilation units model the object-oriented type constructs of a language —
-classes, abstract classes, and interfaces — that organize code members and
+Compilation units model the object-oriented type constructs of a language ---
+classes, abstract classes, and interfaces --- that organize code members and
 globals into an inheritance hierarchy.
 
 <center> <img src="{{ site.baseurl }}/schemes/units-compilation-units.png" alt="Compilation unit hierarchy"/> </center>
@@ -196,7 +196,7 @@ Three concrete subclasses implement the different kinds of object-oriented types
   (`canBeInstantiated()` returns `false`). It is used to represent abstract
   classes, that is, classes which define some abstract code members that must
   be implemented by concrete subclasses.
-- `InterfaceUnit` represents an interface — a purely abstract type that defines
+- `InterfaceUnit` represents an interface --- a purely abstract type that defines
   a contract without providing implementations. It cannot be instantiated, and
   it can only inherit from other interfaces (tracked via
   `addSuperinterface(InterfaceUnit)`).

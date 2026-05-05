@@ -165,7 +165,7 @@ public class SubtypesScanner {
         if (block == null)
             return null;
 
-        // Unwrap relative links — they point into the javadoc tree and are broken
+        // Unwrap relative links --- they point into the javadoc tree and are broken
         // on the website; keep the link text.
         block.select("a[href]").forEach(Element::unwrap);
 
