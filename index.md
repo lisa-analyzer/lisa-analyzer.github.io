@@ -59,7 +59,7 @@ link=card_link
 link_text="<i class=\"fas fa-wrench\"></i>&nbsp;&nbsp;Discover how LiSA can be configured"
 %}
 
-<div style="width: 60%; margin: 3rem auto">
+<div style="width: 80%; margin: 3rem auto">
 {% include important.html content="LiSA is a research project under active
 development. Some features might be incomplete or missing,
 and the API might change in future releases. We will do our best to

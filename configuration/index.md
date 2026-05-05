@@ -39,24 +39,29 @@ The value of this option decides what analyysis is being run, and what shape
 will the computed states have. If no value is set for this option, no semantic
 analysis will be executed.
 
-Several abstract domains are available in LiSA:
-
+<details class="accordion">
+<summary>Built-in Abstract Domain implementations</summary>
 {% include github_alternatives.html class="it.unive.lisa.analysis.AbstractDomain" %}
+</details>
 
 If you adopt the
 [Simple Abstract Domain framework]({{ site.baseurl }}/documentation/simple-abstract-domain.html)
 to build your own abstract domain, LiSA also provides alternatives for each component.
-The out-of-the-box implementations for the heap domain are:
 
+<details class="accordion">
+<summary>Built-in Heap Domain implementations</summary>
 {% include github_alternatives.html class="it.unive.lisa.analysis.heap.HeapDomain" %}
+</details>
 
-Instead, the bundled alternatives for the value domain are:
-
+<details class="accordion">
+<summary>Built-in Value Domain implementations</summary>
 {% include github_alternatives.html class="it.unive.lisa.analysis.value.ValueDomain" %}
+</details>
 
-Finally, the bundled alternatives for the type domain are:
-
+<details class="accordion">
+<summary>Built-in Type Domain implementations</summary>
 {% include github_alternatives.html class="it.unive.lisa.analysis.type.TypeDomain" %}
+</details>
 
 ### Interprocedural Analysis and Call Graph
 
@@ -98,14 +103,20 @@ The [Open Call Policy]({{ site.baseurl }}/documentation/interprocedural-analysis
 is used to determine the results of calls that have no targets in the program to
 analyze.
 
-Several interprocedural analyses are available in LiSA:
+<details class="accordion">
+<summary>Built-in Interprocedural Analysis implementations</summary>
 {% include github_alternatives.html class="it.unive.lisa.interprocedural.InterproceduralAnalysis" %}
+</details>
 
-Orthogonally, call graphs implementations are also bundled with LiSA:
+<details class="accordion">
+<summary>Built-in Call Graph implementations</summary>
 {% include github_alternatives.html class="it.unive.lisa.interprocedural.callgraph.CallGraph" %}
+</details>
 
-For open call policies, LiSA provides:
+<details class="accordion">
+<summary>Built-in Open Call Policy implementations</summary>
 {% include github_alternatives.html class="it.unive.lisa.interprocedural.OpenCallPolicy" %}
+</details>
 
 ### Adding Syntactic and Semantic Checks
 
@@ -244,14 +255,20 @@ is determined by the `WorkingSet` passed to the `fixpointWorkingSet` option.
 In all options above, the instances passed to the fields are used as factories
 to create new fixpoint instances or new working sets.
 
-LiSA provides standard forward fixpoint algorithms, alongside their optimized variants:
+<details class="accordion">
+<summary>Built-in Forward Fixpoint implementations</summary>
 {% include github_alternatives.html class="it.unive.lisa.program.cfg.fixpoints.forward.ForwardCFGFixpoint" %}
+</details>
 
-These are paired with their backward variants:
+<details class="accordion">
+<summary>Built-in Backward Fixpoint implementations</summary>
 {% include github_alternatives.html class="it.unive.lisa.program.cfg.fixpoints.backward.BackwardCFGFixpoint" %}
+</details>
 
-Each fixpoint implementation can be customized by the following bundled working sets:
+<details class="accordion">
+<summary>Built-in Working Set implementations</summary>
 {% include github_alternatives.html class="it.unive.lisa.util.collections.workset.WorkingSet" %}
+</details>
 
 ### Optimization-related Options
 
@@ -357,11 +374,15 @@ The lists of listeners should only be added to, and not
 replaced with other (possibly immutable) lists, as LiSA might add new
 listeners depending on the values of other options.
 
-LiSA bundles the following event listeners, that can be used both synchronously and asynchronously:
+<details class="accordion">
+<summary>Built-in Event Listener implementations</summary>
 {% include github_alternatives.html class="it.unive.lisa.events.EventListener" %}
+</details>
 
-When implementinc custom listeners, the following events are issued automatically by the analysis:
+<details class="accordion">
+<summary>Built-in Event implementations</summary>
 {% include github_alternatives.html class="it.unive.lisa.events.Event" %}
+</details>
 
 ### Producing Outputs
 
@@ -390,8 +411,10 @@ The collection of outputs to produce should only be added to, and not replaced w
 other (possibly immutable) collections, as LiSA might add new outputs depending on
 on the values of other options.
 
-LiSA includes the following output generators:
+<details class="accordion">
+<summary>Built-in Output implementations</summary>
 {% include github_alternatives.html class="it.unive.lisa.outputs.LiSAOutput" %}
+</details>
 
 ## Logging
 

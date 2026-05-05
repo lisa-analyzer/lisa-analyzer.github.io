@@ -2,8 +2,6 @@
 
 {% include version_disclaimer.html %}
 
-{% include warn.html content="The documentation is still under construction: some pages are still missing." %}
-
 This section describes the internal structure of LiSA, providing an overview of
 its main components and how they interact with each other.
 

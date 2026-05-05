@@ -5,6 +5,8 @@
 This section contains a series of tutorials to quickly get started using or
 developing LiSA.
 
+{% include warn.html content="The section is still under construction: some tutorials are still missing." %}
+
 ### Setting up the project
 
 These tutorial will help you build a project that can use LiSA - either as an
