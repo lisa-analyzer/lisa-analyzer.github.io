@@ -1,12 +1,12 @@
-# Building from source
-
-| <name>Goal:</name> retrieve the source code of LiSA and build it locally |
-| <name>LiSA release used:</name> 0.2 |
-| <name>Requirements:</name> [JDK 11](https://www.oracle.com/it/java/technologies/javase/jdk11-archive-downloads.html), [Git](https://git-scm.com/downloads)
-| <name>Note:</name> you should build from source only if you plan to work directly on LiSA itself, or if you need to work with an unreleased version. If you want to use LiSA as-is instead, please refer to the [Creating a project using LiSA]({{ site.baseurl}}/get-started/maven-dependency.md) tutorial instead. |
-{:.tutorialheader}
-
 ---
+layout: tutorial
+goal: Retrieve the source code of LiSA and build it locally
+release: 0.2
+reqs: '<a href="https://www.oracle.com/it/java/technologies/javase/jdk11-archive-downloads.html">JDK 11</a>, <a href="https://git-scm.com/downloads">Git</a>'
+notes: You should build from source only if you plan to work directly on LiSA itself, or if you need to work with an unreleased version. If you want to use LiSA as-is instead, please refer to the [Creating a project using LiSA]({{ site.baseurl}}/get-started/maven-dependency.md) tutorial instead.
+---
+
+# Building from source
 
 LiSA comes as a [Gradle](https://gradle.org/) 8.10 project. Gradle can be
 executed through a local wrapper without downloading and installing a
@@ -39,7 +39,7 @@ cd lisa\lisa
 
 ---
 
-The `build` task ensures that everything (from code generation to compilation,
+The `completeBuild` task ensures that everything (from code generation to compilation,
 packaging and test execution) works fine. If the above commands succeed, then
 everything is set. You can now import the project in any IDE of your choice.
 

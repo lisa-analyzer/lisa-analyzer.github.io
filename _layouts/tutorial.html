@@ -1,0 +1,25 @@
+---
+layout: default
+---
+<div markdown="span" class="prerequisites">
+	<span class="alert-title"><i class="fas fa-bullseye"></i>&nbsp;Goal:</span> {{ page.goal }} <br/>
+	<span class="alert-title"><i class="fas fa-code-branch"></i>&nbsp;&nbsp;LiSA release used:</span> {{ page.release }} <br/>
+{% if page.reqs %}
+	<span class="alert-title"><i class="fas fa-toolbox"></i>&nbsp;Requirements:</span> {{ page.reqs }} <br/>
+{% endif %} 
+{% if page.prereq %}
+	<span class="alert-title"><i class="far fa-bookmark"></i>&nbsp;Prerequisites:</span>
+	<ol>
+		{% for prereq in page.prereq %}
+		<li>
+			<a href="{{ site.baseurl }}/{{ prereq.link }}">{{ prereq.text }}</a>
+		</li>
+		{% endfor %}
+	</ol>
+{% endif %} 
+{% if page.notes %}
+	<span class="alert-title"><i class="fas fa-comment-dots"></i>&nbsp;Notes:</span> {{ page.notes }} <br/>
+{% endif %} 
+</div>
+
+{{ content }}

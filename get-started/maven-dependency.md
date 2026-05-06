@@ -1,11 +1,11 @@
-# Creating a project using LiSA
-
-| <name>Goal:</name> using an official release of LiSA as a dependency of your project |
-| <name>LiSA release used:</name> 0.2 |
-| <name>Requirements:</name> [JDK 11](https://www.oracle.com/it/java/technologies/javase/jdk11-archive-downloads.html), a build tool of your choice (the tutorial will use [Gradle](https://gradle.org/), but steps for other build tools are the same) |
-{:.tutorialheader}
-
 ---
+layout: tutorial
+goal: Using an official release of LiSA as a dependency of your project
+release: 0.2
+reqs: '<a href="https://www.oracle.com/it/java/technologies/javase/jdk11-archive-downloads.html">JDK 11</a>, a build tool of your choice (the tutorial will use <a href="https://gradle.org/">Gradle</a>, but steps for other build tools are the same)'
+---
+
+# Creating a project using LiSA
 
 Setting up a project that uses LiSA can be achieved with few simple steps, the
 first one being creating an empty Java project. The procedure depends on the
