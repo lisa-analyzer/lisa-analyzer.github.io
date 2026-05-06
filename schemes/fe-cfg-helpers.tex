@@ -1,0 +1,64 @@
+% !TeX program = xelatex
+\documentclass[
+  convert={density=500, size=600, outext=.png},
+  border=2pt
+]{standalone}
+
+\input{settings.tex}
+
+\begin{document}
+\sffamily
+
+\begin{tikzpicture}[nodes={font={\small}, minimum width=3.5cm}]%
+
+	\node[classnode] (lv) {\begin{tabular}{l}
+			\multicolumn{1}{c}{\classname{LocalVariableTracker.LocalVariable}} \\
+			\hline
+			+ getLocation(): CodeLocation                                      \\
+			+ getScopeStart(): Statement                                       \\
+			+ getAnnotations(): Annotations                                    \\
+		\end{tabular}};
+
+	\node[classnode] (lvt) [below=of lv] {\begin{tabular}{l}
+			\multicolumn{1}{c}{\classname{LocalVariableTracker}}                               \\
+			\hline
+			+ enterScope(): void                                                               \\
+			+ exitScope(closing: Statement): void                                              \\
+			+ hasVariable(name: String): boolean                                               \\
+			+ addVariable(name: String, definition: Statement, annotations: Annotations): void \\
+			+ getLatestScope(): Map<String, LocalVariable>                                     \\
+			+ getLocalVariable(identifier: String): LocalVariable                              \\
+		\end{tabular}};
+
+	\node[classnode] (pb) [right=of lv.north east, anchor=north west] {\begin{tabular}{l}
+			\multicolumn{1}{c}{\classname{ParsedBlock}} \\
+			\hline
+			+ getBegin(): Statement                     \\
+			+ getBody(): NodeList<CFG, Statement, Edge> \\
+			+ getEnd(): Statement                       \\
+			+ canBeContinued(): boolean                 \\
+			+ alwaysContinues(): boolean                \\
+		\end{tabular}};
+
+	\node[classnode] (ct) [right=of pb.north east, anchor=north west] {\begin{tabular}{l}
+			\multicolumn{1}{c}{\classname{CFGTweaker}}                                        \\
+			\hline
+			* <E> addReturns(cfg: CFG, exceptionFactory: Function<String, E>): void           \\
+			* <E> addFinallyEdges(cfg: CFG, exceptionFactory: Function<String, E>): void      \\
+			* <E> splitProtectedYields(cfg: CFG, exceptionFactory: Function<String, E>): void \\
+		\end{tabular}};
+
+	\node[classnode] (cft) [below=of ct] {\begin{tabular}{l}
+			\multicolumn{1}{c}{\classname{ControlFlowTracker}}                                                           \\
+			\hline
+			+ addModifier(modifier: Statement): void                                                                     \\
+			+ addModifier(modifier: Statement, label: String): void                                                      \\
+			+ getModifiers(): List<Pair<Statement, String>>                                                              \\
+			+ endControlFlowOf(list: NodeList<CFG, Statement, Edge>, condition: Statement, targetForBreaking: Statement, \\
+			$\qquad\qquad\qquad$targetForContinuing: Statement, label: String): void                                     \\
+		\end{tabular}};
+
+	\draw[->, thick] (lvt) to (lv);
+\end{tikzpicture}
+
+\end{document}

@@ -1,7 +1,7 @@
 + [x] home
 |    [x] team
-|    [ ] mit licence
-|    [ ] other (?)
+|    [x] news
+|    [x] frontends
 +-- [x] guides
 |    [x] remove required time
 |    [ ] add links to guides in structure pages
@@ -52,12 +52,11 @@
 |    |    +-- [x] type system
 |    +-- [x] features
 |    |    +-- [x] validation
-|    +-- [ ] frontends
-|    |    +-- [ ] parsers
-|    |    +-- [ ] phases
-|    |    +-- [ ] libraries
-|    |    +-- [ ] overall workflow
-|    +-- [ ] testing utilities
+|    +-- [x] frontends
+|    |    +-- [x] parsers
+|    |    +-- [x] phases
+|    |    +-- [x] libraries
+|    |    +-- [x] overall workflow
 +-- [x] configuration
 |    +-- [x] sketch creating and configuring lisa
 |    +-- [x] options
