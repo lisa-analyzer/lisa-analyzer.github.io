@@ -92,6 +92,18 @@ Association for Computing Machinery, New York, NY, USA, 1–6.<br/>
 
 ### Publications using LiSA
 
+<ins>Vincenzo Arceri, Luca Negrini, Giacomo Zanatta, Filippo Bianchi, Teodors Lisovenko, Luca Olivieri, Pietro Ferrara</ins> (2026).
+**JLiSA: The Java Frontend of the Library for Static Analysis (Competition Contribution).**
+In: 32nd International Conference on Tools and Algorithms for the Construction and Analysis of Systems (TACAS 2026),
+Turin, Italy, 2026, Lecture Notes in Computer Science, vol 16506. Springer, Cham.<br/>
+<small>
+[<i class="far fa-file-pdf"></i> PDF](https://lucaneg.github.io/papers/TACAS26.pdf)
+&nbsp;
+[<i class="fas fa-link"></i> DOI](https://doi.org/10.1007/978-3-032-22749-2_30)
+&nbsp;
+[<i class="fas fa-laptop-code"></i> jlisa](https://github.com/lisa-analyzer/jlisa)
+</small>
+
 <ins>Luca Negrini</ins> (2026).
 **Whole-value analysis by abstract interpretation.**
 In: Frontiers in Computer Science, 7:1655377.<br/>
