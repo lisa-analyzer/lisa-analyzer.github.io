@@ -1172,6 +1172,11 @@ a {
 	border: solid 3px $header-bg-color;
 	border-radius: 0.4rem;
 
+	p {
+		padding: 0.5rem 1rem;
+		margin: 0;
+	}
+
 	summary {
 		padding: 0.25rem 1rem;
 		width: 100%;
@@ -1183,7 +1188,7 @@ a {
 		transition: all 0.3s;
 
 		background: linear-gradient(120deg, $header-bg-color-secondary, $header-bg-color);
-		border-radius: 0.4rem;
+		border-radius: 0.3rem;
 		box-shadow: inset 0 0 0 1000px white;
 
 		&:hover {
