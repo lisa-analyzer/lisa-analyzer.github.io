@@ -61,7 +61,7 @@ use them to evaluate expressions and assignments, the
 uses `assign` to
 model parameter passing and return value assignments, and so on.
 Instead, `assume` is mainly called when traversing conditional
-[Edges]({{ site.baseurl }}/documentation/st-ex-e.html#edges) in a
+[Edges]({{ site.baseurl }}/documentation/st-ex-e.html#the-edge-class) in a
 [CFG]({{ site.baseurl }}/documentation/cfgs.html).
 
 {% include warn.html content="`Identifier`s can be _strong_ or _weak_.

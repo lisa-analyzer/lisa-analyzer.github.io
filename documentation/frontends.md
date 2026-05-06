@@ -121,7 +121,7 @@ Java binding.
 
 {% include note.html content="It is also possible to use parsers in languages
 different from Java, e.g. a Python-based parser for Python source. In that
-case, the parser must serialize the final [`Program`]({{ site.baseurl }}/documentation/units.html#the-program-unit) structure, and a Java-based
+case, the parser must serialize the final `Program` structure, and a Java-based
 application can then deserialize it and pass it to LiSA. However, instruction
 semantics, types, and other features required by LiSA must still be developed
 in Java, as the library has to be run in a Java process." %}
@@ -207,7 +207,7 @@ Abstract method stubs --- declared but without a body --- are represented as
 {% include tip.html content="For languages like Python or JavaScript where
 classes are not declared at the top level but created dynamically, a strict
 two-pass separation may not apply. In those cases, create and register a
-[`CompilationUnit`]({{ site.baseurl }}/documentation/units.html#compilation-units) for each class on the fly when it is first encountered during
+`CompilationUnit` for each class on the fly when it is first encountered during
 a single traversal, and rely on the forward-declaration behaviour of the
 frontend's type registry to resolve self-references." %}
 
@@ -376,7 +376,7 @@ successors. Some `NoOp`s might still appear in the final [`CFG`]({{ site.baseurl
 not be safely removed (e.g., if they join multiple conditional paths).
 
 {% include important.html content="The simplification of `CFG`s should be the
-last operation to apply before returning the [`CFG`]({{ site.baseurl }}/documentation/cfgs.html#control-flow-graphs)." %}
+last operation to apply before returning the `CFG`." %}
 
 ### LocalVariableTracker
 
@@ -543,7 +543,7 @@ return expression).
 
 {% include note.html content="For languages without exception handling,
 `addFinallyEdges` and `splitProtectedYields` are no-ops if the descriptor
-contains no [`ProtectionBlock`]({{ site.baseurl }}/documentation/cfgs.html#error-handling-blocks)s. These calls can be omitted." %}
+contains no `ProtectionBlock`s. These calls can be omitted." %}
 
 ## Defining New Instructions
 

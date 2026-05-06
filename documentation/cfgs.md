@@ -326,11 +326,11 @@ behavior. The `PluggableStatement` interface's `setOriginatingStatement(Statemen
 method is also called on the resulting expression, linking it back to the call
 that triggered the rewrite.
 
-{% include tip.html content="To implement a native construct, create a class
-that extends a suitable [`NaryExpression`]({{ site.baseurl }}/documentation/st-ex-e.html#implementing-compound-expressions) subclass and also implements
+{% include tip.html content='To implement a native construct, create a class
+that extends a suitable `NaryExpression` subclass and also implements
 `PluggableStatement`. Provide a public static `build(CFG, CodeLocation, Expression[])`
 factory method, define the semantics in `forwardSemanticsAux`, and pass the class
-to the `NativeCFG` constructor. LiSA will take care of the rest." %}
+to the `NativeCFG` constructor. LiSA will take care of the rest.' %}
 
 `NativeCFG`s avoid the submission of library code to the analysis, which in
 turn reduces the complexity of the analysis. The semantics of a library function
