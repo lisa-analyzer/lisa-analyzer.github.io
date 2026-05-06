@@ -125,11 +125,11 @@ Results returned by `CFG.fixpoint` and `CFG.backwardFixpoint` are stored in
 <center> <img src="{{ site.baseurl }}/schemes/analyzed-cfgs.png" alt="Fixpoint results classes"/> </center>
 
 These are parametric to the type `A extends AbstractLattice<A>` that the results
-(i.e., `AnalysisState<A>` instances) contain, and are subclasses of `CFG`
+(i.e., `AnalysisState<A>` instances) contain, and are subclasses of [`CFG`]({{ site.baseurl }}/documentation/cfgs.html#control-flow-graphs)
 that contains methods to query the computed states
 before or after a node, and of `BaseLattice<AnalyzedCFG<A>>` and
 `BaseLattice<BackwardAnalyzedCFG<A>>`, respectively. Both classes provide
-avenues for retrieving the entry or exit state of the whole `CFG` or of
+avenues for retrieving the entry or exit state of the whole [`CFG`]({{ site.baseurl }}/documentation/cfgs.html#control-flow-graphs) or of
 individual nodes (i.e., [Statement]({{ site.baseurl }}/documentation/st-ex-e.html) instances).
 Each result is identified by a `ScopeId`, that will be
 explained together with the interprocedural analysis interface.
@@ -224,7 +224,7 @@ site, etc.). Each implementation must provide three methods:
   performing the given call `c`, reached with state `state`, on the current
   `ScopeId` (i.e., `this`).
 
-In `push` the type of the parameter `c` is `CFGCall`. The `Call` hierarchy is
+In `push` the type of the parameter `c` is [`CFGCall`]({{ site.baseurl }}/documentation/call-graph.html#calls). The [`Call`]({{ site.baseurl }}/documentation/call-graph.html#calls) hierarchy is
 discussed in the [Call Graph]({{ site.baseurl }}/documentation/call-graph.html) page,
 but it is sufficient to know that it models calls that have been resolved and
 whose targets are CFGs under analysis.
@@ -236,23 +236,23 @@ together.
 
 ### Handling Calls with no Targets
 
-In LiSA, `OpenCall`s are calls that have been resolved, but no viable target
-has been found inside the program under analysis (the `Call` hierarchy is
+In LiSA, [`OpenCall`]({{ site.baseurl }}/documentation/call-graph.html#calls)s are calls that have been resolved, but no viable target
+has been found inside the program under analysis (the [`Call`]({{ site.baseurl }}/documentation/call-graph.html#calls) hierarchy is
 discussed in more depth in the [Call Graph]({{ site.baseurl }}/documentation/call-graph.html) page).
 The handling of such calls is independent of the Interprocedural Analysis:
 regardless of the technique used to compute the results of calls, if no targets
 are available, then no reasoning can be performed on the call.
 
 To avoid reimplementation of Interprocedural Analyses that just differ in how
-they handle `OpenCall`s, LiSA provides the `OpenCallPolicy` interface, that defines
-the policy to apply when an `OpenCall` is encountered during the analysis:
+they handle [`OpenCall`]({{ site.baseurl }}/documentation/call-graph.html#calls)s, LiSA provides the `OpenCallPolicy` interface, that defines
+the policy to apply when an [`OpenCall`]({{ site.baseurl }}/documentation/call-graph.html#calls) is encountered during the analysis:
 
 <center> <img src="{{ site.baseurl }}/schemes/open-call-policies.png" alt="Policies for Open Calls" style="width: 80%"/> </center>
 
 An `OpenCallPolicy` is simply a wrapper around the `apply` method, parametric on
 the types `A extends AbstractLattice<A>` of states that the analysis computes
 and `D extends AbstractDomain<A>` of the domain that the analysis executes,
-that computes the effects of the `OpenCall` on a given state. The method has
+that computes the effects of the [`OpenCall`]({{ site.baseurl }}/documentation/call-graph.html#calls) on a given state. The method has
 access to all the semantic information (i.e., the `entryState` and the `params`
 of the call), together with the `call` itself, to produce any sound (or
 reasonable) result.
@@ -317,8 +317,8 @@ results to be invalidated, requiring the Interprocedural Analysis to reanalyze
 some CFGs.
 
 `FixpointResults`, parametric on the type `A extends AbstractLattice<A>` of the states that the
-analysis computes, lifts the mapping of `CFGResults` back to `CFG`s, so that
-all results for a given `CFG` can be retrieved regardless of the `ScopeId` they belong to.
+analysis computes, lifts the mapping of `CFGResults` back to [`CFG`]({{ site.baseurl }}/documentation/cfgs.html#control-flow-graphs)s, so that
+all results for a given [`CFG`]({{ site.baseurl }}/documentation/cfgs.html#control-flow-graphs) can be retrieved regardless of the `ScopeId` they belong to.
 Note that `FixpointResults`'s `putResult` operates according to the same rules
 of `CFGResults`'s `putResult`.
 
@@ -339,7 +339,7 @@ the analysis-specific configuration:
 - the `OpenCallPolicy` configured by the user;
 - the [Event Queue]({{ site.baseurl }}/documentation/events.html) to use for
   emitting events during the analysis;
-- the `Analysis` built with the `AbstractDomain` configured by the user.
+- the [`Analysis`]({{ site.baseurl }}/documentation/semantic-domains.html#the-analysis-class) built with the [`AbstractDomain`]({{ site.baseurl }}/documentation/semantic-domains.html#the-abstract-domain-interface) configured by the user.
 
 Note that the call graph is optional: the user might not select one for the
 analysis. If the `InterproceduralAnalysis` implementation requires a call graph,
@@ -353,7 +353,7 @@ null-checked before emitting events.
 
 The `fixpoint` method is the main entry point for the analysis, and is called
 by LiSA to compute a program-wide fixpoint over all the code that has been
-passed in the application. The method is passed an initial `AnalysisState` to
+passed in the application. The method is passed an initial [`AnalysisState`]({{ site.baseurl }}/documentation/lattices.html#the-analysis-state) to
 start the analysis from, and a `FixpointConfiguration` to use for fixpoint
 executions. The method must proceed in starting the analysis by selecting
 the CFGs to analyze as entry points, and executing a forward or backward
@@ -365,7 +365,7 @@ returned by the `getFixpointResults` method. Invoking this method before
 the analysis has been completed will return partial and possibly unsound
 results. Results of individual CFGs can be obtained through the
 `getAnalysisResultsOf` method, that returns a flattened view of the fixpoint
-results for all `ScopeId`s of the given `CFG`.
+results for all `ScopeId`s of the given [`CFG`]({{ site.baseurl }}/documentation/cfgs.html#control-flow-graphs).
 
 For a list of interprocedural analyses already implemented in LiSA, see the
 [Configuration]({{ site.baseurl }}/configuration/#interprocedural-analysis-and-call-graph) page.
@@ -376,23 +376,23 @@ The remaining three methods, namely `resolve` and the two `getAbstractResultOf`
 overloads, are related to the handling of calls.
 
 If the analysis is _intraprocedural_, as in it does not model calls from one CFG to another,
-then `resolve` can return an `OpenCall` (i.e., a call that has been resolved,
+then `resolve` can return an [`OpenCall`]({{ site.baseurl }}/documentation/call-graph.html#calls) (i.e., a call that has been resolved,
 but no viable target has been found inside the program under analysis ---
-see the `Call` hierarchy in the [Call Graph]({{ site.baseurl }}/documentation/call-graph.html) page)
+see the [`Call`]({{ site.baseurl }}/documentation/call-graph.html#calls) hierarchy in the [Call Graph]({{ site.baseurl }}/documentation/call-graph.html) page)
 for any call, that will result in the invocation of the `getAbstractResultOf`
 overload accepting the open call. Otherwise, the analysis should rely on the
-`CallGraph` instance received in `init` to resolve calls through its own
-`resolve` method, and return the resulting `Call`.
+[`CallGraph`]({{ site.baseurl }}/documentation/call-graph.html#the-callgraph-class) instance received in `init` to resolve calls through its own
+`resolve` method, and return the resulting [`Call`]({{ site.baseurl }}/documentation/call-graph.html#calls).
 
-As discussed above, `OpenCall`s are handled according to the `OpenCallPolicy`
+As discussed above, [`OpenCall`]({{ site.baseurl }}/documentation/call-graph.html#calls)s are handled according to the `OpenCallPolicy`
 configured for the analysis: the `getAbstractResultOf` overload accepting an
-`OpenCall` should delegate to the policy's `apply` method to compute the result.
-Instead, the `getAbstractResultOf` overload accepting a `CFGCall`
+[`OpenCall`]({{ site.baseurl }}/documentation/call-graph.html#calls) should delegate to the policy's `apply` method to compute the result.
+Instead, the `getAbstractResultOf` overload accepting a [`CFGCall`]({{ site.baseurl }}/documentation/call-graph.html#calls)
 (i.e., a call that has been resolved and whose targets are CFGs under analysis ---
-see the `Call` hierarchy in the [Call Graph]({{ site.baseurl }}/documentation/call-graph.html) page)
+see the [`Call`]({{ site.baseurl }}/documentation/call-graph.html#calls) hierarchy in the [Call Graph]({{ site.baseurl }}/documentation/call-graph.html) page)
 should:
 
-1. inform the `CallGraph` that the call is being executed by invoking the
+1. inform the [`CallGraph`]({{ site.baseurl }}/documentation/call-graph.html#the-callgraph-class) that the call is being executed by invoking the
    `registerCall` method, so that it can be tracked in the graph's structure;
 2. update the current `ScopeId` if necessary by invoking the `push` method;
 3. compute the result of the call **for each target independently** by:
@@ -413,7 +413,7 @@ This general workflow might need slight adaptations depending on the particular
 Interprocedural Analysis being implemented.
 
 Note that `return` and `throw` statements will leave on the state's
-`computedExpression` a special `Identifier` (either a `CFGReturn` or a `CFGThrow` --- see
+`computedExpression` a special [`Identifier`]({{ site.baseurl }}/documentation/symbolic-expressions.html#identifiers) (either a `CFGReturn` or a `CFGThrow` --- see
 the [Identifiers]({{ site.baseurl }}/documentation/symbolic-expressions.html#identifiers) page)
 that will contain all [Annotations]({{ site.baseurl }}/documentation/annotations.html)
 defined in the target CFG. This allows the propagation of invariants defined
@@ -425,7 +425,7 @@ If an Interprocedural Analysis relies on a call graph, it is highly advised to
 inherit from `CallGraphBasedAnalysis`. The class provides default
 implementations for `init`, that stores all the parameters in the class' fields,
 `resolve`, that delegates to the call graph's `resolve` method, `getAbstractResultOf`
-for `OpenCall`s, that delegates to the `OpenCallPolicy`, and `needsCallGraph`,
+for [`OpenCall`]({{ site.baseurl }}/documentation/call-graph.html#calls)s, that delegates to the `OpenCallPolicy`, and `needsCallGraph`,
 that returns `true`. Moreover, it already implements the logic for creating
 an entry state for the program's entry points by assigning unknown values
 to each parameter of the entry points.

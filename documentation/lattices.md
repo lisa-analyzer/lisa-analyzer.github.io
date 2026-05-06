@@ -22,7 +22,7 @@ interface, its prerequisites, its main implementations and usages.
 
 ## The Lattice Interface
 
-The `Lattice` interface inherits from `StructuredObject` (see
+The `Lattice` interface inherits from [`StructuredObject`]({{ site.baseurl }}/documentation/common-interfaces.html#the-structured-representation-interface) (see
 [the interface definition]({{ site.baseurl }}/documentation/common-interfaces.html#the-structured-representation-interface))
 and represents an ordered structure.
 
@@ -52,7 +52,7 @@ Other methods are instead LiSA-specific:
 - `getLatticeInstance` and `getAllLatticeInstances` are used to retrieve inner
   lattice elements from outer ones (e.g., all values of a functional lattice);
 - `bottomRepresentation` and `topRepresentation` (static methods) generate
-  `StructuredRepresentation`s of the bottom and top elements of the
+  [`StructuredRepresentation`]({{ site.baseurl }}/documentation/common-interfaces.html#the-structured-representation-interface)s of the bottom and top elements of the
   lattice, respectively, and exist, together with the `TOP_STRING` and the
   `BOTTOM_STRING` fields, to provide consistent ways to represent top
   and bottom values.
@@ -213,7 +213,7 @@ storing each component in an array. LiSA does not provide such classes by defaul
 A `DomainLattice` is a lattice that is designed to be used by a
 [Semantic Domain]({{ site.baseurl }}/documentation/semantic-domains.html) to track
 information about program states. The main features of such lattices are that they
-track information about program variables (called `Identifier`s in
+track information about program variables (called [`Identifier`]({{ site.baseurl }}/documentation/symbolic-expressions.html#identifiers)s in
 [Symbolic Expressions]({{ site.baseurl }}/documentation/symbolic-expressions.html)
 terms) and that they can be _scoped_. Scoping is a mechanism provided by LiSA to
 isolate parts of a lattice element when entering a new context (e.g., a function
@@ -223,18 +223,18 @@ as it allows to track local variables without polluting the global state.
 
 <center> <img src="{{ site.baseurl }}/schemes/domain-lattices.png" alt="Domain Lattices" /> </center>
 
-Scoping logic is provided by the `ScopedObject` interface (see
+Scoping logic is provided by the [`ScopedObject`]({{ site.baseurl }}/documentation/common-interfaces.html#the-scoped-object-interface) interface (see
 [the interface definition]({{ site.baseurl }}/documentation/common-interfaces.html#the-scoped-object-interface))
 For instance, a `pushScope`
-implementation on a `FunctionalLattice` using `Identifier`s as keys would
-produce a new `FunctionalLattice` where all `Identifier`s are renamed to
+implementation on a `FunctionalLattice` using [`Identifier`]({{ site.baseurl }}/documentation/symbolic-expressions.html#identifiers)s as keys would
+produce a new `FunctionalLattice` where all [`Identifier`]({{ site.baseurl }}/documentation/symbolic-expressions.html#identifiers)s are renamed to
 isolate the new scope, while keeping the values unchanged.
 
 The `DomainLattice` interface is parametric to the type parameters
 `L` (the concrete type of the lattice, that must extend `DomainLattice<L, T>`)
 and `T` (the type of value returned by scope operations), and it extends `Lattice<L>`
 and `ScopedObject<T>`. `DomainLattice` adds four methods that deal with
-`Identifier`s:
+[`Identifier`]({{ site.baseurl }}/documentation/symbolic-expressions.html#identifiers)s:
 
 - `knowsIdentifier`, that checks if the lattice contains information
   about the given identifier;
@@ -285,7 +285,7 @@ The class has three fields: the `state`, an instance of `A` that holds the
 actual information tracked by the analysis; the `info`, an instance of
 `FixpointInfo` (a `FunctionalLattice` from string keys to heterogeneous
 `Lattice` instances) that holds optional auxiliary information produced
-by the analysis, and the `computedExpressions`, a set of `SymbolicExpression`s
+by the analysis, and the `computedExpressions`, a set of [`SymbolicExpression`]({{ site.baseurl }}/documentation/symbolic-expressions.html#the-symbolic-expression-class)s
 that represent the result of the last evaluation performed by the analysis.
 The `info` field can be used to track program-specific information by
 [Frontends]({{ site.baseurl }}/documentation/frontends.html), such as the set
@@ -332,7 +332,7 @@ amount of tracked states when the analysis is not interested in specific
 error types. When smashing is enabled, all smashed error continuations are
 merged into a single `ProgramState`, stored in the `smashedErrorsState` field,
 and the instruction that raised the smashed errors are tracked in the
-`smashedErrors` field (a `GenericMapLattice` from `Type`s to sets of `Statement`s).
+`smashedErrors` field (a `GenericMapLattice` from [`Type`]({{ site.baseurl }}/documentation/types.html#the-type-interface)s to sets of [`Statement`]({{ site.baseurl }}/documentation/st-ex-e.html#the-statement-class)s).
 
 `AnalysisState` is a class, parametric to the type parameter `A` that is the
 concrete type of the `AbstractLattice` used by the analysis, that implements

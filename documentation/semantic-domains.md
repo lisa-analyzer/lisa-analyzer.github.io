@@ -98,7 +98,7 @@ originating in an evaluation preceding an assignment are propagated." %}
   this method should invoke it on nested domains, and optionally store the queue
   in a field for later usage).
 
-The `satisfies` method returns an instance of `Satisfiability`, a `Lattice` instance
+The `satisfies` method returns an instance of `Satisfiability`, a [`Lattice`]({{ site.baseurl }}/documentation/lattices.html#the-lattice-interface) instance
 that models sets of boolean values (i.e., true, false, both, or none).
 
 {% include tip.html content="Implementing `assume` might be tricky. A simple and
@@ -181,14 +181,14 @@ decides which error types are not interesting for the user, and can thus be
 Transformers defined by `SemanticDomain` are implemented by invoking the
 corresponding operation on the `domain`, using the normal execution continuation
 as source. The expression that has been evaluated (or, in the case of
-assignments, the `Identifier` that has been assigned) is stored in the
-`ProgramState`'s computed expressions.
+assignments, the [`Identifier`]({{ site.baseurl }}/documentation/symbolic-expressions.html#identifiers) that has been assigned) is stored in the
+[`ProgramState`]({{ site.baseurl }}/documentation/lattices.html#the-program-state)'s computed expressions.
 
 `Analysis` also provides several additional methods:
 
-- a variant of `assign` that takes in an arbitrary `SymbolicExpression` as the
+- a variant of `assign` that takes in an arbitrary [`SymbolicExpression`]({{ site.baseurl }}/documentation/symbolic-expressions.html#the-symbolic-expression-class) as the
   left-hand side, that will be rewritten through `rewrite` as necessary to obtain
-  an `Identifier`;
+  an [`Identifier`]({{ site.baseurl }}/documentation/symbolic-expressions.html#identifiers);
 - convenience wrappers around `SemanticOracle` methods, that simply create the
   oracle
   through `domain.makeOracle` and invoke the corresponding method on it;

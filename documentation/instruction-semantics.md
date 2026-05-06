@@ -52,7 +52,7 @@ analysis being run. The method receives three parameters:
   analysis, that can be used to compute the result of calls;
 - `expressions`: a `StatementStore<A>` (a
   [functional lattice]({{ site.baseurl }}/documentation/lattices.html#powersets-and-functions)
-  from `Statement`s to `AnalysisState<A>`s) where the result of intermediate
+  from [`Statement`]({{ site.baseurl }}/documentation/st-ex-e.html#the-statement-class)s to `AnalysisState<A>`s) where the result of intermediate
   expressions is to be stored.
 
 Implementations of the `forwardSemantics` method are expected to return an
@@ -147,12 +147,12 @@ public final <A extends AbstractLattice<A>, D extends AbstractDomain<D>> Analysi
 }
 ```
 
-In both cases, the `Analysis` instance that contains a reference to the abstract
-domain to be executed is retrieved from the `InterproceduralAnalysis` instance.
+In both cases, the [`Analysis`]({{ site.baseurl }}/documentation/semantic-domains.html#the-analysis-class) instance that contains a reference to the abstract
+domain to be executed is retrieved from the [`InterproceduralAnalysis`]({{ site.baseurl }}/documentation/interprocedural-analysis.html#the-interprocedural-analysis-interface) instance.
 Then, the `smallStepSemantics` method is used to process a non-assigning
 expression: the creation of a constant value in the first case, and the access
 to a variable by its name in the second case. The result of the small step semantics
-is a new `AnalysisState` instance, that can be returned to the caller as the
+is a new [`AnalysisState`]({{ site.baseurl }}/documentation/lattices.html#the-analysis-state) instance, that can be returned to the caller as the
 state after the execution of the instruction. In both cases, the returned
 state's `computedExpressions` field will contain a singleton collection
 containing the symbolic expression that has been passed to the
@@ -205,7 +205,7 @@ above:
 2. the result of both computations is stored in the `expressions` map;
 3. the result of the expression is initialized to the bottom value;
 4. for every possible combination of the symbolic expressions resulting
-   from the two sub-instructions, a `BinaryExpression` symbolic expression
+   from the two sub-instructions, a [`BinaryExpression`]({{ site.baseurl }}/documentation/st-ex-e.html#implementing-compound-expressions) symbolic expression
    with an operator corresponding to the addition (determined by the
    `NumericAddition` operator) between the two is created and fed to the
    analysis by invoking the `smallStepSemantics` method;
@@ -219,11 +219,11 @@ above:
 Note that the above workflow is common to all compound instructions, with the
 only difference being in step 4. For this reason, LiSA provides a dedicated
 class hierarchy for compound instructions, rooted in `NaryStatement` and
-`NaryExpression`, that implement steps 1, 2, 3, 5, 6, and 7, and leave step 4 to
+[`NaryExpression`]({{ site.baseurl }}/documentation/st-ex-e.html#implementing-compound-expressions), that implement steps 1, 2, 3, 5, 6, and 7, and leave step 4 to
 the concrete subtypes. Both classes implement `forwardSemantics` providing the
 above steps, leaving the implementation of step 4 to the `forwardSemanticsAux`
 method. The above semantics can thus be implemented in a subtype of
-`NaryExpression` by implementing the `forwardSemanticsAux` method as:
+[`NaryExpression`]({{ site.baseurl }}/documentation/st-ex-e.html#implementing-compound-expressions) by implementing the `forwardSemanticsAux` method as:
 
 ```java
 public <A extends AbstractLattice<A>, D extends AbstractDomain<A>> AnalysisState<A> forwardSemanticsAux(
@@ -244,9 +244,9 @@ public <A extends AbstractLattice<A>, D extends AbstractDomain<A>> AnalysisState
 }
 ```
 
-`forwardSemanticsAux` still receives the `InterproceduralAnalysis` instance and
-the `StatementStore` instance, together with the `state` resulting from the
-evaluation of all sub-instructions, and an array of `ExpressionSet`s that
+`forwardSemanticsAux` still receives the [`InterproceduralAnalysis`]({{ site.baseurl }}/documentation/interprocedural-analysis.html#the-interprocedural-analysis-interface) instance and
+the [`StatementStore`]({{ site.baseurl }}/documentation/interprocedural-analysis.html) instance, together with the `state` resulting from the
+evaluation of all sub-instructions, and an array of [`ExpressionSet`]({{ site.baseurl }}/documentation/symbolic-expressions.html)s that
 represent the symbolic expressions resulting from the evaluation of each sub-instruction.
 Again, the implementation of this method follows the same pattern of iterating
 over all possible combinations of symbolic expressions and feeding them to the
@@ -254,15 +254,15 @@ analysis. This can be simplified if the number of sub-instructions is known (and
 thus the number of nested loops can be determined). LiSA provides several
 classes that fix the number of sub-instructions:
 
-- `UnaryStatement` and `UnaryExpression` for instructions with one sub-instruction,
+- `UnaryStatement` and [`UnaryExpression`]({{ site.baseurl }}/documentation/st-ex-e.html#implementing-compound-expressions) for instructions with one sub-instruction,
   that implement `forwardSemanticsAux` with a single loop over `params[0]` and
   invoke the `fwdUnarySemantics` method on each symbolic expression,
   that is left to be implemented by the concrete subtypes;
-- `BinaryStatement` and `BinaryExpression` for instructions with two sub-instructions,
+- `BinaryStatement` and [`BinaryExpression`]({{ site.baseurl }}/documentation/st-ex-e.html#implementing-compound-expressions) for instructions with two sub-instructions,
   that implement `forwardSemanticsAux` with two nested loops over `params[0]`
   and `params[1]` and invoke the `fwdBinarySemantics` method on each pair of
   symbolic expressions, that is left to be implemented by the concrete subtypes;
-- `TernaryStatement` and `TernaryExpression` for instructions with three sub-instructions,
+- `TernaryStatement` and [`TernaryExpression`]({{ site.baseurl }}/documentation/st-ex-e.html#implementing-compound-expressions) for instructions with three sub-instructions,
   that implement `forwardSemanticsAux` with three nested loops over `params[0]`,
   `params[1]`, and `params[2]` and invoke the `fwdTernarySemantics` method on
   each triple of symbolic expressions, that is left to be implemented by the
@@ -270,9 +270,9 @@ classes that fix the number of sub-instructions:
 
 All the methods introduced by these classes have the same parameters as `forwardSemanticsAux`,
 except for the `params` array that is replaced by as many parameters as the
-number of sub-instructions, each of type `SymbolicExpression`.
+number of sub-instructions, each of type [`SymbolicExpression`]({{ site.baseurl }}/documentation/symbolic-expressions.html#the-symbolic-expression-class).
 With this workflow, the semantics of the addition above can be implemented in a
-subtype of `BinaryExpression` by implementing the `fwdBinarySemantics` method
+subtype of [`BinaryExpression`]({{ site.baseurl }}/documentation/st-ex-e.html#implementing-compound-expressions) by implementing the `fwdBinarySemantics` method
 as:
 
 ```java
@@ -292,9 +292,9 @@ public <A extends AbstractLattice<A>, D extends AbstractDomain<A>> AnalysisState
 ```
 
 Other than `smallStepSemantics`, all semantics computations can freely use any
-method provided by both the `Analysis` and `AnalysisState` classes, as well as
-methods from `InterproceduralAnalysis`. For instance, the semantics of a
-pre-increment instruction `++x` can be implemented in a `UnaryExpression` as:
+method provided by both the [`Analysis`]({{ site.baseurl }}/documentation/semantic-domains.html#the-analysis-class) and [`AnalysisState`]({{ site.baseurl }}/documentation/lattices.html#the-analysis-state) classes, as well as
+methods from [`InterproceduralAnalysis`]({{ site.baseurl }}/documentation/interprocedural-analysis.html#the-interprocedural-analysis-interface). For instance, the semantics of a
+pre-increment instruction `++x` can be implemented in a [`UnaryExpression`]({{ site.baseurl }}/documentation/st-ex-e.html#implementing-compound-expressions) as:
 
 ```java
 public <A extends AbstractLattice<A>, D extends AbstractDomain<A>> AnalysisState<A> fwdUnarySemantics(
@@ -325,7 +325,7 @@ the semantics, and the operand is left on the stack as the result of the express
 
 ### Semantics of calls
 
-A call instruction is simply an `NaryExpression`, and its semantics is computed
+A call instruction is simply an [`NaryExpression`]({{ site.baseurl }}/documentation/st-ex-e.html#implementing-compound-expressions), and its semantics is computed
 according to the workflow described above. As part of the workflow,
 `interprocedural.resolve()` and `interprocedural.getAbstractResultOf` can be
 used to compute the result of the call (for more details on the call types and
@@ -351,7 +351,7 @@ simplified memory model, in which memory can be allocated, referenced,
 dereferenced, and traversed (e.g., by accessing the fields of a data structure).
 The semantics of complex memory operations thus has to be defined in terms of
 these basic operations. For instance, the (simplified) semantics of a Java object allocation
-corresponding to the `new` operator can be defined in an `NaryExpression` as:
+corresponding to the `new` operator can be defined in an [`NaryExpression`]({{ site.baseurl }}/documentation/st-ex-e.html#implementing-compound-expressions) as:
 
 ```java
 public <A extends AbstractLattice<A>, D extends AbstractDomain<A>> AnalysisState<A> forwardSemanticsAux(
@@ -421,7 +421,7 @@ The object creation is split into several steps:
 1. first, a memory region is allocated by feeding a `MemoryAllocation` symbolic
    expression to the analysis;
 2. then, the implicit receiver of the constructor call is created
-   (`InstrumentedReceiverRef` is an `Expression` modeling the `this` parameter)
+   (`InstrumentedReceiverRef` is an [`Expression`]({{ site.baseurl }}/documentation/st-ex-e.html#the-expression-class) modeling the `this` parameter)
    corresponding to the newly allocated object; it is evaluated by invoking its
    `forwardSemantics` method, and the result of the evaluation (that is an
    instrumented variable) is assigned to a reference to the newly allocated memory region;
@@ -445,7 +445,7 @@ To get accurate results, it is also important to model the possible errors that
 the execution of an instruction might raise. For instance, in an object oriented
 language where the receivers of field accesses can be `null`, a null dereference
 error is raised whenever a field of a `null` pointer is accessed. Supposing that
-the field access is modeled with a `UnaryExpression` containing a reference to
+the field access is modeled with a [`UnaryExpression`]({{ site.baseurl }}/documentation/st-ex-e.html#implementing-compound-expressions) containing a reference to
 the receiver as a nested instruction and the name of the field to access as
 field of the class, the skeleton for its semantics method can look like the
 following:
@@ -511,7 +511,7 @@ For instance, in Java it entails creating an `Exception` object with a process
 similar to the object creation presented above.
 
 After the error state is created, the expressions left on the stack in the
-error state are assigned to a `CFGThrow`, that is, to an `Identifier` that
+error state are assigned to a `CFGThrow`, that is, to an [`Identifier`]({{ site.baseurl }}/documentation/symbolic-expressions.html#identifiers) that
 explicitly stores the error. Then, `moveExecutionToError` is used to introduce
 a new error continuation in the analysis state. The continuation is identified
 by the `Error` object passed as a parameter, that is a pair consisting of the

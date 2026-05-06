@@ -2,7 +2,7 @@
 
 {% include version_disclaimer.html %}
 
-Using and configuring LiSA is straightforward: first, a `Program` (or more
+Using and configuring LiSA is straightforward: first, a [`Program`]({{ site.baseurl }}/documentation/units.html#the-program-unit) (or more
 programs, one for each programming language to analyze) must be obtained,
 then a `LiSAConfiguration` object must be created and customized, and finally
 a `LiSA` instance must be created with the configuration and run on the
@@ -339,7 +339,7 @@ imprecision of the analysis. While it is not possible to completely remove them
 account), it is possible to _smash_ them, that is, to not have a separate entry
 for each of their occurrences in the
 [`AnalysisState` errors]({{ site.baseurl }}/documentation/lattices.html#the-analysis-state).
-Instead, all occurrences of smashed errors will share a unique `ProgramState`.
+Instead, all occurrences of smashed errors will share a unique [`ProgramState`]({{ site.baseurl }}/documentation/lattices.html#the-program-state).
 The choice over what error types to smash is determined by the `shouldSmashError`
 predicate, that returns `true` for the types of errors to smash. `null` is a
 special value corresponding to the predicate `t -> false`.
@@ -492,7 +492,7 @@ expected results folder, where the pre-existing results are located, and a path
 to the actual results folder, where test files for produced by the analysis will
 be generated. The analysis is started by invoking one of the `perform`
 overloads, each accepting a `TestConfiguration` and optionally an already parsed
-`Program`. If the program is not provided, the abstract `readProgram` method
+[`Program`]({{ site.baseurl }}/documentation/units.html#the-program-unit). If the program is not provided, the abstract `readProgram` method
 will be invoked to parse the file located at `expected-dir/testDir/programFile`.
 Then, the execution proceeds as follows (in the following, if `testSubDir` is
 `null`, `testDir/testSubDir` should be read as `testDir`):

@@ -11,7 +11,7 @@ infrastructure of LiSA, including the analysis engine, the control flow graph
 representation, and the framework for defining analyses and checks. The
 `lisa-analyses` project implements a collection of ready-to-use analyses that
 can be employed out of the box. The `lisa-program` project provides simple
-`Statement` implementations that can be used for quick prototyping of analyzers
+[`Statement`]({{ site.baseurl }}/documentation/st-ex-e.html#the-statement-class) implementations that can be used for quick prototyping of analyzers
 and for reference. Finally, the `lisa-imp` project contains an implementation of
 the IMP language, which is used for testing and demonstration purposes. The
 documentation in this section focuses primarily on the `lisa-sdk` project, as it
@@ -97,7 +97,7 @@ classes, allowing for easy extension and customization.
 
 ### Lattices
 
-The `Lattice` interface defines the core operations that the information
+The [`Lattice`]({{ site.baseurl }}/documentation/lattices.html#the-lattice-interface) interface defines the core operations that the information
 produced by the analysis must support, following the Abstract Interpretation
 theory. This interface is implemented by all information produced by domains,
 fixpoints, and analysis results. Despite the name of the interface, it does not
@@ -110,7 +110,7 @@ about lattices in the [Lattices]({{ site.baseurl }}/documentation/lattices.html)
 
 ### Symbolic Expressions
 
-`SymbolicExpression`s represent atomic semantic operations that the program
+[`SymbolicExpression`]({{ site.baseurl }}/documentation/symbolic-expressions.html#the-symbolic-expression-class)s represent atomic semantic operations that the program
 executes. They are used to _deconstruct_ high-level syntactic constructs
 (i.e., the [Statements](#statements-expressions-and-edges), that are
 the instructions of the program)
@@ -120,7 +120,7 @@ As an example, Java's addition operator's (`+`) semantics can produce
 either a `NumericAddition` symbolic expression (if both operands have numeric
 type), or a `StringConcatenation` symbolic expression (if at least one of the
 operands is of a string type).
-`SymbolicExpression`s are what abstract domains analyze: this allows
+[`SymbolicExpression`]({{ site.baseurl }}/documentation/symbolic-expressions.html#the-symbolic-expression-class)s are what abstract domains analyze: this allows
 domain definitions independent from the source programming language,
 since domains can then interpret this symbolic expression according to
 their own logic. Read more about symbolic expressions in the
@@ -128,9 +128,9 @@ their own logic. Read more about symbolic expressions in the
 
 ### Semantic Domains
 
-The `SemanticDomain` interface defines the operations that an abstract domain
+The [`SemanticDomain`]({{ site.baseurl }}/documentation/semantic-domains.html#the-semantic-domain-interface) interface defines the operations that an abstract domain
 must implement to be used in LiSA's analyses. It is also implemented by the
-non-extensible `Analysis` class, that is the outer-most domain that
+non-extensible [`Analysis`]({{ site.baseurl }}/documentation/semantic-domains.html#the-analysis-class) class, that is the outer-most domain that
 [Statements](#statements-expressions-and-edges),
 [Interprocedural Analysis](#the-interprocedural-analysis),
 and the fixpoints interact with during
@@ -145,7 +145,7 @@ In LiSA, an abstract domain is responsible for tracking the _whole_ program
 state, including the values and types of variables and expressions, and the
 structure of the memory. This can be a complex task, especially for languages
 with rich features and constructs. To ease the development of new abstract
-domains, LiSA provides the `SimpleAbstractDomain` class, which implements a
+domains, LiSA provides the [`SimpleAbstractDomain`]({{ site.baseurl }}/documentation/simple-abstract-domain.html) class, which implements a
 simplified model in which the program state is divided into three main
 components:
 
@@ -162,7 +162,7 @@ page.
 
 ### The Interprocedural Analysis
 
-The `InterproceduralAnalysis` interface defines how the whole-program analysis
+The [`InterproceduralAnalysis`]({{ site.baseurl }}/documentation/interprocedural-analysis.html#the-interprocedural-analysis-interface) interface defines how the whole-program analysis
 is performed. It is responsible for orchestrating the analysis of each
 [CFG](#control-flow-graphs) in
 the program, and for computing the results of calls. These two tasks are tightly
@@ -184,7 +184,7 @@ matches call signatures to their targets. While the latter is fixed for a given
 language (a detailed discussion is present later on this page, in the
 [Language Features](#language-features) section),
 the former can be carried out in different ways. To decouple call resolution from
-the interprocedural analysis, LiSA introduces the `CallGraph` interface, which
+the interprocedural analysis, LiSA introduces the [`CallGraph`]({{ site.baseurl }}/documentation/call-graph.html#the-callgraph-class) interface, which
 defines how call targets are resolved. The call graph is queried by the
 interprocedural analysis whenever a call is encountered, and it returns the set
 of possible targets for that call. Read more about the call graph in the
@@ -197,7 +197,7 @@ but also to a variety of analyses. This entails that the specification of the
 semantics of the code under analysis must be independent from the abstract
 domains used in the analysis. LiSA adopts an analysis-time rewriting towards
 Symbolic Expressions, that allows the semantics to be tuned relying on the
-invariants computed by the fixpoint engine. Each `Statement` and `Expression`
+invariants computed by the fixpoint engine. Each [`Statement`]({{ site.baseurl }}/documentation/st-ex-e.html#the-statement-class) and [`Expression`]({{ site.baseurl }}/documentation/st-ex-e.html#the-expression-class)
 defines its own `forwardSemantics` and `backwardSemantics` methods, that
 is implemented by feeding symbolic expressions to the analysis being executed.
 Read more on semantics definitions in the
@@ -205,12 +205,12 @@ Read more on semantics definitions in the
 
 ### Syntactic and Semantic Checks
 
-A `Check` is simply a visitor of the program, that provides hooks to inspect
+A [`Check`]({{ site.baseurl }}/documentation/checks.html#the-check-interface) is simply a visitor of the program, that provides hooks to inspect
 various components of the program structure. There are two types of checks:
 
-- `SyntacticCheck`s, which inspect the program structure without relying on any
+- [`SyntacticCheck`]({{ site.baseurl }}/documentation/checks.html#syntactic-checks)s, which inspect the program structure without relying on any
   semantic information;
-- `SemanticCheck`s, which inspect the results of the analysis to detect
+- [`SemanticCheck`]({{ site.baseurl }}/documentation/checks.html#semantic-checks)s, which inspect the results of the analysis to detect
   potential issues in the program.
 
 Checks are executed at specific points during the analysis: syntactic checks are
@@ -220,8 +220,8 @@ checks in the [Checks]({{ site.baseurl }}/documentation/checks.html) page.
 
 ### Analysis Events
 
-Several `Event`s are emitted during the analysis, to signal the occurrence of
-specific situations. Events can be consumed by `EventListener`s, which can
+Several [`Event`]({{ site.baseurl }}/documentation/events.html#types-of-events)s are emitted during the analysis, to signal the occurrence of
+specific situations. Events can be consumed by [`EventListener`]({{ site.baseurl }}/documentation/events.html#event-listeners)s, which can
 process them either synchronously or asynchronously. This mechanism allows for
 decoupling the analysis from side-tasks, such as logging, output generation, or
 custom behaviors. Read more about events in the
@@ -232,33 +232,33 @@ custom behaviors. Read more about events in the
 Several outputs can be generated by LiSA, either after the analysis completes or
 during its execution. Outputs can include graphs, reports, and other support
 files that provide insights into the analysis results. Outputs files are
-generated using the `FileManager` class, that provides a simple interface for
+generated using the [`FileManager`]({{ site.baseurl }}/documentation/outputs.html#the-filemanager-class) class, that provides a simple interface for
 creating and managing output files. Read more about outputs in the
 [Outputs]({{ site.baseurl }}/documentation/outputs.html) page.
 
 ## Program Structure
 
-LiSA's `Program` is a data structure that contains all of the code that has been
+LiSA's [`Program`]({{ site.baseurl }}/documentation/units.html#the-program-unit) is a data structure that contains all of the code that has been
 parsed from the input files, together with the
 [Language Features](#language-features) and the [Type System](#types)
 specific to the programming language of the input code.
 
 ### Statements, Expressions, and Edges
 
-`Statement`s represent high-level constructs such
+[`Statement`]({{ site.baseurl }}/documentation/st-ex-e.html#the-statement-class)s represent high-level constructs such
 as assignments, conditionals, loops, and calls. Each statement defines how it
 affects the program state during the analysis, by providing an implementation of the
-`forwardSemantics()` method. `Expression`s are `Statement`s that evaluate to a value,
+`forwardSemantics()` method. [`Expression`]({{ site.baseurl }}/documentation/st-ex-e.html#the-expression-class)s are [`Statement`]({{ site.baseurl }}/documentation/st-ex-e.html#the-statement-class)s that evaluate to a value,
 such as literals, variable accesses, and binary operations.
-`Edge`s represent the directed connections between `Statement`s in a `CFG`.
-Similarly to `Statement`s, each `Edge` defines its own `traverseForward()` method,
+[`Edge`]({{ site.baseurl }}/documentation/st-ex-e.html#the-edge-class)s represent the directed connections between [`Statement`]({{ site.baseurl }}/documentation/st-ex-e.html#the-statement-class)s in a [`CFG`]({{ site.baseurl }}/documentation/cfgs.html#control-flow-graphs).
+Similarly to [`Statement`]({{ site.baseurl }}/documentation/st-ex-e.html#the-statement-class)s, each [`Edge`]({{ site.baseurl }}/documentation/st-ex-e.html#the-edge-class) defines its own `traverseForward()` method,
 which specifies how the edge affects the program state when traversed during
 the analysis. Read more about statements, expressions, and edges in the
 [Statements, Expressions, and Edges]({{ site.baseurl }}/documentation/st-ex-e.html) page.
 
 ### Annotations
 
-`Annotation`s are metadata that can be attached to various components of the
+[`Annotation`]({{ site.baseurl }}/documentation/annotations.html)s are metadata that can be attached to various components of the
 program, such as variables, functions or procedures, and types. They are similar to
 syntactic tags such as Java's annotations and C#'s attributes, and do not modify
 the semantics of the program (i.e., they are not executable such as Python's
@@ -269,40 +269,40 @@ More information on annotations can be found in the
 
 ### Control Flow Graphs
 
-A Control Flow Graph (`CFG`) represents the control flow of a single
+A Control Flow Graph ([`CFG`]({{ site.baseurl }}/documentation/cfgs.html#control-flow-graphs)) represents the control flow of a single
 function, method, or procedure. It is composed of
 [Statement](#statements-expressions-and-edges)s (the nodes of the
 graph) and [Edge](#statements-expressions-and-edges)s
-(the directed connections between statements). Each `CFG`
-has a `CodeMemberDescriptor`, which provides metadata about the `CFG`, such as its name,
+(the directed connections between statements). Each [`CFG`]({{ site.baseurl }}/documentation/cfgs.html#control-flow-graphs)
+has a [`CodeMemberDescriptor`]({{ site.baseurl }}/documentation/cfgs.html#descriptors), which provides metadata about the [`CFG`]({{ site.baseurl }}/documentation/cfgs.html#control-flow-graphs), such as its name,
 its parameters, and its return type. A special kind of CFGs, called
-`NativeCFG`s, can be used to compactly represent the behavior of library or
+[`NativeCFG`]({{ site.baseurl }}/documentation/cfgs.html#native-code)s, can be used to compactly represent the behavior of library or
 runtime functions. Read more about control flow graphs in the
 [Control Flow Graphs]({{ site.baseurl }}/documentation/cfgs.html) page.
 
 ### Units
 
-A `Unit` represents a logical grouping of code, such as a source file, a class,
-or a module. The `Program` itself is a `Unit`. A `Unit` contains a set of
+A [`Unit`]({{ site.baseurl }}/documentation/units.html#the-unit-class) represents a logical grouping of code, such as a source file, a class,
+or a module. The [`Program`]({{ site.baseurl }}/documentation/units.html#the-program-unit) itself is a [`Unit`]({{ site.baseurl }}/documentation/units.html#the-unit-class). A [`Unit`]({{ site.baseurl }}/documentation/units.html#the-unit-class) contains a set of
 code members ([CFG](#control-flow-graphs)s with a descriptor)
-and a set of `Global`s (global
+and a set of [`Global`]({{ site.baseurl }}/documentation/units.html#globals)s (global
 variables or constants). Read more about units in the
 [Units]({{ site.baseurl }}/documentation/units.html) page.
 
 ### Types
 
 As the aim of LiSA is to be language-agnostic, no assumptions on types are made.
-All types are represented by instances of the `Type` interface, which can be
+All types are represented by instances of the [`Type`]({{ site.baseurl }}/documentation/types.html#the-type-interface) interface, which can be
 extended to represent the types of a specific programming language.
 Sub-interfaces are used to identify specific categories of types, such as primitive types,
-reference types, array types, and function types. The `TypeSystem` interface defines how types are managed
+reference types, array types, and function types. The [`TypeSystem`]({{ site.baseurl }}/documentation/types.html#the-typesystem) interface defines how types are managed
 and manipulated during the analysis. It provides operations for type checking,
 type inference, and type compatibility. Read more about types in the
 [Types]({{ site.baseurl }}/documentation/types.html) page.
 
 ### Language Features
 
-The `LanguageFeatures` interface defines language-specific algorithms and
+The [`LanguageFeatures`]({{ site.baseurl }}/documentation/language-features.html#the-languagefeatures-class) interface defines language-specific algorithms and
 behaviors that are required during the analysis. These include algorithms for
 resolving call targets, traversing type hierarchies, and handling specific
 language constructs. Read more about language features in the

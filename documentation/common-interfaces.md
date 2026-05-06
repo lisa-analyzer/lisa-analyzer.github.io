@@ -16,7 +16,7 @@ A `StructuredRepresentation` is a way to represent the contents of a complex
 object in a structured way, such that it is (i) independent of its source,
 (ii) comparable with other representations (potentially originating from
 a different source), and (iii) serialisable. `StructuredRepresentation`s
-are mainly used to produce human-readable representations of `Lattice`
+are mainly used to produce human-readable representations of [`Lattice`]({{ site.baseurl }}/documentation/lattices.html#the-lattice-interface)
 elements, and to serialize them in ouput files into a unique format so that
 several visualization tools can be built on top of the same output.
 
@@ -40,7 +40,7 @@ values, and they will automatically provide the required functionalities
 (like comparability and serializability).
 
 A `StructuredObject` is any object that can produce a `StructuredRepresentation`
-of itself. The `Lattice` interface extends the `StructuredObject` interface,
+of itself. The [`Lattice`]({{ site.baseurl }}/documentation/lattices.html#the-lattice-interface) interface extends the `StructuredObject` interface,
 meaning that all lattices can produce a structured representation of
 themselves through the `representation` method.
 
@@ -62,9 +62,9 @@ all information contained in it becomes _hidden_ by the given scope token,
 and `popScope`, that restores information in the receiver by removing
 the scope specified by the `token` parameter.
 Implementations of these methods usually manipulate program variables
-(called `Identifier`s in
+(called [`Identifier`]({{ site.baseurl }}/documentation/symbolic-expressions.html#identifiers)s in
 [Symbolic Expressions]({{ site.baseurl }}/documentation/symbolic-expressions.html)
-terms) by applying a sort of renaming: since `SymbolicExpression`s are
+terms) by applying a sort of renaming: since [`SymbolicExpression`]({{ site.baseurl }}/documentation/symbolic-expressions.html#the-symbolic-expression-class)s are
 instances of `ScopedObject`, `pushScope` and `popScope` implementations
 should recursively invoke these methods on all symbolic expression references
 they contain. This will cause an identifier `x` to be renamed to `[scope]x`,
@@ -98,9 +98,9 @@ Three such interfaces are used throughout the analysis structure:
   is minimal, exposing only the `getLocation` method that returns the
   `CodeLocation` where the element is defined;
 - `ProgramPoint`: instances of this interface represent specific points
-  inside a control flow graph (`CFG`), that is part of a `Unit` of the
-  `Program`; the main objective of this interface is to provide a way for
-  analysis components to retrieve the `Program` where an instruction lies,
+  inside a control flow graph ([`CFG`]({{ site.baseurl }}/documentation/cfgs.html#control-flow-graphs)), that is part of a [`Unit`]({{ site.baseurl }}/documentation/units.html#the-unit-class) of the
+  [`Program`]({{ site.baseurl }}/documentation/units.html#the-program-unit); the main objective of this interface is to provide a way for
+  analysis components to retrieve the [`Program`]({{ site.baseurl }}/documentation/units.html#the-program-unit) where an instruction lies,
   so that it can be queried for language-specific properties.
 
 Read more about [CFGs]({{ site.baseurl }}/documentation/cfgs.html),

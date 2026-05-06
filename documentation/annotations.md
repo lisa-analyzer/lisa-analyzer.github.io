@@ -33,14 +33,14 @@ and only before the analysis starts.**
 Annotations can be attached to several program elements in LiSA. Specifically,
 `Annotations` instances are carried by:
 
-- `CompilationUnit` instances (classes, interfaces, ...) via `getAnnotations()`;
-- `CodeMemberDescriptor` instances (one for each `CFG` or `NativeCFG`) via
+- [`CompilationUnit`]({{ site.baseurl }}/documentation/units.html#compilation-units) instances (classes, interfaces, ...) via `getAnnotations()`;
+- [`CodeMemberDescriptor`]({{ site.baseurl }}/documentation/cfgs.html#descriptors) instances (one for each [`CFG`]({{ site.baseurl }}/documentation/cfgs.html#control-flow-graphs) or [`NativeCFG`]({{ site.baseurl }}/documentation/cfgs.html#native-code)) via
   `getAnnotations()` and `getAnnotationsOf(String, Statement)` for local
   variables;
-- `Parameter` instances (formal parameters of code members) via `getAnnotations()`;
-- `Global` instances (global variables and fields) via `getAnnotations()`.
+- [`Parameter`]({{ site.baseurl }}/documentation/cfgs.html#formal-parameters) instances (formal parameters of code members) via `getAnnotations()`;
+- [`Global`]({{ site.baseurl }}/documentation/units.html#globals) instances (global variables and fields) via `getAnnotations()`.
 
-Additionally, `Identifier` instances in [Symbolic Expressions]({{ site.baseurl
+Additionally, [`Identifier`]({{ site.baseurl }}/documentation/symbolic-expressions.html#identifiers) instances in [Symbolic Expressions]({{ site.baseurl
 }}/documentation/symbolic-expressions.html) carry annotations as well, so that
 annotation information is accessible during the analysis when evaluating
 expressions. These model both annotations on program variables themselves
@@ -53,8 +53,8 @@ parametric to annotations. An example of this is a taint analysis that uses
 annotations to detect tainted values: when a function call can generate a
 tainted value, it can be annotated (manually or automatically) with an
 analysis-defined annotation (e.g., `@Tainted`) that will be propagated to the
-`CFGReturn` variable. When determining the taintedness of an `Identifier`, an
-`AbstractDomain` can inspect its annotations first: if the variable is
+`CFGReturn` variable. When determining the taintedness of an [`Identifier`]({{ site.baseurl }}/documentation/symbolic-expressions.html#identifiers), an
+[`AbstractDomain`]({{ site.baseurl }}/documentation/semantic-domains.html#the-abstract-domain-interface) can inspect its annotations first: if the variable is
 annotated, then it is always considered tainted; otherwise, the domain will
 have to compute its taintedness based on the values it has been assigned.
 
@@ -83,7 +83,7 @@ the analysis starts (see the
 page). The propagation follows two distinct axes: the class hierarchy and the
 override chain.
 
-**Hierarchy propagation.** When a `CompilationUnit` is validated, the
+**Hierarchy propagation.** When a [`CompilationUnit`]({{ site.baseurl }}/documentation/units.html#compilation-units) is validated, the
 annotations defined on each of its ancestor units are propagated to it. This
 means that if a class `B` extends a class `A`, and `A` carries some annotations,
 those annotations will also appear on `B` after validation. Propagation is
@@ -103,8 +103,8 @@ returns `false` (the default) are not. This allows frontends to mark some
 annotations as local to the element they are attached to.
 
 In addition to hierarchy-level propagation, LiSA propagates annotations at the
-call level during the analysis. When a `CFGCall` is resolved, the annotations
-attached to the descriptor of each target `CFG` are copied onto the
+call level during the analysis. When a [`CFGCall`]({{ site.baseurl }}/documentation/call-graph.html#calls) is resolved, the annotations
+attached to the descriptor of each target [`CFG`]({{ site.baseurl }}/documentation/cfgs.html#control-flow-graphs) are copied onto the
 metavariable that represents the call's return value. This makes it possible for
 an analysis to inspect, at a call site, the annotations that were placed on the
 called functions.
@@ -130,17 +130,17 @@ refine its abstractions. A typical pattern is the following:
    use them to compute or refine abstract values.
 
 An example of this is a simple taint propagation analysis, where the return
-value of some `CFG` must always be considered tainted, thus acting as a source
+value of some [`CFG`]({{ site.baseurl }}/documentation/cfgs.html#control-flow-graphs) must always be considered tainted, thus acting as a source
 of tainted information. In non-relational value
-domains (i.e., implementations of `BaseNonRelationalDomain`), the natural entry
+domains (i.e., implementations of [`BaseNonRelationalDomain`]({{ site.baseurl }}/documentation/simple-abstract-domain.html#base-implementations)), the natural entry
 point for annotation-driven customization is the `fixedVariable` method. This
 method is called during assignment whenever the analysis needs a fixed abstract
-approximation for a given `Identifier`, and it takes precedence over the
+approximation for a given [`Identifier`]({{ site.baseurl }}/documentation/symbolic-expressions.html#identifiers), and it takes precedence over the
 normally computed value when it does not return the bottom element. By
 inspecting the annotations of the identifier inside `fixedVariable`, a domain
 can immediately assign a specific abstract value to a variable based on its
-annotations, without looking at its computed value. Since a `CFG`'s return
-value is always annotated with the annotations of that `CFG`, the `CFGReturn`
+annotations, without looking at its computed value. Since a [`CFG`]({{ site.baseurl }}/documentation/cfgs.html#control-flow-graphs)'s return
+value is always annotated with the annotations of that [`CFG`]({{ site.baseurl }}/documentation/cfgs.html#control-flow-graphs), the `CFGReturn`
 identifier will contain a taint annotation whenever a source of tainted data is
 invoked. Then, `fixedVariable` can return a lattice element representing a
 tainted value whenever the `CFGReturn` variable is annotated with the taint
@@ -176,6 +176,6 @@ public L fixedVariable(
 ```
 
 Annotations on program elements other than identifiers (e.g., on compilation
-units or code member descriptors) can be accessed through the `Program` or the
-`ProgramPoint`, and can be used in any part of the domain's logic, not just in
+units or code member descriptors) can be accessed through the [`Program`]({{ site.baseurl }}/documentation/units.html#the-program-unit) or the
+[`ProgramPoint`]({{ site.baseurl }}/documentation/common-interfaces.html#minimal-program-components), and can be used in any part of the domain's logic, not just in
 `fixedVariable`.

@@ -38,13 +38,13 @@ code at specific points. A full list of built-in events is available in the
 implement few key interfaces that structure their hierarchy allowing for easy
 identification and handling:
 
-- events issued by the interprocedural analysis (excluding the call graph)
+- events issued by the [interprocedural analysis]({{ site.baseurl }}/documentation/interprocedural-analysis.html) (excluding the [call graph]({{ site.baseurl }}/documentation/call-graph.html))
   implement the `InterproceduralEvent` interface;
 - events issued by the fixpoint algorithms over individual CFGs implement the
   `FixpointEvent` interface;
-- events issued by the evaluation of symbolic expressions in the `Analysis`
+- events issued by the evaluation of symbolic expressions in the [`Analysis`]({{ site.baseurl }}/documentation/semantic-domains.html#the-analysis-class)
   class implement the `AnalysisEvent` interface;
-- events issued by either a `SemanticDomain` or a `SemanticComponent` implement
+- events issued by either a [`SemanticDomain`]({{ site.baseurl }}/documentation/semantic-domains.html#the-semantic-domain-interface) or a [`SemanticComponent`]({{ site.baseurl }}/documentation/semantic-domains.html#the-semantic-domain-interface) implement
   the `DomainEvent` interface;
 - for operations that are not atomic (e.g., the evaluation of an assignment,
   that will recursively cause the evaluation of the right-hand side and the
@@ -77,8 +77,8 @@ interface defines four methods, three of which have a default implementation:
   implementation creates a notice containing the error message and adds it to the
   analysis results.
 
-Every method above receives a `ResultTool` as parameter, enabling the generation
-of warnings and notices and the access to the `FileManager` for the analysis to
+Every method above receives a [`ResultTool`]({{ site.baseurl }}/documentation/checks.html#tools-for-reporting-issues) as parameter, enabling the generation
+of warnings and notices and the access to the [`FileManager`]({{ site.baseurl }}/documentation/outputs.html#the-filemanager-class) for the analysis to
 generate output files.
 
 For a list of event listeners already implemented in LiSA, see the
@@ -112,7 +112,7 @@ configuration as an asynchronous listener.
 
 To issue an event, components can simply create an event and pass it to the
 `post` method of the queue. A reference to the queue is present in the
-interprocedural analysis, in the call graph, inside semantic domains, and inside
+[interprocedural analysis]({{ site.baseurl }}/documentation/interprocedural-analysis.html), in the [call graph]({{ site.baseurl }}/documentation/call-graph.html), inside semantic domains, and inside
 the semantic oracle for semantic components to use. These references are lazily
 set: they are passed to each analysis component through specific setters or
 initialization methods rather than constructors.

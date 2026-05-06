@@ -66,8 +66,8 @@ name, static type (`getStaticType()`), source location
 (`getLocation()`), annotations (`getAnnotations()`), and the unit that
 contains it (`getContainer()`). The `isInstance()` flag distinguishes instance
 fields (belonging to each object of the unit) from static globals (belonging to
-the unit itself). Given a `CodeLocation`, the `toSymbolicVariable()` method
-produces the `GlobalVariable` symbolic expression used to represent accesses to
+the unit itself). Given a [`CodeLocation`]({{ site.baseurl }}/documentation/common-interfaces.html#minimal-program-components), the `toSymbolicVariable()` method
+produces the [`GlobalVariable`]({{ site.baseurl }}/documentation/symbolic-expressions.html#identifiers) symbolic expression used to represent accesses to
 the global during the analysis.
 
 A `ConstantGlobal` is a `Global` that is bound to a fixed, statically known
@@ -97,13 +97,13 @@ globals and code members are typically used to provide always-available built-in
 - `addEntryPoint(CFG)` and `getEntryPoints()` manage the set of CFGs from which
   the analysis should start; entry points are typically the `main` functions or
   other top-level procedures of the program;
-- `getAllCFGs()` traverses all units recursively and collects every `CFG` defined
+- `getAllCFGs()` traverses all units recursively and collects every [`CFG`]({{ site.baseurl }}/documentation/cfgs.html#control-flow-graphs) defined
   in the program, providing a global view of the code to analyze;
-- `getFeatures()` returns the `LanguageFeatures` object that carries
+- `getFeatures()` returns the [`LanguageFeatures`]({{ site.baseurl }}/documentation/language-features.html#the-languagefeatures-class) object that carries
   language-specific behaviors (such as call resolution strategies, parameter
   assignment strategies, and validation logic), which are configured by the
   frontend for the language being analyzed;
-- `getTypes()` returns the `TypeSystem` that knows all the types appearing in the
+- `getTypes()` returns the [`TypeSystem`]({{ site.baseurl }}/documentation/types.html#the-typesystem) that knows all the types appearing in the
   program and provides the type inference logic used during analysis.
 
 {% include note.html content="`Program` cannot be added as a unit to another
@@ -142,7 +142,7 @@ instantiable types. LiSA represents these with two classes that sit below
 <center> <img src="{{ site.baseurl }}/schemes/units-code-units.png" alt="ProgramUnit and CodeUnit" style="width: 60%"/> </center>
 
 `ProgramUnit` is the abstract base for all units that can be part of a `Program`
-and have a source location. It extends `Unit` and also implements `CodeElement`,
+and have a source location. It extends `Unit` and also implements [`CodeElement`]({{ site.baseurl }}/documentation/common-interfaces.html#minimal-program-components),
 the minimal interface for program constructs with a location (see
 [Minimal Program Components]({{ site.baseurl }}/documentation/common-interfaces.html#minimal-program-components)).
 
@@ -191,7 +191,7 @@ Three concrete subclasses implement the different kinds of object-oriented types
   `getSuperclasses()` and `addSuperclass(ClassUnit)`) and the interfaces it
   implements (via `getInterfaces()` and `addInterface(InterfaceUnit)`); a class
   may inherit from multiple superclasses and implement multiple interfaces,
-  depending on the language features declared through `LanguageFeatures`;
+  depending on the language features declared through [`LanguageFeatures`]({{ site.baseurl }}/documentation/language-features.html#the-languagefeatures-class);
 - `AbstractClassUnit` is a `ClassUnit` that cannot be instantiated
   (`canBeInstantiated()` returns `false`); it is used to represent abstract
   classes, that is, classes which define some abstract code members that must

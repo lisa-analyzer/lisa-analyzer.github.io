@@ -34,21 +34,21 @@ The overall workflow is:
 
 1. parse the source into an abstract syntax tree (AST) or other intermediate
    form using a suitable parser;
-2. build the program skeleton: create a `Program` with the language-specific
+2. build the program skeleton: create a [`Program`]({{ site.baseurl }}/documentation/units.html#the-program-unit) with the language-specific
    [`TypeSystem`]({{ site.baseurl }}/documentation/types.html#the-typesystem)
    and
    [`LanguageFeatures`]({{ site.baseurl }}/documentation/language-features.html);
 3. inspect the generated ASTs in at least two passes (more of them can be added
    for clearer separation of concerns, but at least two are needed for languages
    that define custom data types):
-   - first pass --- type hierarchy: traverse the AST to create all `Unit`
+   - first pass --- type hierarchy: traverse the AST to create all [`Unit`]({{ site.baseurl }}/documentation/units.html#the-unit-class)
      objects and their respective types, so that type names are known before
      any method signature is inspected;
-   - second pass --- code members: revisit each unit to create `CFG`s for every
+   - second pass --- code members: revisit each unit to create [`CFG`]({{ site.baseurl }}/documentation/cfgs.html#control-flow-graphs)s for every
      method and function, building the node/edge graph statement by statement;
-4. add library stubs: attach `NativeCFG`s for library functions that have no
+4. add library stubs: attach [`NativeCFG`]({{ site.baseurl }}/documentation/cfgs.html#native-code)s for library functions that have no
    source;
-5. register entry points and return the finished `Program`.
+5. register entry points and return the finished [`Program`]({{ site.baseurl }}/documentation/units.html#the-program-unit).
 
 After all the above steps have completed, the frontend can execute LiSA as
 described in the [Configuration]({{ site.baseurl }}/configuration/) page.
@@ -92,7 +92,7 @@ The ANTLR4 plugin generates a
 The top-level entry point of the frontend extends `MyLangParserBaseVisitor<Object>`,
 overrides `visitFile` (or the equivalent root rule), and drives the two-pass
 traversal from there. Each `visit` method returns a value --- often a
-`ParsedBlock`, a `Statement`, an `Expression`, or `null` --- that the caller
+`ParsedBlock`, a [`Statement`]({{ site.baseurl }}/documentation/st-ex-e.html#the-statement-class), an [`Expression`]({{ site.baseurl }}/documentation/st-ex-e.html#the-expression-class), or `null` --- that the caller
 assembles into the larger CFG structure.
 
 ### Language-Specific Parsers
@@ -121,7 +121,7 @@ Java binding.
 
 {% include note.html content="It is also possible to use parsers in languages
 different from Java, e.g. a Python-based parser for Python source. In that
-case, the parser must serialize the final `Program` structure, and a Java-based
+case, the parser must serialize the final [`Program`]({{ site.baseurl }}/documentation/units.html#the-program-unit) structure, and a Java-based
 application can then deserialize it and pass it to LiSA. However, instruction
 semantics, types, and other features required by LiSA must still be developed
 in Java, as the library has to be run in a Java process." %}
@@ -135,9 +135,9 @@ appear in the program must be registered in the
 [`TypeSystem`]({{ site.baseurl }}/documentation/types.html#the-typesystem)
 before the analysis
 starts. Types are defined and registered in two steps: implementing the type
-classes, then registering them into the `Program`.
+classes, then registering them into the [`Program`]({{ site.baseurl }}/documentation/units.html#the-program-unit).
 
-A language-specific `TypeSystem` must be created in each frontend, implementing
+A language-specific [`TypeSystem`]({{ site.baseurl }}/documentation/types.html#the-typesystem) must be created in each frontend, implementing
 the specifics of that language's type system.
 Each type that can appear in the program must be registered through the
 `TypeSystem.registerType(type)` before the analysis starts. The recommended
@@ -171,11 +171,11 @@ these forward references.
 
 The first pass visits every type declaration in the source and, for each one:
 
-1. creates the appropriate `Unit` subclass:
-   - `ClassUnit` for concrete classes (`new ClassUnit(location, program, name, sealed)`);
-   - `AbstractClassUnit` for abstract classes;
-   - `InterfaceUnit` for interfaces or traits;
-   - `CodeUnit` for files and modules in procedural or scripted languages;
+1. creates the appropriate [`Unit`]({{ site.baseurl }}/documentation/units.html#the-unit-class) subclass:
+   - [`ClassUnit`]({{ site.baseurl }}/documentation/units.html#compilation-units) for concrete classes (`new ClassUnit(location, program, name, sealed)`);
+   - [`AbstractClassUnit`]({{ site.baseurl }}/documentation/units.html#compilation-units) for abstract classes;
+   - [`InterfaceUnit`]({{ site.baseurl }}/documentation/units.html#compilation-units) for interfaces or traits;
+   - [`CodeUnit`]({{ site.baseurl }}/documentation/units.html#units-for-grouping-code) for files and modules in procedural or scripted languages;
 2. adds the unit to the program: `program.addUnit(unit)`;
 3. creates the corresponding type (if the language associates a type with the
    unit) and records it in a static registry;
@@ -192,9 +192,9 @@ can also be added at this stage, since their types are now known.
 The second pass revisits every unit and, for each code member (method,
 constructor, function, procedure):
 
-1. builds a `CodeMemberDescriptor` with the member's name, return type, formal
+1. builds a [`CodeMemberDescriptor`]({{ site.baseurl }}/documentation/cfgs.html#descriptors) with the member's name, return type, formal
    parameters, and enclosing unit;
-2. creates a `CFG` from the descriptor: `new CFG(descriptor)`;
+2. creates a [`CFG`]({{ site.baseurl }}/documentation/cfgs.html#control-flow-graphs) from the descriptor: `new CFG(descriptor)`;
 3. adds the CFG to the unit:
    - `unit.addCodeMember(cfg)` for static members, or;
    - `unit.addInstanceCodeMember(cfg)` for instance methods;
@@ -207,14 +207,14 @@ Abstract method stubs --- declared but without a body --- are represented as
 {% include tip.html content="For languages like Python or JavaScript where
 classes are not declared at the top level but created dynamically, a strict
 two-pass separation may not apply. In those cases, create and register a
-`CompilationUnit` for each class on the fly when it is first encountered during
+[`CompilationUnit`]({{ site.baseurl }}/documentation/units.html#compilation-units) for each class on the fly when it is first encountered during
 a single traversal, and rely on the forward-declaration behaviour of the
 frontend's type registry to resolve self-references." %}
 
 ## Building CFGs
 
-Once a `CFG` has been created from its descriptor, its body must be populated
-with `Statement`s connected by `Edge`s.
+Once a [`CFG`]({{ site.baseurl }}/documentation/cfgs.html#control-flow-graphs) has been created from its descriptor, its body must be populated
+with [`Statement`]({{ site.baseurl }}/documentation/st-ex-e.html#the-statement-class)s connected by [`Edge`]({{ site.baseurl }}/documentation/st-ex-e.html#the-edge-class)s.
 LiSA offers some utility classes in `it.unive.lisa.util.frontend` to ease the parsing:
 
 <center> <img src="{{ site.baseurl }}/schemes/fe-cfg-helpers.png" alt="CFG construction utility classes"/> </center>
@@ -225,7 +225,7 @@ LiSA offers some utility classes in `it.unive.lisa.util.frontend` to ease the pa
 fragment of a CFG. It carries three fields:
 
 - `getBegin()` --- the first statement to execute when entering the block;
-- `getBody()` --- the `NodeList` containing all statements and edges of the block;
+- `getBody()` --- the [`NodeList`]({{ site.baseurl }}/documentation/cfgs.html#graphs-containing-code) containing all statements and edges of the block;
 - `getEnd()` --- the last statement on the "normal" exit path (may be `null` if
   the block always terminates via a return or throw).
 
@@ -235,7 +235,7 @@ or redirect execution, meaning code can follow the block on the normal path.
 stops or redirects execution on any path.
 
 The aim of `ParsedBlock` is to ease the composition of CFG bodies from smaller
-fragments. A typical usage starts from building a `Statement` for a single
+fragments. A typical usage starts from building a [`Statement`]({{ site.baseurl }}/documentation/st-ex-e.html#the-statement-class) for a single
 instruction:
 
 ```java
@@ -319,8 +319,8 @@ blocks, and any other control structure.
 ### Control Flow Structures
 
 In the last code snippet, a control flow structure (an `if` statement) is
-parsed and added to the `CFG`. When parsing such structures, the syntactic
-construct should also be added to the descriptor of the `CFG`, such that analyses
+parsed and added to the [`CFG`]({{ site.baseurl }}/documentation/cfgs.html#control-flow-graphs). When parsing such structures, the syntactic
+construct should also be added to the descriptor of the [`CFG`]({{ site.baseurl }}/documentation/cfgs.html#control-flow-graphs), such that analyses
 can inspect them at runtime. For example, an analysis might need to know which
 conditions guard the execution of an instruction to, e.g., separate possible
 execution traces.
@@ -363,7 +363,7 @@ to add the structures explicitly to the descriptor." %}
 ### NoOp Removal
 
 Code snippets above make use of `NoOp`s, that are instructions that do nothing
-and that serve mainly as placeholders for building the CFG. After the `CFG` has
+and that serve mainly as placeholders for building the CFG. After the [`CFG`]({{ site.baseurl }}/documentation/cfgs.html#control-flow-graphs) has
 been fully built, all `NoOp`s that can be safely removed can be simplified
 automatically by calling:
 
@@ -372,16 +372,16 @@ cfg.simplify()
 ```
 
 This will remove all `NoOp`s, directly connecting their predecessors to their
-successors. Some `NoOp`s might still appear in the final `CFG` if they could
+successors. Some `NoOp`s might still appear in the final [`CFG`]({{ site.baseurl }}/documentation/cfgs.html#control-flow-graphs) if they could
 not be safely removed (e.g., if they join multiple conditional paths).
 
 {% include important.html content="The simplification of `CFG`s should be the
-last operation to apply before returning the `CFG`." %}
+last operation to apply before returning the [`CFG`]({{ site.baseurl }}/documentation/cfgs.html#control-flow-graphs)." %}
 
 ### LocalVariableTracker
 
 `LocalVariableTracker` maintains the stack of variable scopes for a single CFG
-and populates the `CodeMemberDescriptor`'s variable table automatically.
+and populates the [`CodeMemberDescriptor`]({{ site.baseurl }}/documentation/cfgs.html#descriptors)'s variable table automatically.
 The descriptor's formal parameters are placed in the root scope automatically.
 To use a `LocalVariableTracker`:
 
@@ -471,7 +471,7 @@ the loop structure is fully parsed, also handling labeled constructs. To use a `
   `Break` or `Continue` is added to the CFG;
 - call `endControlFlowOf(list, condition, targetForBreaking, targetForContinuing, label)`
   at the end of the loop body; the tracker iterates over all pending modifiers,
-  removes their existing outgoing edges, and adds a `SequentialEdge` to
+  removes their existing outgoing edges, and adds a [`SequentialEdge`]({{ site.baseurl }}/documentation/st-ex-e.html#the-edge-class) to
   `targetForBreaking` (for break statements) or `targetForContinuing` (for
   continue statements); labelled modifiers are only consumed when the label
   matches.
@@ -543,39 +543,39 @@ return expression).
 
 {% include note.html content="For languages without exception handling,
 `addFinallyEdges` and `splitProtectedYields` are no-ops if the descriptor
-contains no `ProtectionBlock`s. These calls can be omitted." %}
+contains no [`ProtectionBlock`]({{ site.baseurl }}/documentation/cfgs.html#error-handling-blocks)s. These calls can be omitted." %}
 
 ## Defining New Instructions
 
-LiSA bundles a wide range of ready-to-use `Statement`s and `Expression`s inside
+LiSA bundles a wide range of ready-to-use [`Statement`]({{ site.baseurl }}/documentation/st-ex-e.html#the-statement-class)s and [`Expression`]({{ site.baseurl }}/documentation/st-ex-e.html#the-expression-class)s inside
 the `lisa-program` project. However, accurate modeling of a language requires
 precise definition of the semantics, including error conditions and corner
 cases. Thus, other than for quick prototyping, those instances serve more as an
 example of how specific constructs can be modeled. Moreover,
-language-specific constructs require new `Statement` or `Expression` subclasses.
-A full description of the syntactic API for building `Statement`s and `Expression`s
+language-specific constructs require new [`Statement`]({{ site.baseurl }}/documentation/st-ex-e.html#the-statement-class) or [`Expression`]({{ site.baseurl }}/documentation/st-ex-e.html#the-expression-class) subclasses.
+A full description of the syntactic API for building [`Statement`]({{ site.baseurl }}/documentation/st-ex-e.html#the-statement-class)s and [`Expression`]({{ site.baseurl }}/documentation/st-ex-e.html#the-expression-class)s
 is given in the
 [Statements, Expressions, and Edges]({{ site.baseurl }}/documentation/st-ex-e.html)
 page, while instructions for writing their semantics are covered in the
 [Instruction Semantics]({{ site.baseurl }}/documentation/instruction-semantics.html)
 page. The key points for frontend authors are:
 
-- `Expression` subclasses override `forwardSemantics` to compute the set of
+- [`Expression`]({{ site.baseurl }}/documentation/st-ex-e.html#the-expression-class) subclasses override `forwardSemantics` to compute the set of
   symbolic expressions produced by the node and assign them to the expression's
   meta-variable; unary, binary, ternary, and n-ary expressions can extend
-  `UnaryExpression`, `BinaryExpression`, `TernaryExpression`, or
-  `NaryExpression` respectively, which already manage sub-expression evaluation
+  [`UnaryExpression`]({{ site.baseurl }}/documentation/st-ex-e.html#implementing-compound-expressions), [`BinaryExpression`]({{ site.baseurl }}/documentation/st-ex-e.html#implementing-compound-expressions), [`TernaryExpression`]({{ site.baseurl }}/documentation/st-ex-e.html#implementing-compound-expressions), or
+  [`NaryExpression`]({{ site.baseurl }}/documentation/st-ex-e.html#implementing-compound-expressions) respectively, which already manage sub-expression evaluation
   and provide `fwdUnarySemantics`, `fwdBinarySemantics`, `fwdTernarySemantics`,
   or `fwdNarySemantics` as the hook point;
-- `Statement` subclasses override `forwardSemantics` to model side effects
+- [`Statement`]({{ site.baseurl }}/documentation/st-ex-e.html#the-statement-class) subclasses override `forwardSemantics` to model side effects
   (e.g. field writes, output operations) that do not yield a value; unary,
   binary, and n-ary statements can extend `UnaryStatement`, `BinaryStatement`,
   `TernaryStatement`, or `NaryStatement` respectively, which already manage
   sub-expression evaluation and provide `fwdUnarySemantics`,
   `fwdBinarySemantics`, `fwdTernarySemantics`, or `fwdNarySemantics` as the
   hook point;
-- every statement and expression constructor takes the containing `CFG` and a
-  `CodeLocation` as its first two arguments; a `CodeLocation` is typically
+- every statement and expression constructor takes the containing [`CFG`]({{ site.baseurl }}/documentation/cfgs.html#control-flow-graphs) and a
+  [`CodeLocation`]({{ site.baseurl }}/documentation/common-interfaces.html#minimal-program-components) as its first two arguments; a [`CodeLocation`]({{ site.baseurl }}/documentation/common-interfaces.html#minimal-program-components) is typically
   constructed from the source file name and the line/column numbers reported by
   the parser;
 - the `getStaticType()` method should return the most precise static type that
@@ -587,35 +587,35 @@ page. The key points for frontend authors are:
 Functions and methods from the standard library or from external dependencies
 typically have no source available. Rather than leaving them unresolved (which
 would cause the analysis to lose precision), frontends can model them as
-`NativeCFG`s paired with a `PluggableStatement` inner class.
+[`NativeCFG`]({{ site.baseurl }}/documentation/cfgs.html#native-code)s paired with a [`PluggableStatement`]({{ site.baseurl }}/documentation/cfgs.html#native-code) inner class.
 
 ### The NativeCFG + PluggableStatement Pattern
 
-A `NativeCFG` is a `CodeMember` that holds a `CodeMemberDescriptor` (describing
+A [`NativeCFG`]({{ site.baseurl }}/documentation/cfgs.html#native-code) is a [`CodeMember`]({{ site.baseurl }}/documentation/cfgs.html#code-members) that holds a [`CodeMemberDescriptor`]({{ site.baseurl }}/documentation/cfgs.html#descriptors) (describing
 the function's signature) and a reference to a class that implements
-`PluggableStatement`. When the analysis resolves a call to the native function,
+[`PluggableStatement`]({{ site.baseurl }}/documentation/cfgs.html#native-code). When the analysis resolves a call to the native function,
 LiSA reflectively invokes the static factory method
 `build(CFG cfg, CodeLocation location, Expression... params)` on the
-`PluggableStatement` class to produce an expression node that is spliced into
+[`PluggableStatement`]({{ site.baseurl }}/documentation/cfgs.html#native-code) class to produce an expression node that is spliced into
 the call site.
 
 The pattern for defining a native function is:
 
-1. create a top-level class extending `NativeCFG`; its constructor calls
+1. create a top-level class extending [`NativeCFG`]({{ site.baseurl }}/documentation/cfgs.html#native-code); its constructor calls
    `super(descriptor, InnerClass.class)`, where `descriptor` is a
-   `CodeMemberDescriptor` built with the function's signature, and `InnerClass`
-   is the `PluggableStatement` implementation;
+   [`CodeMemberDescriptor`]({{ site.baseurl }}/documentation/cfgs.html#descriptors) built with the function's signature, and `InnerClass`
+   is the [`PluggableStatement`]({{ site.baseurl }}/documentation/cfgs.html#native-code) implementation;
 2. define a second class that:
-   - extends an appropriate expression base class (`UnaryExpression`,
-     `BinaryExpression`, `TernaryExpression`, `NaryExpression`, or any other
-     `Expression` subclass;
-   - implements `PluggableStatement`;
+   - extends an appropriate expression base class ([`UnaryExpression`]({{ site.baseurl }}/documentation/st-ex-e.html#implementing-compound-expressions),
+     [`BinaryExpression`]({{ site.baseurl }}/documentation/st-ex-e.html#implementing-compound-expressions), [`TernaryExpression`]({{ site.baseurl }}/documentation/st-ex-e.html#implementing-compound-expressions), [`NaryExpression`]({{ site.baseurl }}/documentation/st-ex-e.html#implementing-compound-expressions), or any other
+     [`Expression`]({{ site.baseurl }}/documentation/st-ex-e.html#the-expression-class) subclass;
+   - implements [`PluggableStatement`]({{ site.baseurl }}/documentation/cfgs.html#native-code);
    - provides the static factory method
      `public static MyClassName build(CFG cfg, CodeLocation location, Expression... params)`
      that invokes the class's constructor by passing the arguments found in the
      `params` parameter;
    - overrides `setOriginatingStatement(Statement st)` (required by
-     `PluggableStatement`) to store the original statement (i.e., the call
+     [`PluggableStatement`]({{ site.baseurl }}/documentation/cfgs.html#native-code)) to store the original statement (i.e., the call
      site) that the instance is replacing;
    - overrides `forwardSemantics` (or the typed hook method of the base class)
      to implement the function's abstract semantics over the analysis domain;
@@ -677,7 +677,7 @@ public class ArrayLenExpr extends UnaryExpression implements PluggableStatement 
 }
 ```
 
-Then, the `NativeCFG` can be added directly to the program:
+Then, the [`NativeCFG`]({{ site.baseurl }}/documentation/cfgs.html#native-code) can be added directly to the program:
 
 ```java
 program.addCodeMember(new ArrayLength());

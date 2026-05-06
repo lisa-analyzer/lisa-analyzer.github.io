@@ -22,7 +22,7 @@ general structure that is shared among all call types.
 
 <center> <img src="{{ site.baseurl }}/schemes/calls.png" alt="The Call class hierarchy" /> </center>
 
-The superclass of `Call`, the `NaryExpression` class, is detailed in the
+The superclass of `Call`, the [`NaryExpression`]({{ site.baseurl }}/documentation/st-ex-e.html#implementing-compound-expressions) class, is detailed in the
 [expressions page]({{ site.baseurl }}/documentation/st-ex-e.html): for the
 contents of this page, it suffices to know that it is a generalization of
 an expression that can have zero or more sub-expressions. The `Call` abstract
@@ -59,20 +59,20 @@ resort to their source `UnresolvedCall` to access the graph they belong to.
 
 The resolution process yields to the creation of `Call` instances that also implement
 the `ResolvedCall` interface, that provides means to access the targets of the
-call. `getTargets` returns a collection of `CodeMember`s, an interface that
+call. `getTargets` returns a collection of [`CodeMember`]({{ site.baseurl }}/documentation/cfgs.html#code-members)s, an interface that
 describes the general structure of a program member that contains code (e.g., a
 control flow graph, or a summary of a function from the standard library ---
 more information available in the [control flow graphs page]({{ site.baseurl }}/documentation/cfgs.html)).
 The interface is implemented by several classes. The three core implementations are:
 
-- `NativeCall`: a call to one or more `NativeCFG`s, that are special CFGs that
+- `NativeCall`: a call to one or more [`NativeCFG`]({{ site.baseurl }}/documentation/cfgs.html#native-code)s, that are special CFGs that
   represent the behavior of library or runtime functions without having to analyze
   their code;
-- `CFGCall`: a call to one or more `CFG`s under analysis;
+- `CFGCall`: a call to one or more [`CFG`]({{ site.baseurl }}/documentation/cfgs.html#control-flow-graphs)s under analysis;
 - `OpenCall`: a call for which no target could be resolved, and thus needs to be
   over-approximated.
 
-Since a call might resolve to a mix of `NativeCFG`s and regular `CFG`s, the
+Since a call might resolve to a mix of [`NativeCFG`]({{ site.baseurl }}/documentation/cfgs.html#native-code)s and regular [`CFG`]({{ site.baseurl }}/documentation/cfgs.html#control-flow-graphs)s, the
 `MultiCall` class is provided as a wrapper to represent a call that embeds
 multiple underlying calls. Finally, the `TruncatedParamsCall` is a special call
 generated when calls whose type is `UNKNOWN` are resolved to static targets: the
@@ -120,16 +120,16 @@ implementations:
   control flow graph.
 
 Three methods require implementation by subtypes of `CallGraph`. The
-`getCallSites` method yields all calls that invoke a given `CodeMember`.
-This method is used by the overload accepting a collection of `CodeMember`s
+`getCallSites` method yields all calls that invoke a given [`CodeMember`]({{ site.baseurl }}/documentation/cfgs.html#code-members).
+This method is used by the overload accepting a collection of [`CodeMember`]({{ site.baseurl }}/documentation/cfgs.html#code-members)s
 to return the union of their call sites.
 New edges in the call graph can be added either by resolving a call, or by
 manually informing the graph that a call is being executed. In both methods,
 `NativeCall`s are never registered in the call graph as they do not point to a
 CFG. The `registerCall` method can be used, given a `CFGCall` (i.e., an
-already-resolved call that is linked to the `CFG` it might invoke), to add an
+already-resolved call that is linked to the [`CFG`]({{ site.baseurl }}/documentation/cfgs.html#control-flow-graphs) it might invoke), to add an
 edge from a caller to one or more callees. Instead, the `resolve` method
-receives an `UnresolvedCall`, the set of `Type`s for each argument, and
+receives an `UnresolvedCall`, the set of [`Type`]({{ site.baseurl }}/documentation/types.html#the-type-interface)s for each argument, and
 `SymbolAliasing` information, produces a resolved `Call` instance.
 
 For a list of call graphs already implemented in LiSA, see the
@@ -165,13 +165,13 @@ resolution process implemented in `resolve` proceeds as follows:
 - the results of the resolution are used to create a `Call` instance, that is
   then registered in the call graph and cached; the creation proceeds as follows:
   - if no target is found, an `OpenCall` is created;
-  - if only `CFG` targets are found, a `CFGCall` is created;
-  - if only `NativeCFG` targets are found, a `NativeCall` is created;
-  - if the call type is `UNKNOWN` and only `CFG` targets are found after
+  - if only [`CFG`]({{ site.baseurl }}/documentation/cfgs.html#control-flow-graphs) targets are found, a `CFGCall` is created;
+  - if only [`NativeCFG`]({{ site.baseurl }}/documentation/cfgs.html#native-code) targets are found, a `NativeCall` is created;
+  - if the call type is `UNKNOWN` and only [`CFG`]({{ site.baseurl }}/documentation/cfgs.html#control-flow-graphs) targets are found after
     removing the receiver (i.e., the first parameter) from the resolution and
     using it as a qualifier, a `TruncatedParamsCall` wrapping a `CFGCall` is
     created;
-  - if the call type is `UNKNOWN` and only `NativeCFG` targets are found after
+  - if the call type is `UNKNOWN` and only [`NativeCFG`]({{ site.baseurl }}/documentation/cfgs.html#native-code) targets are found after
     removing the receiver (i.e., the first parameter) from the resolution and
     using it as a qualifier, a `TruncatedParamsCall` wrapping a `NativeCall` is
     created;
@@ -195,8 +195,8 @@ possible language-specific optimizations:
   is suitable for the call; by default, it checks all entries in the
   `SymbolAliasing` for the name and the qualifier, selecting the suitable ones
   through `matchesCodeMemberName`;
-- `addTarget` adds a target to the correct collection of targets (i.e., `CFG`
-  or `NativeCFG`), depending on the type of the target; by default, it checks the
+- `addTarget` adds a target to the correct collection of targets (i.e., [`CFG`]({{ site.baseurl }}/documentation/cfgs.html#control-flow-graphs)
+  or [`NativeCFG`]({{ site.baseurl }}/documentation/cfgs.html#native-code)), depending on the type of the target; by default, it checks the
   type of the target and adds it to the correct collection;
 - `matchesCodeMemberName` checks if the name and qualifier of a code member
   match the target name and qualifier of the call; by default, it checks for

@@ -59,7 +59,7 @@ corresponding to the syntactic construct that generated the expression. `Symboli
 defines three abstract methods that must be implemented by all subclasses:
 
 - `mightNeedRewriting`, that returns `true` if the expression may need to be
-  rewritten by an analysis before being evaluated by `ValueDomain`s when using
+  rewritten by an analysis before being evaluated by [`ValueDomain`]({{ site.baseurl }}/documentation/simple-abstract-domain.html#domain-and-components)s when using
   [the Simple Abstract Domain framework]({{ site.baseurl }}/documentation/simple-abstract-domain.html);
 - `removeTypingExpressions`, that returns a copy of the expression where all
   type conversions and casts have been removed, simplifying the expression for
@@ -114,8 +114,8 @@ that manipulate the dynamic memory of the program. These include:
   the program.
 
 When adopting [the Simple Abstract Domain framework]({{ site.baseurl }}/documentation/simple-abstract-domain.html),
-heap expressions are **always** rewritten by the `HeapDomain` before being
-evaluated by `ValueDomain` and `TypeDomain`.
+heap expressions are **always** rewritten by the [`HeapDomain`]({{ site.baseurl }}/documentation/simple-abstract-domain.html#domain-and-components) before being
+evaluated by [`ValueDomain`]({{ site.baseurl }}/documentation/simple-abstract-domain.html#domain-and-components) and [`TypeDomain`]({{ site.baseurl }}/documentation/simple-abstract-domain.html#domain-and-components).
 
 ### Value Expressions
 
@@ -134,9 +134,9 @@ Value expressions include:
   that pushes an unknown value onto the evaluation stack, that should be
   interpreted as a top value by analyses;
 - `PushAnyWithConstaints`, a version of `PushAny` enriched with arbitrary binary
-  constraints (i.e., `BinaryExpression`s with comparison operators) that the
+  constraints (i.e., [`BinaryExpression`]({{ site.baseurl }}/documentation/st-ex-e.html#implementing-compound-expressions)s with comparison operators) that the
   unknown value must satisfy;
-- `UnaryExpression`, `BinaryExpression`, and `TernaryExpression`, that represent
+- [`UnaryExpression`]({{ site.baseurl }}/documentation/st-ex-e.html#implementing-compound-expressions), [`BinaryExpression`]({{ site.baseurl }}/documentation/st-ex-e.html#implementing-compound-expressions), and [`TernaryExpression`]({{ site.baseurl }}/documentation/st-ex-e.html#implementing-compound-expressions), that represent
   unary, binary, and ternary operations on inner `SymbolicExpression`s,
   respectively; these classes are parametric on the operator type, which is
   represented by a user-defined object;
@@ -144,8 +144,8 @@ Value expressions include:
   or a synthetic one used by the analysis to track some special value) in the program.
 
 When adopting [the Simple Abstract Domain framework]({{ site.baseurl }}/documentation/simple-abstract-domain.html),
-value expressions **might** be rewritten by the `HeapDomain` before being
-evaluated by `ValueDomain` and `TypeDomain`. This is because sub-expressions of
+value expressions **might** be rewritten by the [`HeapDomain`]({{ site.baseurl }}/documentation/simple-abstract-domain.html#domain-and-components) before being
+evaluated by [`ValueDomain`]({{ site.baseurl }}/documentation/simple-abstract-domain.html#domain-and-components) and [`TypeDomain`]({{ site.baseurl }}/documentation/simple-abstract-domain.html#domain-and-components). This is because sub-expressions of
 a value expression may be heap expressions that need to be rewritten first.
 
 ### Identifiers
@@ -196,7 +196,7 @@ expression.
   weakness property of the original identifier and can be scoped again.
 
 Thus, any identifier that can be scoped becomes an `OutOfScopeIdentifier` named
-`scope:name`, where `scope` is the `ScopeToken` (see the definition of the
+`scope:name`, where `scope` is the [`ScopeToken`]({{ site.baseurl }}/documentation/common-interfaces.html#the-scoped-object-interface) (see the definition of the
 [Scoped Object Interface]({{ site.baseurl }}/documentation/common-interfaces.html#the-scoped-object-interface))
 used to scope it, and `name` is the original identifier's name.
 
@@ -221,6 +221,6 @@ analysis that uses annotations to detect tainted values: when a function call
 can generate a tainted value, it can be annotated (manually or automatically)
 with an analysis-defined annotation (e.g., `@Tainted`) that will be propagated
 to the `CFGReturn` variable. When determining the taintedness of an `Identifier`, an
-`AbstractDomain` can inspect its annotations first: if the variable is
+[`AbstractDomain`]({{ site.baseurl }}/documentation/semantic-domains.html#the-abstract-domain-interface) can inspect its annotations first: if the variable is
 annotated, then it is always considered tainted; otherwise, the domain will have
 to compute its taintedness based on the values it has been assigned.

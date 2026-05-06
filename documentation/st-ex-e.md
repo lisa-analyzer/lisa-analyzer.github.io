@@ -26,12 +26,12 @@ the content of functions, methods, and procedures.
 ## The Statement class
 
 A `Statement` implementation corresponds to an instruction that can appear in
-the program. A `Statement` is both a `ProgramPoint` (and thus has a
-`CodeLocation`, and is contained in a `CFG` that is part of a `Unit` --- more on
+the program. A `Statement` is both a [`ProgramPoint`]({{ site.baseurl }}/documentation/common-interfaces.html#minimal-program-components) (and thus has a
+[`CodeLocation`]({{ site.baseurl }}/documentation/common-interfaces.html#minimal-program-components), and is contained in a [`CFG`]({{ site.baseurl }}/documentation/cfgs.html#control-flow-graphs) that is part of a [`Unit`]({{ site.baseurl }}/documentation/units.html#the-unit-class) --- more on
 this two structures can be found in their respective documentation pages) and a
 `CodeNode` (intuitively, a node of a `Graph` that can be compared to other nodes
 with their natural ordering, and that can be visited by a `GraphVisitor` ---
-more on `CodeNode` and `GraphVisitor` can be found in the `CFG` documentation
+more on `CodeNode` and `GraphVisitor` can be found in the [`CFG`]({{ site.baseurl }}/documentation/cfgs.html#control-flow-graphs) documentation
 page).
 
 <center> <img src="{{ site.baseurl }}/schemes/statement.png" alt="Statement class diagram"> </center>
@@ -78,7 +78,7 @@ search.
 
 The natural order provided by the `compareTo` method needs to take into account
 statement-specific structure. However, parts of the check can be factored out
-into a common logic (e.g., the comparison of the `CodeLocation` of the
+into a common logic (e.g., the comparison of the [`CodeLocation`]({{ site.baseurl }}/documentation/common-interfaces.html#minimal-program-components) of the
 statement). The `compareTo` implementation provided by the `Statement` class
 factors out all common parts of the implementation, and delegates to
 `compareSameClass` for comparing implementation-specific structure.
@@ -115,10 +115,10 @@ is computed after the semantics of each sub-expression is computed, chaining the
 computations on the intermediate states generated. The order of the sub-expressions
 evaluations is defined by the `EvaluationOrder` implementation passed at
 construction, that is responsible for chaining the evaluations and storing the
-result of each of them in the provided `StatementStore`. Once the
+result of each of them in the provided [`StatementStore`]({{ site.baseurl }}/documentation/interprocedural-analysis.html). Once the
 `EvaluationOrder` returns, the implementation-specific semantics is delegated to
 the `forwardSemanticsAux` method, that can access all of the
-`SymbolicExpression`s computed for each sub-expression and evaluate them to
+[`SymbolicExpression`]({{ site.baseurl }}/documentation/symbolic-expressions.html#the-symbolic-expression-class)s computed for each sub-expression and evaluate them to
 obtain the final state. A similar reasoning is applied in the backward semantics.
 
 The computations of `forwardSemanticsAux` can be factored out as well: all
@@ -176,7 +176,7 @@ stack elements: as soon as the root statement has completed its execution, they
 become inaccessible to the rest of the program (ignoring arbitrary pointer
 arithmetics that can still retrieve them), and can thus be forgotten. These are
 modeled in LiSA with _meta variables_. Implementations of expression semantics
-can assign values to `Identifier`s that correspond to instrumented variables,
+can assign values to [`Identifier`]({{ site.baseurl }}/documentation/symbolic-expressions.html#identifiers)s that correspond to instrumented variables,
 and add them to the collection of meta variables with
 `getMetaVariables().add(id)`. These will be propagated to the parent statement's
 meta variables, until they reach the root statement. When the fixpoint algorithm
@@ -185,7 +185,7 @@ leaves the root statement to analyze its successors, it will call
 the root's semantics to remove them. Example usages of meta variables in LiSA
 are:
 
-- storing the result of a `Call` that returned something, as they cannot be
+- storing the result of a [`Call`]({{ site.baseurl }}/documentation/call-graph.html#calls) that returned something, as they cannot be
   modeled with symbolic expressions;
 - storing the value produced by a `return` statement, as it could use local
   variables that are no longer in scope when the value is propagated to the
@@ -214,10 +214,10 @@ is computed after the semantics of each sub-expression is computed, chaining the
 computations on the intermediate states generated. The order of the sub-expressions
 evaluations is defined by the `EvaluationOrder` implementation passed at
 construction, that is responsible for chaining the evaluations and storing the
-result of each of them in the provided `StatementStore`. Once the
+result of each of them in the provided [`StatementStore`]({{ site.baseurl }}/documentation/interprocedural-analysis.html). Once the
 `EvaluationOrder` returns, the implementation-specific semantics is delegated to
 the `forwardSemanticsAux` method, that can access all of the
-`SymbolicExpression`s computed for each sub-expression and evaluate them to
+[`SymbolicExpression`]({{ site.baseurl }}/documentation/symbolic-expressions.html#the-symbolic-expression-class)s computed for each sub-expression and evaluate them to
 obtain the final state. A similar reasoning is applied in the backward semantics.
 
 The computations of `forwardSemanticsAux` can be factored out as well: all
@@ -247,7 +247,7 @@ reasons are correctly invoked." %}
 is an instance of `CodeEdge` (intuitively, an edge of a `Graph` that can be
 compared to other edges with their natural ordering, and that can be visited by
 a `GraphVisitor` --- more on `CodeEdge` and `GraphVisitor` can be found in the
-`CFG` documentation page).
+[`CFG`]({{ site.baseurl }}/documentation/cfgs.html#control-flow-graphs) documentation page).
 Additionally, `CodeEdge` defines three methods that all `Edge` implementations
 provide: `isUnconditional()`, reporting if the edge is always traversed or if it
 relies on some condition, `isErrorHandling()`, identifying edges that are only

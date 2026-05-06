@@ -66,16 +66,16 @@ override them.
 `isValueType()` is a convenience default that returns `true` when the type is
 neither an `InMemoryType` nor a `PointerType`, identifying types that can be
 used for local variables in most languages. Specifically, this method can be
-used as a shortcut for `ValueDomain`s to understand if they should track a
-value or not. More information about `ValueDomain`s can be found in the
+used as a shortcut for [`ValueDomain`]({{ site.baseurl }}/documentation/simple-abstract-domain.html#domain-and-components)s to understand if they should track a
+value or not. More information about [`ValueDomain`]({{ site.baseurl }}/documentation/simple-abstract-domain.html#domain-and-components)s can be found in the
 [Simple Abstract Domain]({{ site.baseurl }}/documentation/simple-abstract-domain.html) page.
 
 Two additional methods provide means to create values for a given type:
 
-- `defaultValue(cfg, location)` returns an `Expression` representing the
+- `defaultValue(cfg, location)` returns an [`Expression`]({{ site.baseurl }}/documentation/st-ex-e.html#the-expression-class) representing the
   default value of this type at the given program point (e.g., `0` for an
   integer); the base implementation returns `null`, meaning no default exists;
-- `unknownValue(cfg, location)` returns an `Expression` representing an
+- `unknownValue(cfg, location)` returns an [`Expression`]({{ site.baseurl }}/documentation/st-ex-e.html#the-expression-class) representing an
   unknown value of this type, implemented as a `DefaultParamInitialization`
   node.
 
@@ -98,7 +98,7 @@ incorrect results." %}
 ## The TypeSystem
 
 The `TypeSystem` abstract class acts as the registry for all types appearing in
-a `Program`. It is responsible for storing and looking up types by name, and
+a [`Program`]({{ site.baseurl }}/documentation/units.html#the-program-unit). It is responsible for storing and looking up types by name, and
 for providing the language-specific type operations used during analysis.
 
 <center> <img src="{{ site.baseurl }}/schemes/types-type-system.png" alt="TypeSystem" style="width: 60%"/> </center>
@@ -276,8 +276,8 @@ element type with a dimension count.
 ### Unit Types and Error Types
 
 `UnitType` extends `InMemoryType` and represents the runtime type of an instance
-of a `CompilationUnit` --- in other words, the type of an object or struct. It declares one
-abstract method, `getUnit()`, that returns the `CompilationUnit` that introduced this type.
+of a [`CompilationUnit`]({{ site.baseurl }}/documentation/units.html#compilation-units) --- in other words, the type of an object or struct. It declares one
+abstract method, `getUnit()`, that returns the [`CompilationUnit`]({{ site.baseurl }}/documentation/units.html#compilation-units) that introduced this type.
 
 Every frontend creates one `UnitType` implementation per class,
 struct, or data type that can be instantiated, associating each type with its

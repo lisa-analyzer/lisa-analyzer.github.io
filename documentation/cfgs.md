@@ -19,7 +19,7 @@ directed edges between them are instances of
 and define the possible flows of execution. Each CFG has
 a descriptor that carries its metadata --- name, parameters, return type,
 annotations, and more --- independent of the code body itself. CFGs live inside
-`Unit`s, which in turn are part of a `Program`; those are described in their own
+[`Unit`]({{ site.baseurl }}/documentation/units.html#the-unit-class)s, which in turn are part of a [`Program`]({{ site.baseurl }}/documentation/units.html#the-program-unit); those are described in their own
 documentation pages.
 
 This page describes the building blocks of control flow graphs in LiSA: starting
@@ -128,7 +128,7 @@ protection block across all its parts.
 A `ProtectedBlock` represents a contiguous region of code within an
 exception-handling construct: the `try` body, the `else` clause, the
 `finally` clause, or the body of a `catch` block. It tracks the first and last
-`Statement` delimiting the region
+[`Statement`]({{ site.baseurl }}/documentation/st-ex-e.html#the-statement-class) delimiting the region
 through `getStart()` and `getEnd()`, and the `getBody()` method returns all the
 statements contained within it. Two boolean methods, `canBeContinued()` and
 `alwaysContinues()`, describe whether normal execution can exit the block and
@@ -226,7 +226,7 @@ about the specific types of nodes and edges used.
 
 The `CodeNode<G, N, E>` and `CodeEdge<G, N, E>` interfaces are the marker
 interfaces for nodes and edges of a `CodeGraph`. Both extend their respective
-base interfaces from the generic graph package (`Node` and `Edge`) and add a
+base interfaces from the generic graph package (`Node` and [`Edge`]({{ site.baseurl }}/documentation/st-ex-e.html#the-edge-class)) and add a
 `Comparable` constraint, so that nodes and edges can be ordered within the graph.
 `CodeEdge` further defines three methods shared by all edge implementations:
 `isUnconditional()` (whether the edge is always traversed), `isErrorHandling()`
@@ -262,8 +262,8 @@ changing its semantics.
 
 The `CFG` class is LiSA's main representation of the body of a function, method,
 or procedure. It instantiates the `CodeGraph<G, N, E>` abstraction as
-`CodeGraph<CFG, Statement, Edge>`, using `Statement` instances as nodes and
-`Edge` instances as edges. It also implements `CodeMember`, connecting it to the
+`CodeGraph<CFG, Statement, Edge>`, using [`Statement`]({{ site.baseurl }}/documentation/st-ex-e.html#the-statement-class) instances as nodes and
+[`Edge`]({{ site.baseurl }}/documentation/st-ex-e.html#the-edge-class) instances as edges. It also implements `CodeMember`, connecting it to the
 descriptor-based metadata system.
 
 <center> <img src="{{ site.baseurl }}/schemes/cfg-cfg.png" alt="CFG" style="width: 70%"/> </center>
@@ -273,14 +273,14 @@ the following:
 
 - descriptor and context: `getDescriptor()` returns the `CodeMemberDescriptor`
   carrying the CFG's metadata. `getUnit()` and `getProgram()` give direct access
-  to the `Unit` and `Program` that contain this CFG without having to navigate
+  to the [`Unit`]({{ site.baseurl }}/documentation/units.html#the-unit-class) and [`Program`]({{ site.baseurl }}/documentation/units.html#the-program-unit) that contain this CFG without having to navigate
   through the descriptor;
 - exit points: `getNormalExitpoints()` returns the statements from which
   normal (non-exceptional) execution exits the CFG --- typically `return`
   statements. `getAllExitpoints()` additionally includes statements that stop
   execution by raising an error; the distinction matters when reasoning about the
   final state of the CFG: normal and error exits correspond to different
-  continuations in the `AnalysisState`;
+  continuations in the [`AnalysisState`]({{ site.baseurl }}/documentation/lattices.html#the-analysis-state);
 - simplification: `simplify()` removes redundant `NoOp` statements from the
   graph (those connected only by unconditional edges) by delegating to the
   underlying `NodeList`; frontends may insert `NoOp` statements as placeholders
@@ -292,7 +292,7 @@ the following:
   called only when the frontend has not provided structures directly;
 - fixpoint computation: `fixpoint(...)` and `backwardFixpoint(...)` run a
   forward or backward fixpoint computation on this CFG using the given entry
-  state and interprocedural analysis, returning an `AnalyzedCFG` with the
+  state and interprocedural analysis, returning an [`AnalyzedCFG`]({{ site.baseurl }}/documentation/interprocedural-analysis.html#storing-fixpoint-results) with the
   per-statement analysis results; these methods are typically invoked by LiSA's
   analysis engine rather than by users directly;
 - guard queries: `isGuarded(Statement)`, `isInsideLoop(Statement)`, and
@@ -315,19 +315,19 @@ than as a graph.
 <center> <img src="{{ site.baseurl }}/schemes/cfg-native.png" alt="NativeCFG"/> </center>
 
 A `NativeCFG` is a `CodeMember` that has only a `CodeMemberDescriptor` and no
-body. Its semantics is captured by a `NaryExpression` class that must also
+body. Its semantics is captured by a [`NaryExpression`]({{ site.baseurl }}/documentation/st-ex-e.html#implementing-compound-expressions) class that must also
 implement the `PluggableStatement` interface, passed to the `NativeCFG`
 constructor as a `Class` object. When a call to a native CFG is encountered
 during analysis, the `rewrite(Statement, Expression...)` method is invoked: it
 uses reflection to call the `build(CFG, CodeLocation, Expression[])` static
-factory method of the construct class, producing a `NaryExpression` that
+factory method of the construct class, producing a [`NaryExpression`]({{ site.baseurl }}/documentation/st-ex-e.html#implementing-compound-expressions) that
 replaces the original call and whose forward semantics implements the intended
 behavior. The `PluggableStatement` interface's `setOriginatingStatement(Statement)`
 method is also called on the resulting expression, linking it back to the call
 that triggered the rewrite.
 
 {% include tip.html content="To implement a native construct, create a class
-that extends a suitable `NaryExpression` subclass and also implements
+that extends a suitable [`NaryExpression`]({{ site.baseurl }}/documentation/st-ex-e.html#implementing-compound-expressions) subclass and also implements
 `PluggableStatement`. Provide a public static `build(CFG, CodeLocation, Expression[])`
 factory method, define the semantics in `forwardSemanticsAux`, and pass the class
 to the `NativeCFG` constructor. LiSA will take care of the rest." %}
@@ -336,4 +336,4 @@ to the `NativeCFG` constructor. LiSA will take care of the rest." %}
 turn reduces the complexity of the analysis. The semantics of a library function
 is expressed as if it were a single instruction, that is effectively inlined at the call site,
 without the need to analyze its internal code line by line. This also means that
-`NativeCFG`s will not have a corresponding `AnalyzedCFG` available in the analysis results.
+`NativeCFG`s will not have a corresponding [`AnalyzedCFG`]({{ site.baseurl }}/documentation/interprocedural-analysis.html#storing-fixpoint-results) available in the analysis results.

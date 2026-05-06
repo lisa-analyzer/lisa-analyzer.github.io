@@ -21,7 +21,7 @@ state is scoped when entering a function, how errors are propagated, and what
 structural invariants a well-formed program must satisfy all vary from one language
 to the next. In LiSA, these concerns are encapsulated in a set of pluggable
 strategy interfaces that are grouped together by the `LanguageFeatures` abstract
-class and attached to a `Program` at construction time.
+class and attached to a [`Program`]({{ site.baseurl }}/documentation/units.html#the-program-unit) at construction time.
 
 This page describes `LanguageFeatures` and each of the five strategy interfaces
 it composes: the parameter matching strategy used to resolve calls, the hierarchy
@@ -36,7 +36,7 @@ logic that checks structural correctness before the analysis begins.
 
 `LanguageFeatures` is the abstract class that a frontend must subclass to declare
 the language-specific behaviour of the program it is modeling. An instance of
-`LanguageFeatures` is passed to `Program` and exposed through
+`LanguageFeatures` is passed to [`Program`]({{ site.baseurl }}/documentation/units.html#the-program-unit) and exposed through
 `Program.getFeatures()`, making it available throughout the analysis engine.
 
 <center> <img src="{{ site.baseurl }}/schemes/lf-language-features.png" alt="LanguageFeatures abstract class" style="width: 60%"/> </center>
@@ -57,7 +57,7 @@ Two further methods have default implementations and may optionally be overridde
 - `getScopingStrategy()` returns a `DefaultScopingStrategy`, which pushes the
   analysis state into the callee's scope and pops it on return;
 - `getProgramValidationLogic()` returns a `BaseValidationLogic`, which performs
-  structural validation of the `Program` before the analysis starts.
+  structural validation of the [`Program`]({{ site.baseurl }}/documentation/units.html#the-program-unit) before the analysis starts.
 
 ## Call Resolution
 
@@ -131,8 +131,8 @@ Its `matches` implementation performs matching in three phases:
 The logic for these three phases is factored into the generic static method
 `pythonLogic`, which operates over arbitrary element types `T` and failure
 values `F`. This allows the same algorithm to be shared between
-`PythonLikeMatchingStrategy` (which fills `Expression` slots) and
-`PythonLikeAssigningStrategy` (which fills `ExpressionSet` slots during the
+`PythonLikeMatchingStrategy` (which fills [`Expression`]({{ site.baseurl }}/documentation/st-ex-e.html#the-expression-class) slots) and
+`PythonLikeAssigningStrategy` (which fills [`ExpressionSet`]({{ site.baseurl }}/documentation/symbolic-expressions.html) slots during the
 analysis).
 
 ## Parameter Assignment
@@ -147,25 +147,25 @@ callee's CFG. The `ParameterAssigningStrategy` encapsulates this binding.
 
 - `prepare(call, callState, interprocedural, expressions, formals, actuals)`
   takes the analysis state at the call site, the resolved formals, and the
-  `ExpressionSet` arrays produced for each actual argument, and returns a pair
-  of the post-assignment analysis state and the `ExpressionSet` array with an
+  [`ExpressionSet`]({{ site.baseurl }}/documentation/symbolic-expressions.html) arrays produced for each actual argument, and returns a pair
+  of the post-assignment analysis state and the [`ExpressionSet`]({{ site.baseurl }}/documentation/symbolic-expressions.html) array with an
   element for each formal parameter.
 
 Two implementations are provided:
 
 `OrderPreservingAssigningStrategy.INSTANCE` assigns each actual expression to
 the corresponding formal variable in order. For each formal, it computes the
-join over all symbolic expressions in the corresponding `ExpressionSet`, using
-the abstract domain's `assign` operation to bind each expression to the formal's
+join over all symbolic expressions in the corresponding [`ExpressionSet`]({{ site.baseurl }}/documentation/symbolic-expressions.html), using
+the [abstract domain]({{ site.baseurl }}/documentation/semantic-domains.html#the-abstract-domain-interface)'s `assign` operation to bind each expression to the formal's
 symbolic variable. This strategy is appropriate for any language where arguments
 are passed positionally with no defaults or keyword arguments.
 
 `PythonLikeAssigningStrategy.INSTANCE` extends the positional strategy to
 handle default values and keyword arguments. It first evaluates the default
 value expression for each formal that has one (running forward semantics on the
-default expression to obtain its `ExpressionSet`), then uses the same
+default expression to obtain its [`ExpressionSet`]({{ site.baseurl }}/documentation/symbolic-expressions.html)), then uses the same
 `pythonLogic` algorithm from `PythonLikeMatchingStrategy` to fill in the
-`ExpressionSet` slots for each formal. Only after the slots are filled does it
+[`ExpressionSet`]({{ site.baseurl }}/documentation/symbolic-expressions.html) slots for each formal. Only after the slots are filled does it
 run the order-preserving assignment loop.
 
 ## Hierarchy Traversal
@@ -208,8 +208,8 @@ each call.
 `ScopingStrategy` is an interface with two abstract methods:
 
 - `scope(call, scope, state, analysis, actuals)` prepares the analysis state for
-  entry into a callee identified by the given `ScopeToken`; it returns a pair of
-  the scoped state and the correspondingly scoped `ExpressionSet` arrays for
+  entry into a callee identified by the given [`ScopeToken`]({{ site.baseurl }}/documentation/common-interfaces.html#the-scoped-object-interface); it returns a pair of
+  the scoped state and the correspondingly scoped [`ExpressionSet`]({{ site.baseurl }}/documentation/symbolic-expressions.html) arrays for
   the actual arguments;
 - `unscope(call, scope, state, analysis)` restores the analysis state after
   returning from the callee; if the call returns a value, it assigns the callee's
@@ -225,7 +225,7 @@ meta-variable (joining over all return expressions) and then pops the scope.
 
 ## Program Validation
 
-Before starting the analysis, LiSA validates the `Program` to catch structural
+Before starting the analysis, LiSA validates the [`Program`]({{ site.baseurl }}/documentation/units.html#the-program-unit) to catch structural
 errors introduced by the frontend. The `ProgramValidationLogic` interface
 encapsulates this validation pass.
 
@@ -272,8 +272,8 @@ part of the CFG), (ii) ensures no execution-stopping nodes (i.e., ones where
 `stopsExecution()` returns `true`) have successors, (iii) ensures that nodes
 that do not stop execution have at least one successor, and (iv) checks that
 all entrypoints of the CFG are actual nodes of the CFG. Then, it launches
-validation of the inner `NodeList`, which checks that all edges' endpoints are
-part of the `NodeList`.
+validation of the inner [`NodeList`]({{ site.baseurl }}/documentation/cfgs.html#graphs-containing-code), which checks that all edges' endpoints are
+part of the [`NodeList`]({{ site.baseurl }}/documentation/cfgs.html#graphs-containing-code).
 
 Frontends that model a language with additional
 structural constraints (e.g., a no-cyclic-inheritance rule or restrictions on
