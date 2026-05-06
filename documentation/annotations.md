@@ -121,12 +121,12 @@ The most common use of annotations in LiSA is to let users of a static analyzer
 attach semantic metadata to program elements, which an analysis then reads to
 refine its abstractions. A typical pattern is the following:
 
-1. Define one or more `Annotation` constants representing the annotations the
+1. define one or more `Annotation` constants representing the annotations the
    analysis understands, identified by a unique name (e.g.,
-   `"lisa.taint.Tainted"`).
-2. Define the corresponding `AnnotationMatcher` constants (e.g., using
-   `BasicAnnotationMatcher`) that will be used to probe `Annotations` instances.
-3. In the analysis, read the annotations of the relevant program elements and
+   `"lisa.taint.Tainted"`);
+2. define the corresponding `AnnotationMatcher` constants (e.g., using
+   `BasicAnnotationMatcher`) that will be used to probe `Annotations` instances;
+3. in the analysis, read the annotations of the relevant program elements and
    use them to compute or refine abstract values.
 
 An example of this is a simple taint propagation analysis, where the return

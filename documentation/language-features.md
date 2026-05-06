@@ -44,10 +44,10 @@ the language-specific behaviour of the program it is modeling. An instance of
 Three methods are abstract and must be implemented by every frontend:
 
 - `getMatchingStrategy()` returns the `ParameterMatchingStrategy` used to decide
-  whether a given call site is compatible with a candidate callee.
+  whether a given call site is compatible with a candidate callee;
 - `getTraversalStrategy()` returns the `HierarchyTraversalStrategy` used to
   enumerate the units that should be searched for a matching callee when
-  resolving a virtual call.
+  resolving a virtual call;
 - `getAssigningStrategy()` returns the `ParameterAssigningStrategy` used to bind
   actual arguments to formal parameters in the analysis state before entering a
   callee.
@@ -55,7 +55,7 @@ Three methods are abstract and must be implemented by every frontend:
 Two further methods have default implementations and may optionally be overridden:
 
 - `getScopingStrategy()` returns a `DefaultScopingStrategy`, which pushes the
-  analysis state into the callee's scope and pops it on return.
+  analysis state into the callee's scope and pops it on return;
 - `getProgramValidationLogic()` returns a `BaseValidationLogic`, which performs
   structural validation of the `Program` before the analysis starts.
 
@@ -77,11 +77,11 @@ two methods:
 - `matches(call, formals, actuals, types)` is the core abstract method: given the
   call site, the formal parameter list of the candidate, the actual argument
   expressions, and the runtime type sets of each argument, it returns `true` if
-  the call matches this candidate.
+  the call matches this candidate;
 - `distanceFromPerfectTarget(call, types, cm, instance)` is a default method that
-  computes an integer distance between the call and a candidate code member. A
+  computes an integer distance between the call and a candidate code member; a
   distance of `0` means a perfect match; larger values indicate that type
-  widening was needed; `-1` signals that the candidate is incompatible. This
+  widening was needed; `-1` signals that the candidate is incompatible; this
   value is used by the call resolution engine to rank candidates when multiple
   matches are found, using `TypeSystem.distanceBetweenTypes` for per-parameter
   distances.
@@ -100,16 +100,16 @@ the corresponding formal parameter.
 Three ready-to-use singleton implementations are provided:
 
 - `RuntimeTypesMatchingStrategy.INSTANCE` accepts a call at position `pos` if
-  any runtime type in `types` can be assigned to the formal's static type. This
+  any runtime type in `types` can be assigned to the formal's static type; this
   is appropriate for virtual (instance) calls where the runtime type is what
-  matters.
+  matters;
 - `StaticTypesMatchingStrategy.INSTANCE` accepts a call at position `pos` if the
   actual expression's static type can be assigned to the formal's static type.
   This is appropriate for static calls and in languages without subtype
-  polymorphism.
+  polymorphism;
 - `JavaLikeMatchingStrategy.INSTANCE` combines both: for the receiver argument
   (position `0` of an instance call) it uses runtime types; for all other
-  arguments it uses static types. This models the Java virtual dispatch rule.
+  arguments it uses static types; this models the Java virtual dispatch rule.
 
 ### Python-Like Matching
 
@@ -120,12 +120,12 @@ positional and keyword slots have been filled in.
 
 Its `matches` implementation performs matching in three phases:
 
-1. Positional arguments --- actual arguments are assigned to the corresponding
+1. positional arguments --- actual arguments are assigned to the corresponding
    formal slots in order, stopping as soon as a `NamedParameterExpression` is
-   encountered (i.e., an expression of the form `par_name=some_value`).
-2. Keyword arguments --- each remaining `NamedParameterExpression` is matched
-   to the formal whose name equals the parameter name and assigned to that slot.
-3. Default values --- any formal slot left unfilled is assigned its declared
+   encountered (i.e., an expression of the form `par_name=some_value`);
+2. keyword arguments --- each remaining `NamedParameterExpression` is matched
+   to the formal whose name equals the parameter name and assigned to that slot;
+3. default values --- any formal slot left unfilled is assigned its declared
    default value expression; if no default exists the call is rejected.
 
 The logic for these three phases is factored into the generic static method
@@ -208,11 +208,11 @@ each call.
 `ScopingStrategy` is an interface with two abstract methods:
 
 - `scope(call, scope, state, analysis, actuals)` prepares the analysis state for
-  entry into a callee identified by the given `ScopeToken`. It returns a pair of
+  entry into a callee identified by the given `ScopeToken`; it returns a pair of
   the scoped state and the correspondingly scoped `ExpressionSet` arrays for
-  the actual arguments.
+  the actual arguments;
 - `unscope(call, scope, state, analysis)` restores the analysis state after
-  returning from the callee. If the call returns a value, it assigns the callee's
+  returning from the callee; if the call returns a value, it assigns the callee's
   return expressions to the call's meta-variable before popping the scope.
 
 `DefaultScopingStrategy` implements both methods. Its `scope` implementation
@@ -243,25 +243,25 @@ overridable `validateAndFinalize` and `validate` methods organized by the type
 of element being checked that perform the minimal checks on each component:
 
 - `validateAndFinalize(Program)` verifies that all entry points are part of the
-  program, then delegates to per-unit validation.
+  program, then delegates to per-unit validation;
 - `validateAndFinalize(Unit)` dispatches to the appropriate typed overload based
-  on the runtime type of the unit.
+  on the runtime type of the unit;
 - `validateAndFinalize(CodeUnit)` performs no additional checks (procedural units
-  have no inheritance constraints).
+  have no inheritance constraints);
 - `validateAndFinalize(CompilationUnit)` is the central method: it recursively
   validates ancestors, resolves override chains (populating `overrides` and
   `overriddenBy` on each code member's descriptor), propagates inherited
   annotations from ancestors to subunits and overriding members, and registers
-  the unit as an instance of itself.
+  the unit as an instance of itself;
 - `validateAndFinalize(ClassUnit)` checks that a concrete class has no unresolved
-  abstract members.
+  abstract members;
 - `validateAndFinalize(AbstractClassUnit)` checks that an abstract class is not
-  sealed.
+  sealed;
 - `validateAndFinalize(InterfaceUnit)` checks that an interface declares no
-  instance globals.
+  instance globals;
 - `validate(Global, isInstance)` checks that the global's instance flag is
   consistent with how it is registered in its unit and that constant globals are
-  not declared as instance globals.
+  not declared as instance globals;
 - `validate(CodeMember, instance)` checks that the member is registered exactly
   once in its unit under the correct instance/static category, and calls
   `CodeMember.validate()` to run any member-level checks.

@@ -93,16 +93,16 @@ globals and code members are typically used to provide always-available built-in
 `Program` provides the following:
 
 - `addUnit(Unit)` and `getUnits()` manage the collection of units in the program;
-  `getUnit(String)` looks up a unit by name.
+  `getUnit(String)` looks up a unit by name;
 - `addEntryPoint(CFG)` and `getEntryPoints()` manage the set of CFGs from which
-  the analysis should start. Entry points are typically the `main` functions or
-  other top-level procedures of the program.
+  the analysis should start; entry points are typically the `main` functions or
+  other top-level procedures of the program;
 - `getAllCFGs()` traverses all units recursively and collects every `CFG` defined
-  in the program, providing a global view of the code to analyze.
+  in the program, providing a global view of the code to analyze;
 - `getFeatures()` returns the `LanguageFeatures` object that carries
   language-specific behaviors (such as call resolution strategies, parameter
   assignment strategies, and validation logic), which are configured by the
-  frontend for the language being analyzed.
+  frontend for the language being analyzed;
 - `getTypes()` returns the `TypeSystem` that knows all the types appearing in the
   program and provides the type inference logic used during analysis.
 
@@ -121,10 +121,10 @@ coexist.
 
 `Application` provides aggregated views over all its programs:
 
-- `getPrograms()` returns the array of programs composing the application.
+- `getPrograms()` returns the array of programs composing the application;
 - `getAllCFGs()` returns all CFGs defined across all programs (lazily computed
-  and cached on first access).
-- `getEntryPoints()` returns the union of the entry points of all programs.
+  and cached on first access);
+- `getEntryPoints()` returns the union of the entry points of all programs;
 - `getAllCodeCodeMembers()` returns all code members defined across all programs,
   providing a global view of the callable constructs in the application.
 
@@ -165,39 +165,39 @@ globals into an inheritance hierarchy.
 inheritance hierarchy. It extends `ProgramUnit` and adds the following
 capabilities beyond those of `Unit`:
 
-- Instance members: beyond the static code members and globals tracked by
+- instance members: beyond the static code members and globals tracked by
   `Unit`, a `CompilationUnit` also tracks instance code members and globals
-  (those defined on each object rather than on the type itself). All methods of
+  (those defined on each object rather than on the type itself); all methods of
   `Unit` targeting globals and code members are also defined here for instance
   code members, with an additional boolean parameter to decide whether the
   search should be local to the unit or if the type hierarchy should be
-  traversed.
-- Annotations: unit-level annotations are stored and accessible via
-  `getAnnotations()`. These are propagated during validation to subunits,
+  traversed;
+- annotations: unit-level annotations are stored and accessible via
+  `getAnnotations()`; these are propagated during validation to subunits,
   following the rules described in the
   [Annotations]({{ site.baseurl }}/documentation/annotations.html#annotation-propagation)
-  page.
-- Hierarchy: `getImmediateAncestors()` returns the direct superunits of this
+  page;
+- hierarchy: `getImmediateAncestors()` returns the direct superunits of this
   unit (superclasses and/or superinterfaces), and `isInstanceOf(CompilationUnit)`
   checks whether this unit is a subtype of the given one, traversing the
   hierarchy transitively. `getInstances()` returns all units that directly or
-  indirectly inherit from this one. The `isSealed()` flag prevents a unit from
+  indirectly inherit from this one; the `isSealed()` flag prevents a unit from
   being used as a superunit.
 
 Three concrete subclasses implement the different kinds of object-oriented types:
 
 - `ClassUnit` represents a concrete class that can be instantiated
-  (`canBeInstantiated()` returns `true`). It tracks its superclasses (via
+  (`canBeInstantiated()` returns `true`); it tracks its superclasses (via
   `getSuperclasses()` and `addSuperclass(ClassUnit)`) and the interfaces it
-  implements (via `getInterfaces()` and `addInterface(InterfaceUnit)`). A class
+  implements (via `getInterfaces()` and `addInterface(InterfaceUnit)`); a class
   may inherit from multiple superclasses and implement multiple interfaces,
-  depending on the language features declared through `LanguageFeatures`.
+  depending on the language features declared through `LanguageFeatures`;
 - `AbstractClassUnit` is a `ClassUnit` that cannot be instantiated
-  (`canBeInstantiated()` returns `false`). It is used to represent abstract
+  (`canBeInstantiated()` returns `false`); it is used to represent abstract
   classes, that is, classes which define some abstract code members that must
-  be implemented by concrete subclasses.
+  be implemented by concrete subclasses;
 - `InterfaceUnit` represents an interface --- a purely abstract type that defines
-  a contract without providing implementations. It cannot be instantiated, and
+  a contract without providing implementations; it cannot be instantiated, and
   it can only inherit from other interfaces (tracked via
   `addSuperinterface(InterfaceUnit)`).
 

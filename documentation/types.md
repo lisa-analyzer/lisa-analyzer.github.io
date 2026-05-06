@@ -42,12 +42,12 @@ Three methods form the core abstract contract that every concrete type must
 implement:
 
 - `canBeAssignedTo(other: Type)` returns `true` if a value of this type can be
-  used where `other` is expected (i.e., this type is a subtype of `other`).
+  used where `other` is expected (i.e., this type is a subtype of `other`);
 - `commonSupertype(other: Type)` returns the most specific type that is a
-  supertype of both this type and `other`. When no meaningful supertype exists
-  the method should return `Untyped.INSTANCE`.
+  supertype of both this type and `other`; when no meaningful supertype exists
+  the method should return `Untyped.INSTANCE`;
 - `allInstances(types: TypeSystem)` returns all concrete instances of this type
-  that are registered in the given type system. For singleton types this is a
+  that are registered in the given type system; for singleton types this is a
   set containing only the singleton; for parametric types like `ReferenceType`
   it may expand to a family of instantiated types; for types that support
   inheritance this may include all subtypes as well.
@@ -56,7 +56,7 @@ The `Type` interface also provides default implementations of a large family of
 type-test and type-cast helpers. For every sub-interface `X` in the
 hierarchy, `Type` declares:
 
-- `isXType()` --- returns `true` if this type is an instance of `XType`.
+- `isXType()` --- returns `true` if this type is an instance of `XType`;
 - `asXType()` --- casts this type to `XType` and returns it, or `null` if the
   cast is not applicable.
 
@@ -74,7 +74,7 @@ Two additional methods provide means to create values for a given type:
 
 - `defaultValue(cfg, location)` returns an `Expression` representing the
   default value of this type at the given program point (e.g., `0` for an
-  integer). The base implementation returns `null`, meaning no default exists.
+  integer); the base implementation returns `null`, meaning no default exists;
 - `unknownValue(cfg, location)` returns an `Expression` representing an
   unknown value of this type, implemented as a `DefaultParamInitialization`
   node.
@@ -105,9 +105,9 @@ for providing the language-specific type operations used during analysis.
 
 The registry methods are concrete:
 
-- `getTypes()` returns all types currently registered.
+- `getTypes()` returns all types currently registered;
 - `getType(name)` looks up a type by its string representation, returning
-  `null` if not found.
+  `null` if not found;
 - `registerType(type)` adds a type to the registry using `type.toString()` as
   the key, returning `true` if the type was newly registered or `false` if an
   entry with the same name already existed.
@@ -124,15 +124,15 @@ for each already-registered type that can be referenced." %}
 Three methods operate on sets of types, as needed during expression analysis:
 
 - `cast(types, tokens)` and `cast(types, tokens, mightFail)` filter a set of
-  actual types against a set of `TypeTokenType` values. For each token and each
+  actual types against a set of `TypeTokenType` values; for each token and each
   actual type, if the actual type can be assigned to the token's type the actual
-  type is kept in the result. The optional `mightFail` flag is set to `true` if
-  any actual type was rejected, signalling that the cast might throw at runtime.
+  type is kept in the result; the optional `mightFail` flag is set to `true` if
+  any actual type was rejected, signalling that the cast might throw at runtime;
 - `convert(types, tokens)` is like `cast` but returns the target types
   (from the tokens) rather than the source types, modelling a conversion that
-  changes the runtime type of the value.
+  changes the runtime type of the value;
 - `getReference(type)` wraps `type` in a `ReferenceType` after verifying via
-  `canBeReferenced` that the language allows references to that type. It throws
+  `canBeReferenced` that the language allows references to that type; it throws
   `IllegalArgumentException` if the check fails.
 
 {% include tip.html content="Note that frontends that redefine the default
@@ -144,12 +144,12 @@ TypeSystem implementation must provide:
 
 - `getBooleanType()`, `getStringType()`, `getIntegerType()`, and
   `getCharacterType()` return the canonical instances for the four basic scalar
-  type families.
+  type families;
 - `canBeReferenced(type)` returns `true` if a `ReferenceType` wrapping `type`
-  is valid in the language.
+  is valid in the language;
 - `distanceBetweenTypes(first, second)` returns a non-negative integer
   measuring how "far apart" two types are in terms of conversions steps needed
-  to convert the first type into the second. This distance
+  to convert the first type into the second; this distance
   is used during call resolution to rank candidate overloads: smaller values
   indicate a closer match.
 
@@ -181,21 +181,21 @@ special semantics in most languages.
 It introduces three abstract methods that every numeric type must specify:
 
 - `getNBits()` returns the number of bits used to represent the value (typically
-  8, 16, 32, or 64).
-- `isUnsigned()` returns `true` if the type represents an unsigned value.
+  8, 16, 32, or 64);
+- `isUnsigned()` returns `true` if the type represents an unsigned value;
 - `isIntegral()` returns `true` if the type is an integer (as opposed to a
   floating-point) type.
 
 The following default methods derive additional properties from those three:
 
 - `is8Bits()`, `is16Bits()`, `is32Bits()`, `is64Bits()` check whether `getNBits()`
-  equals the respective power-of-two size.
-- `isSigned()` returns `!isUnsigned()`.
+  equals the respective power-of-two size;
+- `isSigned()` returns `!isUnsigned()`;
 - `sameNumericTypes(other)` returns `true` if `other` has the same bit width,
-  integrality, and signedness as this type.
+  integrality, and signedness as this type;
 - `supertype(other)` returns whichever of `this` or `other` is the wider type,
   preferring floating-point over integer and signed over unsigned when the bit
-  width is the same.
+  width is the same;
 - `castIsConversion()` returns `true`, consistent with `BooleanType`.
 
 The static method `commonNumericalType(left, right)` computes the set of common
@@ -265,9 +265,9 @@ instances.
 declares three abstract methods:
 
 - `getInnerType()` returns the element type of the innermost dimension of the
-  array (i.e., the type obtained by removing one dimension).
+  array (i.e., the type obtained by removing one dimension);
 - `getBaseType()` returns the element type of a fully dereferenced array --- the
-  type obtained by stripping all dimensions.
+  type obtained by stripping all dimensions;
 - `getDimensions()` returns the number of dimensions.
 
 Frontends can implement `ArrayType` by providing a concrete class that pairs a base
@@ -306,7 +306,7 @@ how pointer types behave in most languages.
 `ReferenceType` is a concrete, value-equal class (not a singleton) that
 implements `PointerType`. It is constructed with the inner type it points to:
 
-- `ReferenceType(t)` creates a reference to type `t`.
+- `ReferenceType(t)` creates a reference to type `t`;
 - `getInnerType()` returns the inner type passed at construction.
 
 Its assignment and supertype rules are structural: `canBeAssignedTo` returns

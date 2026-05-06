@@ -32,23 +32,23 @@ translation process.
 
 The overall workflow is:
 
-1. Parse the source into an abstract syntax tree (AST) or other intermediate
-   form using a suitable parser.
-2. Build the program skeleton: create a `Program` with the language-specific
+1. parse the source into an abstract syntax tree (AST) or other intermediate
+   form using a suitable parser;
+2. build the program skeleton: create a `Program` with the language-specific
    [`TypeSystem`]({{ site.baseurl }}/documentation/types.html#the-typesystem)
    and
-   [`LanguageFeatures`]({{ site.baseurl }}/documentation/language-features.html).
-3. Inspect the generated ASTs in at least two passes (more of them can be added
+   [`LanguageFeatures`]({{ site.baseurl }}/documentation/language-features.html);
+3. inspect the generated ASTs in at least two passes (more of them can be added
    for clearer separation of concerns, but at least two are needed for languages
    that define custom data types):
-   - First pass --- type hierarchy: traverse the AST to create all `Unit`
+   - first pass --- type hierarchy: traverse the AST to create all `Unit`
      objects and their respective types, so that type names are known before
-     any method signature is inspected.
-   - Second pass --- code members: revisit each unit to create `CFG`s for every
-     method and function, building the node/edge graph statement by statement.
-4. Add library stubs: attach `NativeCFG`s for library functions that have no
-   source.
-5. Register entry points and return the finished `Program`.
+     any method signature is inspected;
+   - second pass --- code members: revisit each unit to create `CFG`s for every
+     method and function, building the node/edge graph statement by statement;
+4. add library stubs: attach `NativeCFG`s for library functions that have no
+   source;
+5. register entry points and return the finished `Program`.
 
 After all the above steps have completed, the frontend can execute LiSA as
 described in the [Configuration]({{ site.baseurl }}/configuration/) page.
@@ -143,14 +143,14 @@ Each type that can appear in the program must be registered through the
 `TypeSystem.registerType(type)` before the analysis starts. The recommended
 pattern is:
 
-1. For well known types such as primitive types, create static singleton
+1. for well known types such as primitive types, create static singleton
    instances, use those instances while parsing the code, and register that
-   instance directly.
-2. For user defined types (e.g., arrays or objects), maintain a static registry
+   instance directly;
+2. for user defined types (e.g., arrays or objects), maintain a static registry
    per type family during parsing (e.g.
    `MyClassType.register(name, unit)` adds to a static map;
    `MyClassType.lookup(name)` retrieves an existing type instance, and
-   `MyClassType.all()` returns the accumulated set). This lets type names be
+   `MyClassType.all()` returns the accumulated set); this lets type names be
    (i) registered during the first pass, (ii) looked up by name during the second pass,
    and (iii) retrieved as a complete set at the end of parsing for registration into the program.
 
@@ -171,15 +171,15 @@ these forward references.
 
 The first pass visits every type declaration in the source and, for each one:
 
-1. Creates the appropriate `Unit` subclass:
-   - `ClassUnit` for concrete classes (`new ClassUnit(location, program, name, sealed)`)
-   - `AbstractClassUnit` for abstract classes
-   - `InterfaceUnit` for interfaces or traits
-   - `CodeUnit` for files and modules in procedural or scripted languages
-2. Adds the unit to the program: `program.addUnit(unit)`.
-3. Creates the corresponding type (if the language associates a type with the
-   unit) and records it in a static registry.
-4. Does not wire inheritance or other cross-type relationships yet ---
+1. creates the appropriate `Unit` subclass:
+   - `ClassUnit` for concrete classes (`new ClassUnit(location, program, name, sealed)`);
+   - `AbstractClassUnit` for abstract classes;
+   - `InterfaceUnit` for interfaces or traits;
+   - `CodeUnit` for files and modules in procedural or scripted languages;
+2. adds the unit to the program: `program.addUnit(unit)`;
+3. creates the corresponding type (if the language associates a type with the
+   unit) and records it in a static registry;
+4. does not wire inheritance or other cross-type relationships yet ---
    some type names may not have been seen.
 
 After the first pass is complete (or at the very end of it, if the source
@@ -192,13 +192,13 @@ can also be added at this stage, since their types are now known.
 The second pass revisits every unit and, for each code member (method,
 constructor, function, procedure):
 
-1. Builds a `CodeMemberDescriptor` with the member's name, return type, formal
-   parameters, and enclosing unit.
-2. Creates a `CFG` from the descriptor: `new CFG(descriptor)`.
-3. Adds the CFG to the unit:
-   - `unit.addCodeMember(cfg)` for static members, or
-   - `unit.addInstanceCodeMember(cfg)` for instance methods.
-4. Constructs the CFG body (see the next section).
+1. builds a `CodeMemberDescriptor` with the member's name, return type, formal
+   parameters, and enclosing unit;
+2. creates a `CFG` from the descriptor: `new CFG(descriptor)`;
+3. adds the CFG to the unit:
+   - `unit.addCodeMember(cfg)` for static members, or;
+   - `unit.addInstanceCodeMember(cfg)` for instance methods;
+4. constructs the CFG body (see the next section).
 
 Abstract method stubs --- declared but without a body --- are represented as
 `AbstractCodeMember` objects created from a descriptor and added with
@@ -224,8 +224,8 @@ LiSA offers some utility classes in `it.unive.lisa.util.frontend` to ease the pa
 `ParsedBlock` is the canonical return type for visitor methods that build a
 fragment of a CFG. It carries three fields:
 
-- `getBegin()` --- the first statement to execute when entering the block.
-- `getBody()` --- the `NodeList` containing all statements and edges of the block.
+- `getBegin()` --- the first statement to execute when entering the block;
+- `getBody()` --- the `NodeList` containing all statements and edges of the block;
 - `getEnd()` --- the last statement on the "normal" exit path (may be `null` if
   the block always terminates via a return or throw).
 
@@ -385,16 +385,16 @@ and populates the `CodeMemberDescriptor`'s variable table automatically.
 The descriptor's formal parameters are placed in the root scope automatically.
 To use a `LocalVariableTracker`:
 
-- Call `enterScope()` whenever the language opens a new block scope (e.g. the
-  body of an `if`, `for`, or `while`).
-- Call `addVariable(name, definition, annotations)` when a new local variable
-  is declared. The `definition` statement is used as the scope-start marker.
-- Call `exitScope(closing)` when leaving a scope. The tracker registers all
+- call `enterScope()` whenever the language opens a new block scope (e.g. the
+  body of an `if`, `for`, or `while`);
+- call `addVariable(name, definition, annotations)` when a new local variable
+  is declared; the `definition` statement is used as the scope-start marker;
+- call `exitScope(closing)` when leaving a scope; the tracker registers all
   variables declared in the scope into the descriptor as `VariableTableEntry`
-  objects, using `closing` as the scope-end marker.
-- Call `getLocalVariable(identifier)` to look up a visible variable by name,
-  walking from the innermost scope outward. Returns `null` if not in scope.
-- Call `hasVariable(name)` to test visibility without retrieving the variable.
+  objects, using `closing` as the scope-end marker;
+- call `getLocalVariable(identifier)` to look up a visible variable by name,
+  walking from the innermost scope outward; returns `null` if not in scope;
+- call `hasVariable(name)` to test visibility without retrieving the variable.
 
 For instance, the snippet above for parsing a code block can be modified as
 follows to use a `LocalVariableTracker` (new lines are preceded by a comment
@@ -467,13 +467,13 @@ if (!isDefinitionOfLocalVariable && !tracker.hasVariable(ref.getName()))
 encountered inside a loop or switch body and wires them to their targets once
 the loop structure is fully parsed, also handling labeled constructs. To use a `ControlFlowTracker`:
 
-- Call `addModifier(statement)` (or the overload with a label) whenever a
-  `Break` or `Continue` is added to the CFG.
-- Call `endControlFlowOf(list, condition, targetForBreaking, targetForContinuing, label)`
-  at the end of the loop body. The tracker iterates over all pending modifiers,
+- call `addModifier(statement)` (or the overload with a label) whenever a
+  `Break` or `Continue` is added to the CFG;
+- call `endControlFlowOf(list, condition, targetForBreaking, targetForContinuing, label)`
+  at the end of the loop body; the tracker iterates over all pending modifiers,
   removes their existing outgoing edges, and adds a `SequentialEdge` to
   `targetForBreaking` (for break statements) or `targetForContinuing` (for
-  continue statements). Labelled modifiers are only consumed when the label
+  continue statements); labelled modifiers are only consumed when the label
   matches.
 
 For instance, when visiting a `break` or `continue`, we can add it to the tracker:
@@ -523,13 +523,13 @@ returns:
 1. `CFGTweaker.splitProtectedYields(cfg, exceptionFactory)` --- rewrites composite
    return or throw expressions that appear inside try/catch blocks so that the
    expression computation is properly protected by error edges and any enclosing
-   finally block is executed before the yield.
+   finally block is executed before the yield;
 2. `CFGTweaker.addFinallyEdges(cfg, exceptionFactory)` --- wires the edges that
    connect each try/catch/else block to its corresponding finally block,
    including edges for early exits (returns, throws, breaks, continues) that
-   must pass through the finally code.
+   must pass through the finally code;
 3. `CFGTweaker.addReturns(cfg, exceptionFactory)` --- adds a `Ret` node at the
-   end of every code path that falls off without an explicit return. This
+   end of every code path that falls off without an explicit return; this
    handles implicit void returns and ensures the CFG has well-defined exit
    nodes.
 
@@ -562,23 +562,23 @@ page. The key points for frontend authors are:
 
 - `Expression` subclasses override `forwardSemantics` to compute the set of
   symbolic expressions produced by the node and assign them to the expression's
-  meta-variable. Unary, binary, ternary, and n-ary expressions can extend
+  meta-variable; unary, binary, ternary, and n-ary expressions can extend
   `UnaryExpression`, `BinaryExpression`, `TernaryExpression`, or
   `NaryExpression` respectively, which already manage sub-expression evaluation
   and provide `fwdUnarySemantics`, `fwdBinarySemantics`, `fwdTernarySemantics`,
-  or `fwdNarySemantics` as the hook point.
+  or `fwdNarySemantics` as the hook point;
 - `Statement` subclasses override `forwardSemantics` to model side effects
-  (e.g. field writes, output operations) that do not yield a value. Unary,
+  (e.g. field writes, output operations) that do not yield a value; unary,
   binary, and n-ary statements can extend `UnaryStatement`, `BinaryStatement`,
   `TernaryStatement`, or `NaryStatement` respectively, which already manage
   sub-expression evaluation and provide `fwdUnarySemantics`,
   `fwdBinarySemantics`, `fwdTernarySemantics`, or `fwdNarySemantics` as the
-  hook point.
-- Every statement and expression constructor takes the containing `CFG` and a
-  `CodeLocation` as its first two arguments. A `CodeLocation` is typically
+  hook point;
+- every statement and expression constructor takes the containing `CFG` and a
+  `CodeLocation` as its first two arguments; a `CodeLocation` is typically
   constructed from the source file name and the line/column numbers reported by
-  the parser.
-- The `getStaticType()` method should return the most precise static type that
+  the parser;
+- the `getStaticType()` method should return the most precise static type that
   can be determined syntactically, or `Untyped.INSTANCE` when no static type
   information is available.
 
@@ -601,29 +601,29 @@ the call site.
 
 The pattern for defining a native function is:
 
-1. Create a top-level class extending `NativeCFG`. Its constructor calls
+1. create a top-level class extending `NativeCFG`; its constructor calls
    `super(descriptor, InnerClass.class)`, where `descriptor` is a
    `CodeMemberDescriptor` built with the function's signature, and `InnerClass`
-   is the `PluggableStatement` implementation.
-2. Define a second class that:
-   - Extends an appropriate expression base class (`UnaryExpression`,
+   is the `PluggableStatement` implementation;
+2. define a second class that:
+   - extends an appropriate expression base class (`UnaryExpression`,
      `BinaryExpression`, `TernaryExpression`, `NaryExpression`, or any other
-     `Expression` subclass.
-   - Implements `PluggableStatement`.
-   - Provides the static factory method
+     `Expression` subclass;
+   - implements `PluggableStatement`;
+   - provides the static factory method
      `public static MyClassName build(CFG cfg, CodeLocation location, Expression... params)`
      that invokes the class's constructor by passing the arguments found in the
-     `params` parameter.
-   - Overrides `setOriginatingStatement(Statement st)` (required by
+     `params` parameter;
+   - overrides `setOriginatingStatement(Statement st)` (required by
      `PluggableStatement`) to store the original statement (i.e., the call
-     site) that the instance is replacing.
-   - Overrides `forwardSemantics` (or the typed hook method of the base class)
-     to implement the function's abstract semantics over the analysis domain.
+     site) that the instance is replacing;
+   - overrides `forwardSemantics` (or the typed hook method of the base class)
+     to implement the function's abstract semantics over the analysis domain;
 
 The constructs are instantiated in the frontend's initialization code and added
 to the appropriate unit:
 
-- `unit.addCodeMember(nativeCfg)` for static/module-level functions.
+- `unit.addCodeMember(nativeCfg)` for static/module-level functions;
 - `unit.addInstanceCodeMember(nativeCfg)` for instance methods.
 
 For instance, suppose that a language has a runtime function `arraylen` that

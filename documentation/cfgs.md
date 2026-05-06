@@ -40,30 +40,30 @@ single point of truth for information about a code member's signature and contex
 
 The main information tracked by a `CodeMemberDescriptor` includes:
 
-- The name and unit of the code member, accessible through `getName()`
-  and `getUnit()` respectively. The fully qualified name (prefixed by the unit
+- the name and unit of the code member, accessible through `getName()`
+  and `getUnit()` respectively; the fully qualified name (prefixed by the unit
   name) is returned by `getFullName()`, and the full signature --- including
-  parameter types and return type --- by `getSignature()` and `getFullSignature()`.
-- Whether the code member is an instance member (i.e., a method defined on an
+  parameter types and return type --- by `getSignature()` and `getFullSignature()`;
+- whether the code member is an instance member (i.e., a method defined on an
   object instance) via `isInstance()`, and whether it can be overridden by
-  code members in inheriting units via `isOverridable()`. Instance members are
-  overridable by default, while non-instance ones are not.
-- The formal parameters, returned as a `Parameter[]` by `getFormals()`, and
-  the return type, returned by `getReturnType()`.
-- The annotations attached to the code member, accessible through
+  code members in inheriting units via `isOverridable()`; instance members are
+  overridable by default, while non-instance ones are not;
+- the formal parameters, returned as a `Parameter[]` by `getFormals()`, and
+  the return type, returned by `getReturnType()`;
+- the annotations attached to the code member, accessible through
   `getAnnotations()`, and the annotations of a local variable (including parameters) looked up by name
   and scope position through `getAnnotationsOf(String, Statement)` (see the
   [Annotations]({{ site.baseurl }}/documentation/annotations.html) page for
-  details).
-- The variable table, returned by `getVariables()`, which collects all local
-  variables defined in the body of the code member as `VariableTableEntry` instances.
-- The control flow structures and protection blocks extracted from the
+  details);
+- the variable table, returned by `getVariables()`, which collects all local
+  variables defined in the body of the code member as `VariableTableEntry` instances;
+- the control flow structures and protection blocks extracted from the
   body, returned by `getControlFlowStructures()` and `getProtectionBlocks()`
-  respectively, described below.
-- The override chain: `overrides()` returns the collection of code members
+  respectively, described below;
+- the override chain: `overrides()` returns the collection of code members
   that this one overrides (i.e., its counterparts in superunits), and
   `overriddenBy()` returns the collection of code members that override this one
-  in inheriting units. This chain is resolved during program validation.
+  in inheriting units; this chain is resolved during program validation.
 
 `CodeMemberDescriptor` is created by frontends at parsing time and refined during
 validation, when annotations are propagated and the override chain is established.
@@ -118,7 +118,7 @@ access to them:
 - `getCatchBlocks()` returns the list of `CatchBlock`s attached to this construct;
 - `getElseBlock()` and `getFinallyBlock()` return the optional `ProtectedBlock`s
   representing the `else` and `finally` branches, respectively (both may be
-  `null` if absent). An `else` block is executed only if no exception is raised
+  `null` if absent); an `else` block is executed only if no exception is raised
   in the `try` block, while a `finally` block is executed regardless of whether
   an exception is raised or not.
 
@@ -167,9 +167,9 @@ method tests whether a given statement belongs to the structure.
 
 Two concrete subclasses are provided:
 
-- `Loop` represents an iterative construct. It exposes `getBody()`, which returns
-  the collection of statements forming the body of the loop.
-- `IfThenElse` represents a conditional branching construct. It exposes
+- `Loop` represents an iterative construct; it exposes `getBody()`, which returns
+  the collection of statements forming the body of the loop;
+- `IfThenElse` represents a conditional branching construct; it exposes
   `getTrueBranch()` and `getFalseBranch()`, which return the collections of
   statements in the then and else branches, respectively.
 
@@ -241,13 +241,13 @@ The graph manages its nodes and edges through an internal `NodeList<G, N, E>`,
 accessible via `getNodeList()`. The main operations available on a `CodeGraph`
 are:
 
-- Construction: `addNode(N)` adds a node, with an optional boolean flag to
-  mark it as an entrypoint of the graph; `addEdge(E)` adds an edge.
-- Navigation: `getNodes()`, `getEdges()`, `getEntrypoints()` provide access
+- construction: `addNode(N)` adds a node, with an optional boolean flag to
+  mark it as an entrypoint of the graph; `addEdge(E)` adds an edge;
+- navigation: `getNodes()`, `getEdges()`, `getEntrypoints()` provide access
   to the graph's contents; `getIngoingEdges(N)`, `getOutgoingEdges(N)`,
   `followersOf(N)`, and `predecessorsOf(N)` navigate the local neighborhood of
-  a given node.
-- Querying: `containsNode(N)`, `containsEdge(E)`, `getEdgeConnecting(N, N)`,
+  a given node;
+- querying: `containsNode(N)`, `containsEdge(E)`, `getEdgeConnecting(N, N)`,
   and `getEdgesConnecting(N, N)` check membership and retrieve specific edges.
 
 The `NodeList<G, N, E>` class implements the underlying adjacency structure of
@@ -271,37 +271,37 @@ descriptor-based metadata system.
 Beyond the graph operations inherited from `CodeGraph`, the `CFG` class provides
 the following:
 
-- Descriptor and context: `getDescriptor()` returns the `CodeMemberDescriptor`
+- descriptor and context: `getDescriptor()` returns the `CodeMemberDescriptor`
   carrying the CFG's metadata. `getUnit()` and `getProgram()` give direct access
   to the `Unit` and `Program` that contain this CFG without having to navigate
-  through the descriptor.
-- Exit points: `getNormalExitpoints()` returns the statements from which
+  through the descriptor;
+- exit points: `getNormalExitpoints()` returns the statements from which
   normal (non-exceptional) execution exits the CFG --- typically `return`
   statements. `getAllExitpoints()` additionally includes statements that stop
-  execution by raising an error. The distinction matters when reasoning about the
+  execution by raising an error; the distinction matters when reasoning about the
   final state of the CFG: normal and error exits correspond to different
-  continuations in the `AnalysisState`.
-- Simplification: `simplify()` removes redundant `NoOp` statements from the
+  continuations in the `AnalysisState`;
+- simplification: `simplify()` removes redundant `NoOp` statements from the
   graph (those connected only by unconditional edges) by delegating to the
-  underlying `NodeList`. Frontends may insert `NoOp` statements as placeholders
+  underlying `NodeList`; frontends may insert `NoOp` statements as placeholders
   during construction, and `simplify()` should be called once construction is
-  complete.
-- Control flow structure extraction: `extractControlFlowStructures(ControlFlowExtractor)`
+  complete;
+- control flow structure extraction: `extractControlFlowStructures(ControlFlowExtractor)`
   invokes the given extractor on this CFG and stores the resulting
-  `ControlFlowStructure` instances into the descriptor. This method should be
-  called only when the frontend has not provided structures directly.
-- Fixpoint computation: `fixpoint(...)` and `backwardFixpoint(...)` run a
+  `ControlFlowStructure` instances into the descriptor; this method should be
+  called only when the frontend has not provided structures directly;
+- fixpoint computation: `fixpoint(...)` and `backwardFixpoint(...)` run a
   forward or backward fixpoint computation on this CFG using the given entry
   state and interprocedural analysis, returning an `AnalyzedCFG` with the
-  per-statement analysis results. These methods are typically invoked by LiSA's
-  analysis engine rather than by users directly.
-- Guard queries: `isGuarded(Statement)`, `isInsideLoop(Statement)`, and
+  per-statement analysis results; these methods are typically invoked by LiSA's
+  analysis engine rather than by users directly;
+- guard queries: `isGuarded(Statement)`, `isInsideLoop(Statement)`, and
   `isInsideIfThenElse(Statement)` check whether a given statement is guarded by
-  a conditional or iterative construct. The corresponding `getGuards(Statement)`,
+  a conditional or iterative construct; the corresponding `getGuards(Statement)`,
   `getLoopGuards(Statement)`, and `getIfThenElseGuards(Statement)` return the
   collections of guard statements that dominate the queried statement, while
   `getMostRecentGuard(ProgramPoint)` and its specialized variants return only the
-  innermost guard. These are used, for instance, by taint analyses to detect
+  innermost guard; these are used, for instance, by taint analyses to detect
   implicit flows through branching conditions.
 
 ### Native Code
