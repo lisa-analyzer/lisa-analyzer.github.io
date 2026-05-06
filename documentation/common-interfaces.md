@@ -15,14 +15,14 @@ model shared properties, requirements and behaviors.
 A `StructuredRepresentation` is a way to represent the contents of a complex
 object in a structured way, such that it is (i) independent of its source,
 (ii) comparable with other representations (potentially originating from
-a different source), and (iii) serialisable. `StricturedRepresentation`s
+a different source), and (iii) serialisable. `StructuredRepresentation`s
 are mainly used to produce human-readable representations of `Lattice`
 elements, and to serialize them in ouput files into a unique format so that
 several visualization tools can be built on top of the same output.
 
 <center> <img src="{{ site.baseurl }}/schemes/structured-objects.png" alt="The StructuredRepresentation class hierarchy" /> </center>
 
-`StructuredRepresentation` is ab abstract class, that has five concrete
+`StructuredRepresentation` is an abstract class, that has five concrete
 subtypes:
 
 - `StringRepresentation`: a representation of any object as a string;
@@ -39,15 +39,15 @@ Instances of these classes just have to be created by passing the appropriate
 values, and they will automatically provide the required functionalities
 (like comparability and serializability).
 
-A `StrucutredObject` is any object that can produce a `StructuredRepresentation`
+A `StructuredObject` is any object that can produce a `StructuredRepresentation`
 of itself. The `Lattice` interface extends the `StructuredObject` interface,
 meaning that all lattices can produce a structured representation of
 themselves through the `representation` method.
 
 ## The Scoped Object Interface
 
-The `ScopedObject` interface defines the common operations objects can be _scoped_.
-Scoping is a mechanism provided bu LiSA to
+The `ScopedObject` interface defines the common operations for objects that can be _scoped_.
+Scoping is a mechanism provided by LiSA to
 isolate parts of an object when entering a new context (e.g., a function
 call) and to restore them when exiting the context. Scoping is essential to
 implement [Interprocedural Analyses]({{ site.baseurl }}/documentation/interprocedural-analysis.html),
@@ -70,7 +70,7 @@ should recursively invoke these methods on all symbolic expression references
 they contain. This will cause an identifier `x` to be renamed to `[scope]x`,
 such that it won't conflict with later definitions of `x` in inner scopes.
 
-Scopes are indentified by `ScopeToken` instances, that are wrappers around a
+Scopes are identified by `ScopeToken` instances, that are wrappers around a
 `CodeElement` (i.e., any program construct that has a position in the source
 program). This allows to easily identify scopes with program constructs
 like function calls. Both `CodeElement` and `ProgramPoint` are defined in the

@@ -169,7 +169,7 @@ capabilities beyond those of `Unit`:
   `Unit`, a `CompilationUnit` also tracks instance code members and globals
   (those defined on each object rather than on the type itself). All methods of
   `Unit` targeting globals and code members are also defined here for instance
-  code members, with an additional boolean parameter to decide wheteher the
+  code members, with an additional boolean parameter to decide whether the
   search should be local to the unit or if the type hierarchy should be
   traversed.
 - Annotations: unit-level annotations are stored and accessible via

@@ -14,7 +14,7 @@ prereq:
 # Specifying the Semantics of Instructions
 
 As LiSA aims at running any kind of analysis on any programming language, what
-happens when an instruction is executed needs to specified in a way that is
+happens when an instruction is executed needs to be specified in a way that is
 independent from both. This happens through
 [Symbolic Expressions]({{ site.baseurl }}/documentation/symbolic-expressions.html),
 a language-independent representation of the operations performed by instructions.
@@ -24,7 +24,7 @@ can specify that an addition between two values is performed, without specifying
 how the result of the addition is computed. The information that an addition
 is being executed is given to abstract domains by feeding them the corresponding
 symbolic expression, to be processed on a specific abstract state. With this
-workflow, (i) the instructions can spefcify what operations are performed
+workflow, (i) the instructions can specify what operations are performed
 without computing their result, that entirely depends on the abstract domain,
 and (ii) the abstract domains can compute the result of the operations without
 knowing the syntactic construct that generated them, thus being completely
@@ -37,7 +37,7 @@ that is the root class for instructions that can appear in the program.
 
 {% include warn.html content="Backward analysis is experimental, and has been
 added mainly for teaching purposes. There is no full support for backward
-analyses yet in LiSA. Thus, the reset of this page will focus on fordward
+analyses yet in LiSA. Thus, the rest of this page will focus on forward
 analyses, and will discuss the `forwardSemantics` method only." %}
 
 The `forwardSemantics` is parametric to the type `A extends
@@ -46,7 +46,7 @@ AbstractDomain<D>>` of the abstract domain. This means that the semantics
 definition does not have access to any implementation-specific detail of the
 analysis being run. The method receives three parameters:
 
-- `entryState`: and `AnalysisState<A>` instance representing the the state of
+- `entryState`: an `AnalysisState<A>` instance representing the state of
   the analysis when the instruction is executed;
 - `interprocedural`: the `InterproceduralAnalysis<A, D>` instance for the
   analysis, that can be used to compute the result of calls;
@@ -112,8 +112,8 @@ represent temporary values that remain on the stack until after the instruction
 is executed. For example, an allocation of a data structure in memory will
 produce a reference to the allocated memory that is lost if it is not stored in
 a variable. Such reference should be added to the meta variables of the
-insrtuction so that outer expressions (e.g., assignemnts) can utilize it. When
-the root insrtuction has completed execution, the state is cleared from all meta
+instruction so that outer expressions (e.g., assignments) can utilize it. When
+the root instruction has completed execution, the state is cleared from all meta
 variables, simulating their removal from the stack.
 
 Aside from these two differences, the semantics of expressions is defined in the
@@ -271,7 +271,7 @@ classes that fix the number of sub-instructions:
 All the methods introduced by these classes have the same parameters as `forwardSemanticsAux`,
 except for the `params` array that is replaced by as many parameters as the
 number of sub-instructions, each of type `SymbolicExpression`.
-Whit this workflow, the semantics of the addition above can be implemented in a
+With this workflow, the semantics of the addition above can be implemented in a
 subtype of `BinaryExpression` by implementing the `fwdBinarySemantics` method
 as:
 
@@ -294,7 +294,7 @@ public <A extends AbstractLattice<A>, D extends AbstractDomain<A>> AnalysisState
 Other than `smallStepSemantics`, all semantics computations can freely use any
 method provided by both the `Analysis` and `AnalysisState` classes, as well as
 methods from `InterproceduralAnalysis`. For instance, the semantics of a
-pre-increment insrtuction `++x` ca be implemented in a `UnaryExpression` as:
+pre-increment instruction `++x` can be implemented in a `UnaryExpression` as:
 
 ```java
 public <A extends AbstractLattice<A>, D extends AbstractDomain<A>> AnalysisState<A> fwdUnarySemantics(
@@ -423,7 +423,7 @@ The object creation is split into several steps:
 2. then, the implicit receiver of the constructor call is created
    (`InstrumentedReceiverRef` is an `Expression` modeling the `this` parameter)
    corresponding to the newly allocated object; it is evaluated by invoking its
-   `forwardSemantics` method, and the resullt of the evaluation (that is an
+   `forwardSemantics` method, and the result of the evaluation (that is an
    instrumented variable) is assigned to a reference to the newly allocated memory region;
 3. the constructor call is executed by constructing a yet-to-be-resolved call
    targeting the constructor of the allocated type and computing its semantics

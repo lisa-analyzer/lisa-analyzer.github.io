@@ -41,7 +41,7 @@ cd lisa\lisa
 
 The `build` task ensures that everything (from code generation to compilation,
 packaging and test execution) works fine. If the above commands succeed, then
-everthing is set. You can now import the project in any IDE of your choice.
+everything is set. You can now import the project in any IDE of your choice.
 
 ## Next steps
 

@@ -40,7 +40,7 @@ implements `Lattice` is an element of a partially ordered set that:
 
 Other methods are instead LiSA-specific:
 
-- `upchain` and `downchain` are invoked by fixpoing algorithms instead of `lub`
+- `upchain` and `downchain` are invoked by fixpoint algorithms instead of `lub`
   and `glb` when an existing lattice element representing the post-state of an
   instruction needs to be
   updated, e.g. in a successive loop iteration; for the vast majority of lattices,
@@ -100,7 +100,7 @@ is either top or bottom, or if the two elements are equal, the result of any
 operation is trivial. Therefore, `BaseLattice` implements these cases:
 
 - `lessOrEqual` returns false if `other` is `null` or the bottom element, or if
-  `this` is the top element; instead,it returns `true` if `this` and `other` are
+  `this` is the top element; instead, it returns `true` if `this` and `other` are
   equals, if `this` is the bottom element, or if `other` is the top element;
 - `lub`, `upchain`, and `widening` return `this` if `other` is `null` or the
   bottom element, or if `this` is the top element, or if `this` and `other` are
@@ -115,7 +115,7 @@ In all cases where the return value is not determined by these base cases, `Base
 delegates the computation to the corresponding auxiliary method (i.e.,
 `lessOrEqual` delegates to `lessOrEqualAux`, `lub` to `lubAux`, and so on), that
 are the methods where the actual logic of the lattice is to be implemented. Most
-auxiliary methods have default implementations that mimik the ones of `Lattice`:
+auxiliary methods have default implementations that mimic the ones of `Lattice`:
 `upchainAux` and `wideningAux` default to `lubAux`, `downchainAux` and `narrowingAux`
 default to `glbAux`, and `glbAux` defaults to returning the bottom element.
 
@@ -226,7 +226,7 @@ as it allows to track local variables without polluting the global state.
 Scoping logic is provided by the `ScopedObject` interface (see
 [the interface definition]({{ site.baseurl }}/documentation/common-interfaces.html#the-scoped-object-interface))
 For instance, a `pushScope`
-implementation on a `FunctionalLattice` using `Identifer`s as keys would
+implementation on a `FunctionalLattice` using `Identifier`s as keys would
 produce a new `FunctionalLattice` where all `Identifier`s are renamed to
 isolate the new scope, while keeping the values unchanged.
 
@@ -272,7 +272,7 @@ to quickly implement `AbstractLattice`s as products." %}
 
 ### The Program State
 
-The `ProgramState` is a snapshot of the the state of the program at a given
+The `ProgramState` is a snapshot of the state of the program at a given
 program point. It is mainly a wrapper around the configurable `AbstractLattice`
 instance, that holds the actual information tracked by the analysis.
 `ProgramState` is a class, parametric to the type parameter `A` that is the
@@ -320,7 +320,7 @@ are reflected in this class' fields:
   the states reaching execution-terminating instructions (e.g., Java's
   `System.exit()`);
 - the error continuations, tracked in the `errors` field, that store states
-  corresponnding to uncaught exceptions or runtime errors (e.g., division by zero).
+  corresponding to uncaught exceptions or runtime errors (e.g., division by zero).
 
 The latter are stored in a map (i.e., a `GenericMapLattice`) from `Error`s (a
 pair of an error [Type]({{ site.baseurl }}/documentation/types.html) and a
@@ -347,11 +347,11 @@ a new `AnalysisState` instance.
 Additionally, it provides accessors for its components, accessors for the
 components of the execution state, proxies for the execution's `ProgramState`
 methods (e.g., `getExecutionInfo` and `withTopMemory`) and methods to add or
-remove new errors and smashed errors. `AnalysusState` is the lattice instance
+remove new errors and smashed errors. `AnalysisState` is the lattice instance
 managed and produced by LiSA's [Analysis]({{ site.baseurl }}/documentation/semantic-domains.html#the-analysis-class).
 
 Recall that `AnalysisState`, `ProgramState`, and `AbstractLattice` all represent
-the state of the program at a given program point, and to not contain the logic
+the state of the program at a given program point, and do not contain the logic
 to update it when executing instructions. This logic is instead contained
 in [Semantic Domains]({{ site.baseurl }}/documentation/semantic-domains.html),
 that manipulate these lattices to reflect the effect of instructions on

@@ -171,7 +171,7 @@ run the order-preserving assignment loop.
 ## Hierarchy Traversal
 
 When a yet-to-be-resolved call (i.e., an
-[`UnresolvedCall`]({{ site.baseurl }}/documentation/call-graph.html#calls)
+[`UnresolvedCall`]({{ site.baseurl }}/documentation/call-graph.html#calls))
 needs to be resolved, LiSA must know which units to search for a
 matching callee. The `HierarchyTraversalStrategy` determines the order in which
 ancestor units are visited.
@@ -250,7 +250,7 @@ of element being checked that perform the minimal checks on each component:
   have no inheritance constraints).
 - `validateAndFinalize(CompilationUnit)` is the central method: it recursively
   validates ancestors, resolves override chains (populating `overrides` and
-  `overriddenBy` on each code member's descriptor), propagates non-inherited
+  `overriddenBy` on each code member's descriptor), propagates inherited
   annotations from ancestors to subunits and overriding members, and registers
   the unit as an instance of itself.
 - `validateAndFinalize(ClassUnit)` checks that a concrete class has no unresolved
@@ -272,7 +272,7 @@ part of the CFG), (ii) ensures no execution-stopping nodes (i.e., ones where
 `stopsExecution()` returns `true`) have successors, (iii) ensures that nodes
 that do not stop execution have at least one successor, and (iv) checks that
 all entrypoints of the CFG are actual nodes of the CFG. Then, it launches
-validation of the inner `NodeList`, that checks that all edge's endpoints are
+validation of the inner `NodeList`, which checks that all edges' endpoints are
 part of the `NodeList`.
 
 Frontends that model a language with additional

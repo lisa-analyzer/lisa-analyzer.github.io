@@ -40,7 +40,7 @@ identification and handling:
 
 - events issued by the interprocedural analysis (excluding the call graph)
   implement the `InterproceduralEvent` interface;
-- events issued by the fixpoint algorithms over individual CFGs the
+- events issued by the fixpoint algorithms over individual CFGs implement the
   `FixpointEvent` interface;
 - events issued by the evaluation of symbolic expressions in the `Analysis`
   class implement the `AnalysisEvent` interface;
@@ -73,7 +73,7 @@ interface defines four methods, three of which have a default implementation:
   implementations, with the latter responsible for filtering unwanted events;
 - `onError` is invoked when a call to `onEvent` raises an exception, and
   receives both the event that caused the exception and the exception itself as
-  parameters for processing it withouth crashing the whole analysis; the default
+  parameters for processing it without crashing the whole analysis; the default
   implementation creates a notice containing the error message and adds it to the
   analysis results.
 
@@ -104,8 +104,8 @@ been processed (note that events posted while the calling thread is blocked
 are not waited on), while `close` first invokes `join` and then shuts down the
 worker thread.
 
-To avoid unnecessary slowdowns, it is advised that any listener thta does not
-need to pause the analysis to process events should added to the analysis
+To avoid unnecessary slowdowns, it is advised that any listener that does not
+need to pause the analysis to process events should be added to the analysis
 configuration as an asynchronous listener.
 
 ### Issuing events
@@ -115,11 +115,11 @@ To issue an event, components can simply create an event and pass it to the
 interprocedural analysis, in the call graph, inside semantic domains, and inside
 the semantic oracle for semantic components to use. These references are lazily
 set: they are passed to each analysis component through specific setters or
-initialization methods rather than costructors.
+initialization methods rather than constructors.
 
 Note that if no listeners are set in the analysis configuration, LiSA will not
 create an event queue and will not invoke the aforementioned setters or
-initialization methods. This is done to avoid unnceessary overhead in event
+initialization methods. This is done to avoid unnecessary overhead in event
 creation and dispatching when no listeners are present. However, this has the
 side effect that all accesses to the event queue reference might return `null`
 if no listeners are present, and thus should be null-checked before use.

@@ -137,7 +137,7 @@ for a new frontend and you want to join forces, get in contact with one of the t
 ## People
 
 LiSA is the result of the work of many people gravitating around the
-[SSV research group]({{ site.ssv-homepage }}), focusing on differnt parts
+[SSV research group]({{ site.ssv-homepage }}), focusing on different parts
 of the library or on one of the frontends developed over the years.
 
 ### Maintainers and Main Contributors

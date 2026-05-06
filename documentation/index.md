@@ -30,7 +30,7 @@ Intuitively, the analysis starts on a program P, written in a programming
 language _i_, composed by a set of files. The [Frontend](#frontends) for language
 _i_ parses the source
 files of P and translates them into a LiSA's [Program](#program-structure),
-which is a mainly composed
+which is mainly composed
 by a set of control flow graph ([CFG](#control-flow-graphs)s).
 To keep things simple, we assume that
 the program is written in a single language, but the process can be extended by
@@ -47,7 +47,7 @@ fixpoint. Such a fixpoint is computed by analyzing each CFG in the program,
 delegating to each [Statement](#statements-expressions-and-edges)
 (the nodes of the CFG) the task of defining how
 it affects the program state. Each statement can perform a combination of
-operations, since it represent high-level constructs (e.g., calls, conditionals)
+operations, since it represents high-level constructs (e.g., calls, conditionals)
 rather than low-level instructions (e.g., arithmetic operations, comparisons).
 Each operation is either:
 
@@ -83,7 +83,7 @@ take part modularly in the analysis, allowing for easy extension and
 customization of LiSA's capabilities.
 
 A more in-depth explanation of each component can be found in the pages linked
-below, together wiht pointers to the corresponding classes. For a step-by-step
+below, together with pointers to the corresponding classes. For a step-by-step
 guide on how to build each component, refer to the
 [Get Started]({{ site.baseurl }}/get-started/) section.
 
@@ -111,12 +111,12 @@ about lattices in the [Lattices]({{ site.baseurl }}/documentation/lattices.html)
 ### Symbolic Expressions
 
 `SymbolicExpression`s represent atomic semantic operations that the program
-executes. They are used to _deconstruct_ high-level syntacitc constructs
+executes. They are used to _deconstruct_ high-level syntactic constructs
 (i.e., the [Statements](#statements-expressions-and-edges), that are
 the instructions of the program)
 that can have ambiguous meaning depending on the context into simpler operations
 that have a well-defined semantics for abstract domains.
-As an example, Java's addition operator's (`+`) semantics can be produce
+As an example, Java's addition operator's (`+`) semantics can produce
 either a `NumericAddition` symbolic expression (if both operands have numeric
 type), or a `StringConcatenation` symbolic expression (if at least one of the
 operands is of a string type).
@@ -259,10 +259,10 @@ the analysis. Read more about statements, expressions, and edges in the
 ### Annotations
 
 `Annotation`s are metadata that can be attached to various components of the
-program, such as variables, function or procedurs, and types. They are similar to
+program, such as variables, functions or procedures, and types. They are similar to
 syntactic tags such as Java's annotations and C#'s attributes, and do not modify
 the semantics of the program (i.e., they are not executable such as Python's
-decorators). Analyses can use such annotations to tune their resoning process,
+decorators). Analyses can use such annotations to tune their reasoning process,
 e.g., by assuming that a variable annotated with `@NonNull` cannot be `null`.
 More information on annotations can be found in the
 [Annotations]({{ site.baseurl }}/documentation/annotations.html) page.
@@ -294,7 +294,7 @@ variables or constants). Read more about units in the
 As the aim of LiSA is to be language-agnostic, no assumptions on types are made.
 All types are represented by instances of the `Type` interface, which can be
 extended to represent the types of a specific programming language.
-Sub-interfaces are used to identity specific categories of types, such as primitive types,
+Sub-interfaces are used to identify specific categories of types, such as primitive types,
 reference types, array types, and function types. The `TypeSystem` interface defines how types are managed
 and manipulated during the analysis. It provides operations for type checking,
 type inference, and type compatibility. Read more about types in the
@@ -325,7 +325,7 @@ process is highly language-dependent. Read more about frontends in the
 ## The IMP Language
 
 The IMP language is a high-level, imperative, and dynamically typed programming
-language insipred by Java. In LiSA, it is used internally for testing analyses
+language inspired by Java. In LiSA, it is used internally for testing analyses
 end-to-end, to showcase what a frontend should look like, and to provide a simple
 playground for prototyping new analyses. Read more about the IMP language in the
 [IMP]({{ site.baseurl }}/imp/) page.

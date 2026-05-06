@@ -70,7 +70,7 @@ instance before it is dumped to a file.
 
 Users can instruct LiSA to generate output files by adding `LiSAOutput`
 instances to the configuration of the analysis. `LiSAOutput` is an interface
-mainly defines the `dump` callback that the engine invokes when the output
+that mainly defines the `dump` callback that the engine invokes when the output
 file(s) should be generated:
 
 <center><img src="{{ site.baseurl }}/schemes/lisa-output.png" alt="LiSAOutput class diagram" style="width: 80%"></center>

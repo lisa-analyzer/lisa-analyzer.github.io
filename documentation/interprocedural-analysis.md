@@ -25,7 +25,7 @@ This directly translates to the Interprocedural Analysis having two main duties:
 
 These two duties are heavily intertwined. For instance, the second one may lead to the
 discovery of new CFGs to analyze, which in turn may lead to the discovery of more calls,
-and so on. On the other hand, the first one migth start from CFGs that do not contain
+and so on. On the other hand, the first one might start from CFGs that do not contain
 any call, later moving to their callers. In this case, the results of calls must
 be computed by accessing results of already analyzed CFGs.
 
@@ -40,7 +40,7 @@ Interprocedural Analysis interface.
 CFGs contain the code that must be analyzed. In terms of Abstract
 Interpretation, this means executing a fixpoint computation over the code it
 contains, propagating the entry state from node to node to track its evolution.
-Since CFGs are graphs, the classic worklist-based fixpoint algorightm is
+Since CFGs are graphs, the classic worklist-based fixpoint algorithm is
 suitable for analyzing them. The pseudocode (written in Python for conciseness)
 for this algorithm is the following:
 
@@ -84,11 +84,11 @@ into the given node, and `succ` selects the successors of the given node.
 Instead, a fixpoint is **backward** if `start` selects the exit nodes of the
 CFG, `edges` selects the edges outgoing from the given node, and `succ` selects
 the predecessors of the given node.
-Orthogonally, a fixpoint is **ascending** if `join` moves upwards in the odreded
+Orthogonally, a fixpoint is **ascending** if `join` moves upwards in the ordered
 structure (e.g., with lub), and `compare` uses the partial order of
 the domain to compare the most recent result with the older one (i.e.,
 `new.leq(old)`). Instead, a
-fixpoint is **descending** if `join` moves downwards in the odreded structure
+fixpoint is **descending** if `join` moves downwards in the ordered structure
 (e.g., with glb), and `compare` uses the partial order of the domain to compare
 the older result with the most recent one (i.e., `old.leq(new)`).
 
@@ -115,7 +115,7 @@ ascending fixpoint, and one backward descending fixpoint. The interprocedural
 analysis will invoke either `CFG.fixpoint` or `CFG.backwardFixpoint` to compute
 the fixpoint of a CFG, and the correspoding implementations will be selected
 from the configuration. Both methods will run the ascending fixpoint first,
-starting from an empty result, and the use the result to kickstart the
+starting from an empty result, and then use the result to kickstart the
 descending fixpoint _only if it has been provided_. The descending phase is thus
 optional.
 
@@ -129,7 +129,7 @@ These are parametric to the type `A extends AbstractLattice<A>` that the results
 that contains methods to query the computed states
 before or after a node, and of `BaseLattice<AnalyzedCFG<A>>` and
 `BaseLattice<BackwardAnalyzedCFG<A>>`, respectively. Both classes provide
-avenues for retrieving the entry or exist state of the whole `CFG` or of
+avenues for retrieving the entry or exit state of the whole `CFG` or of
 individual nodes (i.e., [Statement]({{ site.baseurl }}/documentation/st-ex-e.html) instances).
 Each result is identified by a `ScopeId`, that will be
 explained together with the interprocedural analysis interface.
@@ -239,9 +239,9 @@ together.
 In LiSA, `OpenCall`s are calls that have been resolved, but no viable target
 has been found inside the program under analysis (the `Call` hierarchy is
 discussed in more depth in the [Call Graph]({{ site.baseurl }}/documentation/call-graph.html) page).
-The handling of such calls independent of the Interprocedural Analysis:
+The handling of such calls is independent of the Interprocedural Analysis:
 regardless of the technique used to compute the results of calls, if no targets
-are available than no reasoning can be performed on the call.
+are available, then no reasoning can be performed on the call.
 
 To avoid reimplementation of Interprocedural Analyses that just differ in how
 they handle `OpenCall`s, LiSA provides the `OpenCallPolicy` interface, that defines
@@ -297,13 +297,13 @@ The method returns a pair of a boolean and an
 `AnalyzedCFG` according to the following rules (where `prev` is the previous
 result stored for `token`):
 
-- if no `prev` is present, than `token` is mapped to `result` and the method
+- if no `prev` is present, then `token` is mapped to `result` and the method
   returns `(false, result)`;
-- if `leq(prev, result)`, than `token` is mapped to `result` and the method
+- if `leq(prev, result)`, then `token` is mapped to `result` and the method
   returns `(true, result)`;
-- if `leq(result, prev)`, than the mapping is left unchanged and the method
+- if `leq(result, prev)`, then the mapping is left unchanged and the method
   returns `(false, prev)`;
-- if `prev` and `result` are not comparable, than the mapping is left unchanged
+- if `prev` and `result` are not comparable, then the mapping is left unchanged
   and the method returns `(true, lub(prev, result))`.
 
 The meaning of the returned pair is to be interpreted in terms of soundness:
@@ -381,7 +381,7 @@ but no viable target has been found inside the program under analysis ---
 see the `Call` hierarchy in the [Call Graph]({{ site.baseurl }}/documentation/call-graph.html) page)
 for any call, that will result in the invocation of the `getAbstractResultOf`
 overload accepting the open call. Otherwise, the analysis should rely on the
-`CallGraph` instance received in `init` to resolve calls through it's own
+`CallGraph` instance received in `init` to resolve calls through its own
 `resolve` method, and return the resulting `Call`.
 
 As discussed above, `OpenCall`s are handled according to the `OpenCallPolicy`
@@ -427,5 +427,5 @@ implementations for `init`, that stores all the parameters in the class' fields,
 `resolve`, that delegates to the call graph's `resolve` method, `getAbstractResultOf`
 for `OpenCall`s, that delegates to the `OpenCallPolicy`, and `needsCallGraph`,
 that returns `true`. Moreover, it already implements the logic for creating
-an entry state for the prorgam's entry points by assigning unknown values
+an entry state for the program's entry points by assigning unknown values
 to each parameter of the entry points.

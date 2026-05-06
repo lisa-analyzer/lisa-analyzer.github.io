@@ -113,11 +113,11 @@ The registry methods are concrete:
   entry with the same name already existed.
 
 {% include important.html content="Since LiSA works on any programming
-language, it has no built-in notion of availabe types. Registering types is
+language, it has no built-in notion of available types. Registering types is
 essential for LiSA to have a complete type hierarchy and to be able to answer
 questions about type relationships during analysis. Every frontend is
 responsible for registering **all** types that can appear in the analyzed
-program. At startup, LiSA attempts few registration automatically: all
+program. At startup, LiSA performs a few registrations automatically: all
 primitive types are registered (see below), and a `ReferenceType` is registered
 for each already-registered type that can be referenced." %}
 
@@ -254,7 +254,7 @@ the root of this sub-hierarchy.
 
 <center> <img src="{{ site.baseurl }}/schemes/types-in-memory-types.png" alt="In-memory type hierarchy" style="width: 70%"/> </center>
 
-`InMemoryType` is a pure marker interface --- it on a type signals that
+`InMemoryType` is a pure marker interface --- its presence on a type signals that
 values of that type are structured and need special handling.
 `isValueType()` (inherited from `Type`) returns `false` for all `InMemoryType`
 instances.
@@ -334,7 +334,7 @@ example, from class-literal expressions (`Foo.class` in Java) or arguments of ca
 <center> <img src="{{ site.baseurl }}/schemes/types-token-type.png" alt="TypeTokenType" style="width: 20%"/> </center>
 
 A `TypeTokenType` wraps a set of `Type` objects --- the types that the token may
-refer to at runtime, with `getTypes()` returns that set.
+refer to at runtime; `getTypes()` returns that set.
 
 `canBeAssignedTo` returns `true` for another `TypeTokenType` or for `Untyped`.
 `commonSupertype` with itself returns `this`; with any other type it falls back

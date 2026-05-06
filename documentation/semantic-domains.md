@@ -12,7 +12,7 @@ prereq:
 # Semantic Domains
 
 Semantic domains implement transfer functions over lattice structures.
-Contrarty to [Lattices]({{ site.baseurl }}/documentation/lattices.html),
+Contrary to [Lattices]({{ site.baseurl }}/documentation/lattices.html),
 a unique instance of a semantic domain is used for the whole analysis.
 Such instance is the one passed as part of the
 [Configuration]({{ site.baseurl }}/configuration/), and is thus
@@ -79,7 +79,7 @@ identifier." %}
 implemented, all instances of `SemanticDomain` must return the bottom element
 when an assignment is performed on a bottom element. This ensures that
 unreachable states stay unreachable after assignments, and that errors
-originating in an evaluation preceeding an assignment are propagated." %}
+originating in an evaluation preceding an assignment are propagated." %}
 
 `SemanticDomain` further defines four methods:
 
@@ -107,7 +107,7 @@ If you implement `satisfies`, you can have `assume` return bottom when the
 input state does not satisfy the expression, and return the input state
 unchanged otherwise." %}
 
-{% include warn.html content="If no event listensers are registered for the
+{% include warn.html content="If no event listeners are registered for the
 analysis, the `setEventQueue` method will not be called. If your domain issues
 events, make sure to null-check the event queue before using it." %}
 
@@ -152,7 +152,7 @@ For a list of abstract domains already implemented in LiSA, see the
 The `Analysis` class is the central component that LiSA uses to evolve
 [Analysis States]({{ site.baseurl }}/documentation/lattices.html#the-analysis-state).
 Since the `AbstractDomain` used for an analysis is user-provided, this allows
-analysis-independent implementations of other compoments (like statement semantics
+analysis-independent implementations of other components (like statement semantics
 or interprocedural analyses): there is no compile-time binding between these entities
 and the concrete instances of `AbstractDomain` that will be executed,
 thus all operations that are performed by such entities have to be agnostic of the

@@ -104,7 +104,7 @@ methods to access, add, and remove nodes and edges.
 The `CallGraph` class adds several methods, most of which have default
 implementations:
 
-- `init` initalizes the call graph by storing the
+- `init` initializes the call graph by storing the
   [Application]({{ site.baseurl }}/documentation/units.html#application)
   to analyze and the
   [Event Queue]({{ site.baseurl }}/documentation/events.html) to use for emitting
@@ -142,7 +142,7 @@ parametric to all language-specific algorithms. Such workflow is implemented in
 the `BaseCallGraph` class, that provides implementations for the abstract
 methods of `CallGraph`:
 
-- `registerCall` adds the necesseray nodes and edges to the call graph, skipping
+- `registerCall` adds the necessary nodes and edges to the call graph, skipping
   calls that result from the resolution of `UnresolvedCall`s (i.e., ones whose
   `getSource` yields an `UnresolvedCall`) since those get registered during
   resolution;
@@ -215,7 +215,7 @@ of the target) using the program's
 and the ones with the lowest distance are added to the possible
 targets. Note that if the call is ambiguous (i.e., there are multiple targets
 with the same distance in the same type), an exception is raised.
-Instead, if tye type is part of a hierarchy, the hierarchy is traversed upwards
+Instead, if the type is part of a hierarchy, the hierarchy is traversed upwards
 using the program's
 [hierarchy traversal strategy]({{ site.baseurl }}/documentation/language-features.html#hierarchy-traversal-strategy).
 For each traversed type, the same process described above is applied, but the
@@ -228,7 +228,7 @@ The resolution starts by selecting the possible types of the receiver through
 `getPossibleTypesOfReceiver`, the only abstract method of the class, that can
 implement several techniques for call graph building (e.g., class hierarchy
 analysis, rapid type analysis, etc.). For each such type, the corresponding type
-definition is retriieved through `getReceiverCompilationUnit`. The hieararchy
+definition is retrieved through `getReceiverCompilationUnit`. The hierarchy
 of the definition is then traversed using the program's
 [hierarchy traversal strategy]({{ site.baseurl }}/documentation/language-features.html#hierarchy-traversal-strategy),
 and for each traversed type the _instance_ code members are filtered using the

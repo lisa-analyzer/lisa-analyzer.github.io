@@ -49,7 +49,7 @@ BUILD SUCCESSFUL in 28s
 ```
 
 Note that the choices you make to create the project can be different from the
-ones reported in the example. If the creation is successfull, the contents on
+ones reported in the example. If the creation is successful, the contents on
 your folder should now be like this:
 
 ```bash
@@ -69,7 +69,7 @@ drwxrwxr-x 3 group user 4,0K feb 11 11:44 gradle
 
 ### Adding the LiSA dependency
 
-The next step is to add a dependency from your project to LiSA. To to this,
+The next step is to add a dependency from your project to LiSA. To do this,
 navigate to LiSA's [Maven page](https://central.sonatype.com/search?q=g:io.github.lisa-analyzer) and pick the
 version of `lisa-sdk`, `lisa-analyses`, `lisa-program`, and `lisa-imp`
 that you want to use. Opening the page of

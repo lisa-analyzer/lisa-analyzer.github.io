@@ -65,7 +65,7 @@ the choice depends on the target language.
 
 The most common approach across LiSA frontends (IMP, Go, Python, EVM) is to
 write an [ANTLR4](https://www.antlr.org/) grammar and generate a visitor from
-it. A collection of well-maintained and ready to use grammars is available on
+it. A collection of well-maintained and ready-to-use grammars is available on
 [GitHub](https://github.com/antlr/grammars-v4).
 ANTLR4 grammars are typically split into a lexer grammar (`MyLangLexer.g4`)
 and a parser grammar (`MyLangParser.g4`), placed under
@@ -86,7 +86,7 @@ generateGrammarSource {
 }
 ```
 
-The Maven ANTLR4 plugin generates a
+The ANTLR4 plugin generates a
 `MyLangParserBaseVisitor<Object>` class that the frontend subclasses.
 
 The top-level entry point of the frontend extends `MyLangParserBaseVisitor<Object>`,
@@ -139,7 +139,7 @@ classes, then registering them into the `Program`.
 
 A language-specific `TypeSystem` must be created in each frontend, implementing
 the specifics of that language's type system.
-Each type that can appear in the program must be registered throught the
+Each type that can appear in the program must be registered through the
 `TypeSystem.registerType(type)` before the analysis starts. The recommended
 pattern is:
 
@@ -149,7 +149,7 @@ pattern is:
 2. For user defined types (e.g., arrays or objects), maintain a static registry
    per type family during parsing (e.g.
    `MyClassType.register(name, unit)` adds to a static map;
-   `MyClassType.lookup(name)` retrieves an exisiting type instance, and
+   `MyClassType.lookup(name)` retrieves an existing type instance, and
    `MyClassType.all()` returns the accumulated set). This lets type names be
    (i) registered during the first pass, (ii) looked up by name during the second pass,
    and (iii) retrieved as a complete set at the end of parsing for registration into the program.
@@ -397,7 +397,7 @@ To use a `LocalVariableTracker`:
 - Call `hasVariable(name)` to test visibility without retrieving the variable.
 
 For instance, the snippet above for parsing a code block can be modified as
-follows to use a `LocalVariableTracker` (new lines are preceeded by a comment
+follows to use a `LocalVariableTracker` (new lines are preceded by a comment
 starting with `!!`):
 
 ```java
@@ -547,8 +547,8 @@ contains no `ProtectionBlock`s. These calls can be omitted." %}
 
 ## Defining New Instructions
 
-LiSA bundles a wide range of ready-to-use `Statement`s ad `Expression`s inside
-the `lisa-program` project. However, accurate modeling of a language require
+LiSA bundles a wide range of ready-to-use `Statement`s and `Expression`s inside
+the `lisa-program` project. However, accurate modeling of a language requires
 precise definition of the semantics, including error conditions and corner
 cases. Thus, other than for quick prototyping, those instances serve more as an
 example of how specific constructs can be modeled. Moreover,
@@ -556,7 +556,7 @@ language-specific constructs require new `Statement` or `Expression` subclasses.
 A full description of the syntactic API for building `Statement`s and `Expression`s
 is given in the
 [Statements, Expressions, and Edges]({{ site.baseurl }}/documentation/st-ex-e.html)
-page, while instructions for writing their semantics is covered in the
+page, while instructions for writing their semantics are covered in the
 [Instruction Semantics]({{ site.baseurl }}/documentation/instruction-semantics.html)
 page. The key points for frontend authors are:
 
@@ -612,7 +612,7 @@ The pattern for defining a native function is:
    - Implements `PluggableStatement`.
    - Provides the static factory method
      `public static MyClassName build(CFG cfg, CodeLocation location, Expression... params)`
-     that invokes the class' constructor by passing the arguments found in the
+     that invokes the class's constructor by passing the arguments found in the
      `params` parameter.
    - Overrides `setOriginatingStatement(Statement st)` (required by
      `PluggableStatement`) to store the original statement (i.e., the call

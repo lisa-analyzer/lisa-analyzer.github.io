@@ -70,7 +70,7 @@ defines three abstract methods that must be implemented by all subclasses:
 
 Other than the above methods, `SymbolicExpression` instances must define `accept`,
 which plays a central role in LiSA as it allows recursive traversal of symbolic
-expressions through the visitor pattern. When a recursive taversal is needed,
+expressions through the visitor pattern. When a recursive traversal is needed,
 one can simply call `accept` on the root expression, passing an
 `ExpressionVisitor` to it together with any additional parameters needed. The
 `ExpressionVisitor` interface is parametric on the type `T` of the value
@@ -86,7 +86,7 @@ define `accept` by simply calling the appropriate `visit` method on the
 visitor, passing itself and the results of recursive `accept` calls on its
 sub-expressions.
 
-The `SymbolicExpression` class hiearrchy is split among `HeapExpression`s, that
+The `SymbolicExpression` class hierarchy is split among `HeapExpression`s, that
 represent operations that manipulate the dynamic memory (e.g., object creation,
 field access), and `ValueExpression`s, that represent operations that produce
 values (e.g., arithmetic operations, constants). This distinction is important
@@ -151,7 +151,7 @@ a value expression may be heap expressions that need to be rewritten first.
 ### Identifiers
 
 `Identifier`s play a key role in LiSA: other than modeling program variables,
-they alre also used by a number of analysis components to represent specal
+they are also used by a number of analysis components to represent special
 values (e.g., the return value of a function, the exception being thrown).
 
 <center> <img src="{{ site.baseurl }}/schemes/identifiers.png" alt="The Identifier class hierarchy" /> </center>
@@ -176,7 +176,7 @@ exception whenever the two identifiers are not compatible (i.e., they have diffe
 names). If they have the same name, the resulting identifier is weak if at least one of
 the two is weak.
 Two more predicates are provided by the `Identifier` class: `canBeAssigned`,
-returning wether assignments having that identifier as left-hand side are allowed
+returning whether assignments having that identifier as left-hand side are allowed
 (useful for preventing assignments to special memory locations), and
 `isInstrumentedReceiver`, returning `true` if the identifier represents an
 entity (e.g., object or array) that is being initialized by the current
@@ -191,7 +191,7 @@ expression.
   variables), are always strong, and cannot be scoped;
 - `MemoryPointer`s represent references to `HeapLocation`s, are always strong,
   and cannot be scoped;
-- `OutOfScopeIdentifer`s are identifiers that have been created by scoping
+- `OutOfScopeIdentifier`s are identifiers that have been created by scoping
   another one (including another `OutOfScopeIdentifier`), that maintain the
   weakness property of the original identifier and can be scoped again.
 

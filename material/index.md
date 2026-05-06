@@ -5,7 +5,7 @@
 Details on the latest official release of LiSA can be found on the
 [GitHub releases page](https://github.com/lisa-analyzer/lisa/releases).
 There, you can find release notes, source code archives, and links to
-pre-built binaries that are publihed on Maven Central.
+pre-built binaries that are published on Maven Central.
 
 <center>
   <a href="https://central.sonatype.com/artifact/io.github.lisa-analyzer/lisa-sdk"><img alt="LiSA SDK Latest Release" src="https://img.shields.io/maven-central/v/io.github.lisa-analyzer/lisa-sdk?strategy=highestVersion&style=flat-square&logo=apachemaven&label=LiSA%20SDK&color=brightgreen"/></a>

@@ -34,10 +34,10 @@ visible in the diagram below, and will be explained throughout this page.
 
 ## The Message class
 
-A `Message` represent a piece of textual information that one of the components
+A `Message` represents a piece of textual information that one of the components
 of LiSA generated for the user, and that will be included in the results of the
 analysis. A message is simply a pair of strings: a _tag_ that is used to
-cathegorize the message, and the core _message_ to deliver. No further structure
+categorize the message, and the core _message_ to deliver. No further structure
 is imposed on the message: subclasses might structure the tag or the message
 through fields, but those are ultimately included in either.
 
@@ -49,10 +49,10 @@ Since `Check`s are not the only component in LiSA that can produce messages,
 their creation and collection is centralized in the `ReportingTool` class. A
 `ReportingTool` instance exposes avenues to access and generate messages, as
 well as obtaining the configuration used for the analysis through
-`getConfiguration` and retrieveing the `FileManager` for the analysis through
+`getConfiguration` and retrieving the `FileManager` for the analysis through
 `getFileManager`. Using the latter, a `Check` can create specific output files
 to add to the results of the analysis. More details about file generation can be
-found in the [Ouputs page]({{ site.baseurl }}/documentation/outputs.html).
+found in the [Outputs page]({{ site.baseurl }}/documentation/outputs.html).
 
 Messages are split in two separate collections: **warnings** and **notices**.
 A warning is a message that highlights a potential issue in the analyzed
@@ -64,7 +64,7 @@ of the analyzer. Examples of notices include the absence of targets for a call
 (hinting that parts of the application have not been submitted to LiSA for the
 analysis), or messages reporting that partially supported instructions have been
 found and their results might not be sound (e.g., purposefully ignoring the
-generation of some error paths or restrcting the targets of reflective calls
+generation of some error paths or restricting the targets of reflective calls
 when parts of the target signature are unknown).
 
 The `ReportingTool` class provides several methods for adding both warnings and
@@ -82,7 +82,7 @@ as a collection of `AnalyzedCFG` instances (read more on the
 through the `getResultsOf` method. The tool also has a reference to the
 `Analysis` executed, enabling the querying of properties of the states stored in
 each `AnalyzedCFG` through the `satisfies` method or through the
-`SemanticOracle` methods. Finally, it offers ways to inspect and interact the
+`SemanticOracle` methods. Finally, it offers ways to inspect and interact with the
 generated `CallGraph` instance, either by retrieving the instance itself with
 `getCallGraph` or by querying its properties through `getCallers`,
 `getCallees`, and `getCallSites`. Moreover, given an `AnalyzedCFG`, it can
@@ -117,7 +117,7 @@ implement:
 - a `visit` overload accepting an edge, invoked once for each edge in the
   program.
 
-Users of LiSA should not implement the `Check` interface durectly, but rather
+Users of LiSA should not implement the `Check` interface directly, but rather
 implement the `SyntacticCheck` or `SemanticCheck` interfaces.
 
 ### Syntactic Checks

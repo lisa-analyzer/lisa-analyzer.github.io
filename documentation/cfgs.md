@@ -333,7 +333,7 @@ factory method, define the semantics in `forwardSemanticsAux`, and pass the clas
 to the `NativeCFG` constructor. LiSA will take care of the rest." %}
 
 `NativeCFG`s avoid the submission of library code to the analysis, which in
-turns reduces the complexity of the analysis. The semantics of a library function
-is expressed as if it was a single instruction, that is effectively inlined at the call site,
+turn reduces the complexity of the analysis. The semantics of a library function
+is expressed as if it were a single instruction, that is effectively inlined at the call site,
 without the need to analyze its internal code line by line. This also means that
 `NativeCFG`s will not have a corresponding `AnalyzedCFG` available in the analysis results.

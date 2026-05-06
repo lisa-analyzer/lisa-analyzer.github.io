@@ -25,10 +25,10 @@ To simplify this task, LiSA offers the `SimpleAbstractState` and the
 > <small>[<i class="fas fa-link"></i> DOI](https://doi.org/10.1016/j.tcs.2016.04.001)</small>
 
 In this framework, the state of the analysis is composed of a
-heap abstraction and a value abstrction,
+heap abstraction and a value abstraction,
 where the semantics of each instruction is first evaluated on the heap abstraction, that
 rewrites the instruction by removing all of the parts performing heap operations with
-symbolic identifiers. The rewrtitten expression is then processed by the value abstraction.
+symbolic identifiers. The rewritten expression is then processed by the value abstraction.
 Additionally, since processing assignments and allocations might summarize or
 materialize heap locations, the heap abstraction also provides a substitution
 (i.e., a series of assignments and variable removals) that must be applied to the
@@ -39,7 +39,7 @@ that is responsible for tracking the types of program variables and expressions.
 The type abstraction operates after the heap abstraction (i.e., after the
 rewriting happened), but before the value abstraction, so that the value
 abstraction can leverage type information to improve its precision if necessary.
-An intutive scheme of how the framework operates can be seen below:
+An intuitive scheme of how the framework operates can be seen below:
 
 <center> <img src="{{ site.baseurl }}/schemes/sad.png" alt="Simple Abstract Domain Overview" style="width: 60%"/> </center>
 
@@ -47,7 +47,7 @@ Intuitively, whenever an expression (assignment or not) must be evaluated, the
 `SimpleAbstractDomain` first feeds it to the `HeapDomain`, the domain that
 tracks the dynamic memory of the program. The `HeapDomain` processes the
 expression, making the necessary updates to its internal state, and returns a
-new state and a substutution, i.e., a list of operations of the form
+new state and a substitution, i.e., a list of operations of the form
 `{ x1, x2, ..., xn } -> { y1, y2, ..., ym }`.
 Each such operation should be interpreted as assigning to each `yi` _all of the
 values_ (i.e., their least upper bound) of `x1, x2, ..., xn`, and then
@@ -120,7 +120,7 @@ is only reachable through `x`, then `y` must also be deleted). This is used to
 ensure that no dangling references are left in the heap abstraction, performing
 a sort of garbage collection.
 
-Instead, `LatticeWithReplacement` defines the a lattice instance that can be the
+Instead, `LatticeWithReplacement` defines a lattice instance that can be the
 target of a substitution. It is parametric on the concrete type `L` of the
 lattice, that must extend `LatticeWithReplacement<L>`, and extends
 `DomainLattice<L, L>`, meaning that both lattice operations and variable/scoping
@@ -215,7 +215,7 @@ The `SimpleAbstractDomain` class can be defined in terms of these components:
 `T extends TypeLattice<T>`, and `V extends ValueLattice<V>` of the
 states of its inner components to use, implements
 `AbstractDomain<SimpleAbstractState<H, V, T>>` and stores the three components
-to use in its fields. Each transfromer is implemented
+to use in its fields. Each transformer is implemented
 following the framework of rewritings and substitutions: first, the target
 expression is processed using the corresponding `heapDomain` transformer over
 the `heapState` of the current state, that returns a new instance of `H`
@@ -233,7 +233,7 @@ The oracle can be _mutated_ (that is, each state can be updated) to avoid
 excessive allocations during the execution of each transformer. In
 `MutableOracle`, each query is implemented by delegating the computation to the
 corresponding component, passing the held state and the oracle itself as parameter.
-Thus, components always recieve an oracle that has an overview of the whole program
+Thus, components always receive an oracle that has an overview of the whole program
 state, and can query information from each other as needed.
 
 For a list of heap, value, and type domains already implemented in LiSA, see the
@@ -297,7 +297,7 @@ return type of each tansformer: this is essential for enabling both heap and
 value analyses. `NonRelationalDomain` extends two interfaces:
 
 - `SemanticEvaluator`, that defines a `canProcess` method to check whether the
-  domain can process a given expression, relying on its type and its runtie
+  domain can process a given expression, relying on its type and its runtime
   types;
 - `SemanticComponent<M, T, E, Identifier`, meaning that the domain can be used
   for all three components (heap, type, and value) by instantiating `M` with the
@@ -457,7 +457,7 @@ for assignments and one for non-assigning expressions). Similarly to
 `BaseNonRelationalDomain`, `canProcess` allows all expressions that have a
 `ValueType`.
 
-A `DataflowElement` is a an object that can be tracked inside the sets produced
+A `DataflowElement` is an object that can be tracked inside the sets produced
 by a `DataflowDomain`. It is parametric to the concrete type `E` of the element itself,
 that must extend `DataflowElement<E>`, and extends both `StructuredObject` and
 `ScopedObject<E>`, meaning that it can be converted to a

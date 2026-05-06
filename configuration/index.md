@@ -35,7 +35,7 @@ example="conf.analysis = new SimpleAbstractDomain(new PointBasedHeap(), new Inte
 
 The [Abstract Domain]({{ site.baseurl }}/documentation/semantic-domains.html#the-abstract-domain-interface)
 to execute during the analysis can be selected through the `analysis` option.
-The value of this option decides what analyysis is being run, and what shape
+The value of this option decides what analysis is being run, and what shape
 will the computed states have. If no value is set for this option, no semantic
 analysis will be executed.
 
@@ -94,7 +94,7 @@ interprocedural analysis to use, while the value of the `callGraph` option
 determines the call graph.
 If no value is set for `interproceduralAnalysis`, no
 semantic analysis will be executed. Instead, the value of `callGraph` is
-effectively ignored if the selected does not require
+effectively ignored if the selected one does not require
 a call graph, as determined by that analysis' `needsCallGraph` method.
 If instead the selected interprocedural analysis requires a call graph and no value is
 set for `callGraph`, an error will be raised at startup.
@@ -332,7 +332,7 @@ default="null"
 example="conf.shouldSmashError = type -&gt; type.getName().equals(\"java.lang.NullPointerException\")"
 %}
 
-Some error typems might pollute the analysis results, since they might not be
+Some error types might pollute the analysis results, since they might not be
 relevant for the properties to prove or they are caused by an excessive
 imprecision of the analysis. While it is not possible to completely remove them
 (as the modifications they cause to the control flow must be taken into
@@ -368,7 +368,7 @@ Synchronous listeners will be executed in the same thread as the analysis
 itself, and thus will block the analysis until they complete. Asynchronous
 listeners will be executed in a separate thread, and thus will not block the
 analysis. Synchronous listeners are executed before asynchronous ones, and
-the order of execution of the listeners preservers the insertion order into
+the order of execution of the listeners preserves the insertion order into
 the respective collection.
 The lists of listeners should only be added to, and not
 replaced with other (possibly immutable) lists, as LiSA might add new
@@ -423,7 +423,7 @@ all logging through [log4j2](https://logging.apache.org/log4j/2.x/index.html),
 and will thus follow the framework's own configuration. There are a number of
 ways to configure log4j2, but the simplest one is to create a `log4j2.xml` file
 in the working directory, with the desired configuration. For example, the
-following configuration will log all messages of level `DEBUG` or higher to a file
+following configuration will log all messages of level `DEBUG` or higher to a file or
 the console:
 
 ```xml
