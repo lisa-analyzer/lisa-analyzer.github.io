@@ -3,4 +3,10 @@
   <div class="head-menu-item{% if page.url contains '/documentation' %} active-menu-item{% endif %}"><a href="{{ site.baseurl }}/documentation/">Documentation</a></div>
   <div class="head-menu-item{% if page.url contains '/configuration' %} active-menu-item{% endif %}"><a href="{{ site.baseurl }}/configuration/">Configuration</a></div>
   <div class="head-menu-item{% if page.url contains '/material' %} active-menu-item{% endif %}"><a href="{{ site.baseurl }}/material/">Material</a></div>
+  <div class="head-menu-item">
+  <form action="{{ site.baseurl }}/search.html" method="get" id="search-form-headmenu">
+    <input type="text" name="q" id="search-input-headmenu" placeholder="Search">
+    <input type="submit" value="Search" style="display: none;">
+  </form>
+  </div>
 </div>
