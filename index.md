@@ -126,7 +126,7 @@ programming languages and domains, all developed as part of the project.
 ## Get Involved
 
 LiSA is developed and maintained by the [Software and System Verification
-(SSV)](https://ssv.dais.unive.it/) group @ Università Ca' Foscari in Venice,
+(SSV)]({{ site.ssv-homepage }}) group @ Università Ca' Foscari in Venice,
 Italy. External contributions are always welcome! Check out our [contributing
 guidelines](https://github.com/lisa-analyzer/lisa/blob/master/CONTRIBUTING.md)
 for information on how to contribute to LiSA.
