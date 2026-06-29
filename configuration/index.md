@@ -536,7 +536,9 @@ as-is, can be extended, or can be used as examples to build new frontends for
 other languages. For more details on how to build a frontend, please check the
 [frontend documentation]({{ site.baseurl }}/documentation/frontends.html).
 
-**GoLiSA**
+### GoLiSA
+
+<img src="https://raw.githubusercontent.com/lisa-analyzer/go-lisa/master/logo.png" alt="GoLiSA logo" width="200px"/>
 
 GoLiSA is a frontend for a subset of the Go programming language. It has been
 developed with the objective of performing analyses targeting security
@@ -549,7 +551,9 @@ inconsistencies.
 For more information on features and usage, refer to the
 [GitHub repository](https://github.com/lisa-analyzer/go-lisa).
 
-**JLiSA**
+### JLiSA
+
+<img src="https://raw.githubusercontent.com/lisa-analyzer/jlisa/master/logo.png" alt="JLiSA logo" width="200px"/>
 
 JLiSA is a frontend for a subset of the Java programming language, developed
 primarely for the [SV-COMP](https://sv-comp.sosy-lab.org/) competition.
@@ -559,7 +563,7 @@ and models a subset of the Java APIs.
 For more information on features and usage, refer to the
 [GitHub repository](https://github.com/lisa-analyzer/jlisa).
 
-**PyLiSA**
+### PyLiSA
 
 PyLiSA is a highly-experimental frontend for a subset of the Python programming language.
 Specifically, it does not yet support any dynamic features related to changes to the program
@@ -572,7 +576,9 @@ for ROS2 robotic networks.
 For more information on features and usage, refer to the
 [GitHub repository](https://github.com/lisa-analyzer/pylisa).
 
-**EVMLiSA**
+### EVMLiSA
+
+<img src="https://raw.githubusercontent.com/lisa-analyzer/evm-lisa/master/logo/emv-lisa-logo-no-background.png" alt="EVMLiSA logo" width="200px"/>
 
 EVMLiSA is a frontend for EVM bytecode aimed at soundly reconstructing a full
 and sound control flow graph from the bytecode itself, that can be used in later
@@ -582,7 +588,9 @@ storage to improve the accuracy of the generated control flow graph.
 For more information on features and usage, refer to the
 [GitHub repository](https://github.com/lisa-analyzer/evm-lisa).
 
-**MichelsonLiSA**
+### MichelsonLiSA
+
+<img src="https://raw.githubusercontent.com/lisa-analyzer/michelson-lisa/master/logo.png" alt="MichelsonLiSA logo" width="200px"/>
 
 MichelsonLiSA is a frontend for Michelson bytecode obtained by the compilation
 of smart contracts for Tezos blockchains.
