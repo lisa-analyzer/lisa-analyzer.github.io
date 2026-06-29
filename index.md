@@ -71,57 +71,30 @@ nonetheless." %}
 
 LiSA is a powerful engine backing several static analyzers for different
 programming languages and domains, all developed as part of the project.
+Here are some of the main frontends and projects built on top of LiSA:
 
-<div class="slideshow-wrapper" id="frontends-slideshow-wrapper">
-  <div class="slideshow-container" id="frontends-slideshow-container">
-    <button class="arrow" onclick="moveFrontendSlide(-1)" id="frontends-slideshow-prev">‹</button>
-    <div class="slideshow-viewport" id="frontends-slideshow-viewport">
-      <div class="slideshow-track" id="frontends-slideshow-track">
-	<div class="slide frontend-slide">
-	  {% include slide_card.html 
-	    title="JLiSA" 
-	    content="A frontend for the analysis of Java programs,
-	    participating in SV-COMP since 2026."
-	    btn_link="https://github.com/lisa-analyzer/jlisa" 
-	    btn_text="<i class=\"fab fa-github\"></i>&nbsp;&nbsp;GitHub" %}
-	  {% include slide_card.html 
-	    title="GoLiSA" 
-	    content="A frontend for the analysis of Go blockchain programs and
-	    smart contracts, focusing on Hyperledger Fabric, Cosmos SDK,
-	    Tendermint Core, and Ethereum Client."
-	    btn_link="https://github.com/lisa-analyzer/go-lisa" 
-	    btn_text="<i class=\"fab fa-github\"></i>&nbsp;&nbsp;GitHub" %}
-	  {% include slide_card.html 
-	    title="EVMLiSA" 
-	    content="A frontend for sound CFG reconstruction and analysis of EVM bytecode for Ethereum blockchains."
-	    btn_link="https://github.com/lisa-analyzer/evm-lisa" 
-	    btn_text="<i class=\"fab fa-github\"></i>&nbsp;&nbsp;GitHub" %}
-	</div>
-	<div class="slide frontend-slide">
-	  {% include slide_card.html 
-	    title="MichelsonLiSA" 
-	    content="A frontend for the analysis of Michelson bytecode for Tezos blockchains."
-	    btn_link="https://github.com/lisa-analyzer/michelson-lisa" 
-	    btn_text="<i class=\"fab fa-github\"></i>&nbsp;&nbsp;GitHub" %}
-	  {% include slide_card.html 
-	    title="PyLiSA" 
-	    content="A frontend for the analysis of Python programs, focusing
-	    on Data Science scripts and ROS2 projects."
-	    btn_link="https://github.com/lisa-analyzer/pylisa" 
-	    btn_text="<i class=\"fab fa-github\"></i>&nbsp;&nbsp;GitHub" %}
-	  {% include slide_card.html 
-	    title="LiSA4Ros2" 
-	    content="A tool for extracting ROS2 policies from Python software."
-	    btn_link="https://github.com/lisa-analyzer/lisa4ros2" 
-	    btn_text="<i class=\"fab fa-github\"></i>&nbsp;&nbsp;GitHub" %}
-	</div>
-      </div>
-    </div>
-    <button class="arrow" onclick="moveFrontendSlide(1)" id="frontends-slideshow-next">›</button>
-  </div>
-  <div class="dots-container" id="frontends-dots-container">
-  </div>
+<div class="card-row">
+  {% include proj_card.html 
+    title="JLiSA" 
+    content="A frontend for the analysis of Java programs,
+    participating in SV-COMP since 2026."
+    btn_link="https://github.com/lisa-analyzer/jlisa" 
+    btn_text="<i class=\"fab fa-github\"></i>&nbsp;&nbsp;GitHub" %}
+  {% include proj_card.html 
+    title="GoLiSA" 
+    content="A frontend for the analysis of Go blockchain programs and
+    smart contracts, focusing on Hyperledger Fabric, Cosmos SDK,
+    Tendermint Core, and Ethereum Client."
+    btn_link="https://github.com/lisa-analyzer/go-lisa" 
+    btn_text="<i class=\"fab fa-github\"></i>&nbsp;&nbsp;GitHub" %}
+  {% include proj_card.html 
+    title="EVMLiSA" 
+    content="A frontend for sound CFG reconstruction and analysis of EVM bytecode for Ethereum blockchains."
+    btn_link="https://github.com/lisa-analyzer/evm-lisa" 
+    btn_text="<i class=\"fab fa-github\"></i>&nbsp;&nbsp;GitHub" %}
 </div>
+
+See all available frontends and projects in the [Configuration page]({{ site.baseurl }}/configuration/#frontends).
 
 ## Get Involved
 
@@ -215,89 +188,23 @@ of the library or on one of the frontends developed over the years.
 
 ## News and Highlights
 
-<div class="slideshow-wrapper" id="stories-slideshow-wrapper">
-  <div class="slideshow-container" id="stories-slideshow-container">
-    <button class="arrow" onclick="moveStorySlide(-1)" id="stories-slideshow-prev">‹</button>
-    <div class="slideshow-viewport" id="stories-slideshow-viewport">
-      <div class="slideshow-track" id="stories-slideshow-track">
-	<div class="slide story-slide">
-	  {% include slide_card.html 
-	    title="JLiSA placed 3rd in SV-COMP 2026 in its first participation"
-	    content="JLiSA, the Java frontend of LiSA, participated for the
-	    first time in SV-COMP 2026, the leading competition for software
-	    verification tools, and placed 3rd in the Java category,
-	    demonstrating its effectiveness and competitiveness in the field.
-	    JLiSA is the only Java tool based on Abstract Interpretation, and
-	    achieved fully sound results with no false positives in the entire
-	    competition."
-	    btn_link="https://sv-comp.sosy-lab.org/2026/results/results-verified/#java-verification" 
-	    btn_text="Check out SV-COMP 2026 results for the Java category" %}
-	</div>
-	<div class="slide story-slide">
-	  {% include slide_card.html 
-	  title="LiSA integrated into Ghidra" 
-	  content="LiSA has been fully integrated into Ghidra since version
-	  12.0, providing a powerful static analysis framework for PCode
-	  (Ghidra's intermediate representation) able to perform a wide range
-	  of analyses on binary code."
-	  btn_link="https://github.com/NationalSecurityAgency/ghidra/blob/2b6a66cee0aeef3092eec9ed403516d91e3b463c/Ghidra/Extensions/Lisa/src/main/help/help/topics/LisaPlugin/LisaPlugin.html" 
-	  btn_text="See Ghidra's documentation of the integration" %}
-	</div>
-      </div>
-    </div>
-    <button class="arrow" onclick="moveStorySlide(1)" id="stories-slideshow-next">›</button>
-  </div>
-  <div class="dots-container" id="stories-dots-container">
-  </div>
-</div>
+{% include news_card.html
+title="JLiSA placed 3rd in SV-COMP 2026 in its first participation"
+content="JLiSA, the Java frontend of LiSA, participated for the
+first time in SV-COMP 2026, the leading competition for software
+verification tools, and placed 3rd in the Java category,
+demonstrating its effectiveness and competitiveness in the field.
+JLiSA is the only Java tool based on Abstract Interpretation, and
+achieved fully sound results with no false positives in the entire
+competition."
+btn_link="https://sv-comp.sosy-lab.org/2026/results/results-verified/#java-verification"
+btn_text="Check out SV-COMP 2026 results for the Java category" %}
 
-<script>
-const frontend_slides = document.querySelectorAll('.frontend-slide');
-const story_slides = document.querySelectorAll('.story-slide');
-const frontend_dotsContainer = document.getElementById('frontends-dots-container');
-const story_dotsContainer = document.getElementById('stories-dots-container');
-let frontend_currentIndex = 0;
-let story_currentIndex = 0;
-
-function createDots(slides, dotsContainer, callback) {
-  slides.forEach((_, i) => {
-    const dot = document.createElement('span');
-    dot.classList.add('dot');
-    if (i === 0) dot.classList.add('active');
-    dot.addEventListener('click', () => callback(i));
-    dotsContainer.appendChild(dot);
-  });
-}
-
-function updateSlideshow(label, currentIndex) {
-  const container = document.getElementById(label + '-slideshow-track');
-  const dots = document.getElementById(label + '-dots-container').children;
-  container.style.transform = `translateX(-${currentIndex * 100}%)`;
-  for (let i = 0; i < dots.length; i++) {
-    dots[i].classList.toggle('active', i === currentIndex);
-  }
-}
-
-function moveFrontendSlide(step) {
-  frontend_currentIndex = (frontend_currentIndex + step + frontend_slides.length) % frontend_slides.length;
-  updateSlideshow('frontends', frontend_currentIndex);
-}
-
-function moveStorySlide(step) {
-  story_currentIndex = (story_currentIndex + step + story_slides.length) % story_slides.length;
-  updateSlideshow('stories', story_currentIndex);
-}
-
-function currentFrontendSlide(index) {
-  frontend_currentIndex = index;
-  updateSlideshow('frontends', frontend_currentIndex);
-}
-
-function currentStorySlide(index) {
-  story_currentIndex = index;
-  updateSlideshow('stories', story_currentIndex);
-}
-
-createDots(frontend_slides, frontend_dotsContainer, currentFrontendSlide); 
-createDots(story_slides, story_dotsContainer, currentStorySlide); 
-</script>
+{% include news_card.html
+title="LiSA integrated into Ghidra"
+content="LiSA has been fully integrated into Ghidra since version
+12.0, providing a powerful static analysis framework for PCode
+(Ghidra's intermediate representation) able to perform a wide range
+of analyses on binary code."
+btn_link="https://github.com/NationalSecurityAgency/ghidra/blob/2b6a66cee0aeef3092eec9ed403516d91e3b463c/Ghidra/Extensions/Lisa/src/main/help/help/topics/LisaPlugin/LisaPlugin.html"
+btn_text="See Ghidra's documentation of the integration" %}

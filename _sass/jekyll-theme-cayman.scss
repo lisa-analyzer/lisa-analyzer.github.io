@@ -950,37 +950,10 @@ a {
 // ============================================================================
 
 // ============================================================================
-// START: SLIDESHOW IN HOMEPAGE
+// START: PROJECTS CARDS IN HOME
 // ============================================================================
 
-.slideshow-wrapper {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-}
-
-.slideshow-container {
-	display: flex;
-	flex-direction: row;
-	align-items: center;
-	width: 100%;
-}
-
-.slideshow-viewport {
-	width: 100%;
-	overflow: hidden;
-	position: relative;
-	margin: 0 20px;
-}
-
-.slideshow-track {
-	display: flex;
-	flex-direction: row;
-	align-items: center;
-	transition: transform 0.5s ease-in-out;
-}
-
-.slide {
+.card-row {
 	min-width: 100%;
 	box-sizing: border-box;
 	padding: 20px;
@@ -989,30 +962,16 @@ a {
 	display: flex;
 	flex-direction: row;
 	align-items: center;
+
+	@include small {
+		flex-direction: column;
+	}
 }
 
-.dots-container {
-	text-align: center;
-	padding: 10px;
-}
-
-.dot {
-	height: 12px;
-	width: 12px;
-	margin: 0 5px;
-	background-color: #bbb;
-	border-radius: 50%;
-	display: inline-block;
-	cursor: pointer;
-}
-
-.dot.active {
-	background-color: $section-headings-color;
-}
-
-.slide-card {
+.proj-card {
 	width: 100%;
 	min-height: 300px;
+	height: stretch;
 	margin: 0 10px;
 	padding: 20px;
 	box-shadow: 0 0 20px 5px lightgray;
@@ -1026,6 +985,10 @@ a {
 	background-clip: padding-box;
 	border: solid 5px transparent;
 	border-radius: 1em;
+
+	@include small {
+		min-height: 0px;
+	}
 
 	&:before {
 		content: '';
@@ -1047,26 +1010,60 @@ a {
 		margin-bottom: 0;
 	}
 
-	.slide-card-title {
+	.proj-card-title {
 		font-size: 1.5rem;
 		color: $section-headings-color;
 	}
 
-	.slide-card-description {
+	.proj-card-description {
 		font-size: 1rem;
 		color: $body-text-color;
 	}
 }
 
-.arrow {
-	background: none;
-	border: none;
-	font-size: 2rem;
-	cursor: pointer;
+// ============================================================================
+// END: PROJECTS CARDS IN HOME
+// ============================================================================
+
+// ============================================================================
+// START: NEWS CARDS IN HOME
+// ============================================================================
+
+.news-card {
+	width: 90%;
+	margin: 10px auto;
+	padding: 20px;
+	box-shadow: 0 0 20px 5px lightgray;
+	display: flex;
+	flex-direction: column;
+
+	position: relative;
+	box-sizing: border-box;
+	background: white;
+	background-clip: padding-box;
+	border: solid 5px transparent;
+	border-radius: 1em;
+
+	.btn {
+		margin-top: auto;
+		margin-left: 0;
+		margin-right: auto;
+		margin-bottom: 0;
+	}
+
+	.news-card-title {
+		font-size: 1.5rem;
+		color: $section-headings-color;
+	}
+
+	.news-card-description {
+		font-size: 1rem;
+		color: $body-text-color;
+	}
 }
 
 // ============================================================================
-// END: SLIDESHOW IN HOMEPAGE
+// END: NEWS CARDS IN HOME
 // ============================================================================
 
 // ============================================================================
