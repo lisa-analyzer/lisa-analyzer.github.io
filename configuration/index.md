@@ -565,6 +565,8 @@ For more information on features and usage, refer to the
 
 ### PyLiSA
 
+<img src="https://raw.githubusercontent.com/lisa-analyzer/pylisa/master/logo.png" alt="PyLiSA logo" width="200px"/>
+
 PyLiSA is a highly-experimental frontend for a subset of the Python programming language.
 Specifically, it does not yet support any dynamic features related to changes to the program
 structure (e.g., dynamic code loading, dynamic attribute access, etc.), and it only supports
