@@ -137,6 +137,10 @@ that hold in that specific state:
 - it can be used to query information about the memory structure of the program
   (e.g., aliasing or reachability).
 
+Finally, the `hasWholeValueAnalysis` and the `constraints` methods can be used,
+in case of the adoption of the `SimpleAbstractDomain`
+framework, to obtain information on the value of an expression. More on this is
+available in the [Simple Abstract Domain]({{ site.baseurl }}/documentation/simple-abstract-domain.html#whole-value-analyses) page.
 Note that the oracle must be **sound**, but it is not required to be as precise
 as possible: for instance, the oracle might return all possible types when asked
 for the runtime types of an expression. Such information will be used

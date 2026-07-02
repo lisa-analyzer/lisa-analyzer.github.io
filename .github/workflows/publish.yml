@@ -33,7 +33,7 @@ jobs:
           cd subtypes-scanner
           chmod +x gradlew
           # TODO should add some parameter for this
-          ./gradlew run --args="0.2"
+          ./gradlew run --args="1.0"
           cd ..
       - name: Check for broken links
         run: |

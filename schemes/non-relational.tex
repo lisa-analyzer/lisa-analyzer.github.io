@@ -10,16 +10,9 @@
 \sffamily
 
 \begin{tikzpicture}[nodes={font={\small}, minimum width=5cm, minimum height=.6cm}]%
-	\node[interfacenode] (eval) {\begin{tabular}{l}
-			\multicolumn{1}{c}{\interfacename{SemanticEvaluator}}            \\
-			\hline
-			+ canProcess(expression: SymbolicExpression,                     \\
-			$\qquad\qquad$pp: ProgramPoint, oracle: SemanticOracle): boolean \\
-		\end{tabular}};
+	\node[interfacenode, inlinenode] (comp) {\interfacename{SemanticComponent} : L, T, E, I};
 
-	\node[interfacenode, inlinenode, right=of eval.south east, anchor=south west] (comp) {\interfacename{SemanticComponent} : L, T, E, I};
-
-	\node[interfacenode] (nrd) [below=of $(eval.south)!0.5!(comp.south)$] {\begin{tabular}{l}
+	\node[interfacenode] (nrd) [below=of comp] {\begin{tabular}{l}
 			\multicolumn{1}{c}{\interfacename{NonRelationalDomain}: L, T, M, E}                \\
 			\hline
 			+ eval(environment: M, expression: E, pp: ProgramPoint, oracle: SemanticOracle): L \\
@@ -34,8 +27,7 @@
 	\node[interfacenode, inlinenode] (hd) [left=of td] {\interfacename{HeapDomain} : L};
 	\node[interfacenode, inlinenode] (nrhd) [left=of nrtd] {\interfacename{NonRelationalHeapDomain} : L};
 
-	\draw[->, thick] (nrd) |- ($(comp.south)+(0,-0.5)$) to (comp);
-	\draw[->, thick] (nrd) |- ($(eval.south)+(0,-0.5)$) to (eval);
+	\draw[->, thick] (nrd)  to (comp);
 	\draw[->, thick] (nrvd) to (vd);
 	\draw[->, thick] (nrtd) to (td);
 	\draw[->, thick] (nrhd) to (hd);

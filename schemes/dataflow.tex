@@ -11,8 +11,7 @@
 
 \begin{tikzpicture}[nodes={font={\small}, minimum width=5cm, minimum height=.6cm}]%
 	\node[interfacenode, inlinenode] (vd) {\interfacename{ValueDomain}: L};
-	\node[interfacenode, inlinenode] (se) [right=of vd] {\interfacename{SemanticEvaluator}};
-	\node[abstractclassnode] (dd) [below=of $(vd)!0.5!(se)$] {\begin{tabular}{l}
+	\node[abstractclassnode] (dd) [below=of vd] {\begin{tabular}{l}
 			\multicolumn{1}{c}{\interfacename{DataflowDomain}: L, E}                                        \\
 			\hline
 			+ gen(state: L, id: Identifier, expression: ValueExpression, arg: L, pp: ProgramPoint): Set<E>  \\
@@ -21,14 +20,14 @@
 			+ kill(state: L, expression: ValueExpression, arg: L, pp: ProgramPoint): Set<E>                 \\
 		\end{tabular}};
 
-	\node[interfacenode, inlinenode] (so) [right=of se] {\interfacename{StructuredObject}};
-	\node[interfacenode, inlinenode] (sO) [right=of so] {\interfacename{ScopedObject} : T};
-	\node[interfacenode] (de) [below=of $(so)!0.5!(sO)$] {\begin{tabular}{l}
+	\node[interfacenode, right=of dd.north east, anchor=north west] (de) {\begin{tabular}{l}
 			\multicolumn{1}{c}{\interfacename{DataflowElement}: E}         \\
 			\hline
 			+ getInvolvedIdentifiers(): Collection<Identifier>             \\
 			+ replaceIdentifier(source: Identifier, target: Identifier): E \\
 		\end{tabular}};
+	\node[interfacenode, inlinenode] (so) [above left=1cm and -2cm of de] {\interfacename{StructuredObject}};
+	\node[interfacenode, inlinenode] (sO) [above right=1cm and -2cm of de] {\interfacename{ScopedObject} : T};
 
 	\node[interfacenode, inlinenode] (vl) [below=of $(dd.south)!0.5!(de.south)$] {\interfacename{ValueLattice} : L};
 	\node[interfacenode] (ddl) [below=of vl] {\begin{tabular}{l}
@@ -42,8 +41,7 @@
 	\node[classnode, inlinenode] (ps) [below=of $(sl.south)!0.5!(ddl.south)$] {\classname{PossibleSet} : E};
 	\node[classnode, inlinenode] (ds) [below=of $(isl.south)!0.5!(ddl.south)$] {\classname{DefiniteSet} : E};
 
-	\draw[->, thick, dashed] (dd) |- ($(vd.south)+(0,-0.5)$) to (vd);
-	\draw[->, thick, dashed] (dd) |- ($(se.south)+(0,-0.5)$) to (se);
+	\draw[->, thick, dashed] (dd) to (vd);
 	\draw[->, thick] (de) |- ($(so.south)+(0,-0.5)$) to (so);
 	\draw[->, thick] (de) |- ($(sO.south)+(0,-0.5)$) to (sO);
 	\draw[->, thick] (ddl) to (vl);

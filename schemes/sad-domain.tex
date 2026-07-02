@@ -19,18 +19,20 @@
 			$\qquad\qquad$pp: ProgramPoint, oracle: SemanticOracle): Type      \\
 		\end{tabular}};
 
-	\node[interfacenode, inlinenode, left=of td.north west, anchor=north east] (vd) {\begin{tabular}{l}
-			\multicolumn{1}{c}{\interfacename{ValueDmain} : L} \\
-		\end{tabular}};
-
-	\node[interfacenode] (dwr) [above=1.5cm of $(td)!0.5!(vd)$] {\begin{tabular}{l}
-			\multicolumn{1}{c}{\interfacename{DomainWithReplacement} : L, E} \\
+	\node[interfacenode, left=of td.north west, anchor=north east] (vd) {\begin{tabular}{l}
+			\multicolumn{1}{c}{\interfacename{ValueDomain} : L}                            \\
 			\hline
-			+ !applyReplacement(state: L, r: HeapReplacement,                \\
-			$\qquad\qquad$pp: ProgramPoint, oracle: SemanticOracle): L       \\
+			+ !constraints(ValueDomain<?> requesting, L state, ValueExpression e,          \\
+			$\qquad\qquad$ProgramPoint pp, SemanticOracle oracle): Set<BinaryExpression>   \\
+			* makeConstraint(Type constantType, Object constant, BinaryOperator operator,  \\
+			$\qquad\qquad$SymbolicExpression expr, ProgramPoint pp): Set<BinaryExpression> \\
+			* makeEqConstraint(Type constantType, Object constant,                         \\
+			$\qquad\qquad$SymbolicExpression expr, ProgramPoint pp): Set<BinaryExpression> \\
+			* makeRangeConstraints(Type constantType, Object low, Object high,             \\
+			$\qquad\qquad$SymbolicExpression expr, ProgramPoint pp): Set<BinaryExpression> \\
 		\end{tabular}};
 
-	\node[interfacenode, left=2cm of dwr.north west, anchor=north east] (hd) {\begin{tabular}{l}
+	\node[interfacenode, left=of vd.north west, anchor=north east] (hd) {\begin{tabular}{l}
 			\multicolumn{1}{c}{\interfacename{HeapDomain} : L}                             \\
 			\hline
 			+ rewrite(state: L, expression: SymbolicExpression,                            \\
@@ -47,7 +49,7 @@
 			$\qquad\qquad$pp: ProgramPoint, oracle: SemanticOracle): Satisfiability        \\
 		\end{tabular}};
 
-	\node[interfacenode] (comp) [above=of $(hd.north)!0.5!(dwr.north)$] {\begin{tabular}{l}
+	\node[interfacenode] (comp) [above=of vd] {\begin{tabular}{l}
 			\multicolumn{1}{c}{\interfacename{SemanticComponent} : L, T, E, I}                                  \\
 			\hline
 			+ assign(state: L, id: I, expression: E, pp: ProgramPoint, oracle: SemanticOracle): T               \\
@@ -58,10 +60,9 @@
 			+ onCallReturn(entryState: L, callres: L, call: ProgramPoint): L                                    \\
 		\end{tabular}};
 
-	\draw[->, thick] (vd) |- ($(dwr.south)+(0,-0.5)$) to (dwr);
-	\draw[->, thick] (td) |- ($(dwr.south)+(0,-0.5)$) to (dwr);
+	\draw[->, thick] (vd) to (comp);
+	\draw[->, thick] (td) |- ($(comp.south)+(0,-0.5)$) to (comp);
 	\draw[->, thick] (hd) |- ($(comp.south)+(0,-0.5)$) to (comp);
-	\draw[->, thick] (dwr) |- ($(comp.south)+(0,-0.5)$) to (comp);
 \end{tikzpicture}
 
 \end{document}

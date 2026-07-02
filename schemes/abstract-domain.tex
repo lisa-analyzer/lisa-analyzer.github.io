@@ -22,6 +22,8 @@
 			\multicolumn{1}{c}{\interfacename{SemanticOracle}}                                                     \\
 			\hline
 			+ getEventQueue(): EventQueue                                                                          \\
+			+ hasWholeValueAnalysis(): boolean                                                                     \\
+			+ constraints(ValueDomain<?> requesting, ValueExpression e, ProgramPoint pp): Set<BinaryExpression>    \\
 			+ getRuntimeTypesOf(e: SymbolicExpression, pp: ProgramPoint): Set<Type>                                \\
 			+ getDynamicTypeOf(e: SymbolicExpression, pp: ProgramPoint): Type                                      \\
 			+ rewrite(expression: SymbolicExpression, pp: ProgramPoint): ExpressionSet                             \\

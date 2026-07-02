@@ -37,6 +37,7 @@
 			+ <T> getInfo(key: String, type: Class<T>): T                        \\
 			+ storeInfo(key: String, info: Lattice<?>): ProgramState<A>          \\
 			+ weakStoreInfo(key: String, info: Lattice<?>): ProgramState<A>      \\
+			+ clearInfo(): ProgramState<A>                                       \\
 			+ withTopMemory(): ProgramState<A>                                   \\
 			+ withTopValues(): ProgramState<A>                                   \\
 			+ withTopTypes(): ProgramState<A>                                    \\
@@ -64,6 +65,7 @@
 			+ <T> getExecutionInfo(key: String, type: Class<T>): T                        \\
 			+ storeExecutionInfo(key: String, info: Lattice<?>): AnalysisState<A>         \\
 			+ weakStoreExecutionInfo(key: String, info: Lattice<?>): AnalysisState<A>     \\
+			+ clearExecutionInfo(): AnalysisState<A>                                      \\
 			+ getExecution(): ProgramState<A>                                             \\
 			+ getHalt(): ProgramState<A>                                                  \\
 			+ getErrors(): GenericMapLattice<Error, ProgramState<A>{}>                    \\

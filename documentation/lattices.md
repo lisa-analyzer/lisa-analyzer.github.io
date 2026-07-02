@@ -290,8 +290,11 @@ that represent the result of the last evaluation performed by the analysis.
 The `info` field can be used to track program-specific information by
 [Frontends]({{ site.baseurl }}/documentation/frontends.html), such as the set
 of already initialized classes in Java programs, or the set of aliases
-introduced by Python's `import ... as ...` statements. Instead,
-`computedExpressions` typically holds the last expression(s) evaluated by
+introduced by Python's `import ... as ...` statements. Note that this field does
+not follow the `top()` and `bottom()` calls over the containing state:
+`FixpointInfo` instances are supposed to contain facts about the execution,
+and those do not change depending on the state of the program.
+Instead, `computedExpressions` typically holds the last expression(s) evaluated by
 the analysis that symbolically represent the contents of the operand stack.
 
 `ProgramState` implements lattice operations by propagating the calls to

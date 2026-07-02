@@ -183,24 +183,20 @@ exploiting the methods it exposes to query information from other components.
 `HeapDomain`, that has a type parameter `L` that must extend `HeapLattice<L>`,
 inherits directly from `SemanticComponent<L, Pair<L, List<HeapReplacement>>, SymbolicExpression, Identifier>`,
 meaning that its transformers accept instances of `L` as input, can process any
-[`SymbolicExpression`]({{ site.baseurl }}/documentation/symbolic-expressions.html#the-symbolic-expression-class) and can assign values to any [`Identifier`]({{ site.baseurl }}/documentation/symbolic-expressions.html#identifiers), but return a
-pair of a new state `L` and a substitution `List<HeapReplacement>`. The common
-logic for domains that must react to substitutions is implemented in the
-interface `DomainWithReplacement`, parametric on the concrete type `L` of the
-`DomainLattice<L, L>` that the domain manages and on the type `E` of
-[`SymbolicExpression`]({{ site.baseurl }}/documentation/symbolic-expressions.html#the-symbolic-expression-class)s it can process. This interface inherits from
-`SemanticComponent<L, L, E, Identifier>`, meaning that its transformers accept
-and produce instances of `L`, can process `E` expressions, and can assign values
-to any [`Identifier`]({{ site.baseurl }}/documentation/symbolic-expressions.html#identifiers). `DomainWithReplacement` provides an
-implementation-independent logic for applying a list of `HeapReplacement`s
-through method `applyReplacements`. Finally,`ValueDomain`, having a type
+[`SymbolicExpression`]({{ site.baseurl }}/documentation/symbolic-expressions.html#the-symbolic-expression-class)
+and can assign values to any
+[`Identifier`]({{ site.baseurl }}/documentation/symbolic-expressions.html#identifiers),
+but return a
+pair of a new state `L` and a substitution `List<HeapReplacement>`.
+`ValueDomain`, having a type
 parameter `L` that must extend `ValueLattice<L>`, and `TypeDomain`, having a type
 parameter `L` that must extend `TypeLattice<L>`, both inherit from
-`LatticeWithReplacement<L, ValueExpression>`.
-
-{% include warn.html content="The `DomainWithReplacement` interface currently
-duplicates code from the `LatticeWithReplacement` interface. The former is
-marked for removal in release 1.0." %}
+`SemanticComponent`, fixing its first two type parameters to `L`,
+meaning that its transformers accept and produce instances of `L`,
+its `I` parameter to
+[`Identifier`]({{ site.baseurl }}/documentation/symbolic-expressions.html#identifiers),
+and the type parameter `E` to
+[`ValueExpression`]({{ site.baseurl }}/documentation/symbolic-expressions.html#value-expressions).
 
 The methods of a [`SemanticOracle`]({{ site.baseurl }}/documentation/semantic-domains.html#the-analysis-class) are replicated and split among the three
 components, each with an extra parameter for the `state` instance to use for the
@@ -238,6 +234,40 @@ state, and can query information from each other as needed.
 
 For a list of heap, value, and type domains already implemented in LiSA, see the
 [Configuration]({{ site.baseurl }}/configuration/#setting-the-abstract-domain) page.
+
+{% include tip.html content="The `HeapDomain` interface is extended by `BaseHeapDomain`,
+that provides default visiting behavior for the `rewrite` overloads. It is highly
+advised to inherit from that interface whenever possible." %}
+
+### Whole-Value Analyses
+
+The `SemanticOracle` interface has two special methods: `hasWholeValueAnalysis`
+and `constraints`. These are used to implement the constraint-based information
+exchange framework described in:
+
+> <ins>Luca Negrini</ins>, 2026.
+> **Whole-value analysis by abstract interpretation**.
+> Frontiers in Computer Science, Volume 7, 1655377.<br/>
+> <small>[<i class="fas fa-link"></i> DOI](https://doi.org/10.3389/fcomp.2025.1655377)</small>
+
+The framework allows domains to query information from each other by generating
+constraints (i.e., binary expressions) that constrain the possible values of
+a target expression in a domain-independent way. For instance, a numerical domain
+might want to evaluate the expression `1 + len(y)`, where `y` is string.
+As the domain does not know how to evaluate `len(y)`, when evaluating the
+expression alone it has no other choice than returning the top element.
+With this framework, the domain can (i) ask the oracle if the whole-value
+analysis is enabled, and (ii) if so, ask the oracle for the constraints of
+`len(y)`. The returned constraints will be, e.g., `{ 2 <= len(y), 10 >= len(y)
+}`: these information is enough for the numerical domain to know that the
+value of the expression lies between 3 and 11 instead of top. To enable
+the whole-value analysis, one must use the `WholeValueAnalysis` class as
+`ValueDomain`, passing at construction all the domains that should be part of it.
+
+The methods defined by the `ValueDomain` interface follow this framework:
+the `constraints` method is used to retrieve the constraints of a target expression
+(with the default implementation returning an empty set), while the remaining
+methods serve as utilities to generate sets of constraints.
 
 ## Non-Relational Analyses
 
@@ -294,15 +324,10 @@ work with (that must extend `FunctionalLattice<M, Identifier, L>` and `DomainLat
 and on the type `E` of [`SymbolicExpression`]({{ site.baseurl }}/documentation/symbolic-expressions.html#the-symbolic-expression-class)s it can process. Note that the binding
 allow the type of values used inside the mapping `M` to differ from the
 return type of each tansformer: this is essential for enabling both heap and
-value analyses. `NonRelationalDomain` extends two interfaces:
-
-- [`SemanticEvaluator`]({{ site.baseurl }}/documentation/semantic-domains.html#the-semantic-domain-interface), that defines a `canProcess` method to check whether the
-  domain can process a given expression, relying on its type and its runtime
-  types;
-- `SemanticComponent<M, T, E, Identifier`, meaning that the domain can be used
-  for all three components (heap, type, and value) by instantiating `M` with the
-  corresponding environment type (i.e., `HeapEnvironment`, `TypeEnvironment`, or
-  `ValueEnvironment`).
+value analyses. `NonRelationalDomain` extends the `SemanticComponent<M, T, E, Identifier`,
+meaning that the domain can be used for all three components (heap, type, and value)
+by instantiating `M` with the corresponding environment type (i.e.,
+`HeapEnvironment`, `TypeEnvironment`, or `ValueEnvironment`).
 
 Three methods are defined by the interface:
 
@@ -447,10 +472,9 @@ The `DataflowDomain` interface defines the concrete operations that a dataflow
 analysis must support to be used within LiSA. It is parametric to the type `L`
 of `DataflowDomainLattice<L, E>` to be used (either `PossibleSet` or
 `DefiniteSet`), and to the type `E` of `DataflowElement<E>` that the sets
-computed by the domain contain. `DataflowDomain` is both a `ValueDomain<L>` and
-a [`SemanticEvaluator`]({{ site.baseurl }}/documentation/semantic-domains.html#the-semantic-domain-interface), meaning that it can be used in the Simple Abstract Domain
-framework as value component producing instances of `L`, and that it offers a
-`canProcess` test to filter out unsupported expressions. Transformers from
+computed by the domain contain. `DataflowDomain` is a `ValueDomain<L>`,
+meaning that it can be used in the Simple Abstract Domain
+framework as value component producing instances of `L`. Transformers from
 `ValueDomain` are implemented using the dataflow formula, that in turns use the
 implementation-specific `gen` and `kill` functions (each with two overloads, one
 for assignments and one for non-assigning expressions). Similarly to
