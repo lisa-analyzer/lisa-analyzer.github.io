@@ -1,24 +1,17 @@
 # HOW TO BUILD LOCALLY #
 
-## WINDOWS ##
+This directory already contains a `Gemfile` pinning the Jekyll toolchain used
+to build the site, so there is no need to create one from scratch.
 
-Open a terminal (on Windows, every command should be executed from the **git bash**) inside this directory (**not** the repository root).
-
-* Download ruby from [here](https://rubyinstaller.org/downloads/)
-* Install bundler: **gem install bundler**
-* Install jekyll: **gem install jekyll**
-* Create Gemfile: 
-    * **echo "source 'https://rubygems.org'" > Gemfile**
-    * **echo "gem 'github-pages', group: :jekyll_plugins" >> Gemfile**
-* Install gems: **bundle install**
+* Install Ruby (>= 3.1) and Bundler (**gem install bundler**)
+* From this directory, install the gems: **bundle install**
     * If some gem fails to install, use this: **gem install gem_name -v 'version' --source 'https://rubygems.org/'**
-* Create site: **bundle exec jekyll \_3.3.0\_ new . --force**
-    * Revert all changes made to *_config.yml* and *index.md* and other staged files
-	* Make sure that the github-pages gem is still present in the gemfile
-		* **echo "gem 'github-pages', group: :jekyll_plugins" >> Gemfile**
-		* **bundle install**
 * Execute Jekyll: **bundle exec jekyll serve**
     * If the port is in use, add **--port port_number**
+
+## WINDOWS ##
+
+Open a terminal (on Windows, every command should be executed from the **git bash**) inside this directory (**not** the repository root), then follow the steps above. Download Ruby from [here](https://rubyinstaller.org/downloads/) if it is not already installed.
 
 ### PROXY ###
 

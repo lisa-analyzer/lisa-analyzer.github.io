@@ -1,7 +1,17 @@
 theme: jekyll-theme-cayman
 
+markdown: kramdown
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
+highlighter: rouge
+
+sass:
+  style: compressed
+
 title: LiSA
 description: A Library for Static Analysis
+url: https://lisa-analyzer.github.io
 google_analytics: G-S6MJSTDQJL
 
 exclude:
