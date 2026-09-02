@@ -1,7 +1,7 @@
 # The IMP Language
 
 IMP is a high-level, imperative, and dynamically-typed programming language
-inspired by Java. IMP is used as main testing language in LiSA.
+inspired by Java. IMP is used as the main testing language in LiSA.
 
 {% include note.html content="This page is not meant as a formal
 specification of the IMP language, but rather as a quick reference
@@ -9,13 +9,13 @@ guide built through examples." %}
 
 ## Comments
 
-Single line comments start with two forward slashes (`//`).
+Single-line comments start with two forward slashes (`//`).
 
 ```java
 // this is a single line comment
 ```
 
-Multi lines comments are enclosed between `/*` and `*/`.
+Multi-line comments are enclosed between `/*` and `*/`.
 
 ```java
 /* this is a
@@ -46,8 +46,8 @@ IMP supports the following basic data types:
 - **boolean**, with values `true` or `false`;
 - signed 32-bit **integer**, with values between Java's `Integer.MIN_VALUE` and
   `Integer.MAX_VALUE`, e.g., `-5`, `0`, `+10`;
-- signed single-precision 32-bit **float**, with values between Java's
-  `Float.MIN_VALUE` and `Float.MAX_VALUE`, e.g., `-0.5`, `3.0`, `+5.4`;
+- signed single-precision 32-bit **float**, with values between
+  `-Float.MAX_VALUE` and Java's `Float.MAX_VALUE`, e.g., `-0.5`, `3.0`, `+5.4`;
 - atomic **string**, that is, text surrounded by double quotes, e.g., `"Hello!"`
   (contrary to Java, string is not an object but a basic data type).
 
@@ -55,7 +55,7 @@ IMP supports the following basic data types:
 
 IMP supports the following reference data types:
 
-- **objects** instances of one of the classes defined in the program;
+- **objects**, instances of one of the classes defined in the program;
 - **arrays** of the types defined above.
 
 ## Classes
@@ -78,12 +78,77 @@ class Motorbike extends Vehicle {}
 ```
 
 The `extends` keyword expresses that the class `Motorbike` inherits the
-`Vehicle` class' attributes and methods, which is a superclass. Contrary, the
-class `Motorbike` is a subclass of the class Vehicle.
+`Vehicle` class' attributes and methods, which is a superclass. Conversely,
+the class `Motorbike` is a subclass of the class `Vehicle`.
+
+### Interfaces
+
+Besides classes, an IMP program can also declare interfaces.
+
+```java
+interface Drivable {
+  turnOn();
+}
+```
+
+The `interface` keyword declares the IMP interface `Drivable`. Interface
+members are method signatures, that is, method declarations without a body,
+terminated by a semicolon. An interface can also declare methods with a
+body, that behave as Java's default methods: they are inherited as-is by
+whoever implements the interface, unless explicitly overridden.
+
+```java
+interface Drivable {
+  turnOn(); // method signature, without a body
+
+  honk() { // default method, with a body
+    return true;
+  }
+}
+```
+
+An interface can extend one or more other interfaces, separated by a comma,
+inheriting all of their members.
+
+```java
+interface FourWheelDrivable extends Drivable, OffRoadCapable {}
+```
+
+A class declares that it provides an implementation for one or more
+interfaces through the `implements` keyword, also followed by a
+comma-separated list. A class implementing an interface must provide a
+method for each of the interface's signatures that is not backed by a
+default implementation.
+
+```java
+class Motorbike extends Vehicle implements Drivable {
+  turnOn() {
+    return true;
+  }
+}
+```
+
+### Abstract Classes
+
+A class can be declared `abstract`; as in Java, an abstract class cannot be
+instantiated directly, and is meant to be extended by other classes. Like
+interfaces, abstract classes can declare method signatures without a body,
+that subclasses are expected to implement, alongside regular methods.
+
+```java
+abstract class Vehicle {
+  turnOn(); // method signature, without a body
+
+  honk() { // regular method, with a body
+    return true;
+  }
+}
+```
 
 ### Class Members
 
-Each class has zero or more members, that can be fields, constructors, or methods.
+Each class has zero or more members, that can be fields, constants,
+constructors, or methods.
 As opposed to Java, IMP has no concept of static members of a class.
 IMP also does not have access modifiers, i.e., the scope of a field,
 method, constructor, or class is always public.
@@ -113,13 +178,14 @@ As in Java, methods have an implicit parameter named `this`, that refers to the
 object on which the method is invoked.
 
 A subclass can override a method from a superclass by simply redefining it.
-Note that subclasses cannot override a method preceded by the keyword
-`final`.
+The overridden method can still be invoked through the `super` keyword, e.g.,
+`super.foo()`. Note that subclasses cannot override a method preceded by the
+keyword `final`.
 
 #### Constructors
 
 A constructor is a particular method used to initialize objects, and it
-can not be overridden. A tilde `~` precedes constructors. Note that to invoke a
+cannot be overridden. A tilde `~` precedes constructors. Note that to invoke a
 constructor, the tilde is omitted.
 
 ```java
@@ -153,14 +219,28 @@ class Vehicle {
 
 Fields can be accessed anywhere inside and outside the class.
 
+#### Constants
+
+A constant is a field whose value is fixed at compile time. Constants are
+declared using the `const` keyword, followed by their name, an equal sign,
+and a literal value; contrary to fields, constants support in-place
+initialization, but their value cannot be `null`.
+
+```java
+class Vehicle {
+  const wheels = 4;
+}
+```
+
 ## Expressions
 
 An expression can be:
 
 1. a literal: any constant value that can be assigned to a variable, e.g., `5`,
    `"s"`, `true`, `null`, or `-5.2`;
-2. the keyword `this`, that always refer to the receiver of the method being
-   executed;
+2. the keywords `this` and `super`, that respectively refer to the receiver of
+   the method being executed, and to that same receiver seen as an instance of
+   its superclass (e.g., to invoke an overridden method as `super.foo()`);
 3. an identifier: an alphanumeric string representing a valid variable name
    (used also for field names);
 4. a logical operation: binary _and_ (`&&`), binary _or_ (`||`), or unary _not_
@@ -171,15 +251,18 @@ An expression can be:
    _greater than_ (`>`), binary _less than_ (`<`), binary _greater than or equal
    to_ (`>=`), or binary _less than or equal to_ (`<=`) (note that `==` and `!=`
    are the only comparisons that can be applied to non-numeric operands);
-7. an array creation: `new int[5]` that creates a one-dimensional `int` array of
+7. a type check: `x is Motorbike` evaluates to `true` if the runtime type of
+   `x` is `Motorbike`, or a subtype of it;
+8. a type cast: `x as Motorbike` casts `x` to the type `Motorbike`;
+9. an array creation: `new int[5]` that creates a one-dimensional `int` array of
    length 5 (multi-dimensional arrays are also supported);
-8. an access to an array element: `intArray[2]`, where the receiver _must_ be
-   stored into a local variable (indexing is 0-based);
-9. an object creation: `new Motorbike()` that allocates the object and invokes
-   the corresponding constructor;
-10. a field access: `this.brand`, where the receiver (`this` or a local
-    variable, _not_ an arbitrary expression) _must_ be explicit;
-11. a method call: `this.foo(x)`, where the receiver (`this`, `super` or a local
+10. an access to an array element: `intArray[2]`, where the receiver _must_ be
+    stored in a local variable (indexing is 0-based);
+11. an object creation: `new Motorbike()` that allocates the object and invokes
+    the corresponding constructor;
+12. a field access: `this.brand`, where the receiver (`this`, `super`, or a
+    local variable, _not_ an arbitrary expression) _must_ be explicit;
+13. a method call: `this.foo(x)`, where the receiver (`this`, `super` or a local
     variable, _not_ an arbitrary expression) _must_ be explicit; possible parameters are:
     1. literals;
     2. variables;
@@ -187,12 +270,11 @@ An expression can be:
     4. a field access;
     5. an array access;
     6. another method call;
-12. an assignment: `x = 15`, where the left-hand side can be a local variable, a
+14. an assignment: `x = 15`, where the left-hand side can be a local variable, a
     field access or an array access, and the right-hand side is an expression;
-13. a string concatenation: `str + "foo"`, where the operands are expressions;
-14. a string manipulating operator, written as a receiver-less call where each argument
-    might be a string literal (or integer, in some operations), a variable, a field
-    access, an array access or a method call:
+15. a string concatenation: `str + "foo"`, where the operands are expressions;
+16. a string manipulating operator, written as a receiver-less call whose
+    arguments are expressions:
     1. `strlen(a)` returns the integer length of the string represented by `a`;
     2. `strcat(a, b)` returns the concatenations of the strings represented by `a`
        and `b`;
@@ -201,7 +283,7 @@ An expression can be:
     4. `streq(a, b)` returns `true` if the contents of the strings represented by `a`
        and `b` are equal;
     5. `strcon(a, b)` returns `true` if the string represented by `b` is contained
-       into the string represented by `a`;
+       in the string represented by `a`;
     6. `strstarts(a, b)` returns `true` if the string represented by `a` starts with
        the string represented by `b`;
     7. `strends(a, b)` returns `true` if the string represented by `a` ends with the
@@ -211,9 +293,20 @@ An expression can be:
        string represented by `c`;
     9. `strsub(a, i, j)` returns the substring of the string represented by `a`,
        starting from the position represented by `i` (inclusive) and ending at the
-       position represented by `j` (exclusive).
+       position represented by `j` (exclusive);
+17. an array manipulating operator, `arraylen(a)`, that returns the integer
+    length of the array represented by `a`.
 
-Note that expressions can also be grouped between parentheses.
+Note that expressions can also be grouped using parentheses.
+
+### Static Allocation
+
+Array and object creation expressions have a statically-allocated
+counterpart, introduced by the `bump` keyword instead of `new`: `bump int[5]`
+and `bump Motorbike()` follow the same syntax as their `new` counterparts,
+but allocate the array or object directly instead of allocating it on the
+heap and yielding a reference to it. This distinction only affects the
+memory model used by LiSA's analyses.
 
 ### Variable Scoping
 
@@ -224,10 +317,10 @@ def x;
 ```
 
 The scope of variables in IMP is similar to the one in Java. Local
-variables are declared inside a method and can not be accessed outside of it, and they are
-only visible inside the inner-most block of code, delimited by curly brackets,
-that contains their definition, and inside all blocks of code that are nested
-inside it.
+variables are declared inside a method and cannot be accessed outside of it.
+They are only visible inside the inner-most block of code, delimited by curly
+brackets, that contains their definition, and inside all blocks of code
+nested inside it.
 
 ```java
 class Vehicle {
@@ -242,7 +335,42 @@ class Vehicle {
 }
 ```
 
-## Control flow
+## Annotations
+
+Classes, interfaces, fields, constants, constructors, methods, method
+parameters, and local variable declarations can be decorated with one or
+more annotations, enclosed in square brackets `[]` and placed right before
+the element they annotate.
+
+```java
+[tainted]
+class Vehicle {
+  [notNull]
+  brand;
+}
+```
+
+An annotation can optionally carry members, written as a comma-separated
+list of `name = value` pairs enclosed in parentheses. A member's value can
+be a literal, an array of literals enclosed in square brackets, or the name
+of a unit (a class or an interface).
+
+```java
+[source(kind = "user-input", trusted = false, ids = [1, 2, 3])]
+def x = readInput();
+```
+
+Multiple annotations can be attached to the same element by separating them
+with a comma.
+
+```java
+[notNull, tainted]
+foo3([notNull] i, [tainted] j) {
+  return i + j;
+}
+```
+
+## Control Flow
 
 In the following, if only one instruction is present inside a control flow block,
 then the curly braces can be omitted.
@@ -250,7 +378,7 @@ then the curly braces can be omitted.
 ### IF Statement
 
 The `if` statement is used to specify a block of code to be executed if a
-condition is `true`. The condition is an expression enclosed in parenthesis
+condition is `true`. The condition is an expression enclosed in parentheses
 `()`.
 
 ```java
@@ -279,7 +407,7 @@ if (x != 5) {
 ### WHILE Loop
 
 A `while` loop keeps executing a block of code while a condition is true.
-The condition is an expression enclosed in parenthesis `()`.
+The condition is an expression enclosed in parentheses `()`.
 
 ```java
 def i = 5;
@@ -290,9 +418,9 @@ while (i < 100) {
 
 ### FOR Loop
 
-A `for` loop is composed by three instructions: an initialization, a
+A `for` loop is composed of three instructions: an initialization, a
 condition, and a post-operation. The initialization is executed only once at the
-beginning of the loop. Then, the loop body is repeated while the conditon holds.
+beginning of the loop. Then, the loop body is repeated while the condition holds.
 At each iteration of the loop, after executing the whole loop body, the
 post-operation is executed. The initialization is a local variable declaration
 or an expression, while the condition and the post-operation are expressions.
@@ -304,7 +432,40 @@ for (def i = 0; i < 20; i = i + 1) {
 }
 ```
 
-## Returning values and Throwing errors
+### Labeled Loops, BREAK and CONTINUE
+
+The `break` statement immediately exits the innermost `while` or `for` loop,
+while the `continue` statement immediately jumps to the next iteration of
+the innermost loop.
+
+```java
+def i = 5;
+while (i < 100) {
+  if (i == 10) {
+    break;
+  }
+  i = i * 2;
+}
+```
+
+Both `while` and `for` loops can be preceded by a label, that is, an
+identifier followed by a colon `:`. When followed by a label, `break` and
+`continue` respectively exit and continue the labeled loop instead of the
+innermost one, which is useful to escape or advance an outer loop from
+within a loop nested inside it.
+
+```java
+loop: for (def i = 0; i < 10; i = i + 1) {
+  while (i < 5) {
+    if (i == 3) {
+      break loop;
+    }
+    i = i + 1;
+  }
+}
+```
+
+## Returning Values and Throwing Errors
 
 A method can return a value using the `return` keyword followed by an
 expression. If the method does not return any value, the `return` keyword can
@@ -325,6 +486,55 @@ keyword.
 throw foo();
 def r = foo();
 throw r;
+```
+
+## Exception Handling
+
+Errors raised with `throw` can be handled using a `try` statement, mirroring
+Java's semantics.
+
+```java
+try {
+  risky();
+} catch (IOException e) {
+  handle(e);
+}
+```
+
+A `try` block can be followed by one or more `catch` blocks. Each `catch`
+can list one or more exception types separated by a comma, and can
+optionally bind the caught exception to a variable, whose name is written
+last.
+
+```java
+try {
+  risky();
+} catch (NetworkError, IOException e) {
+  // e refers to the object that was thrown, whatever its actual type is
+  handle(e);
+} catch (OutOfMemoryError) {
+  // the exception object is not bound to any variable here
+  abort();
+}
+```
+
+An optional `else` block, executed only if the `try` block completes without
+raising any error, can follow the last `catch` block. An optional `finally`
+block, always executed regardless of whether an error was raised and caught,
+can close the whole statement.
+
+```java
+try {
+  risky();
+} catch (IOException e) {
+  handle(e);
+} else {
+  // executed only if risky() does not throw
+  onSuccess();
+} finally {
+  // always executed
+  cleanup();
+}
 ```
 
 ## Assertions
